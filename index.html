@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Jigar Acharya - Product Designer</title>
+    <meta
+      name="description"
+      content="Pixel-inspired Tailwind clone of Jigar Acharya's portfolio."
+    />
+    <link rel="stylesheet" href="style.css">
+    <!-- Tailwind via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              display: ['"Bricolage Grotesque"', "system-ui", "sans-serif"],
+              sans: ['"Figtree"', '"DM Sans"', '"Inter"', "system-ui", "sans-serif"],
+              archivo: ['"Archivo"', '"Archivo Placeholder"', "system-ui", "sans-serif"],
+            },
+            colors: {
+              background: "#f6eee3", // closer to original warm beige
+              foreground: "#14110f",
+              muted: "#6c665d",
+              accent: "#14110f",
+              border: "#ded5c7",
+              highlight: "#ffb457", // nav pill + accent
+            },
+            maxWidth: {
+              content: "1100px",
+            },
+            boxShadow: {
+              soft: "0 18px 60px rgba(0,0,0,0.08)",
+            },
+          },
+        },
+      };
+    </script>
+
+    <script>
+      function toggleMobileMenu() {
+        const menu = document.getElementById('mobileMenu');
+        menu.classList.toggle('hidden');
+      }
+    </script>
+  </head>
+
+  <body class="bg-background text-foreground font-sans">
+
+    <!-- Sticky Header -->
+    <div class="sticky top-0 z-50 bg-background border-b border-border">
+      <div class="w-full max-w-content mx-auto max-sm:px-6">
+        <header class="flex items-center justify-between py-5">
+          <span class="font-archivo tracking-[0.26em] text-[0.82rem]">JIGAR ACHARYA</span>
+          <!-- Desktop nav -->
+          <nav class="hidden sm:flex items-center gap-8 text-[0.75rem] font-medium tracking-[0.2em]">
+            <a href="#work" class="px-3 py-1.5 rounded-full bg-highlight text-foreground shadow-sm">WORK</a>
+            <a href="./about.html" class="hover:opacity-100 opacity-70 transition">ABOUT</a>
+            <a href="https://www.linkedin.com/in/jigar-acharya-722232ab/" target="_blank" rel="noreferrer" class="hover:opacity-100 opacity-70 transition">CONTACT</a>
+          </nav>
+          <!-- Hamburger -->
+          <button id="menuToggle" class="sm:hidden flex flex-col gap-1.5 items-center justify-center w-8 h-8" onclick="toggleMobileMenu()" aria-label="Toggle menu">
+            <span class="block w-5 h-0.5 bg-foreground transition-all"></span>
+            <span class="block w-5 h-0.5 bg-foreground transition-all"></span>
+            <span class="block w-5 h-0.5 bg-foreground transition-all"></span>
+          </button>
+        </header>
+      </div>
+      <!-- Mobile dropdown -->
+      <nav id="mobileMenu" class="hidden bg-background border-b border-border">
+        <div class="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col">
+          <a href="#work" class="px-3 py-2.5 font-medium text-[0.75rem] tracking-[0.2em] text-center border-b border-border/50" onclick="toggleMobileMenu()">WORK</a>
+          <a href="./about.html" class="px-3 py-2.5 font-medium text-[0.75rem] tracking-[0.2em] text-center border-b border-border/50 opacity-70" onclick="toggleMobileMenu()">ABOUT</a>
+          <a href="https://www.linkedin.com/in/jigar-acharya-722232ab/" target="_blank" rel="noreferrer" class="px-3 py-2.5 font-medium text-[0.75rem] tracking-[0.2em] text-center opacity-70">CONTACT</a>
+        </div>
+      </nav>
+    </div>
+
+    <!-- Page content -->
+    <div class="flex flex-col items-center px-4 sm:px-6 lg:px-8 pt-14 pb-10">
+      <div class="w-full max-w-content">
+
+        <!-- Hero section -->
+        <main class="mb-16 lg:mb-20">
+          <section
+            aria-labelledby="hero-title"
+            class="relative mb-16 sm:mb-20 lg:mb-24"
+          >
+            <!-- sticky tags (match screenshot style) -->
+            <div
+              class="hidden md:block absolute top-[-10px] right-[129px] rotate-[-11deg] bg-[#aee1ff] text-[12px] px-5 py-2.5 rounded-[4px] border-2 border-black shadow-[2px_3px_0_rgba(0,0,0,0.9)] font-archivo cursor-pointer select-none transition-[transform,box-shadow] duration-200 ease-out hover:-translate-y-1 hover:rotate-[-10deg] hover:shadow-[4px_6px_0_rgba(0,0,0,0.9)]"
+              style="transform-origin: 12px 12px"
+            >
+              <span
+                class="absolute top-1.5 left-2.5 h-[14px] w-[14px] rounded-full border-2 border-black bg-background"
+              ></span>
+              <div class="pl-4 leading-[16px] font-bold">
+                Building scalable systems
+                <br />
+                for growth
+              </div>
+            </div>
+            <div
+              class="hidden md:block absolute top-[125px] right-[282px] rotate-[5deg] bg-[#ffe7a8] text-[12px] px-6 py-3 rounded-[4px] border-2 border-black shadow-[2px_3px_0_rgba(0,0,0,0.9)] font-archivo cursor-pointer select-none transition-[transform,box-shadow] duration-200 ease-out hover:-translate-y-1 hover:rotate-[6deg] hover:shadow-[4px_6px_0_rgba(0,0,0,0.9)]"
+              style="transform-origin: 12px 12px"
+            >
+              <span
+                class="absolute top-2 left-2.5 h-[14px] w-[14px] rounded-full border-2 border-black bg-background"
+              ></span>
+              <div class="pl-2 leading-[16px] font-bold">
+                Designing the
+                <br />
+                AI future
+              </div>
+            </div>
+
+            <div class="space-y-4 sm:space-y-5 lg:space-y-6">
+              <div class="space-y-0.5 sm:space-y-1 lg:space-y-1.5">
+                <h1
+                  id="hero-title"
+                  class="font-archivo text-[2.8rem] sm:text-[3.3rem] lg:text-[4.9rem] leading-[1.05] font-semibold tracking-tight"
+                >
+                  Hi, I am Jigar Acharya
+                </h1>
+                <h2
+                  class="font-archivo text-[2.8rem] sm:text-[3.3rem] lg:text-[4.9rem] leading-[1.05] font-semibold tracking-tight"
+                >
+                  A product designer
+                </h2>
+              </div>
+
+              <p
+                class="clrmmy max-w-2xl text-[20px] max-sm:text-[0.98rem] leading-relaxed"
+              >
+              Product Designer specializing in
+                <span class="font-semibold"> AI and SaaS platforms</span>,
+              crafting scalable, user-centered experiences that drive measurable business impact.
+              </p>
+            </div>
+          </section>
+
+          <!-- Section intro -->
+          <div class="mb-8 sm:mb-10 lg:mb-12">
+            <h2
+              class="font-archivo text-[1.6rem] sm:text-[1.85rem] lg:text-[2rem] font-semibold tracking-tight"
+            >
+            Selected Projects
+            </h2>
+            <p class="mt-1.5 text-[0.95rem] sm:text-[1rem]">
+              Turning complex problems into intuitive experiences
+            </p>
+          </div>
+
+          <!-- Work / Case studies -->
+          <section
+            id="work"
+            aria-label="Selected work"
+            class="grid md:grid-cols-2 gap-x-10 gap-y-16"
+          >
+            <!-- Card 1 -->
+            <a href="./callhippo-ai-copilot.html">
+            <article
+              class="cursor-pointer"
+            >
+              <div
+                class="relative border-2 border-foreground bg-[#cbe9ff]  shadow-soft"
+              >
+                <!-- Corner circles -->
+                <div class="absolute top-[-8px] left-[-8px] w-4 h-4 rounded-full border-2 border-foreground bg-background"></div>
+                <div class="absolute top-[-8px] right-[-8px] w-4 h-4 rounded-full border-2 border-foreground bg-background"></div>
+                <div class="absolute bottom-[-8px] left-[-8px] w-4 h-4 rounded-full border-2 border-foreground bg-background"></div>
+                <div class="absolute bottom-[-8px] right-[-8px] w-4 h-4 rounded-full border-2 border-foreground bg-background"></div>
+                <div
+                  class="bg-white overflow-hidden"
+                ><img src="assets/img/ai-copilot-baner.svg" alt="AI Copilot" class="w-full h-auto" loading="lazy">
+                
+                  <!-- Replace with real screenshot if available -->
+                </div>
+              </div>
+              <div class="mt-5 space-y-2">
+                <h3
+                  class="font-archivo text-[0.98rem] sm:text-[1.02rem] lg:text-[1.06rem] font-semibold leading-snug"
+                >
+                How I designed an AI-powered coaching layer that turns every sales call into a learning opportunity
+                </h3>
+                <p
+                  class="text-[0.72rem] uppercase tracking-[0.18em] text-muted"
+                >
+                  CallHippo, AI Copilot
+                </p>
+                <div class="flex flex-wrap gap-2 pt-1">
+                  <span
+                    class="inline-flex rounded-full border border-border px-3 py-1 text-[0.7rem] uppercase tracking-[0.18em]"
+                    >Conversation Intelligence</span
+                  >
+                  <span
+                    class="inline-flex rounded-full border border-border px-3 py-1 text-[0.7rem] uppercase tracking-[0.18em]"
+                    >SaaS</span
+                  >
+                  <span
+                    class="inline-flex rounded-full border border-border px-3 py-1 text-[0.7rem] uppercase tracking-[0.18em]"
+                    >AI</span
+                  >
+                  <span
+                    class="inline-flex rounded-full border border-border px-3 py-1 text-[0.7rem] uppercase tracking-[0.18em]"
+                    >0–1</span
+                  >
+                </div>
+              </div>
+            </article>
+            </a>
+
+            <!-- Card 2 -->
+            <a href="./callhippo-ai-voice-agent.html">
+            <article
+              class="cursor-pointer"
+            >
+              <div
+                class="relative border-2 border-foreground bg-[#ffe4c0] shadow-soft"
+              >
+                <!-- Corner circles -->
+                <div class="absolute top-[-8px] left-[-8px] w-4 h-4 rounded-full border-2 border-foreground bg-background"></div>
+                <div class="absolute top-[-8px] right-[-8px] w-4 h-4 rounded-full border-2 border-foreground bg-background"></div>
+                <div class="absolute bottom-[-8px] left-[-8px] w-4 h-4 rounded-full border-2 border-foreground bg-background"></div>
+                <div class="absolute bottom-[-8px] right-[-8px] w-4 h-4 rounded-full border-2 border-foreground bg-background"></div>
+                <div
+                  class="bg-white overflow-hidden"
+                >
+                  <div
+                  class="bg-white overflow-hidden"
+                ><img src="assets/img/voice-agent-banner-2.png" alt="AI Voice Agent" class="w-full h-auto" loading="lazy">
+                
+              
+                </div>
+                </div>
+              </div>
+              <div class="mt-5 space-y-2">
+                <h3
+                  class="font-archivo text-[0.98rem] sm:text-[1.02rem] lg:text-[1.06rem] font-semibold leading-snug text-[#e68023]"
+                >
+                  How I designed an AI voice system that handles every inbound call — automatically, 24/7
+                </h3>
+               
+                <div class="flex flex-wrap gap-2 pt-1">
+                  <span
+                    class="inline-flex rounded-full border border-border px-3 py-1 text-[0.7rem] uppercase tracking-[0.18em]"
+                    >AI VOICE AGENT</span
+                  >
+                  <span
+                    class="inline-flex rounded-full border border-border px-3 py-1 text-[0.7rem] uppercase tracking-[0.18em]"
+                    >SUPPORT CENTER</span
+                  >
+                  <span
+                    class="inline-flex rounded-full border border-border px-3 py-1 text-[0.7rem] uppercase tracking-[0.18em]"
+                    >0–1</span
+                  >
+                </div>
+              </div>
+            </article>
+            </a>
+
+            <!-- Card 3 -->
+            <a href="ai-hub.html">
+            <article
+              class="cursor-pointer"
+            >
+              <div class="relative border-2 border-foreground bg-[#ffe4c0] shadow-soft">
+                <!-- Corner circles -->
+                <div class="absolute top-[-8px] left-[-8px] w-4 h-4 rounded-full border-2 border-foreground bg-background"></div>
+                <div class="absolute top-[-8px] right-[-8px] w-4 h-4 rounded-full border-2 border-foreground bg-background"></div>
+                <div class="absolute bottom-[-8px] left-[-8px] w-4 h-4 rounded-full border-2 border-foreground bg-background"></div>
+                <div class="absolute bottom-[-8px] right-[-8px] w-4 h-4 rounded-full border-2 border-foreground bg-background"></div>
+                <div
+                  class="bg-white overflow-hidden"
+                >
+                  <div
+                  class="bg-white overflow-hidden"
+                ><img src="assets/img/ai-hub-banner.png" alt="AI Hub Chat" class="w-full h-auto" loading="lazy">
+                
+              
+                </div>
+                </div>
+              </div>
+              <div class="mt-5 space-y-2">
+                <h3
+                  class="font-archivo text-[0.98rem] sm:text-[1.02rem] lg:text-[1.06rem] font-semibold leading-snug"
+                >
+                  How I designed an AI knowledge layer that gives support agents instant, accurate answers — without switching tabs or searching docs
+                </h3>
+                <p
+                  class="text-[0.72rem] uppercase tracking-[0.18em] text-muted"
+                >
+                  RED Note, 2023 Summer
+                </p>
+                <div class="flex flex-wrap gap-2 pt-1">
+                  <span
+                    class="inline-flex rounded-full border border-border px-3 py-1 text-[0.7rem] uppercase tracking-[0.18em]"
+                    >AI Assistant</span
+                  >
+                  <span
+                    class="inline-flex rounded-full border border-border px-3 py-1 text-[0.7rem] uppercase tracking-[0.18em]"
+                    >B2B SaaS</span
+                  >
+                  <span
+                    class="inline-flex rounded-full border border-border px-3 py-1 text-[0.7rem] uppercase tracking-[0.18em]"
+                    >Support Agents</span
+                  >
+                </div>
+              </div>
+            </article>
+            </a>
+
+            <!-- Card 4 -->
+            <a href="https://d1x9dsge91xf6g.cloudfront.net/callhippo/files/brand_guidelines_new.pdf" target="_blank" rel="noreferrer">
+            <article class="cursor-pointer">
+
+
+              <div class="relative border-2 border-foreground bg-[#ffe4c0] shadow-soft">
+                <!-- Corner circles -->
+                <div class="absolute top-[-8px] left-[-8px] w-4 h-4 rounded-full border-2 border-foreground bg-background"></div>
+                <div class="absolute top-[-8px] right-[-8px] w-4 h-4 rounded-full border-2 border-foreground bg-background"></div>
+                <div class="absolute bottom-[-8px] left-[-8px] w-4 h-4 rounded-full border-2 border-foreground bg-background"></div>
+                <div class="absolute bottom-[-8px] right-[-8px] w-4 h-4 rounded-full border-2 border-foreground bg-background"></div>
+                <div
+                  class="bg-white overflow-hidden"
+                >
+                  <div
+                  class="bg-white overflow-hidden"
+                ><img src="assets/img/brand_guidelines_new.jpg" alt="Brand Guidelines" class="w-full h-auto" loading="lazy">
+                
+              
+                </div>
+                </div>
+              </div>
+              <div class="mt-5 space-y-2">
+                <h3
+                  class="font-archivo text-[0.98rem] sm:text-[1.02rem] lg:text-[1.06rem] font-semibold leading-snug text-[#f79b33]"
+                >
+                  How I designed a website brand guideline that scales across products, teams, and marketing channels
+                </h3>
+                <p
+                  class="text-[0.72rem] uppercase tracking-[0.18em] text-muted"
+                >
+                  brand guideline
+                </p>
+                <div class="flex flex-wrap gap-2 pt-1">
+                  <span
+                    class="inline-flex rounded-full border border-border px-3 py-1 text-[0.7rem] uppercase tracking-[0.18em]"
+                    >marketing</span
+                  >
+                  <span
+                    class="inline-flex rounded-full border border-border px-3 py-1 text-[0.7rem] uppercase tracking-[0.18em]"
+                    >AI</span
+                  >
+                 
+                  <span
+                    class="inline-flex rounded-full border border-border px-3 py-1 text-[0.7rem] uppercase tracking-[0.18em]"
+                    >Website</span
+                  >
+                </div>
+              </div>
+            </article>
+            </a>
+          </section>
+        </main>
+
+        <!-- Footer / sitemap & contact -->
+        <footer
+          class="border-t border-border pt-8 sm:pt-10 mt-auto text-xs text-muted"
+        >
+          <div
+            class="flex flex-col sm:flex-row sm:justify-center sm:justify-center gap-6 sm:gap-10"
+          >
+            
+
+            <!-- Repeated logotype on the right -->
+            <div class="flex flex-col gap-2 items-center sm:items-center justify-center">
+              <span
+                class="text-[0.7rem] sm:text-[0.75rem] tracking-[0.3em] uppercase"
+              >
+                JIGAR ACHARYA 2026
+              </span>
+             <!-- <span
+                class="hidden sm:inline text-[0.7rem] tracking-[0.3em] uppercase"
+              >
+                WORK · ABOUT · CONTACT
+              </span>-->
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>
+

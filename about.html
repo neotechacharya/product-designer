@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>About — Jigar Acharya</title>
+    <meta
+      name="description"
+      content="About Jigar Acharya — Full Stack Designer and Team Lead with 9+ years building AI and SaaS products."
+    />
+    <link rel="stylesheet" href="style.css" />
+    <!-- Tailwind via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              display: ['"Bricolage Grotesque"', "system-ui", "sans-serif"],
+              sans: ['"Figtree"', '"DM Sans"', '"Inter"', "system-ui", "sans-serif"],
+              archivo: ['"Archivo"', '"Archivo Placeholder"', "system-ui", "sans-serif"],
+            },
+            colors: {
+              background: "#f6eee3",
+              foreground: "#14110f",
+              muted: "#6c665d",
+              accent: "#14110f",
+              border: "#ded5c7",
+              highlight: "#ffb457",
+            },
+            maxWidth: {
+              content: "1100px",
+            },
+            boxShadow: {
+              soft: "0 18px 60px rgba(0,0,0,0.08)",
+            },
+          },
+        },
+      };
+    </script>
+    <script>
+      function toggleMobileMenu() {
+        const menu = document.getElementById('mobileMenu');
+        menu.classList.toggle('hidden');
+      }
+    </script>
+  </head>
+
+  <body class="bg-background text-foreground font-sans">
+
+    <!-- Sticky Header -->
+    <div class="sticky top-0 z-50 bg-background border-b border-border">
+      <div class="w-full max-w-content mx-auto px-4 sm:px-6 lg:px-8">
+        <header class="flex items-center justify-between py-5">
+          <a href="./index.html" class="font-archivo tracking-[0.26em] text-[0.72rem]">JIGAR ACHARYA</a>
+          <!-- Desktop nav -->
+          <nav class="hidden sm:flex items-center gap-8 text-[0.75rem] font-medium tracking-[0.2em]">
+            <a href="./index.html#work" class="hover:opacity-100 opacity-70 transition">WORK</a>
+            <a href="./about.html" class="px-3 py-1.5 rounded-full bg-highlight text-foreground shadow-sm">ABOUT</a>
+            <a href="https://www.linkedin.com/in/jigar-acharya-722232ab/" target="_blank" rel="noreferrer" class="hover:opacity-100 opacity-70 transition">CONTACT</a>
+          </nav>
+          <!-- Hamburger -->
+          <button id="menuToggle" class="sm:hidden flex flex-col gap-1.5 items-center justify-center w-8 h-8" onclick="toggleMobileMenu()" aria-label="Toggle menu">
+            <span class="block w-5 h-0.5 bg-foreground transition-all"></span>
+            <span class="block w-5 h-0.5 bg-foreground transition-all"></span>
+            <span class="block w-5 h-0.5 bg-foreground transition-all"></span>
+          </button>
+        </header>
+      </div>
+      <!-- Mobile dropdown -->
+      <nav id="mobileMenu" class="hidden bg-background border-b border-border">
+        <div class="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col">
+          <a href="./index.html#work" class="px-3 py-2.5 font-medium text-[0.75rem] tracking-[0.2em] text-center border-b border-border/50 opacity-70" onclick="toggleMobileMenu()">WORK</a>
+          <a href="./about.html" class="px-3 py-2.5 font-medium text-[0.75rem] tracking-[0.2em] text-center border-b border-border/50" onclick="toggleMobileMenu()">ABOUT</a>
+          <a href="https://www.linkedin.com/in/jigar-acharya-722232ab/" target="_blank" rel="noreferrer" class="px-3 py-2.5 font-medium text-[0.75rem] tracking-[0.2em] text-center opacity-70">CONTACT</a>
+        </div>
+      </nav>
+    </div>
+
+    <!-- Page content -->
+    <div class="flex flex-col items-center px-4 sm:px-6 lg:px-8 pt-10 pb-10">
+      <div class="w-full max-w-content">
+
+        <!-- Main -->
+        <main class="mb-16 lg:mb-20">
+
+          <!-- Section label -->
+          <p class="text-[0.75rem] uppercase tracking-[0.22em] text-muted mb-6">
+            About
+          </p>
+
+          <!-- Hero heading -->
+          <h1
+            class="font-archivo text-[2.6rem] sm:text-[3.4rem] lg:text-[4.8rem] leading-[1.04] font-semibold tracking-tight mb-14 sm:mb-16 lg:mb-20 max-w-3xl"
+          >
+            The person<br />behind the pixels
+          </h1>
+
+          <!-- Two-column layout: bio + timeline -->
+          <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+
+            <!-- Left: Bio -->
+            <div class="space-y-6 text-[1rem] sm:text-[1.05rem] leading-relaxed">
+              <p>
+                I'm <span class="font-semibold">Jigar Acharya</span>, a Product Designer
+                and Team Lead with a passion for building products that are as elegant under
+                the hood as they are on screen.
+              </p>
+              <p>
+                With over <span class="font-semibold">9 years in the industry</span>, I've
+                worn many hats — designer, developer, strategist, and leader — which gives me
+                a rare ability to bridge the gap between
+                <span class="font-semibold">creative vision</span> and
+                <span class="font-semibold">technical execution</span>.
+              </p>
+              <p>
+                When I lead teams, I focus on creating an environment where great ideas
+                surface, ownership is shared, and shipping quality work is the culture —
+                not the exception.
+              </p>
+
+              <!-- CTA links -->
+              <div class="flex flex-wrap gap-4 pt-4">
+                <a
+                  href="https://www.linkedin.com/in/jigar-acharya-722232ab/"
+                  target="_blank"
+                  rel="noreferrer"
+                  class="inline-flex items-center gap-2 border-2 border-foreground px-5 py-2.5 text-[0.78rem] font-semibold uppercase tracking-[0.18em] hover:bg-foreground hover:text-background transition-colors"
+                >
+                  linkedIn
+                </a>
+               
+              </div>
+            </div>
+
+            <!-- Right: Timeline -->
+            <div class="relative">
+              <!-- Vertical line -->
+              <div class="absolute left-[7px] top-2 bottom-2 w-px bg-border"></div>
+
+              <div class="space-y-10">
+
+                <!-- Entry 1 -->
+                <div class="pl-8 relative">
+                  <div class="absolute left-0 top-1.5 w-[15px] h-[15px] rounded-full border-2 border-foreground bg-highlight"></div>
+                  <p class="text-[0.72rem] uppercase tracking-[0.2em] text-muted mb-1">
+                    2020 — Present
+                  </p>
+                  <h3 class="font-archivo text-[1.05rem] font-semibold leading-snug mb-0.5">
+                    Team Lead &amp; Product Designer
+                  </h3>
+                  <p class="text-[0.78rem] text-muted mb-1">Appitsimple Infotek Pvt. Ltd.</p>
+                  <p class="text-[0.9rem] leading-relaxed">
+                    Leading product design &amp; development team of 8
+                  </p>
+                </div>
+
+                <!-- Entry 2 -->
+                <div class="pl-8 relative">
+                  <div class="absolute left-0 top-1.5 w-[15px] h-[15px] rounded-full border-2 border-foreground bg-background"></div>
+                  <p class="text-[0.72rem] uppercase tracking-[0.2em] text-muted mb-1">
+                    2019 — 2020
+                  </p>
+                  <h3 class="font-archivo text-[1.05rem] font-semibold leading-snug mb-0.5">
+                    Senior UI/UX Designer &amp; Frontend Dev
+                  </h3>
+                  <p class="text-[0.78rem] text-muted mb-1">Appitsimple Infotek Pvt. Ltd.</p>
+                  <p class="text-[0.9rem] leading-relaxed">
+                    Designed &amp; built 15+ client products end-to-end
+                  </p>
+                </div>
+
+                <!-- Entry 3 -->
+                <div class="pl-8 relative">
+                  <div class="absolute left-0 top-1.5 w-[15px] h-[15px] rounded-full border-2 border-foreground bg-background"></div>
+                  <p class="text-[0.72rem] uppercase tracking-[0.2em] text-muted mb-1">
+                    2018 — 2019
+                  </p>
+                  <h3 class="font-archivo text-[1.05rem] font-semibold leading-snug mb-0.5">
+                    UI Designer &amp; Junior Developer
+                  </h3>
+                  <p class="text-[0.78rem] text-muted mb-1">Appitsimple Infotek Pvt. Ltd.</p>
+                  <p class="text-[0.9rem] leading-relaxed">
+                    Started at the intersection of design and code
+                  </p>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- Skills strip -->
+          <div class="mt-16 sm:mt-20 pt-10 border-t border-border">
+            <p class="text-[0.72rem] uppercase tracking-[0.22em] text-muted mb-6">
+              Expertise
+            </p>
+            <div class="flex flex-wrap gap-3">
+              <span class="inline-flex rounded-full border border-border px-4 py-1.5 text-[0.72rem] uppercase tracking-[0.18em]">Product Design</span>
+              <span class="inline-flex rounded-full border border-border px-4 py-1.5 text-[0.72rem] uppercase tracking-[0.18em]">AI &amp; SaaS</span>
+              <span class="inline-flex rounded-full border border-border px-4 py-1.5 text-[0.72rem] uppercase tracking-[0.18em]">Design Systems</span>
+              <span class="inline-flex rounded-full border border-border px-4 py-1.5 text-[0.72rem] uppercase tracking-[0.18em]">Frontend Dev</span>
+              <span class="inline-flex rounded-full border border-border px-4 py-1.5 text-[0.72rem] uppercase tracking-[0.18em]">User Research</span>
+              <span class="inline-flex rounded-full border border-border px-4 py-1.5 text-[0.72rem] uppercase tracking-[0.18em]">Team Leadership</span>
+              <span class="inline-flex rounded-full border border-border px-4 py-1.5 text-[0.72rem] uppercase tracking-[0.18em]">0→1 Products</span>
+            </div>
+          </div>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="border-t border-border pt-8 sm:pt-10 mt-auto text-xs text-muted">
+          <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6 sm:gap-10">
+            <div class="space-y-3">
+              <p class="text-[0.72rem] uppercase tracking-[0.22em]">
+                © Jigar Acharya, 2025
+              </p>
+
+              <div class="flex flex-wrap gap-x-6 gap-y-2">
+                <div class="space-y-1">
+                  <p class="font-archivo text-[0.7rem] font-medium uppercase tracking-[0.22em]">
+                    Site Map
+                  </p>
+                  <div class="flex flex-col gap-0.5 text-[0.78rem]">
+                    <a href="./index.html#work" class="hover:text-foreground transition-colors">Work</a>
+                    <a href="./about.html" class="hover:text-foreground transition-colors">About</a>
+                    <a
+                      href="https://www.linkedin.com/in/jigar-acharya-722232ab/"
+                      target="_blank"
+                      rel="noreferrer"
+                      class="hover:text-foreground transition-colors"
+                      >Contact</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex flex-col gap-2 items-start sm:items-end">
+              <span class="text-[0.7rem] sm:text-[0.75rem] tracking-[0.3em] uppercase">
+                JIGAR ACHARYA
+              </span>
+              <span class="hidden sm:inline text-[0.7rem] tracking-[0.3em] uppercase">
+                WORK · ABOUT · CONTACT
+              </span>
+            </div>
+          </div>
+        </footer>
+
+      </div>
+    </div>
+  </body>
+</html>
