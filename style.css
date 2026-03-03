@@ -57,3 +57,40 @@
         display: none;
     }
 }
+
+/* Card hover effects */
+.card-container {
+    transition: all 0.3s ease-out;
+}
+
+.card-image {
+    overflow: hidden;
+}
+
+.card-image img {
+    transition: transform 0.3s ease-out;
+}
+
+.card-border {
+    border-color: #14110f;
+    transition: border-color 0.3s ease-out;
+}
+
+.card-container:hover .card-border {
+    border-color: #2463eb;
+}
+
+.card-circle {
+    border-color: #14110f;
+    transition: border-color 0.3s ease-out;
+}
+
+.card-container:hover .card-circle {
+    border-color: #2463eb;
+}
+
+.card-container:hover h3,
+.card-container:hover p {
+    color: #ff8b1e;
+    transition: color 0.3s ease-out;
+}

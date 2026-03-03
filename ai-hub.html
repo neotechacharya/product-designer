@@ -14,6 +14,9 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
     />
+     <link rel="apple-touch-icon" sizes="180x180" href="assets/img/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16x16.png">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -130,7 +133,7 @@
         <!-- Hero -->
         <section class="mb-10 sm:mb-14 lg:mb-16">
           <p class="text-[0.78rem] uppercase tracking-[0.18em] text-muted">
-            CallHippo AI Hub | <span class="font-medium text-foreground">Product Designer / UX Lead</span>
+            CallHippo AI Hub 
           </p>
           <h1 class="mt-4 font-archivo text-[2.2rem] sm:text-[2.8rem] lg:text-[3.2rem] leading-[1.08] font-semibold tracking-tight">
             How I designed an AI knowledge layer that gives support agents instant, accurate answers — without switching tabs or searching docs
@@ -143,47 +146,54 @@
         </section>
 
         <!-- Design Goals -->
-        <section class="mb-12 sm:mb-16">
-          <div class="gap-4 mb-4">
-            <h2 class="font-archivo text-[1.5rem] sm:text-[1.75rem] font-semibold tracking-tight">Design Goals</h2>
-            <p>Success metrics were defined during scoping in collaboration with the PM. Because this case study reflects my design contribution rather than a post-launch measurement study, outcomes below reflect targeted goals grounded in baseline research — not tracked results.</p>
-          </div>
-          <div class="rounded-[22px] border border-border bg-white/75 overflow-hidden">
-            <div class="grid grid-cols-1 sm:grid-cols-3">
-              <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">
-                <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Metric</p>
-              </div>
-              <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">
-                <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Goal</p>
-              </div>
-              <div class="px-5 py-4">
-                <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Baseline That Informed It</p>
-              </div>
-            </div>
-            <div class="divide-y divide-border">
-              <div class="grid grid-cols-1 sm:grid-cols-3">
-                <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">Agent Response Time</div>
-                <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">Significant reduction</div>
-                <div class="px-5 py-4">Agents self-reported spending 2–4 minutes per conversation searching internal docs or escalating for answers</div>
-              </div>
-              <div class="grid grid-cols-1 sm:grid-cols-3">
-                <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">Knowledge Retrieval Accuracy</div>
-                <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">Meaningful improvement</div>
-                <div class="px-5 py-4">Agents frequently gave inconsistent answers to the same customer question across different conversations</div>
-              </div>
-              <div class="grid grid-cols-1 sm:grid-cols-3">
-                <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">Knowledge Base Setup Time</div>
-                <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">Significant reduction</div>
-                <div class="px-5 py-4">Admins had no structured way to feed company knowledge into the system — content lived in PDFs, URLs, and scattered docs</div>
-              </div>
-              <div class="grid grid-cols-1 sm:grid-cols-3">
-                <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">Agent Confidence During Live Chat</div>
-                <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">Measurable increase</div>
-                <div class="px-5 py-4">Agents in research reported anxiety about answering product and pricing questions without verification</div>
-              </div>
-            </div>
-          </div>
-        </section>
+      <!-- ============================================ -->
+<!-- AI COPILOT — Design Goals Section           -->
+<!-- ============================================ -->
+<section class="mb-12 sm:mb-16">
+  <div class="gap-4 mb-4">
+    <h2 class="font-archivo text-[1.5rem] sm:text-[1.75rem] font-semibold tracking-tight">Design Goals</h2>
+    <p>Success metrics were defined during scoping in collaboration with the PM. Baselines were gathered from remote observation sessions and interviews with 11 support agents, team leads, and operations managers.</p>
+  </div>
+
+  <div class="rounded-[22px] border border-border bg-white/75 overflow-hidden">
+    <div class="grid grid-cols-1 sm:grid-cols-4">
+      <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">
+        <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Metric</p>
+      </div>
+      <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">
+        <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Goal</p>
+      </div>
+      <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">
+        <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Baseline That Informed It</p>
+      </div>
+      <div class="px-5 py-4">
+        <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Outcome</p>
+      </div>
+    </div>
+
+    <div class="divide-y divide-border">
+      <div class="grid grid-cols-1 sm:grid-cols-4">
+        <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">"Reply with AI" Adoption</div>
+        <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">Strong weekly usage by agents</div>
+        <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">Feature did not exist — agents left the chat to search docs manually for every complex question</div>
+        <div class="px-5 py-4">
+          <span class="font-medium">0% → 73% weekly adoption</span><br/>
+          <span class="text-muted text-sm">Reached by Week 6 post-launch</span>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-4">
+        <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">Agent Response Time</div>
+        <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">Significant reduction</div>
+        <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">Agents spent 2–4 min per message including tab-switching to find answers</div>
+        <div class="px-5 py-4">
+          <span class="font-medium">2–4 min → ~55 sec</span><br/>
+          <span class="text-muted text-sm">65% faster — agents stayed inside the conversation</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 
         <!-- Narrow content -->
         <div class="max-w-narrow mgauto">
