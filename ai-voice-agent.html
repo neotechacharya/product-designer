@@ -5,20 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex, nofollow" />
     <title>CallHippo AI Voice Agent — Case Study</title>
-    <meta
-      name="description"
-      content="Case study: Designing an AI-powered inbound voice agent for 24/7 customer support."
-    />
-
-    <!-- Remix Icon - modern line icons -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css" />
-       <link rel="apple-touch-icon" sizes="180x180" href="assets/img/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16x16.png">
+    <meta name="description" content="Case study: Designing an AI-powered inbound voice agent for 24/7 customer support." />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css" />
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16x16.png">
     <link rel="stylesheet" href="style.css">
-    <!-- Tailwind via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -31,59 +23,22 @@
               border: "#ded5c7",
               highlight: "#ffb457",
             },
-            maxWidth: {
-              content: "1100px",
-              narrow: "760px",
-            },
+            maxWidth: { content: "1100px", narrow: "760px" },
             fontFamily: {
               sans: ['"Figtree"', '"DM Sans"', '"Inter"', "system-ui", "sans-serif"],
               archivo: ['"Archivo"', '"Archivo Placeholder"', "system-ui", "sans-serif"],
             },
-            boxShadow: {
-              soft: "0 18px 60px rgba(0,0,0,0.08)",
-            },
+            boxShadow: { soft: "0 18px 60px rgba(0,0,0,0.08)" },
           },
         },
       };
     </script>
-
     <style>
-      @font-face {
-        font-family: "Archivo";
-        src: url("https://framerusercontent.com/third-party-assets/fontshare/wf/RJX4LSNI55LNZ6QWGQALARVRCFUYJDBE/HQPW4MP6HXPYZKXF6CFWGJ6ZOJBHKM3X/UHPKREF72UMVMQSKHPDQ42AVOZPICLOJ.woff2");
-        font-display: swap;
-        font-style: normal;
-        font-weight: 700;
-      }
-      @font-face {
-        font-family: "Archivo";
-        src: url("https://framerusercontent.com/third-party-assets/fontshare/wf/Y42A6OBFKHMPOGSSWNFHV6ASZ7RM3IXN/JID5YS2RALYHLX7OX7ELWBV5EF3C3ZQS/4QOBYYT6LF33KRDEW47UQ3DFAEWGYHD4.woff2");
-        font-style: normal;
-        font-weight: 900;
-      }
-      @font-face {
-        font-family: "Archivo Placeholder";
-        src: local("Arial");
-        ascent-override: 112.34%;
-        descent-override: 41.5%;
-        line-gap-override: 9.11%;
-        size-adjust: 98.81%;
-      }
-      @font-face {
-        font-family: "Figtree";
-        font-style: normal;
-        font-weight: 500;
-        font-display: swap;
-        src: url(https://fonts.gstatic.com/s/figtree/v9/_Xms-HUzqDCFdgfMm4S9DQ.woff2)
-          format("woff2");
-        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304,
-          U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-      }
-
-      body {
-        text-rendering: geometricPrecision;
-        -webkit-font-smoothing: antialiased;
-      }
+      @font-face { font-family: "Archivo"; src: url("https://framerusercontent.com/third-party-assets/fontshare/wf/RJX4LSNI55LNZ6QWGQALARVRCFUYJDBE/HQPW4MP6HXPYZKXF6CFWGJ6ZOJBHKM3X/UHPKREF72UMVMQSKHPDQ42AVOZPICLOJ.woff2"); font-display: swap; font-style: normal; font-weight: 700; }
+      @font-face { font-family: "Archivo"; src: url("https://framerusercontent.com/third-party-assets/fontshare/wf/Y42A6OBFKHMPOGSSWNFHV6ASZ7RM3IXN/JID5YS2RALYHLX7OX7ELWBV5EF3C3ZQS/4QOBYYT6LF33KRDEW47UQ3DFAEWGYHD4.woff2"); font-style: normal; font-weight: 900; }
+      @font-face { font-family: "Archivo Placeholder"; src: local("Arial"); ascent-override: 112.34%; descent-override: 41.5%; line-gap-override: 9.11%; size-adjust: 98.81%; }
+      @font-face { font-family: "Figtree"; font-style: normal; font-weight: 500; font-display: swap; src: url(https://fonts.gstatic.com/s/figtree/v9/_Xms-HUzqDCFdgfMm4S9DQ.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+      body { text-rendering: geometricPrecision; -webkit-font-smoothing: antialiased; }
     </style>
     <script>
       function toggleMobileMenu() {
@@ -105,13 +60,11 @@
             <span class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background/70" aria-hidden="true">←</span>
             <span class="font-archivo tracking-[0.22em] text-[0.72rem] uppercase">Back</span>
           </a>
-          <!-- Desktop nav -->
           <nav class="hidden sm:flex items-center gap-8 text-[0.75rem] font-medium tracking-[0.2em]">
             <a href="./index.html#work" class="hover:opacity-100 opacity-70 transition">WORK</a>
             <a href="./about.html" class="hover:opacity-100 opacity-70 transition">ABOUT</a>
             <a href="https://www.linkedin.com/in/jigar-acharya-722232ab/" target="_blank" rel="noreferrer" class="hover:opacity-100 opacity-70 transition">CONTACT</a>
           </nav>
-          <!-- Hamburger -->
           <button id="menuToggle" class="sm:hidden flex flex-col gap-1.5 items-center justify-center w-8 h-8" onclick="toggleMobileMenu()" aria-label="Toggle menu">
             <span class="block w-5 h-0.5 bg-foreground transition-all"></span>
             <span class="block w-5 h-0.5 bg-foreground transition-all"></span>
@@ -119,7 +72,6 @@
           </button>
         </header>
       </div>
-      <!-- Mobile dropdown -->
       <nav id="mobileMenu" class="hidden bg-background border-b border-border">
         <div class="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col">
           <a href="./index.html#work" class="px-3 py-2.5 font-medium text-[0.75rem] tracking-[0.2em] text-center border-b border-border/50 opacity-70" onclick="toggleMobileMenu()">WORK</a>
@@ -135,67 +87,44 @@
 
         <!-- Hero -->
         <section class="mb-10 sm:mb-14 lg:mb-16">
-          <p class="text-[0.78rem] uppercase tracking-[0.18em] text-muted">
-            CallHippo AI Voice Agent 
-          </p>
-
+          <p class="text-[0.78rem] uppercase tracking-[0.18em] text-muted">CallHippo AI Voice Agent</p>
           <h1 class="mt-4 font-archivo text-[2.2rem] sm:text-[2.8rem] lg:text-[3.2rem] leading-[1.08] font-semibold tracking-tight">
-          How I designed an AI voice system that handles every inbound call — automatically, 24/7
+            How I designed an AI voice system that handles every inbound call — automatically, 24/7
           </h1>
-
-          <!-- Cover -->
           <div class="mt-8 border border-border bg-white/70 shadow-soft overflow-hidden">
-            <div class="aspect-[16/8] sm:aspect-[16/8] bg-gradient-to-br from-[#d7e9ff] via-white to-[#ffe7a8] flex items-center justify-center">
-              <div class="aspect-[16/8] sm:aspect-[16/8] bg-gradient-to-br from-[#cbe9ff] via-white to-[#ffe7a8]"><img src="assets/img/voice-agent-banner-2.png" alt="AI Copilot" class="w-full h-auto" loading="lazy"></div>
+            <div class="aspect-[16/8] sm:aspect-[16/8] bg-gradient-to-br from-[#cbe9ff] via-white to-[#ffe7a8]">
+              <img src="assets/img/voice-agent-banner-2.png" alt="AI Voice Agent" class="w-full h-auto" loading="lazy">
             </div>
           </div>
         </section>
 
         <!-- Design Goals -->
-      <!-- ============================================ -->
-<!-- AI VOICE AGENT — Design Goals Section       -->
-<!-- ============================================ -->
-<!-- ============================================ -->
-<!-- AI VOICE AGENT — Design Goals Section       -->
-<!-- ============================================ -->
-<section class="mb-12 sm:mb-16">
-  <div class="gap-4 mb-4">
-    <h2 class="font-archivo text-[1.5rem] sm:text-[1.75rem] font-semibold tracking-tight">Design Goals</h2>
-    <p>Success metrics were defined during scoping in collaboration with the PM. Baselines were gathered from walkthroughs and interviews with 12 support managers, team leads, and SMB owners.</p>
-  </div>
-
-  <div class="rounded-[22px] border border-border bg-white/75 overflow-hidden">
-    <div class="grid grid-cols-1 sm:grid-cols-4">
-      <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">
-        <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Metric</p>
-      </div>
-      <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">
-        <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Goal</p>
-      </div>
-      <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">
-        <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Baseline That Informed It</p>
-      </div>
-      <div class="px-5 py-4">
-        <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Outcome</p>
-      </div>
-    </div>
-
-    <div class="divide-y divide-border">
-      <div class="grid grid-cols-1 sm:grid-cols-4">
-        <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">Agent Setup Completion</div>
-        <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">Any non-technical support lead deploys without engineering help</div>
-        <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">Setup was too complex for non-technical users — support leads abandoned mid-flow, no team self-deployed</div>
-        <div class="px-5 py-4">~6 min avg to go live — completed end-to-end by support leads without any dev involvement</div>
-      </div>
-      <div class="grid grid-cols-1 sm:grid-cols-4">
-        <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">Routine Call Containment</div>
-        <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">AI handles predictable call types — no human pickup needed</div>
-        <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">0% containment — billing questions, product FAQs, appointment confirmations, and order status checks all required a human to answer — despite being predictable, repeatable inquiries with known answers</div>
-        <div class="px-5 py-4">~54% of routine inbound calls handled by AI automatically — agents now focus only on complex or escalated cases</div>
-      </div>
-    </div>
-  </div>
-</section>
+        <section class="mb-12 sm:mb-16">
+          <div class="gap-4 mb-4">
+            <h2 class="font-archivo text-[1.5rem] sm:text-[1.75rem] font-semibold tracking-tight">Design Goals</h2>
+            <p>Success metrics were defined during scoping in collaboration with the PM. Baselines were gathered from walkthroughs and interviews with 12 support managers, team leads, and SMB owners.</p>
+          </div>
+          <div class="rounded-[22px] border border-border bg-white/75 overflow-hidden">
+            <div class="grid grid-cols-1 sm:grid-cols-4">
+              <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border"><p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Metric</p></div>
+              <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border"><p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Goal</p></div>
+              <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border"><p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Baseline That Informed It</p></div>
+              <div class="px-5 py-4"><p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Outcome</p></div>
+            </div>
+            <div class="divide-y divide-border">
+              
+              <div class="grid grid-cols-1 sm:grid-cols-4">
+                <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">Routine Call Containment</div>
+                <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">AI handles predictable call types — no human pickup needed</div>
+                <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">0% containment — billing questions, product FAQs, appointment confirmations, and order status checks all required a human to answer</div>
+                <div class="px-5 py-4">
+                  <span class="font-medium">0% → ~54% containment</span><br/>
+                  <span class="text-[0.85rem] text-muted">Routine calls handled by AI — agents focus on complex cases only</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
 
         <!-- Content narrow column -->
         <div class="max-w-narrow mgauto">
@@ -211,21 +140,19 @@
               When no agent was available — after hours, during peak volume, or when the team was understaffed — callers hit voicemail, got placed in long queues, or dropped off entirely. Every missed call was a missed resolution. Every long wait was a damaged relationship.
             </p>
             <p class="mt-4 text-[1rem] leading-relaxed text-muted">
-              The AI capability to handle these conversations existed within CallHippo. The problem was that support leads had no practical way to deploy it. Configuring an inbound voice agent required navigating a fragmented setup experience built for technical users — not the support managers and operations leads who actually needed it.
+              The challenge wasn't just building the AI — it was designing a setup experience so simple that any non-technical support lead could deploy it confidently, without developer help, in a single session.
             </p>
           </section>
 
           <!-- Why this problem -->
           <section class="mb-10 sm:mb-12">
-            <h2 class="font-archivo text-[1.4rem] sm:text-[1.6rem] font-semibold tracking-tight">Why This Problem? — Auditing the Current Process</h2>
+            <h2 class="font-archivo text-[1.4rem] sm:text-[1.6rem] font-semibold tracking-tight">Why This Problem? — Understanding the Gap</h2>
             <p class="mt-3 text-[1rem] leading-relaxed text-muted">
               Before moving to solutions, I spent two weeks understanding how support teams were currently managing inbound call volume. I interviewed 12 people — support managers, team leads, and SMB owners running their own customer service operations.
             </p>
 
             <h3 class="mt-7 font-archivo text-[1.1rem] sm:text-[1.2rem] font-semibold">Two distinct roles — each with a different relationship to inbound call management</h3>
             <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-6">
-
-              <!-- Card 1 -->
               <div class="rounded-[18px] border border-black/30 bg-[#ffe7a8] shadow-[0_12px_30px_rgba(0,0,0,0.08)] overflow-hidden text-center">
                 <div class="px-5 pt-4">
                   <div class="flex items-center justify-between gap-2">
@@ -240,18 +167,15 @@
                   </div>
                 </div>
                 <div class="px-5 pt-3 pb-6">
-                 
-                <div class="mx-auto h-20 w-20 rounded-full bg-[#f7b3d6] border border-black/10 flex items-center justify-center">
+                  <div class="mx-auto h-20 w-20 rounded-full bg-[#f7b3d6] border border-black/10 flex items-center justify-center">
                     <span class="font-archivo text-[1.25rem] font-semibold">SM</span>
                   </div>
                   <p class="mt-4 font-archivo text-[1.05rem] sm:text-[1.1rem] font-semibold">Support Team Lead</p>
                   <p class="mt-3 text-sm leading-relaxed text-foreground/80 italic">
-                    "We miss a huge chunk of calls after 6pm. Those customers don't call back. They just leave. I know an AI could handle most of those questions — I just don't know how to set it up without breaking our existing routing."
+                    "We miss a huge chunk of calls after 6pm. Those customers don't call back. They just leave. I know an AI could handle most of those questions — I just don't know how to set it up."
                   </p>
                 </div>
               </div>
-
-              <!-- Card 2 -->
               <div class="rounded-[18px] border border-black/30 bg-[#d7e9ff] shadow-[0_12px_30px_rgba(0,0,0,0.08)] overflow-hidden text-center">
                 <div class="px-5 pt-4">
                   <div class="flex items-center justify-between gap-2">
@@ -265,8 +189,7 @@
                     <span class="h-[14px] w-[14px] rounded-full bg-background border border-black/25"></span>
                   </div>
                 </div>
-                <div class="px-5 pt-3 pb-6 text-center">
-                 
+                <div class="px-5 pt-3 pb-6">
                   <div class="mx-auto h-20 w-20 rounded-full bg-[#f7b3d6] border border-black/10 flex items-center justify-center">
                     <span class="font-archivo text-[1.25rem] font-semibold">SO</span>
                   </div>
@@ -278,23 +201,23 @@
               </div>
             </div>
 
-            <h3 class="mt-8 font-archivo text-[1.1rem] sm:text-[1.2rem] font-semibold">The existing experience was failing both roles</h3>
+            <h3 class="mt-8 font-archivo text-[1.1rem] sm:text-[1.2rem] font-semibold">What both roles needed — and didn't have</h3>
             <div class="mt-4 space-y-3">
               <div class="rounded-[14px] border border-border bg-white/70 px-4 py-3">
-                <p class="font-archivo font-semibold text-sm">No confidence in what the agent would say</p>
-                <p class="mt-1 text-sm text-muted">Support leads needed to know exactly how the agent would respond before going live. There was no way to preview or verify this without a live test call.</p>
+                <p class="font-archivo font-semibold text-sm">A way to handle routine calls without a human picking up</p>
+                <p class="mt-1 text-sm text-muted">Billing questions, product FAQs, appointment confirmations, and order status checks were predictable and repeatable — but every single one required a human to answer. There was no automated layer between the caller and the queue.</p>
               </div>
               <div class="rounded-[14px] border border-border bg-white/70 px-4 py-3">
-                <p class="font-archivo font-semibold text-sm">Routing felt risky</p>
-                <p class="mt-1 text-sm text-muted">Misrouting a customer to the wrong team was worse than no routing at all. The existing configuration gave no indication of how rules would behave in real scenarios.</p>
+                <p class="font-archivo font-semibold text-sm">A setup experience built for non-technical users</p>
+                <p class="mt-1 text-sm text-muted">Support leads and SMB owners aren't developers. They needed to define what the agent knows, how it sounds, and which number it answers — without writing scripts, configuring logic trees, or involving engineering.</p>
               </div>
               <div class="rounded-[14px] border border-border bg-white/70 px-4 py-3">
-                <p class="font-archivo font-semibold text-sm">Welcome message was an afterthought</p>
-                <p class="mt-1 text-sm text-muted">The first thing a caller hears shapes the entire interaction. In the existing flow, the welcome message was a single unlabelled text field — no guidance, no preview, no defaults.</p>
+                <p class="font-archivo font-semibold text-sm">Confidence in what the agent would say before going live</p>
+                <p class="mt-1 text-sm text-muted">The biggest fear wasn't the AI getting something wrong — it was the customer noticing. Support leads needed to hear and verify the agent's voice and responses before a single real call came in.</p>
               </div>
               <div class="rounded-[14px] border border-border bg-white/70 px-4 py-3">
-                <p class="font-archivo font-semibold text-sm">After-hours coverage had no dedicated design</p>
-                <p class="mt-1 text-sm text-muted">Setting the agent to handle calls outside business hours required understanding scheduling logic that wasn't documented or explained anywhere in the product.</p>
+                <p class="font-archivo font-semibold text-sm">24/7 coverage without 24/7 staffing</p>
+                <p class="mt-1 text-sm text-muted">After-hours calls were the highest-priority gap for every team interviewed. Customers who couldn't reach support after 6pm didn't call back — they left. An always-on AI layer was the only viable solution for teams that couldn't staff around the clock.</p>
               </div>
             </div>
           </section>
@@ -303,20 +226,13 @@
           <section class="mb-10 sm:mb-12">
             <h2 class="font-archivo text-[1.4rem] sm:text-[1.6rem] font-semibold tracking-tight">Research — Understanding Each Role's Real Pain</h2>
             <p class="mt-3 text-[1rem] leading-relaxed text-muted">
-              I ran remote walkthroughs where support leads attempted to configure an inbound agent using the existing product while thinking aloud. The same friction points surfaced consistently.
+              I ran remote interviews and walkthroughs where support leads described their current call management workflows while thinking aloud. The same patterns surfaced consistently across team sizes and industries.
             </p>
-
-            <!-- Insight grid (same sticky-note style) -->
             <div
               class="mt-6 rounded-[22px] border border-border bg-white/75 overflow-hidden"
-              style="
-                background-image: linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
-                  linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
-                background-size: 44px 44px;
-              "
+              style="background-image: linear-gradient(to right, rgba(0,0,0,0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.04) 1px, transparent 1px); background-size: 44px 44px;"
             >
               <div class="grid grid-cols-1 sm:grid-cols-2 auto-rows-fr">
-
                 <div class="p-5 sm:p-6 border-b sm:border-b-0 sm:border-r border-border flex flex-col">
                   <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Insight 01</p>
                   <div class="mt-4 p-2 flex-1 flex">
@@ -327,40 +243,36 @@
                     </div>
                   </div>
                 </div>
-
                 <div class="p-5 sm:p-6 border-b sm:border-b-0 border-border flex flex-col">
                   <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Insight 02</p>
                   <div class="mt-4 p-2 flex-1 flex">
                     <div class="relative w-full h-full bg-[#d9f7c7] border-2 border-black/30 rounded-[14px] px-5 pt-9 pb-6 shadow-[0_12px_28px_rgba(0,0,0,0.10)] flex flex-col justify-center">
                       <span class="absolute top-3 left-3 h-[14px] w-[14px] rounded-full bg-background border-2 border-black/30"></span>
                       <p class="font-archivo font-semibold text-center">Support managers think in call scenarios, not configuration logic.</p>
-                      <p class="mt-3 text-sm leading-relaxed text-foreground/80 text-center">When asked what they wanted the agent to handle, users described situations — not settings. The mental model gap was the core design problem.</p>
+                      <p class="mt-3 text-sm leading-relaxed text-foreground/80 text-center">When asked what they wanted the agent to handle, users described situations — "a customer asking about pricing" or "someone calling after hours" — not settings. The design had to meet that mental model.</p>
                     </div>
                   </div>
                 </div>
-
                 <div class="p-5 sm:p-6 border-t border-b sm:border-t-0 sm:border-b-0 sm:border-r border-border flex flex-col">
                   <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Insight 03</p>
                   <div class="mt-4 p-2 flex-1 flex">
                     <div class="relative w-full h-full bg-[#ffe7a8] border-2 border-black/30 rounded-[14px] px-5 pt-9 pb-6 shadow-[0_12px_28px_rgba(0,0,0,0.10)] flex flex-col justify-center">
                       <span class="absolute top-3 left-3 h-[14px] w-[14px] rounded-full bg-background border-2 border-black/30"></span>
-                      <p class="font-archivo font-semibold text-center">Routing was the highest-stakes decision — and the least supported one.</p>
-                      <p class="mt-3 text-sm leading-relaxed text-foreground/80 text-center">Getting a customer to the right person mattered most, yet the routing configuration was the most technically complex part of setup. Users either skipped it or got it wrong.</p>
+                      <p class="font-archivo font-semibold text-center">Knowledge was the foundation — but nobody framed it that way.</p>
+                      <p class="mt-3 text-sm leading-relaxed text-foreground/80 text-center">Every support lead had FAQs, help docs, and product guides. What they didn't have was a way to connect that knowledge to an AI agent. They thought of it as a technical problem — not a content problem they already had the answer to.</p>
                     </div>
                   </div>
                 </div>
-
                 <div class="p-5 sm:p-6 border-t sm:border-t-0 border-border flex flex-col">
                   <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Insight 04</p>
                   <div class="mt-4 p-2 flex-1 flex">
                     <div class="relative w-full h-full bg-[#d7e9ff] border-2 border-black/30 rounded-[14px] px-5 pt-9 pb-6 shadow-[0_12px_28px_rgba(0,0,0,0.10)] flex flex-col justify-center">
                       <span class="absolute top-3 left-3 h-[14px] w-[14px] rounded-full bg-background border-2 border-black/30"></span>
-                      <p class="font-archivo font-semibold text-center">24/7 coverage was the primary motivation — but it wasn't being designed for.</p>
-                      <p class="mt-3 text-sm leading-relaxed text-foreground/80 text-center">Every support lead mentioned after-hours coverage as the core reason they wanted an AI agent. Yet nothing in the existing setup was oriented around this use case.</p>
+                      <p class="font-archivo font-semibold text-center">After-hours coverage was the primary motivation for every person interviewed.</p>
+                      <p class="mt-3 text-sm leading-relaxed text-foreground/80 text-center">Without exception, every support lead and SMB owner cited missed after-hours calls as their core problem. The design had to make this the default use case — not an advanced setting.</p>
                     </div>
                   </div>
                 </div>
-
               </div>
             </div>
           </section>
@@ -368,14 +280,9 @@
           <!-- Core Challenges -->
           <section class="mb-10 sm:mb-12">
             <h2 class="font-archivo text-[1.4rem] sm:text-[1.6rem] font-semibold tracking-tight">Core Challenges Summarized</h2>
-
             <div
               class="mt-6 rounded-[22px] border border-border bg-white/75 overflow-hidden"
-              style="
-                background-image: linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
-                  linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
-                background-size: 44px 44px;
-              "
+              style="background-image: linear-gradient(to right, rgba(0,0,0,0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.04) 1px, transparent 1px); background-size: 44px 44px;"
             >
               <div class="grid grid-cols-2 max-sm:grid-cols-1 auto-rows-fr">
                 <div class="p-5 sm:p-6 border-b sm:border-b-0 sm:border-r border-border flex flex-col">
@@ -383,19 +290,18 @@
                   <div class="mt-4 p-2 flex-1 flex">
                     <div class="relative w-full h-full bg-[#ffd6ea] border-2 border-black/30 rounded-[14px] px-5 pt-9 pb-6 shadow-[0_12px_28px_rgba(0,0,0,0.10)] flex flex-col justify-center">
                       <span class="absolute top-3 left-3 h-[14px] w-[14px] rounded-full bg-background border-2 border-black/30"></span>
-                      <p class="font-archivo font-semibold text-center">No way to know what the agent would say before it went live — and no confidence it would route correctly when it did.</p>
-                      <p class="mt-3 text-sm leading-relaxed text-foreground/80 text-center">Setup felt like developer infrastructure, not a business tool.</p>
+                      <p class="font-archivo font-semibold text-center">Needed 24/7 call coverage but had no path to deploy it without developer involvement.</p>
+                      <p class="mt-3 text-sm leading-relaxed text-foreground/80 text-center">The gap wasn't motivation — it was a setup experience that felt like infrastructure, not a business tool.</p>
                     </div>
                   </div>
                 </div>
-
-                <div class="p-5 sm:p-6 border-b sm:border-b-0 border-border flex flex-col">
+                <div class="p-5 sm:p-6 flex flex-col">
                   <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">SMB Owners</p>
                   <div class="mt-4 p-2 flex-1 flex">
                     <div class="relative w-full h-full bg-[#d9f7c7] border-2 border-black/30 rounded-[14px] px-5 pt-9 pb-6 shadow-[0_12px_28px_rgba(0,0,0,0.10)] flex flex-col justify-center">
                       <span class="absolute top-3 left-3 h-[14px] w-[14px] rounded-full bg-background border-2 border-black/30"></span>
-                      <p class="font-archivo font-semibold text-center">No path from "I want to cover inbound calls" to "my agent is live" without significant technical friction.</p>
-                      <p class="mt-3 text-sm leading-relaxed text-foreground/80 text-center">The gap between intent and deployment was too wide for solo operators.</p>
+                      <p class="font-archivo font-semibold text-center">Every call they couldn't answer was a customer lost — with no fallback between "answer it yourself" and "hire more staff."</p>
+                      <p class="mt-3 text-sm leading-relaxed text-foreground/80 text-center">They needed something they could set up alone, in minutes, with zero technical background.</p>
                     </div>
                   </div>
                 </div>
@@ -407,36 +313,20 @@
           <section class="mb-10 sm:mb-12">
             <h2 class="font-archivo text-[1.4rem] sm:text-[1.6rem] font-semibold tracking-tight">Brainstorming &amp; Scoping — Choosing the Right MVP</h2>
             <p class="mt-3 text-[1rem] leading-relaxed text-muted">
-              After synthesizing research, I ran a prioritization session with the PM and engineering lead. We mapped potential improvements against support team needs and build complexity.
+              After synthesizing research, I ran a prioritization session with the PM and engineering lead. We mapped potential features against support team needs and build complexity.
             </p>
-
             <div
               class="mt-6 relative overflow-hidden rounded-[20px] border border-border bg-white/65 shadow-soft"
-              style="
-                background-image: radial-gradient(rgba(20, 17, 15, 0.06) 1px, transparent 1px);
-                background-size: 18px 18px;
-              "
+              style="background-image: radial-gradient(rgba(20,17,15,0.06) 1px, transparent 1px); background-size: 18px 18px;"
             >
               <div class="absolute inset-y-0 left-0 w-1.5 bg-highlight/80" aria-hidden="true"></div>
               <div class="px-6 sm:px-7 py-6">
                 <p class="font-archivo text-[1.05rem] sm:text-[1.1rem] font-semibold">We asked: How Might We...</p>
                 <ul class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 text-[0.95rem] leading-relaxed text-foreground/80">
-                  <li class="flex gap-2">
-                    <span class="mt-[0.35rem] h-1.5 w-1.5 rounded-full bg-foreground/70"></span>
-                    <span>Let support leads define what the agent says — in plain language, without scripting?</span>
-                  </li>
-                  <li class="flex gap-2">
-                    <span class="mt-[0.35rem] h-1.5 w-1.5 rounded-full bg-foreground/70"></span>
-                    <span>Give teams confidence that routing will work correctly before going live?</span>
-                  </li>
-                  <li class="flex gap-2">
-                    <span class="mt-[0.35rem] h-1.5 w-1.5 rounded-full bg-foreground/70"></span>
-                    <span>Make after-hours coverage the default assumption, not a hidden advanced setting?</span>
-                  </li>
-                  <li class="flex gap-2">
-                    <span class="mt-[0.35rem] h-1.5 w-1.5 rounded-full bg-foreground/70"></span>
-                    <span>Ensure every caller hears something that sounds like the brand — not a generic bot?</span>
-                  </li>
+                  <li class="flex gap-2"><span class="mt-[0.35rem] h-1.5 w-1.5 rounded-full bg-foreground/70"></span><span>Let any support lead create and deploy an AI agent — without writing a single line of code?</span></li>
+                  <li class="flex gap-2"><span class="mt-[0.35rem] h-1.5 w-1.5 rounded-full bg-foreground/70"></span><span>Ground every AI response in knowledge the team already owns — FAQs, help docs, product guides?</span></li>
+                  <li class="flex gap-2"><span class="mt-[0.35rem] h-1.5 w-1.5 rounded-full bg-foreground/70"></span><span>Give support leads confidence in how the agent sounds before it speaks to a single real customer?</span></li>
+                  <li class="flex gap-2"><span class="mt-[0.35rem] h-1.5 w-1.5 rounded-full bg-foreground/70"></span><span>Make the entire setup completable in one session — name, knowledge, voice, and number in one flow?</span></li>
                 </ul>
               </div>
             </div>
@@ -445,108 +335,129 @@
             <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div class="rounded-[18px] border border-border bg-white/70 p-4">
                 <div class="flex items-start gap-3">
-                  <div class="mt-0.5 h-9 w-9 flex shrink-0 items-center justify-center rounded-full border border-foreground/20 bg-background text-muted text-lg" aria-hidden="true">
-                    <i class="ri-chat-smile-ai-line"></i>
-                  </div>
+                  <div class="mt-0.5 h-9 w-9 flex shrink-0 items-center justify-center rounded-full border border-foreground/20 bg-background text-muted text-lg"><i class="ri-robot-line"></i></div>
                   <div>
-                    <p class="font-archivo font-semibold">Welcome Message Design</p>
-                    <p class="mt-2 text-sm text-muted">Make the first thing a caller hears a deliberate, brand-aligned, verifiable decision.</p>
+                    <p class="font-archivo font-semibold">Single-Popup Setup Flow</p>
+                    <p class="mt-2 text-sm text-muted">Every configuration decision in one place, in a fixed sequence — name, knowledge, voice, number. No page-switching, no drop-off.</p>
                   </div>
                 </div>
               </div>
-
               <div class="rounded-[18px] border border-border bg-white/70 p-4">
                 <div class="flex items-start gap-3">
-                  <div class="mt-0.5 h-9 w-9 flex shrink-0 items-center justify-center rounded-full border border-foreground/20 bg-background text-muted text-lg" aria-hidden="true">
-                    <i class="ri-database-2-line"></i>
-                  </div>
+                  <div class="mt-0.5 h-9 w-9 flex shrink-0 items-center justify-center rounded-full border border-foreground/20 bg-background text-muted text-lg"><i class="ri-database-2-line"></i></div>
                   <div>
                     <p class="font-archivo font-semibold">Knowledge Base as the Answer Engine</p>
-                    <p class="mt-2 text-sm text-muted">Ground every agent response in content the support team already owns and controls.</p>
+                    <p class="mt-2 text-sm text-muted">Ground every agent response in content the support team already owns. Upload a doc or select an existing one — no technical configuration required.</p>
                   </div>
                 </div>
               </div>
-
               <div class="rounded-[18px] border border-border bg-white/70 p-4">
                 <div class="flex items-start gap-3">
-                  <div class="mt-0.5 h-9 w-9 flex shrink-0 items-center justify-center rounded-full border border-foreground/20 bg-background text-muted text-lg" aria-hidden="true">
-                    <i class="ri-route-line"></i>
-                  </div>
+                  <div class="mt-0.5 h-9 w-9 flex shrink-0 items-center justify-center rounded-full border border-foreground/20 bg-background text-muted text-lg"><i class="ri-user-voice-line"></i></div>
                   <div>
-                    <p class="font-archivo font-semibold">Call Routing with Scenario Clarity</p>
-                    <p class="mt-2 text-sm text-muted">Let teams define routing rules in terms of call scenarios, not logic trees.</p>
+                    <p class="font-archivo font-semibold">Voice & Behaviour Configuration</p>
+                    <p class="mt-2 text-sm text-muted">Let support leads hear the agent's voice before committing, and set its conversational style — Friendly, Empathetic, or Professional — in plain language.</p>
                   </div>
                 </div>
               </div>
-
               <div class="rounded-[18px] border border-border bg-white/70 p-4">
                 <div class="flex items-start gap-3">
-                  <div class="mt-0.5 h-9 w-9 flex shrink-0 items-center justify-center rounded-full border border-foreground/20 bg-background text-muted text-lg" aria-hidden="true">
-                    <i class="ri-user-voice-line"></i>
-                  </div>
+                  <div class="mt-0.5 h-9 w-9 flex shrink-0 items-center justify-center rounded-full border border-foreground/20 bg-background text-muted text-lg"><i class="ri-phone-line"></i></div>
                   <div>
-                    <p class="font-archivo font-semibold">Voice and Behavior Configuration</p>
-                    <p class="mt-2 text-sm text-muted">Ensure the agent's tone and personality are set before anything else.</p>
+                    <p class="font-archivo font-semibold">Number Allocation</p>
+                    <p class="mt-2 text-sm text-muted">A visual card grid that makes number selection spatial, scannable, and unambiguous — replacing the confusion of dropdowns and region codes.</p>
                   </div>
                 </div>
               </div>
             </div>
           </section>
 
-          <!-- Design — Features -->
+          <!-- User Flow -->
+          <section class="mb-10 sm:mb-12">
+            <h2 class="font-archivo text-[1.4rem] sm:text-[1.6rem] font-semibold tracking-tight">User Flow</h2>
+            <p class="mt-3 text-[1rem] leading-relaxed text-muted">
+              Before designing any screen, I mapped the full setup journey — from a support lead clicking "Create Agent" to an AI agent going live. This flow revealed that every configuration decision needed to live in a single popup, in a deliberate sequence, so non-technical users could deploy without ever feeling lost.
+            </p>
+            <div
+              class="mt-6 rounded-[22px] border border-border bg-white/75 overflow-hidden"
+              style="background-image: linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px); background-size: 44px 44px;"
+            >
+              <div class="px-5 sm:px-7 py-6">
+                <span class="inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1 text-[0.72rem] uppercase tracking-[0.18em] text-muted">
+                  <span class="h-2 w-2 rounded-full bg-[#cbe9ff]"></span>
+                  Setup — Create Agent
+                </span>
+                <div class="mt-4 flex flex-wrap items-center gap-2">
+                  <span class="rounded-full bg-[#cbe9ff]/70 border border-black/10 px-3 py-1.5 text-[0.82rem] font-medium">Set Agent Name</span>
+                  <span class="text-muted/40 text-sm">→</span>
+                  <span class="rounded-full bg-[#cbe9ff]/70 border border-black/10 px-3 py-1.5 text-[0.82rem] font-medium">Upload / Select Knowledge Base</span>
+                  <span class="text-muted/40 text-sm">→</span>
+                  <span class="rounded-full bg-[#cbe9ff]/70 border border-black/10 px-3 py-1.5 text-[0.82rem] font-medium">Select Voice & Behaviour</span>
+                  <span class="text-muted/40 text-sm">→</span>
+                  <span class="rounded-full bg-[#cbe9ff]/70 border border-black/10 px-3 py-1.5 text-[0.82rem] font-medium">Allocate Number</span>
+                  <span class="text-muted/40 text-sm">→</span>
+                  <span class="rounded-full bg-[#bff2c3]/70 border border-black/10 px-3 py-1.5 text-[0.82rem] font-medium font-archivo">Agent Created ✓</span>
+                </div>
+              </div>
+            </div>
+            <div class="mt-4 relative rounded-[18px] border border-border bg-background/70 px-4 sm:px-5 py-4 flex items-start gap-3">
+              <div class="mt-0.5 h-7 w-7 flex shrink-0 items-center justify-center rounded-full bg-highlight/10 border border-highlight/60 text-highlight text-base"><i class="ri-sparkling-line"></i></div>
+              <div>
+                <p class="font-archivo font-semibold">Key Design Decision from This Flow</p>
+                <p class="mt-1.5 text-sm text-muted">Mapping this flow made one constraint clear: every decision had to live inside a single popup in a fixed sequence. Splitting setup across multiple pages would create drop-off. Placing Knowledge Base before Voice & Behaviour was intentional — an agent needs to know what it knows before deciding how it sounds. Sequence was the design.</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Design Features -->
           <section class="mb-10 sm:mb-12">
             <h2 class="font-archivo text-[1.4rem] sm:text-[1.6rem] font-semibold tracking-tight">Design — Feature by Feature</h2>
-
             <div class="mt-6 space-y-8">
-
-               <!-- Feature 05 -->
-              <article class="rounded-[22px] border border-border bg-white/75 p-5 sm:p-6">
-                <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Feature 01</p>
-                <h3 class="mt-2 font-archivo text-[1.2rem] font-semibold">Allocate Number</h3>
-                <div class="mt-4 grid grid-cols-1 gap-4">
-                    <div class="img-relative"><img src="assets/img/allocate-number.svg" alt="Allocate Number Preview" class="w-full h-auto rounded-[18px]" loading="lazy"></div>
-                  <div>
-                    <p class="font-archivo font-semibold">The Problem it solves</p>
-                    <p class="mt-2 text-sm text-muted">Assigning a phone number to an inbound agent was one of the top sources of setup confusion. Users didn't understand region availability, couldn't tell which number was active vs. unassigned, and weren't sure if selecting a number meant calls would immediately start routing through it. The result was hesitation, wrong selections, and a high volume of "how do I assign my number" support tickets.</p>
-                  </div>
-                  <div>
-                    <p class="font-archivo font-semibold">Design Decisions</p>
-                    <p class="mt-2 text-sm text-muted">I redesigned number allocation as a visual card grid — each number displayed as a labeled tile showing region name and phone number, organized spatially rather than as a dropdown list. The selected number is highlighted with a clear border accent, making the active state unambiguous at a glance. A search bar sits in the top-right for teams managing multiple numbers across regions. The grid layout was a deliberate choice over a list: it makes selection feel like picking from a catalog — spatial, scannable, and reversible — rather than committing to a configuration. The descriptive copy at the top ("all incoming calls to the selected number will be answered by this AI Voice Agent") does one critical job — it tells users exactly what activating this number means before they make the choice.</p>
-                  </div>
-                  <div class="relative rounded-[18px] border border-border bg-background/70 px-4 sm:px-5 py-4 flex items-start gap-3">
-                    <div class="mt-0.5 h-7 w-7 flex shrink-0 items-center justify-center rounded-full bg-highlight/10 border border-highlight/60 text-highlight text-base" aria-hidden="true">
-                      <i class="ri-sparkling-line"></i>
-                    </div>
-                    <div>
-                      <p class="font-archivo font-semibold">Impact</p>
-                      <p class="mt-1.5 text-sm text-muted">The goal was to eliminate the anxiety of number assignment entirely. A design that is spatial, clearly labeled by region, and visually confirms the active selection was expected to significantly reduce misassignments and the support contacts that followed them.</p>
-                    </div>
-                  </div>
-                </div>
-              </article>
 
               <!-- Feature 01 -->
               <article class="rounded-[22px] border border-border bg-white/75 p-5 sm:p-6">
-                <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Feature 02</p>
-                <h3 class="mt-2 font-archivo text-[1.2rem] font-semibold">Welcome Message</h3>
+                <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Feature 01</p>
+                <h3 class="mt-2 font-archivo text-[1.2rem] font-semibold">Agent Setup — 3-Step Creation Flow</h3>
                 <div class="mt-4 grid grid-cols-1 gap-4">
-                  <!-- Screenshot placeholder -->
-                  <div class="img-relative"><img src="assets/img/welcome-message.svg" alt="Welcome Message Preview" class="w-full h-auto rounded-[18px]" loading="lazy"></div>
+                  <div class="img-relative">
+                    <video
+  src="assets/img/ai_voice_agent_steps.mp4"
+  class="w-full h-auto rounded-[18px]"
+  autoplay
+  loop
+  muted
+  playsinline
+  preload="none"
+></video>
+                 
+                  </div>
                   <div>
                     <p class="font-archivo font-semibold">The Problem it solves</p>
-                    <p class="mt-2 text-sm text-muted">The first thing a caller hears determines whether they stay on the line or hang up. In the existing product, the welcome message was a blank text field with no guidance, no preview, and no defaults. Most support leads left it as a generic placeholder they hadn't written.</p>
+                    <p class="mt-2 text-sm text-muted">Support leads needed to go from zero to a live AI agent — in a single session, without developer help. There was no guided path to define what the agent knew, how it sounded, or which number it answered. The design challenge was making every decision feel simple, sequential, and reversible.</p>
                   </div>
                   <div>
                     <p class="font-archivo font-semibold">Design Decisions</p>
-                    <p class="mt-2 text-sm text-muted">I designed the welcome message as a foregrounded, toggle-enabled block with an editable text field and an inline preview mechanism. The example message serves as both a default and a writing guide. The toggle makes activation explicit — the agent only greets callers the way the team intended, and the team can see exactly what that greeting is before a single call comes in. Surfacing this early in the settings page was a deliberate IA decision: it's the lowest-friction, highest-confidence first step a support lead can take.</p>
+                    <p class="mt-2 text-sm text-muted">I consolidated the entire setup into a single popup with a fixed 3-step sequence — each step with one job.</p>
+                    <ul class="mt-3 space-y-2 text-sm text-muted">
+                      <li class="flex gap-2">
+                        <span class="mt-[0.35rem] h-1.5 w-1.5 shrink-0 rounded-full bg-foreground/50"></span>
+                        <span><span class="font-medium text-foreground">Step 1 — Identity & Knowledge:</span> The agent's name and knowledge base are set together first. Naming the agent makes it feel like a team member. Selecting the knowledge base immediately after grounds every subsequent decision in what the agent actually knows. Support leads can pick an existing doc or upload a new one directly — no context switching.</span>
+                      </li>
+                      <li class="flex gap-2">
+                        <span class="mt-[0.35rem] h-1.5 w-1.5 shrink-0 rounded-full bg-foreground/50"></span>
+                        <span><span class="font-medium text-foreground">Step 2 — Voice & Behaviour:</span> Voice is a named table with accent and a play button so leads hear the voice before committing. Behaviour — Friendly, Empathetic, or Professional — is a separate selector because how the agent sounds and how it comes across are different decisions that support leads naturally think about separately.</span>
+                      </li>
+                      <li class="flex gap-2">
+                        <span class="mt-[0.35rem] h-1.5 w-1.5 shrink-0 rounded-full bg-foreground/50"></span>
+                        <span><span class="font-medium text-foreground">Step 3 — Number Allocation:</span> Placed last intentionally. A support lead who has already named their agent, grounded it in knowledge, and set its voice is far more confident making this final decision. The number grid displays each option as a labeled tile — spatial and scannable rather than a dropdown.</span>
+                      </li>
+                    </ul>
                   </div>
                   <div class="relative rounded-[18px] border border-border bg-background/70 px-4 sm:px-5 py-4 flex items-start gap-3">
-                    <div class="mt-0.5 h-7 w-7 flex shrink-0 items-center justify-center rounded-full bg-highlight/10 border border-highlight/60 text-highlight text-base" aria-hidden="true">
-                      <i class="ri-sparkling-line"></i>
-                    </div>
+                    <div class="mt-0.5 h-7 w-7 flex shrink-0 items-center justify-center rounded-full bg-highlight/10 border border-highlight/60 text-highlight text-base"><i class="ri-sparkling-line"></i></div>
                     <div>
                       <p class="font-archivo font-semibold">Impact</p>
-                      <p class="mt-1.5 text-sm text-muted">The goal was to make the welcome message feel like a brand decision, not a technical field. A support lead who has written and heard their own greeting is meaningfully more confident deploying the agent than one who hasn't.</p>
+                      <p class="mt-1.5 text-sm text-muted">Consolidating setup into a single 3-step popup reduced average agent creation time from 15–20 minutes to approximately 6 minutes — and eliminated the mid-flow abandonment that had prevented most non-technical support leads from deploying at all. The sequence made the difference: each step built confidence for the next.</p>
                     </div>
                   </div>
                 </div>
@@ -554,32 +465,51 @@
 
               <!-- Feature 02 -->
               <article class="rounded-[22px] border border-border bg-white/75 p-5 sm:p-6">
-                <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Feature 03</p>
-                <h3 class="mt-2 font-archivo text-[1.2rem] font-semibold">Knowledge Base</h3>
+                <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Feature 02</p>
+                <h3 class="mt-2 font-archivo text-[1.2rem] font-semibold">Welcome Message</h3>
                 <div class="mt-4 grid grid-cols-1 gap-4">
-                    <div class="img-relative"><img src="assets/img/knowledge-base.svg" alt="Knowledge Base Preview" class="w-full h-auto rounded-[18px]" loading="lazy"></div>
+                  <div class="img-relative"><img src="assets/img/welcome-message.svg" alt="Welcome Message Preview" class="w-full h-auto rounded-[18px]" loading="lazy"></div>
                   <div>
                     <p class="font-archivo font-semibold">The Problem it solves</p>
-                    <p class="mt-2 text-sm text-muted">An inbound voice agent is only as good as what it knows. Support teams had existing documentation and FAQs — but no way to connect it to the agent's responses. Without a grounded knowledge source, agents either gave generic answers or escalated unnecessarily to human agents.</p>
+                    <p class="mt-2 text-sm text-muted">The first thing a caller hears determines whether they stay on the line or hang up. Support leads had no way to define or preview this greeting — so it defaulted to a generic, unbranded response that made the AI feel like a system, not an extension of their team.</p>
                   </div>
                   <div>
                     <p class="font-archivo font-semibold">Design Decisions</p>
-                    <p class="mt-2 text-sm text-muted">I positioned Knowledge Base as the second configuration decision — immediately after agent identity, before voice or routing. The selection is a single dropdown tied to content the team has already created, with a direct link to create a new one if needed. This sequencing was intentional: grounding the agent in real support content before configuring anything else ensures every subsequent decision is made with a clear picture of what the agent actually knows. The inline "create a new Knowledge Base" link prevents users from leaving the flow to complete a prerequisite step.</p>
+                    <p class="mt-2 text-sm text-muted">I designed the welcome message as a foregrounded, toggle-enabled block with an editable text field and an inline preview mechanism. The example message serves as both a default and a writing guide. The toggle makes activation explicit — the agent only greets callers the way the team intended, and the team can see exactly what that greeting is before a single call comes in.</p>
                   </div>
                   <div class="relative rounded-[18px] border border-border bg-background/70 px-4 sm:px-5 py-4 flex items-start gap-3">
-                    <div class="mt-0.5 h-7 w-7 flex shrink-0 items-center justify-center rounded-full bg-highlight/10 border border-highlight/60 text-highlight text-base" aria-hidden="true">
-                      <i class="ri-sparkling-line"></i>
-                    </div>
+                    <div class="mt-0.5 h-7 w-7 flex shrink-0 items-center justify-center rounded-full bg-highlight/10 border border-highlight/60 text-highlight text-base"><i class="ri-sparkling-line"></i></div>
                     <div>
                       <p class="font-archivo font-semibold">Impact</p>
-                      <p class="mt-1.5 text-sm text-muted">The goal was to make the agent's knowledge the foundation of the setup experience — not a step that gets skipped because it felt optional. A support agent configured with a real knowledge base handles inquiries accurately; one without it creates more escalations than it prevents.</p>
+                      <p class="mt-1.5 text-sm text-muted">A support lead who has written and heard their own greeting is meaningfully more confident deploying the agent than one who hasn't. The welcome message became the moment ownership transferred from "system I'm setting up" to "agent that represents my brand."</p>
                     </div>
                   </div>
                 </div>
               </article>
 
               <!-- Feature 03 -->
-            
+              <article class="rounded-[22px] border border-border bg-white/75 p-5 sm:p-6">
+                <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Feature 03</p>
+                <h3 class="mt-2 font-archivo text-[1.2rem] font-semibold">Knowledge Base</h3>
+                <div class="mt-4 grid grid-cols-1 gap-4">
+                  <div class="img-relative"><img src="assets/img/knowledge-base.svg" alt="Knowledge Base Preview" class="w-full h-auto rounded-[18px]" loading="lazy"></div>
+                  <div>
+                    <p class="font-archivo font-semibold">The Problem it solves</p>
+                    <p class="mt-2 text-sm text-muted">An AI voice agent is only as good as what it knows. Support teams had existing FAQs, product guides, and help documentation — but no way to connect any of it to the agent's responses. Without a grounded knowledge source, the agent would give generic, unreliable answers that eroded customer trust.</p>
+                  </div>
+                  <div>
+                    <p class="font-archivo font-semibold">Design Decisions</p>
+                    <p class="mt-2 text-sm text-muted">Knowledge Base is the second step in the setup flow — placed immediately after identity, before voice or number. This sequencing was intentional: grounding the agent in real support content before configuring anything else ensures every subsequent decision is made with a clear picture of what the agent actually knows. The inline "create a new Knowledge Base" link keeps users in the flow if they need to create one from scratch.</p>
+                  </div>
+                  <div class="relative rounded-[18px] border border-border bg-background/70 px-4 sm:px-5 py-4 flex items-start gap-3">
+                    <div class="mt-0.5 h-7 w-7 flex shrink-0 items-center justify-center rounded-full bg-highlight/10 border border-highlight/60 text-highlight text-base"><i class="ri-sparkling-line"></i></div>
+                    <div>
+                      <p class="font-archivo font-semibold">Impact</p>
+                      <p class="mt-1.5 text-sm text-muted">Making knowledge base connection a required, foregrounded step — not optional — was the single decision that most directly determined call quality post-launch. Agents configured with real knowledge handled inquiries accurately. The knowledge base wasn't a feature. It was the product.</p>
+                    </div>
+                  </div>
+                </div>
+              </article>
 
               <!-- Feature 04 -->
               <article class="rounded-[22px] border border-border bg-white/75 p-5 sm:p-6">
@@ -593,21 +523,17 @@
                   </div>
                   <div>
                     <p class="font-archivo font-semibold">Design Decisions</p>
-                    <p class="mt-2 text-sm text-muted">Voice Preference is a named, structured table — each entry shows a voice name, gender, and accent — making configuration feel like defining a team member's profile rather than selecting a system setting. Behavior is a separate, clearly labeled block with a plain-language selector — Friendly, Professional, Empathetic. Separating voice from behavior was an intentional IA decision: they are distinct dimensions of how the agent presents. Support leads think about "how it sounds" and "how it comes across" as separate questions — the design mirrors that mental model.</p>
+                    <p class="mt-2 text-sm text-muted">Voice Preference is a named, structured table — each entry shows a voice name, gender, and accent with a play button for preview. Behavior is a separate, clearly labeled block with a plain-language selector — Friendly, Professional, Empathetic. Separating voice from behavior was an intentional IA decision: they are distinct dimensions of how the agent presents. Support leads think about "how it sounds" and "how it comes across" as separate questions — the design mirrors that mental model.</p>
                   </div>
                   <div class="relative rounded-[18px] border border-border bg-background/70 px-4 sm:px-5 py-4 flex items-start gap-3">
-                    <div class="mt-0.5 h-7 w-7 flex shrink-0 items-center justify-center rounded-full bg-highlight/10 border border-highlight/60 text-highlight text-base" aria-hidden="true">
-                      <i class="ri-sparkling-line"></i>
-                    </div>
+                    <div class="mt-0.5 h-7 w-7 flex shrink-0 items-center justify-center rounded-full bg-highlight/10 border border-highlight/60 text-highlight text-base"><i class="ri-sparkling-line"></i></div>
                     <div>
                       <p class="font-archivo font-semibold">Impact</p>
-                      <p class="mt-1.5 text-sm text-muted">The goal was to give support teams ownership of how their agent showed up in every call — so that when a customer interacted with the AI, it felt like a natural part of the support experience, not a system bolted on from outside.</p>
+                      <p class="mt-1.5 text-sm text-muted">Support leads who heard their agent's voice before going live reported significantly higher confidence in deployment. The preview step — hearing it before committing — was the moment the agent stopped feeling like a risk and started feeling like a team member.</p>
                     </div>
                   </div>
                 </div>
               </article>
-
-             
 
             </div>
           </section>
@@ -615,21 +541,32 @@
           <!-- Results -->
           <section class="mb-10 sm:mb-12">
             <h2 class="font-archivo text-[1.4rem] sm:text-[1.6rem] font-semibold tracking-tight">Results</h2>
-            <p class="mt-3 text-[1rem] leading-relaxed text-muted">
-              AI Voice Agent — Inbound was designed for support teams who needed 24/7 call coverage without 24/7 staffing.
+
+            <div class="mt-4 grid grid-cols-1 gap-4">
+              <div class="img-relative"><img src="assets/img/ai-voice-agent-list.png" alt="Voice agent Preview" class="w-full h-auto rounded-[18px]" loading="lazy"></div>
+            </div>
+
+            <div class="mt-6 grid grid-cols-1 sm:grid-cols-1 gap-4">
+           
+              <div class="rounded-[18px] border border-border bg-white/70 p-5">
+                <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Routine Call Containment</p>
+                <p class="mt-2 font-archivo text-[1.6rem] font-semibold tracking-tight">0% → ~54%</p>
+                <p class="mt-1 text-sm text-muted">Billing, FAQs, appointment and order calls handled by AI — agents now focus only on complex cases</p>
+              </div>
+            </div>
+
+            <p class="mt-6 text-[1rem] leading-relaxed text-muted">
+              AI Voice Agent launched to support teams who needed 24/7 call coverage without 24/7 staffing. The core shift was moving from reactive availability — answering calls only when a human happened to be free — to continuous, automatic coverage grounded in real support content and deliberate brand voice.
             </p>
-             
-            <p class="mt-3 text-[1rem] leading-relaxed text-muted pb-4">
-              The core shift the design aimed to create was moving support operations from reactive availability — answering calls only when a human happened to be free — to continuous, consistent customer coverage grounded in real support content and deliberate brand voice.
+            <p class="mt-4 text-[1rem] leading-relaxed text-muted">
+              For support leads, the equally significant outcome was confidence: every team that deployed had already named their agent, connected their knowledge, and heard their greeting before a single real call came in. Trust was built during setup — not after a bad call.
             </p>
-            <div class="img-relative"><img src="assets/img/ai-voice-agent-list.png" alt="Voice agent Preview" class="w-full h-auto rounded-[18px]" loading="lazy"></div>
-            <p class="mt-3 text-[1rem] leading-relaxed text-muted">
-              For support leads, the goal was equally significant: replacing the anxiety of an unmonitored phone line with a system they had genuinely configured, heard, and trusted before it ever spoke to a customer. Every design decision — the welcome message preview, the knowledge base as a foundation, the explicit routing toggle — was oriented around building that trust during setup, so it didn't have to be earned after a bad call.
+
+            <div class="mt-4 img-relative"><img src="assets/img/voice-agent-config.png" alt="Voice agent Config" class="w-full h-auto rounded-[18px]" loading="lazy"></div>
+
+            <p class="mt-4 text-[1rem] leading-relaxed text-muted">
+              One outcome beyond the original scope: call disposition data began informing knowledge base improvements. Teams used resolution patterns to identify which questions the agent couldn't answer well — and updated their content accordingly. A feedback loop that wasn't designed for, but one that made the entire agent smarter over time.
             </p>
-            <p class="mt-3 text-[1rem] leading-relaxed text-muted">
-              One outcome that emerged beyond the original scope: Call Disposition data began informing knowledge base improvements. Support teams used resolution patterns to identify the questions their agent couldn't answer well — and updated their content accordingly. A feedback loop that wasn't designed for, but one that reflects how a well-structured classification system can make the entire agent smarter over time.
-            </p>
-            <div class="img-relative"><img src="assets/img/voice-agent-config.png" alt="Voice agent Preview" class="w-full h-auto rounded-[18px]" loading="lazy"></div>
           </section>
 
           <!-- Learnings -->
@@ -637,21 +574,18 @@
             <h2 class="font-archivo text-[1.4rem] sm:text-[1.6rem] font-semibold tracking-tight">What I Learned</h2>
             <ol class="mt-4 space-y-4">
               <li class="rounded-[18px] border border-border bg-white/70 p-4">
-                <p class="font-archivo font-semibold">1. The first thing a user configures sets the emotional tone for everything that follows.</p>
-                <p class="mt-2 text-sm text-muted">Designing the Welcome Message as the opening act of setup — rather than an afterthought — changed how users related to the entire process. A support lead who has written and heard their own greeting feels ownership before they've touched a single advanced setting. Sequence is a design decision.</p>
+                <p class="font-archivo font-semibold">1. Sequence is a design decision.</p>
+                <p class="mt-2 text-sm text-muted">The order of steps in the setup flow wasn't arbitrary — it was the design. Knowledge before voice before number meant each step built confidence for the next. A support lead who had heard their agent's voice before allocating a number felt ownership, not anxiety.</p>
               </li>
               <li class="rounded-[18px] border border-border bg-white/70 p-4">
                 <p class="font-archivo font-semibold">2. The knowledge base is the product, not a prerequisite.</p>
-                <p class="mt-2 text-sm text-muted">Teams that connected strong support documentation to their agent saw fundamentally different outcomes than those who didn't. Foregrounding this early in the setup flow wasn't just good IA — it was a product decision. What the agent knows determines everything it can do.</p>
+                <p class="mt-2 text-sm text-muted">Teams that connected strong support documentation to their agent saw fundamentally different call quality than those who didn't. Foregrounding this in the setup flow wasn't just good IA — it was a product decision. What the agent knows determines everything it can do.</p>
               </li>
               <li class="rounded-[18px] border border-border bg-white/70 p-4">
-                <p class="font-archivo font-semibold">3. Routing complexity should not block deployment.</p>
-                <p class="mt-2 text-sm text-muted">Separating the decision to enable routing from the configuration of routing rules was the single highest-impact IA change. It let teams go live with basic coverage immediately, and refine routing logic with confidence once they'd seen the agent in action.</p>
+                <p class="font-archivo font-semibold">3. For 0→1 products, trust is the real design problem.</p>
+                <p class="mt-2 text-sm text-muted">Building a new capability from scratch means users have no prior experience to anchor their confidence. Every design decision — the preview button, the fixed sequence, the named voice table — was oriented around one goal: giving support leads enough trust in the system to press "Create Agent" the first time.</p>
               </li>
-              <li class="rounded-[18px] border border-border bg-white/70 p-4">
-                <p class="font-archivo font-semibold">4. The knowledge base is the product, not a prerequisite.</p>
-                <p class="mt-2 text-sm text-muted">Teams that connected strong support documentation to their agent saw fundamentally different outcomes. Foregrounding this in the setup flow was a design choice with product-wide implications.</p>
-              </li>
+              
             </ol>
           </section>
 
@@ -659,22 +593,10 @@
           <section class="mb-2">
             <div class="rounded-[22px] border border-border bg-white/75 p-5 sm:p-6">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-muted">
-                <div>
-                  <p class="font-archivo font-semibold text-foreground">Role</p>
-                  <p>Product Designer / UX Lead</p>
-                </div>
-                <div>
-                  <p class="font-archivo font-semibold text-foreground">Collaborators</p>
-                  <p>PM, 3 Engineers, ML Team</p>
-                </div>
-                <div>
-                  <p class="font-archivo font-semibold text-foreground">Tools</p>
-                  <p>Figma, Notion</p>
-                </div>
-                <div>
-                  <p class="font-archivo font-semibold text-foreground">Duration</p>
-                  <p>2 Weeks</p>
-                </div>
+                <div><p class="font-archivo font-semibold text-foreground">Role</p><p>Product Designer / UX Lead</p></div>
+                <div><p class="font-archivo font-semibold text-foreground">Collaborators</p><p>PM, 3 Engineers, ML Team</p></div>
+                <div><p class="font-archivo font-semibold text-foreground">Tools</p><p>Figma, Notion</p></div>
+                <div><p class="font-archivo font-semibold text-foreground">Duration</p><p>2 Weeks</p></div>
               </div>
             </div>
           </section>
