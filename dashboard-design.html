@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>CallHippo Dashboard Redesign — Case Study</title>
+    <meta
+      name="description"
+      content="Case study: Redesigning the CallHippo dashboard to improve call analytics visibility for sales teams."
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+    />
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16x16.png">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              background: "#f6eee3",
+              foreground: "#14110f",
+              muted: "#6c665d",
+              border: "#ded5c7",
+              highlight: "#ffb457",
+            },
+            maxWidth: {
+              content: "1100px",
+              narrow: "760px",
+            },
+            fontFamily: {
+              sans: ['"Figtree"', '"DM Sans"', '"Inter"', "system-ui", "sans-serif"],
+              archivo: ['"Archivo"', '"Archivo Placeholder"', "system-ui", "sans-serif"],
+            },
+            boxShadow: {
+              soft: "0 18px 60px rgba(0,0,0,0.08)",
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      @font-face {
+        font-family: "Archivo";
+        src: url("https://framerusercontent.com/third-party-assets/fontshare/wf/RJX4LSNI55LNZ6QWGQALARVRCFUYJDBE/HQPW4MP6HXPYZKXF6CFWGJ6ZOJBHKM3X/UHPKREF72UMVMQSKHPDQ42AVOZPICLOJ.woff2");
+        font-display: swap;
+        font-style: normal;
+        font-weight: 700;
+      }
+      @font-face {
+        font-family: "Archivo";
+        src: url("https://framerusercontent.com/third-party-assets/fontshare/wf/Y42A6OBFKHMPOGSSWNFHV6ASZ7RM3IXN/JID5YS2RALYHLX7OX7ELWBV5EF3C3ZQS/4QOBYYT6LF33KRDEW47UQ3DFAEWGYHD4.woff2");
+        font-style: normal;
+        font-weight: 900;
+      }
+      @font-face {
+        font-family: "Archivo Placeholder";
+        src: local("Arial");
+        ascent-override: 112.34%;
+        descent-override: 41.5%;
+        line-gap-override: 9.11%;
+        size-adjust: 98.81%;
+      }
+      @font-face {
+        font-family: "Figtree";
+        font-style: normal;
+        font-weight: 500;
+        font-display: swap;
+        src: url(https://fonts.gstatic.com/s/figtree/v9/_Xms-HUzqDCFdgfMm4S9DQ.woff2) format("woff2");
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304,
+          U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+      body {
+        text-rendering: geometricPrecision;
+        -webkit-font-smoothing: antialiased;
+      }
+    </style>
+    <script>
+      function toggleMobileMenu() {
+        const menu = document.getElementById('mobileMenu');
+        const toggle = document.getElementById('menuToggle');
+        menu.classList.toggle('hidden');
+        toggle.classList.toggle('active');
+      }
+    </script>
+  </head>
+
+  <body class="bg-background text-foreground font-sans">
+
+    <!-- Sticky Header -->
+    <div class="sticky top-0 z-50 bg-background border-b border-border">
+      <div class="w-full max-w-content mx-auto px-4 sm:px-6 lg:px-8">
+        <header class="flex items-center justify-between py-5">
+          <a href="./index.html" class="flex items-center gap-3 group">
+            <span class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background/70" aria-hidden="true">←</span>
+            <span class="font-archivo tracking-[0.22em] text-[0.72rem] uppercase">Back</span>
+          </a>
+          <!-- Desktop nav -->
+          <nav class="hidden sm:flex items-center gap-8 text-[0.75rem] font-medium tracking-[0.2em]">
+            <a href="./index.html#work" class="hover:opacity-100 opacity-70 transition">WORK</a>
+            <a href="./about.html" class="hover:opacity-100 opacity-70 transition">ABOUT</a>
+            <a href="https://www.linkedin.com/in/jigar-acharya-722232ab/" target="_blank" rel="noreferrer" class="hover:opacity-100 opacity-70 transition">CONTACT</a>
+          </nav>
+          <!-- Hamburger -->
+          <button id="menuToggle" class="sm:hidden flex flex-col gap-1.5 items-center justify-center w-8 h-8" onclick="toggleMobileMenu()" aria-label="Toggle menu">
+            <span class="block w-5 h-0.5 bg-foreground transition-all"></span>
+            <span class="block w-5 h-0.5 bg-foreground transition-all"></span>
+            <span class="block w-5 h-0.5 bg-foreground transition-all"></span>
+          </button>
+        </header>
+      </div>
+      <!-- Mobile dropdown -->
+      <nav id="mobileMenu" class="hidden bg-background border-b border-border">
+        <div class="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col">
+          <a href="./index.html#work" class="px-3 py-2.5 font-medium text-[0.75rem] tracking-[0.2em] text-center border-b border-border/50 opacity-70" onclick="toggleMobileMenu()">WORK</a>
+          <a href="./about.html" class="px-3 py-2.5 font-medium text-[0.75rem] tracking-[0.2em] text-center border-b border-border/50 opacity-70" onclick="toggleMobileMenu()">ABOUT</a>
+          <a href="https://www.linkedin.com/in/jigar-acharya-722232ab/" target="_blank" rel="noreferrer" class="px-3 py-2.5 font-medium text-[0.75rem] tracking-[0.2em] text-center opacity-70">CONTACT</a>
+        </div>
+      </nav>
+    </div>
+
+    <!-- Page content -->
+    <div class="flex flex-col items-center px-4 sm:px-6 lg:px-8 pt-8 pb-14">
+      <div class="w-full max-w-content">
+
+        <!-- Hero -->
+        <section class="mb-10 sm:mb-14 lg:mb-16">
+          <p class="text-[0.78rem] uppercase tracking-[0.18em] text-muted">
+            CallHippo Dashboard Redesign
+          </p>
+          <h1 class="mt-4 font-archivo text-[2.2rem] sm:text-[2.8rem] lg:text-[3.2rem] leading-[1.08] font-semibold tracking-tight">
+            How I redesigned the CallHippo dashboard to give sales teams instant visibility into call performance — without navigating across multiple screens
+          </h1>
+          <div class="mt-8 border border-border bg-white/70 shadow-soft overflow-hidden">
+            <div class="aspect-[16/8] bg-gradient-to-br from-[#d9f7c7] via-white to-[#d7e9ff] flex items-center justify-center">
+             <div class="aspect-[16/8] sm:aspect-[16/8] bg-gradient-to-br from-[#cbe9ff] via-white to-[#ffe7a8]"><img src="assets/img/Dashboard-banner.png" alt="CallHippo Dashboard" class="w-full h-auto" loading="lazy"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Issues & Design Goals -->
+        <section class="mb-12 sm:mb-16">
+          <div class="mb-6">
+            <h2 class="font-archivo text-[1.5rem] sm:text-[1.75rem] font-semibold tracking-tight">Issues &amp; Design Goals</h2>
+            <p class="mt-2 text-[0.95rem] text-muted">The original dashboard had several usability challenges. Each issue directly shaped a design strategy and informed the final solution.</p>
+          </div>
+
+          <!-- Part 1: Issues -->
+          <div
+            class="rounded-[22px] border border-border bg-white/75 overflow-hidden mb-4"
+            style="background-image: linear-gradient(to right, rgba(0,0,0,0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.04) 1px, transparent 1px); background-size: 44px 44px;"
+          >
+            <!-- Label row -->
+            <div class="px-5 sm:px-7 pt-5 pb-2">
+              <span class="inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1 text-[0.72rem] uppercase tracking-[0.18em] text-muted">
+                <span class="h-2 w-2 rounded-full bg-red-300"></span>
+                Issues With the Existing Dashboard
+              </span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 auto-rows-fr">
+
+              <div class="p-5 sm:p-6 border-b sm:border-b-0 sm:border-r border-border flex flex-col">
+                <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Issue 01</p>
+                <div class="mt-4 p-2 flex-1 flex">
+                  <div class="relative w-full bg-[#ffd6ea] border-2 border-black/30 rounded-[14px] px-5 pt-9 pb-6 shadow-[0_12px_28px_rgba(0,0,0,0.10)] flex flex-col justify-center">
+                    <span class="absolute top-3 left-3 h-[14px] w-[14px] rounded-full bg-background border-2 border-black/30"></span>
+                    <p class="font-archivo font-semibold text-center">Lack of Clear Data Hierarchy</p>
+                    <p class="mt-3 text-sm leading-relaxed text-foreground/80 text-center">Metrics were presented without proper prioritization, making it difficult to identify the most important insights.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-5 sm:p-6 border-b sm:border-b-0 border-border flex flex-col">
+                <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Issue 02</p>
+                <div class="mt-4 p-2 flex-1 flex">
+                  <div class="relative w-full bg-[#ffe7a8] border-2 border-black/30 rounded-[14px] px-5 pt-9 pb-6 shadow-[0_12px_28px_rgba(0,0,0,0.10)] flex flex-col justify-center">
+                    <span class="absolute top-3 left-3 h-[14px] w-[14px] rounded-full bg-background border-2 border-black/30"></span>
+                    <p class="font-archivo font-semibold text-center">Limited Data Visualization</p>
+                    <p class="mt-3 text-sm leading-relaxed text-foreground/80 text-center">The system relied on basic charts that did not clearly represent trends or patterns — making performance invisible.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-5 sm:p-6 border-t sm:border-r border-border flex flex-col">
+                <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Issue 03</p>
+                <div class="mt-4 p-2 flex-1 flex">
+                  <div class="relative w-full bg-[#d9f7c7] border-2 border-black/30 rounded-[14px] px-5 pt-9 pb-6 shadow-[0_12px_28px_rgba(0,0,0,0.10)] flex flex-col justify-center">
+                    <span class="absolute top-3 left-3 h-[14px] w-[14px] rounded-full bg-background border-2 border-black/30"></span>
+                    <p class="font-archivo font-semibold text-center">No Dedicated Analytics Section</p>
+                    <p class="mt-3 text-sm leading-relaxed text-foreground/80 text-center">Users had to navigate multiple areas to gather meaningful insights — there was no structured path from question to answer.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-5 sm:p-6 border-t border-border flex flex-col">
+                <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Issue 04</p>
+                <div class="mt-4 p-2 flex-1 flex">
+                  <div class="relative w-full bg-[#d7e9ff] border-2 border-black/30 rounded-[14px] px-5 pt-9 pb-6 shadow-[0_12px_28px_rgba(0,0,0,0.10)] flex flex-col justify-center">
+                    <span class="absolute top-3 left-3 h-[14px] w-[14px] rounded-full bg-background border-2 border-black/30"></span>
+                    <p class="font-archivo font-semibold text-center">Poor Comparative Insights</p>
+                    <p class="mt-3 text-sm leading-relaxed text-foreground/80 text-center">It was difficult to compare inbound vs outbound calls, call outcomes, and performance trends — everything was flat and undifferentiated.</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Arrow connector -->
+          <div class="flex items-center justify-center py-2">
+            <div class="flex flex-col items-center gap-1 text-muted/40">
+              <div class="h-5 w-px bg-border"></div>
+              <svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M6 10L0 0h12L6 10z" fill="currentColor"/></svg>
+            </div>
+          </div>
+
+          <!-- Part 2: Design Strategy -->
+          <div class="rounded-[22px] border border-border bg-white/75 overflow-hidden mb-4">
+            <div class="px-5 sm:px-7 pt-5 pb-2">
+              <span class="inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1 text-[0.72rem] uppercase tracking-[0.18em] text-muted">
+                <span class="h-2 w-2 rounded-full bg-[#ffe7a8]"></span>
+                Design Strategy — Three Major Improvements
+              </span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-border">
+
+              <div class="p-5 sm:p-6 flex flex-col gap-3">
+                <div class="h-9 w-9 flex items-center justify-center rounded-full border border-foreground/20 bg-background text-muted text-lg">
+                  <i class="ri-layout-top-line"></i>
+                </div>
+                <div>
+                  <p class="font-archivo font-semibold text-[0.95rem]">Create a Clear Analytics Structure</p>
+                  <p class="mt-1.5 text-sm text-muted">Introduce a dedicated Call Analytics module that organizes data into logical, role-relevant sections.</p>
+                </div>
+              </div>
+
+              <div class="p-5 sm:p-6 flex flex-col gap-3">
+                <div class="h-9 w-9 flex items-center justify-center rounded-full border border-foreground/20 bg-background text-muted text-lg">
+                  <i class="ri-bar-chart-grouped-line"></i>
+                </div>
+                <div>
+                  <p class="font-archivo font-semibold text-[0.95rem]">Improve Data Visualization</p>
+                  <p class="mt-1.5 text-sm text-muted">Use stacked charts, segmented metrics, and gauges to help users quickly understand patterns — not just read numbers.</p>
+                </div>
+              </div>
+
+              <div class="p-5 sm:p-6 flex flex-col gap-3">
+                <div class="h-9 w-9 flex items-center justify-center rounded-full border border-foreground/20 bg-background text-muted text-lg">
+                  <i class="ri-dashboard-line"></i>
+                </div>
+                <div>
+                  <p class="font-archivo font-semibold text-[0.95rem]">Simplify the Dashboard</p>
+                  <p class="mt-1.5 text-sm text-muted">Reduce cognitive load by showing high-value metrics first and surfacing deeper insights only in the analytics module.</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Arrow connector -->
+          <div class="flex items-center justify-center py-2">
+            <div class="flex flex-col items-center gap-1 text-muted/40">
+              <div class="h-5 w-px bg-border"></div>
+              <svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M6 10L0 0h12L6 10z" fill="currentColor"/></svg>
+            </div>
+          </div>
+
+          <!-- Part 3: The New Solution -->
+          <div class="rounded-[22px] border border-border bg-white/75 overflow-hidden">
+            <div class="px-5 sm:px-7 pt-5 pb-2">
+              <span class="inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1 text-[0.72rem] uppercase tracking-[0.18em] text-muted">
+                <span class="h-2 w-2 rounded-full bg-[#bff2c3]"></span>
+                The New Solution — Two Major Improvements
+              </span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-border">
+
+              <!-- Module 1 -->
+              <div class="p-5 sm:p-6">
+                <div class="flex items-center gap-3 mb-4">
+                  <div class="h-9 w-9 flex shrink-0 items-center justify-center rounded-full bg-[#ffe7a8]/60 border border-black/10 text-lg">
+                    <i class="ri-layout-2-line text-foreground/70"></i>
+                  </div>
+                  <p class="font-archivo font-semibold">Simplified Main Dashboard</p>
+                </div>
+                <p class="text-sm text-muted mb-3">Provides quick insights into overall call activity — managers assess the full picture in seconds.</p>
+                <div class="grid grid-cols-2 gap-2">
+                  <div class="rounded-[10px] bg-background border border-border px-3 py-2 text-xs text-foreground/70 flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-foreground/30 shrink-0"></span>Total Calls</div>
+                  <div class="rounded-[10px] bg-background border border-border px-3 py-2 text-xs text-foreground/70 flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-foreground/30 shrink-0"></span>Total Inbound Calls</div>
+                  <div class="rounded-[10px] bg-background border border-border px-3 py-2 text-xs text-foreground/70 flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-foreground/30 shrink-0"></span>Total Outbound Calls</div>
+                  <div class="rounded-[10px] bg-background border border-border px-3 py-2 text-xs text-foreground/70 flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-foreground/30 shrink-0"></span>Avg. Call Talk Time</div>
+                  <div class="rounded-[10px] bg-background border border-border px-3 py-2 text-xs text-foreground/70 flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-foreground/30 shrink-0"></span>Total Agents Called</div>
+                  <div class="rounded-[10px] bg-background border border-border px-3 py-2 text-xs text-foreground/70 flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-foreground/30 shrink-0"></span>Best Performing Agent</div>
+                </div>
+              </div>
+
+              <!-- Module 2 -->
+              <div class="p-5 sm:p-6">
+                <div class="flex items-center gap-3 mb-4">
+                  <div class="h-9 w-9 flex shrink-0 items-center justify-center rounded-full bg-[#d7e9ff]/80 border border-black/10 text-lg">
+                    <i class="ri-pie-chart-2-line text-foreground/70"></i>
+                  </div>
+                  <p class="font-archivo font-semibold">Powerful Call Analytics Module</p>
+                </div>
+                <p class="text-sm text-muted mb-3">Deeper insights into call performance, organized into five dedicated views for full analytical coverage.</p>
+                <div class="space-y-2">
+                  <div class="rounded-[10px] bg-background border border-border px-3 py-2 text-xs text-foreground/70 flex items-center justify-between">
+                    <span class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-green-400 shrink-0"></span>Incoming Call Analytics</span>
+                    <span class="text-muted text-[0.65rem] tracking-wide uppercase">Inbound</span>
+                  </div>
+                  <div class="rounded-[10px] bg-background border border-border px-3 py-2 text-xs text-foreground/70 flex items-center justify-between">
+                    <span class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-blue-400 shrink-0"></span>Outgoing Call Analytics</span>
+                    <span class="text-muted text-[0.65rem] tracking-wide uppercase">Outbound</span>
+                  </div>
+                  <div class="rounded-[10px] bg-background border border-border px-3 py-2 text-xs text-foreground/70 flex items-center justify-between">
+                    <span class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-red-400 shrink-0"></span>Missed Call Analytics</span>
+                    <span class="text-muted text-[0.65rem] tracking-wide uppercase">Missed</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </section>
+
+        <!-- Narrow content -->
+        <div class="max-w-narrow mgauto">
+
+          <!-- Problem -->
+          <section class="mb-10 sm:mb-12">
+            <h2 class="font-archivo text-[1.4rem] sm:text-[1.6rem] font-semibold tracking-tight">Problem</h2>
+            <h3 class="mt-3 font-archivo text-[1.1rem] sm:text-[1.2rem] font-semibold">Sales managers were flying blind — basic metrics existed but no one could act on them fast enough</h3>
+            <p class="mt-3 text-[1rem] leading-relaxed text-muted">
+              CallHippo is a cloud-based business phone system used by sales and support teams to manage inbound and outbound calls globally. As the product evolved and customer data increased, the existing dashboard struggled to communicate key call insights effectively.
+            </p>
+            <p class="mt-4 text-[1rem] leading-relaxed text-muted">
+              Users had difficulty understanding call performance, identifying missed opportunities, and tracking agent activity. The typical workflow meant navigating across multiple screens, correlating data manually, and still walking away without a clear picture of what was actually happening.
+            </p>
+            <p class="mt-4 text-[1rem] leading-relaxed text-muted">
+              The result: sales managers and operations teams were unable to quickly understand call performance or make data-driven decisions. Missed calls went unanalyzed. Agent performance trends stayed invisible. The system produced data without producing insight.
+            </p>
+          </section>
+
+          <!-- Why This Problem -->
+          <section class="mb-10 sm:mb-12">
+            <h2 class="font-archivo text-[1.4rem] sm:text-[1.6rem] font-semibold tracking-tight">Why This Problem? — Auditing the Existing Dashboard</h2>
+            <p class="mt-3 text-[1rem] leading-relaxed text-muted">
+              Before moving to solutions, I analyzed feedback from sales managers, call center supervisors, and support team leaders who used CallHippo daily. Patterns across roles were consistent and pointed to the same root cause: data existed, but it wasn't organized in a way that enabled decisions.
+            </p>
+
+            <h3 class="mt-7 font-archivo text-[1.1rem] sm:text-[1.2rem] font-semibold">Two distinct roles — each with a different relationship to call data</h3>
+            <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div class="rounded-[18px] border border-black/30 bg-[#ffe7a8] shadow-[0_12px_30px_rgba(0,0,0,0.08)] overflow-hidden">
+                <div class="px-5 pt-4">
+                  <div class="flex items-center justify-between gap-2">
+                    <span class="h-[14px] w-[14px] rounded-full bg-background border border-black/25"></span>
+                    <span class="h-[14px] w-[14px] rounded-full bg-background border border-black/25"></span>
+                    <span class="h-[14px] w-[14px] rounded-full bg-background border border-black/25"></span>
+                    <span class="h-[14px] w-[14px] rounded-full bg-background border border-black/25"></span>
+                    <span class="h-[14px] w-[14px] rounded-full bg-background border border-black/25"></span>
+                    <span class="h-[14px] w-[14px] rounded-full bg-background border border-black/25"></span>
+                    <span class="h-[14px] w-[14px] rounded-full bg-background border border-black/25"></span>
+                    <span class="h-[14px] w-[14px] rounded-full bg-background border border-black/25"></span>
+                  </div>
+                </div>
+                <div class="px-5 pt-3 pb-6 text-center">
+                  <div class="mx-auto h-20 w-20 rounded-full bg-[#f7b3d6] border border-black/10 flex items-center justify-center">
+                    <span class="font-archivo text-[1.25rem] font-semibold">SM</span>
+                  </div>
+                  <p class="mt-4 font-archivo text-[1.05rem] sm:text-[1.1rem] font-semibold">Sales Manager</p>
+                  <p class="mt-3 text-sm leading-relaxed text-foreground/80 italic">"I need to know how my team is performing on calls — but the dashboard just gives me a pile of numbers. I can't tell if we're trending up or down without building my own spreadsheet."</p>
+                </div>
+              </div>
+
+              <div class="rounded-[18px] border border-black/30 bg-[#d7e9ff] shadow-[0_12px_30px_rgba(0,0,0,0.08)] overflow-hidden text-center">
+                <div class="px-5 pt-4">
+                  <div class="flex items-center justify-between gap-2">
+                    <span class="h-[14px] w-[14px] rounded-full bg-background border border-black/25"></span>
+                    <span class="h-[14px] w-[14px] rounded-full bg-background border border-black/25"></span>
+                    <span class="h-[14px] w-[14px] rounded-full bg-background border border-black/25"></span>
+                    <span class="h-[14px] w-[14px] rounded-full bg-background border border-black/25"></span>
+                    <span class="h-[14px] w-[14px] rounded-full bg-background border border-black/25"></span>
+                    <span class="h-[14px] w-[14px] rounded-full bg-background border border-black/25"></span>
+                    <span class="h-[14px] w-[14px] rounded-full bg-background border border-black/25"></span>
+                    <span class="h-[14px] w-[14px] rounded-full bg-background border border-black/25"></span>
+                  </div>
+                </div>
+                <div class="px-5 pt-3 pb-6">
+                  <div class="mx-auto h-20 w-20 rounded-full bg-[#f7b3d6] border border-black/10 flex items-center justify-center">
+                    <span class="font-archivo text-[1.25rem] font-semibold">TL</span>
+                  </div>
+                  <p class="mt-4 font-archivo text-[1.05rem] sm:text-[1.1rem] font-semibold">Support Team Lead</p>
+                  <p class="mt-3 text-sm leading-relaxed text-foreground/80 italic">"We're missing calls and I don't know why — is it after hours? Are agents unavailable? Was it abandoned in IVR? The dashboard doesn't tell me any of that. I only find out when a customer complains."</p>
+                </div>
+              </div>
+            </div>
+
+          </section>
+
+          <!-- Research Insights -->
+          <section class="mb-10 sm:mb-12">
+            <h2 class="font-archivo text-[1.4rem] sm:text-[1.6rem] font-semibold tracking-tight">Research — Understanding Each Role's Real Pain</h2>
+            <p class="mt-3 text-[1rem] leading-relaxed text-muted">
+              I analyzed feedback from users across three job functions — sales managers, call center supervisors, and support team leaders. The patterns were consistent and pointed to the same structural gap: the dashboard displayed data but was never designed to support decisions.
+            </p>
+
+            <div
+              class="mt-6 rounded-[22px] border border-border bg-white/75 overflow-hidden"
+              style="background-image: linear-gradient(to right, rgba(0,0,0,0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.04) 1px, transparent 1px); background-size: 44px 44px;"
+            >
+              <div class="grid grid-cols-1 sm:grid-cols-2 auto-rows-fr">
+
+                <div class="p-5 sm:p-6 border-b sm:border-b-0 sm:border-r border-border flex flex-col">
+                  <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Insight 01</p>
+                  <div class="mt-4 p-2 flex-1 flex">
+                    <div class="relative w-full h-full bg-[#ffd6ea] border-2 border-black/30 rounded-[14px] px-5 pt-9 pb-6 shadow-[0_12px_28px_rgba(0,0,0,0.10)] flex flex-col justify-center">
+                      <span class="absolute top-3 left-3 h-[14px] w-[14px] rounded-full bg-background border-2 border-black/30"></span>
+                      <p class="font-archivo font-semibold text-center">Poor information hierarchy made every insight require effort to find.</p>
+                      <p class="mt-3 text-sm leading-relaxed text-foreground/80 text-center">Metrics were presented without proper prioritization. The most important signals — missed calls, talk time, agent performance — were buried alongside low-value data.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="p-5 sm:p-6 border-b sm:border-b-0 border-border flex flex-col">
+                  <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Insight 02</p>
+                  <div class="mt-4 p-2 flex-1 flex">
+                    <div class="relative w-full h-full bg-[#d9f7c7] border-2 border-black/30 rounded-[14px] px-5 pt-9 pb-6 shadow-[0_12px_28px_rgba(0,0,0,0.10)] flex flex-col justify-center">
+                      <span class="absolute top-3 left-3 h-[14px] w-[14px] rounded-full bg-background border-2 border-black/30"></span>
+                      <p class="font-archivo font-semibold text-center">Managers needed inbound and outbound separated — not aggregated.</p>
+                      <p class="mt-3 text-sm leading-relaxed text-foreground/80 text-center">Sales teams and support teams had fundamentally different questions. One view that served both ended up serving neither — each role was constantly filtering out data irrelevant to them.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="p-5 sm:p-6 border-t border-b sm:border-t-0 sm:border-b-0 sm:border-r border-border flex flex-col">
+                  <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Insight 03</p>
+                  <div class="mt-4 p-2 flex-1 flex">
+                    <div class="relative w-full h-full bg-[#ffe7a8] border-2 border-black/30 rounded-[14px] px-5 pt-9 pb-6 shadow-[0_12px_28px_rgba(0,0,0,0.10)] flex flex-col justify-center">
+                      <span class="absolute top-3 left-3 h-[14px] w-[14px] rounded-full bg-background border-2 border-black/30"></span>
+                      <p class="font-archivo font-semibold text-center">Missed calls were a silent revenue leak with no tooling to diagnose them.</p>
+                      <p class="mt-3 text-sm leading-relaxed text-foreground/80 text-center">Teams knew they were missing calls. They had no way to identify whether the cause was staffing, routing, IVR design, or business hours — so the same issues recurred.</p>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </section>
+
+          <!-- User Flow -->
+          <section class="mb-10 sm:mb-12">
+            <h2 class="font-archivo text-[1.4rem] sm:text-[1.6rem] font-semibold tracking-tight">Information Architecture</h2>
+            <p class="mt-3 text-[1rem] leading-relaxed text-muted">
+              Before designing any screen, I mapped how the two key roles would move through the redesigned system — from the main dashboard to the specific analytics views they each needed. This mapping revealed a two-tier structure: a simplified main dashboard for quick daily checks, and a dedicated analytics module for deeper investigation.
+            </p>
+
+            <div
+              class="mt-6 rounded-[22px] border border-border bg-white/75 overflow-hidden"
+              style="
+                background-image: linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px),
+                  linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px);
+                background-size: 44px 44px;
+              "
+            >
+              <!-- Sales Manager lane -->
+              <div class="px-5 sm:px-7 pt-6 pb-4">
+                <span class="inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1 text-[0.72rem] uppercase tracking-[0.18em] text-muted">
+                  <span class="h-2 w-2 rounded-full bg-[#ffe7a8]"></span>
+                  Sales Manager
+                </span>
+                <div class="mt-4 flex flex-wrap items-center gap-2">
+                  <span class="rounded-full bg-[#ffe7a8]/70 border border-black/10 px-3 py-1.5 text-[0.82rem] font-medium">Opens Dashboard</span>
+                  <span class="text-muted/40 text-sm">→</span>
+                  <span class="rounded-full bg-[#ffe7a8]/70 border border-black/10 px-3 py-1.5 text-[0.82rem] font-medium">Scans Key Metrics</span>
+                  <span class="text-muted/40 text-sm">→</span>
+                  <span class="rounded-full bg-[#ffe7a8]/70 border border-black/10 px-3 py-1.5 text-[0.82rem] font-medium">Opens Outgoing Analytics</span>
+                  <span class="text-muted/40 text-sm">→</span>
+                  <span class="rounded-full bg-[#bff2c3]/70 border border-black/10 px-3 py-1.5 text-[0.82rem] font-medium font-archivo">Identifies Performance Trends ✓</span>
+                </div>
+              </div>
+
+              <!-- Connector -->
+              <div class="flex items-center justify-center py-1">
+                <div class="flex flex-col items-center gap-1 text-muted/40">
+                  <div class="h-4 w-px bg-border"></div>
+                  <svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M6 10L0 0h12L6 10z" fill="currentColor"/></svg>
+                </div>
+              </div>
+
+              <!-- Support Team Lead lane -->
+              <div class="px-5 sm:px-7 pt-2 pb-6">
+                <span class="inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1 text-[0.72rem] uppercase tracking-[0.18em] text-muted">
+                  <span class="h-2 w-2 rounded-full bg-[#cbe9ff]"></span>
+                  Support Team Lead
+                </span>
+                <div class="mt-4 flex flex-wrap items-center gap-2">
+                  <span class="rounded-full bg-[#cbe9ff]/70 border border-black/10 px-3 py-1.5 text-[0.82rem] font-medium">Opens Dashboard</span>
+                  <span class="text-muted/40 text-sm">→</span>
+                  <span class="rounded-full bg-[#cbe9ff]/70 border border-black/10 px-3 py-1.5 text-[0.82rem] font-medium">Views Missed Call Count</span>
+                  <span class="text-muted/40 text-sm">→</span>
+                  <span class="rounded-full bg-[#cbe9ff]/70 border border-black/10 px-3 py-1.5 text-[0.82rem] font-medium">Opens Missed Call Analytics</span>
+                  <span class="text-muted/40 text-sm">→</span>
+                  <span class="rounded-full bg-[#cbe9ff]/70 border border-black/10 px-3 py-1.5 text-[0.82rem] font-medium">Diagnoses Root Cause</span>
+                  <span class="text-muted/40 text-sm">→</span>
+                  <span class="rounded-full bg-[#bff2c3]/70 border border-black/10 px-3 py-1.5 text-[0.82rem] font-medium font-archivo">Adjusts Routing / Staffing ✓</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Key decision callout -->
+            <div class="mt-4 relative rounded-[18px] border border-border bg-background/70 px-4 sm:px-5 py-4 flex items-start gap-3">
+              <div class="mt-0.5 h-7 w-7 flex shrink-0 items-center justify-center rounded-full bg-highlight/10 border border-highlight/60 text-highlight text-base" aria-hidden="true">
+                <i class="ri-sparkling-line"></i>
+              </div>
+              <div>
+                <p class="font-archivo font-semibold">Key Design Decision from This Mapping</p>
+                <p class="mt-1.5 text-sm text-muted">
+                  Mapping both paths together clarified that the main dashboard and the analytics module had different jobs. The dashboard had to answer "how are we doing?" in seconds. The analytics module had to answer "why?" — supporting investigation, not just monitoring. Designing these as two distinct but connected layers was the structural decision the entire redesign depended on.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Features -->
+          <section class="mb-10 sm:mb-12">
+            <h2 class="font-archivo text-[1.4rem] sm:text-[1.6rem] font-semibold tracking-tight">Design — Feature by Feature</h2>
+
+            <div class="mt-6 space-y-8">
+
+              <!-- Feature 01 -->
+              <article class="rounded-[22px] border border-border bg-white/75 p-5 sm:p-6">
+                <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Feature 01</p>
+                <h3 class="mt-2 font-archivo text-[1.2rem] font-semibold">Redesigned Main Dashboard</h3>
+                <div class="mt-4 grid grid-cols-1 gap-4">
+                  <!-- Metric card mockup -->
+                  <div class="rounded-[18px] border border-border bg-gradient-to-br from-[#ffe7a8]/30 to-white/80 p-5">
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                      <div class="rounded-[10px] border border-border bg-white p-4">
+                        <p class="text-[0.65rem] uppercase tracking-widest text-muted">Total Calls</p>
+                        <p class="mt-1 font-archivo text-[1.6rem] font-semibold">4,812</p>
+                        <p class="mt-1 text-xs text-green-600">↑ 12% vs last week</p>
+                      </div>
+                      <div class="rounded-[10px] border border-border bg-white p-4">
+                        <p class="text-[0.65rem] uppercase tracking-widest text-muted">Total Inbound</p>
+                        <p class="mt-1 font-archivo text-[1.6rem] font-semibold">2,340</p>
+                        <p class="mt-1 text-xs text-muted">48.6% of total</p>
+                      </div>
+                      <div class="rounded-[10px] border border-border bg-white p-4">
+                        <p class="text-[0.65rem] uppercase tracking-widest text-muted">Total Outbound</p>
+                        <p class="mt-1 font-archivo text-[1.6rem] font-semibold">2,472</p>
+                        <p class="mt-1 text-xs text-muted">51.4% of total</p>
+                      </div>
+                      <div class="rounded-[10px] border border-border bg-white p-4">
+                        <p class="text-[0.65rem] uppercase tracking-widest text-muted">Avg. Talk Time</p>
+                        <p class="mt-1 font-archivo text-[1.6rem] font-semibold">3m 42s</p>
+                        <p class="mt-1 text-xs text-amber-500">↓ 8s vs last week</p>
+                      </div>
+                      <div class="rounded-[10px] border border-border bg-white p-4">
+                        <p class="text-[0.65rem] uppercase tracking-widest text-muted">Agents Active</p>
+                        <p class="mt-1 font-archivo text-[1.6rem] font-semibold">18</p>
+                        <p class="mt-1 text-xs text-muted">of 22 total</p>
+                      </div>
+                      <div class="rounded-[10px] border border-border bg-white p-4">
+                        <p class="text-[0.65rem] uppercase tracking-widest text-muted">Top Performer</p>
+                        <p class="mt-1 font-archivo text-[1.1rem] font-semibold">A. Sharma</p>
+                        <p class="mt-1 text-xs text-green-600">312 calls this week</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <p class="font-archivo font-semibold">The Problem it solves</p>
+                    <p class="mt-2 text-sm text-muted">The original dashboard presented metrics without prioritization — everything appeared equally important, which meant nothing stood out. Managers opening the dashboard at the start of the day couldn't immediately assess team activity or performance. Every insight required manual effort to extract.</p>
+                  </div>
+                  <div>
+                    <p class="font-archivo font-semibold">Design Decisions</p>
+                    <p class="mt-2 text-sm text-muted">The redesigned dashboard surfaces six core metrics at the top level: Total Calls, Total Inbound, Total Outbound, Average Call Talk Time, Total Agents Called, and Best Performing Agent. These were selected based on what managers checked first in every session observed. Card-based layout with clear typography hierarchy lets the eye move quickly — number first, label second, context third. The goal was for a manager opening the dashboard to understand the day's call picture in under ten seconds, without clicking anything.</p>
+                  </div>
+                  <div class="relative rounded-[18px] border border-border bg-background/70 px-4 sm:px-5 py-4 flex items-start gap-3">
+                    <div class="mt-0.5 h-7 w-7 flex shrink-0 items-center justify-center rounded-full bg-highlight/10 border border-highlight/60 text-highlight text-base"><i class="ri-sparkling-line"></i></div>
+                    <div>
+                      <p class="font-archivo font-semibold">Impact</p>
+                      <p class="mt-1.5 text-sm text-muted">Managers now open the dashboard and have their first question answered before they've clicked anything. The dashboard functions as a daily briefing — a starting point that tells you whether everything is normal or whether something needs attention, and then gets out of the way.</p>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Feature 02 -->
+              <article class="rounded-[22px] border border-border bg-white/75 p-5 sm:p-6">
+                <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Feature 02</p>
+                <h3 class="mt-2 font-archivo text-[1.2rem] font-semibold">Incoming &amp; Outgoing Call Analytics</h3>
+                <div class="mt-4 grid grid-cols-1 gap-4">
+
+                  <!-- Chart mockup -->
+                  <div class="rounded-[18px] border border-border bg-gradient-to-br from-[#d7e9ff]/30 to-white/80 p-5">
+                    <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted mb-3">Incoming Call Analytics — This Week</p>
+                    <div class="flex items-end gap-2 h-28">
+                      <div class="flex-1 flex flex-col justify-end gap-0.5">
+                        <div class="bg-green-400/70 rounded-t" style="height:70%"></div>
+                        <div class="bg-red-300/70 rounded-b" style="height:15%"></div>
+                        <p class="text-[0.6rem] text-center text-muted mt-1">Mon</p>
+                      </div>
+                      <div class="flex-1 flex flex-col justify-end gap-0.5">
+                        <div class="bg-green-400/70 rounded-t" style="height:85%"></div>
+                        <div class="bg-red-300/70 rounded-b" style="height:10%"></div>
+                        <p class="text-[0.6rem] text-center text-muted mt-1">Tue</p>
+                      </div>
+                      <div class="flex-1 flex flex-col justify-end gap-0.5">
+                        <div class="bg-green-400/70 rounded-t" style="height:60%"></div>
+                        <div class="bg-red-300/70 rounded-b" style="height:20%"></div>
+                        <p class="text-[0.6rem] text-center text-muted mt-1">Wed</p>
+                      </div>
+                      <div class="flex-1 flex flex-col justify-end gap-0.5">
+                        <div class="bg-green-400/70 rounded-t" style="height:90%"></div>
+                        <div class="bg-red-300/70 rounded-b" style="height:8%"></div>
+                        <p class="text-[0.6rem] text-center text-muted mt-1">Thu</p>
+                      </div>
+                      <div class="flex-1 flex flex-col justify-end gap-0.5">
+                        <div class="bg-green-400/70 rounded-t" style="height:75%"></div>
+                        <div class="bg-red-300/70 rounded-b" style="height:18%"></div>
+                        <p class="text-[0.6rem] text-center text-muted mt-1">Fri</p>
+                      </div>
+                      <div class="flex-1 flex flex-col justify-end gap-0.5">
+                        <div class="bg-green-400/70 rounded-t" style="height:40%"></div>
+                        <div class="bg-red-300/70 rounded-b" style="height:12%"></div>
+                        <p class="text-[0.6rem] text-center text-muted mt-1">Sat</p>
+                      </div>
+                    </div>
+                    <div class="mt-3 flex items-center gap-4 text-xs text-muted">
+                      <span class="flex items-center gap-1.5"><span class="h-2.5 w-2.5 rounded-sm bg-green-400/70"></span>Answered</span>
+                      <span class="flex items-center gap-1.5"><span class="h-2.5 w-2.5 rounded-sm bg-red-300/70"></span>Missed</span>
+                    </div>
+                  </div>
+
+                  <div>
+                    <p class="font-archivo font-semibold">The Problem it solves</p>
+                    <p class="mt-2 text-sm text-muted">The original system had no separation between inbound and outbound analytics — both were aggregated into a single view that was useful to neither role. Sales teams evaluating outbound campaign success and support leads monitoring inbound handling were both navigating the same undifferentiated data pool.</p>
+                  </div>
+                  <div>
+                    <p class="font-archivo font-semibold">Design Decisions</p>
+                    <p class="mt-2 text-sm text-muted">The analytics module introduces dedicated views for incoming and outgoing calls — each with its own set of role-relevant metrics. Incoming analytics surfaces Total Incoming, Missed, Answered, Rejected, and Average Talk Time. Outgoing analytics surfaces Total Outgoing, Connected, Rejected, Not Answered, and Average Outgoing Talk Time. Stacked bar charts visualize call outcomes across time, making it immediately clear whether answered rates are improving or declining without requiring the user to calculate anything. Segmented metrics replace raw totals — so "2,340 inbound calls" becomes a breakdown that shows the full picture of what happened to those calls.</p>
+                  </div>
+                  <div class="relative rounded-[18px] border border-border bg-background/70 px-4 sm:px-5 py-4 flex items-start gap-3">
+                    <div class="mt-0.5 h-7 w-7 flex shrink-0 items-center justify-center rounded-full bg-highlight/10 border border-highlight/60 text-highlight text-base"><i class="ri-sparkling-line"></i></div>
+                    <div>
+                      <p class="font-archivo font-semibold">Impact</p>
+                      <p class="mt-1.5 text-sm text-muted">Sales managers can now evaluate outbound campaign performance trend-by-trend. Support leads can review inbound handling quality without filtering out irrelevant outbound data. Each role sees exactly what they need — and the visualization does the interpretation work for them.</p>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Feature 03 -->
+              <article class="rounded-[22px] border border-border bg-white/75 p-5 sm:p-6">
+                <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Feature 03</p>
+                <h3 class="mt-2 font-archivo text-[1.2rem] font-semibold">Missed Call Analytics</h3>
+                <div class="mt-4 grid grid-cols-1 gap-4">
+                  <!-- Missed call breakdown mockup -->
+                  <div class="rounded-[18px] border border-border bg-gradient-to-br from-[#ffd6ea]/20 to-white/80 p-5">
+                    <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted mb-4">Why Were Calls Missed?</p>
+                    <div class="space-y-2.5">
+                      <div>
+                        <div class="flex justify-between text-xs mb-1">
+                          <span class="text-foreground/80">Not answered by agent</span>
+                          <span class="font-medium">38%</span>
+                        </div>
+                        <div class="h-2 bg-border rounded-full overflow-hidden">
+                          <div class="h-full bg-red-400/70 rounded-full" style="width:38%"></div>
+                        </div>
+                      </div>
+                      <div>
+                        <div class="flex justify-between text-xs mb-1">
+                          <span class="text-foreground/80">All agents unavailable</span>
+                          <span class="font-medium">27%</span>
+                        </div>
+                        <div class="h-2 bg-border rounded-full overflow-hidden">
+                          <div class="h-full bg-orange-400/70 rounded-full" style="width:27%"></div>
+                        </div>
+                      </div>
+                      <div>
+                        <div class="flex justify-between text-xs mb-1">
+                          <span class="text-foreground/80">Abandoned during welcome message</span>
+                          <span class="font-medium">18%</span>
+                        </div>
+                        <div class="h-2 bg-border rounded-full overflow-hidden">
+                          <div class="h-full bg-amber-400/70 rounded-full" style="width:18%"></div>
+                        </div>
+                      </div>
+                      <div>
+                        <div class="flex justify-between text-xs mb-1">
+                          <span class="text-foreground/80">Abandoned in IVR</span>
+                          <span class="font-medium">12%</span>
+                        </div>
+                        <div class="h-2 bg-border rounded-full overflow-hidden">
+                          <div class="h-full bg-yellow-400/70 rounded-full" style="width:12%"></div>
+                        </div>
+                      </div>
+                      <div>
+                        <div class="flex justify-between text-xs mb-1">
+                          <span class="text-foreground/80">Outside business hours</span>
+                          <span class="font-medium">5%</span>
+                        </div>
+                        <div class="h-2 bg-border rounded-full overflow-hidden">
+                          <div class="h-full bg-green-300/70 rounded-full" style="width:5%"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <p class="font-archivo font-semibold">The Problem it solves</p>
+                    <p class="mt-2 text-sm text-muted">Missed calls represent lost revenue and damaged customer relationships — but the previous dashboard only showed a total count. Teams knew they were missing calls; they had no way to understand why. Without root-cause data, every intervention was a guess. Routing changes, staffing adjustments, and IVR redesigns were made without evidence.</p>
+                  </div>
+                  <div>
+                    <p class="font-archivo font-semibold">Design Decisions</p>
+                    <p class="mt-2 text-sm text-muted">The Missed Call Analytics view breaks down missed calls into five distinct reasons: not answered by agent, all agents unavailable, abandoned during welcome message, abandoned in IVR, and outside business hours. Each reason maps directly to a different operational fix — staffing, routing configuration, IVR design, or schedule adjustment. The visualization uses segmented horizontal bars to communicate relative proportions at a glance, making it immediately clear which reason is dominant without requiring mental arithmetic.</p>
+                  </div>
+                  <div class="relative rounded-[18px] border border-border bg-background/70 px-4 sm:px-5 py-4 flex items-start gap-3">
+                    <div class="mt-0.5 h-7 w-7 flex shrink-0 items-center justify-center rounded-full bg-highlight/10 border border-highlight/60 text-highlight text-base"><i class="ri-sparkling-line"></i></div>
+                    <div>
+                      <p class="font-archivo font-semibold">Impact</p>
+                      <p class="mt-1.5 text-sm text-muted">Teams can now see not just how many calls they missed, but why — and act on the right lever. A team missing calls because agents are unavailable needs a staffing fix. A team losing callers in the IVR needs a flow redesign. The data now points directly to the intervention.</p>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+            </div>
+          </section>
+
+          <!-- Results -->
+          <section class="mb-10 sm:mb-12">
+            <h2 class="font-archivo text-[1.4rem] sm:text-[1.6rem] font-semibold tracking-tight">Results</h2>
+
+            <!-- Metric cards -->
+            <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="rounded-[18px] border border-border bg-white/70 p-5">
+                <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Time to Performance Insight</p>
+                <p class="mt-2 font-archivo text-[1.6rem] font-semibold tracking-tight">Minutes → Seconds</p>
+                <p class="mt-1 text-sm text-muted">Managers now understand call activity at a glance — without navigating multiple screens</p>
+              </div>
+              <div class="rounded-[18px] border border-border bg-white/70 p-5">
+                <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Missed Call Root Causes Visible</p>
+                <p class="mt-2 font-archivo text-[1.6rem] font-semibold tracking-tight">0 → 5 Reasons</p>
+                <p class="mt-1 text-sm text-muted">Teams can now diagnose and act on the specific cause of missed calls — not just count them</p>
+              </div>
+              <div class="rounded-[18px] border border-border bg-white/70 p-5">
+                <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Analytics Depth</p>
+                <p class="mt-2 font-archivo text-[1.6rem] font-semibold tracking-tight">1 View → 3 Views</p>
+                <p class="mt-1 text-sm text-muted">Dedicated analytics modules for inbound, outbound, and missed call data</p>
+              </div>
+            </div>
+
+            <p class="mt-6 text-[1rem] leading-relaxed text-muted">
+              The redesigned dashboard transformed CallHippo from a data-display tool into a decision-support system. The main dashboard now functions as a daily briefing — six high-priority metrics that answer the most common managerial questions before anyone has clicked anything.
+            </p>
+
+            <p class="mt-4 text-[1rem] leading-relaxed text-muted">
+              The Call Analytics module gave teams something they didn't have before: a structured path from question to answer. Missed call reasons, inbound trends, and outbound performance are now accessible without navigating across disconnected screens or building manual reports.
+            </p>
+
+            <p class="mt-4 text-[1rem] leading-relaxed text-muted">
+              One outcome beyond the original scope: the analytics module became a tool for new manager onboarding. A manager joining the team could open the dashboard on day one and immediately understand how the team was performing — without needing to be taught which screens to navigate or how to interpret raw call logs. Structured visibility compresses onboarding in ways that documentation and training cannot.
+            </p>
+          </section>
+
+          <!-- Learnings -->
+          <section class="mb-14">
+            <h2 class="font-archivo text-[1.4rem] sm:text-[1.6rem] font-semibold tracking-tight">What I Learned</h2>
+            <ol class="mt-4 space-y-4">
+              <li class="rounded-[18px] border border-border bg-white/70 p-4">
+                <p class="font-archivo font-semibold">1. Data-heavy interfaces require strong information hierarchy — not more data.</p>
+                <p class="mt-2 text-sm text-muted">The original dashboard wasn't missing data. It was missing structure. Adding more metrics to a poorly organized view would have made the problem worse. The redesign improved usability not by showing more, but by deciding what mattered most and designing around that priority.</p>
+              </li>
+              <li class="rounded-[18px] border border-border bg-white/70 p-4">
+                <p class="font-archivo font-semibold">2. Visualizations must communicate insight, not just represent data.</p>
+                <p class="mt-2 text-sm text-muted">A stacked bar chart communicates "how did answered vs. missed calls trend this week?" A raw table of daily totals requires the user to calculate the same thing manually. Choosing the right visualization format is the difference between a chart that creates insight and one that just transfers data.</p>
+              </li>
+              <li class="rounded-[18px] border border-border bg-white/70 p-4">
+                <p class="font-archivo font-semibold">3. Analytics tools should prioritize decision-making, not just data display.</p>
+                <p class="mt-2 text-sm text-muted">Every feature in the analytics module was designed around a specific decision it needed to support — not around the data that was available. "Why are calls being missed?" is a decision question. "How many calls were missed?" is just a number. Designing for the decision determines what data to surface and how to structure it.</p>
+              </li>
+              <li class="rounded-[18px] border border-border bg-white/70 p-4">
+                <p class="font-archivo font-semibold">4. Collaboration with engineering is critical — especially for data-driven products.</p>
+                <p class="mt-2 text-sm text-muted">Designing analytics features without engineering alignment risks building visualizations that can't be efficiently powered by the underlying data model. Working alongside engineers from the start meant the designs were grounded in what was technically feasible — and that tradeoffs were made intentionally rather than discovered at handoff.</p>
+              </li>
+            </ol>
+          </section>
+
+          <!-- Next Steps -->
+          <section class="mb-10 sm:mb-12">
+            <h2 class="font-archivo text-[1.4rem] sm:text-[1.6rem] font-semibold tracking-tight">Next Steps</h2>
+            <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="rounded-[18px] border border-border bg-white/70 p-4">
+                <div class="flex items-start gap-3">
+                  <div class="mt-0.5 h-9 w-9 flex shrink-0 items-center justify-center rounded-full border border-foreground/20 bg-background text-muted text-lg"><i class="ri-brain-line"></i></div>
+                  <div>
+                    <p class="font-archivo font-semibold">AI-Powered Call Insights</p>
+                    <p class="mt-2 text-sm text-muted">Surface anomalies and recommendations automatically — without managers needing to identify them manually.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="rounded-[18px] border border-border bg-white/70 p-4">
+                <div class="flex items-start gap-3">
+                  <div class="mt-0.5 h-9 w-9 flex shrink-0 items-center justify-center rounded-full border border-foreground/20 bg-background text-muted text-lg"><i class="ri-line-chart-line"></i></div>
+                  <div>
+                    <p class="font-archivo font-semibold">Predictive Analytics</p>
+                    <p class="mt-2 text-sm text-muted">Forecast call volume and agent demand based on historical patterns to enable proactive staffing decisions.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="rounded-[18px] border border-border bg-white/70 p-4">
+                <div class="flex items-start gap-3">
+                  <div class="mt-0.5 h-9 w-9 flex shrink-0 items-center justify-center rounded-full border border-foreground/20 bg-background text-muted text-lg"><i class="ri-user-star-line"></i></div>
+                  <div>
+                    <p class="font-archivo font-semibold">Agent Performance Benchmarking</p>
+                    <p class="mt-2 text-sm text-muted">Compare individual agent metrics against team baselines to identify coaching opportunities and top performers.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="rounded-[18px] border border-border bg-white/70 p-4">
+                <div class="flex items-start gap-3">
+                  <div class="mt-0.5 h-9 w-9 flex shrink-0 items-center justify-center rounded-full border border-foreground/20 bg-background text-muted text-lg"><i class="ri-layout-masonry-line"></i></div>
+                  <div>
+                    <p class="font-archivo font-semibold">Customizable Dashboards</p>
+                    <p class="mt-2 text-sm text-muted">Let managers configure their own metric views — so the dashboard surfaces what matters most to their specific team.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Meta -->
+          <section class="mb-2">
+            <div class="rounded-[22px] border border-border bg-white/75 p-5 sm:p-6">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-muted">
+                <div>
+                  <p class="font-archivo font-semibold text-foreground">Role</p>
+                  <p>Lead Product Designer</p>
+                </div>
+                <div>
+                  <p class="font-archivo font-semibold text-foreground">Collaborators</p>
+                  <p>PM, 2 Engineers, QA</p>
+                </div>
+                <div>
+                  <p class="font-archivo font-semibold text-foreground">Responsibilities</p>
+                  <p>UX Research, Product Strategy, UI Design, Design System, Front-end Collaboration</p>
+                </div>
+                <div>
+                  <p class="font-archivo font-semibold text-foreground">Duration</p>
+                  <p>8–10 Weeks</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-14 border-t border-border pt-8 text-xs text-muted">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <p>© 2026</p>
+            <p class="font-archivo tracking-[0.22em] uppercase">Case Study</p>
+          </div>
+        </footer>
+
+      </div>
+    </div>
+  </body>
+</html>
