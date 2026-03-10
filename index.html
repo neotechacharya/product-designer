@@ -1,415 +1,963 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="robots" content="noindex, nofollow" />
-    <title>Jigar Acharya - Product Designer</title>
-    <meta
-      name="description"
-      content="Jigar Acharya's portfolio."
-    />
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16x16.png">
+<html lang="en" dir="ltr">
 
-    <link rel="stylesheet" href="style.css">
-    <!-- Tailwind via CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              display: ['"Bricolage Grotesque"', "system-ui", "sans-serif"],
-              sans: ['"Figtree"', '"DM Sans"', '"Inter"', "system-ui", "sans-serif"],
-              archivo: ['"Archivo"', '"Archivo Placeholder"', "system-ui", "sans-serif"],
-            },
-            colors: {
-              background: "#f6eee3", // closer to original warm beige
-              foreground: "#14110f",
-              muted: "#6c665d",
-              accent: "#14110f",
-              border: "#ded5c7",
-              highlight: "#ffb457", // nav pill + accent
-            },
-            maxWidth: {
-              content: "1100px",
-            },
-            boxShadow: {
-              soft: "0 18px 60px rgba(0,0,0,0.08)",
-            },
-          },
-        },
-      };
-    </script>
+<head>
+  <meta charset="UTF-8">
 
-    <script>
-      function toggleMobileMenu() {
-        const menu = document.getElementById('mobileMenu');
-        menu.classList.toggle('hidden');
+  <!-- Page Title -->
+  <title>Jigar Acharya — Product Designer</title>
+
+  <!-- Meta Tags -->
+  <meta name="description"
+    content="Jigar Acharya is a Lead Product Designer specializing in AI and SaaS platforms. Explore case studies, projects, and design work focused on B2B products, user experience, and design systems.">
+  <meta name="keywords"
+    content="Jigar Acharya, Product Designer, UI UX Designer, SaaS Design, AI Product Design, Design Systems, B2B Product Design, Portfolio">
+  <meta name="author" content="Jigar Acharya">
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Viewport Meta-->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- Template Favicon & Icons Start -->
+  <link rel="icon" href="img/favicon/favicon.ico" sizes="any">
+ <!--- <link rel="icon" href="img/favicon/icon.svg" type="image/svg+xml">-->
+  <link rel="apple-touch-icon" href="img/favicon/apple-touch-icon.png">
+ <!-- <link rel="manifest" href="img/favicon/manifest.webmanifest">-->
+  <!-- Template Favicon & Icons End -->
+
+  <!-- Open Graph / Social Metadata Start -->
+  <meta property="og:type" content="website">
+  <meta property="og:image:height" content="1200">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:title" content="Jigar Acharya — Product Designer">
+  <meta property="og:description"
+    content="Jigar Acharya is a Lead Product Designer specializing in AI and SaaS platforms. Explore case studies, projects, and design work focused on B2B products, user experience, and design systems.">
+  <meta property="og:url" content="">
+  <meta property="og:image" content="">
+  <!-- Open Graph / Social Metadata End -->
+
+  <!-- Template Styles Start -->
+  <link rel="stylesheet" type="text/css" href="css/loaders/loader.css">
+  <link rel="stylesheet" type="text/css" href="css/plugins.css">
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+  <!-- Template Styles End -->
+
+  <!-- Custom Browser Color Start -->
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FAF7F6">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#161616">
+  <meta name="msapplication-navbutton-color" content="#161616">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Custom Browser Color End -->
+
+  <!-- Selected Projects Case Study Card Styles Start -->
+  <style>
+    .mxd-casestudy-card {
+      background: rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: var(--_radius-l);
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+      transition: box-shadow 0.5s cubic-bezier(0.23, 0.65, 0.74, 1.09), transform 0.5s cubic-bezier(0.23, 0.65, 0.74, 1.09), border-color 0.5s ease;
+      display: block;
+      text-decoration: none;
+    }
+
+    .mxd-casestudy-card:hover {
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1), 0 4px 16px rgba(0, 0, 0, 0.06);
+      transform: perspective(1000px) rotateX(1deg) rotateY(-1deg) translateY(-3px);
+      border-color: rgba(255, 255, 255, 0.8);
+    }
+
+    .mxd-casestudy-card__btn {
+      margin-top: 2.4rem;
+    }
+
+    .mxd-casestudy-card__btn .btn {
+      font-size: 1.3rem;
+      padding: 0.8rem 2rem;
+      min-height: auto;
+    }
+
+    .mxd-casestudy-card__inner {
+      display: flex;
+      align-items: center;
+      gap: 4rem;
+      padding: 4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .mxd-casestudy-card__media {
+      flex: 1 1 50%;
+      min-width: 0;
+    }
+
+    .mxd-casestudy-card__media img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 22px;
+    }
+
+    .mxd-casestudy-card__content {
+      flex: 1 1 45%;
+      min-width: 0;
+    }
+
+    .mxd-casestudy-card__label {
+      font-family: var(--_font-default);
+      font-size: 1.2rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #7C7C7C;
+      margin-bottom: 1rem;
+    }
+
+    .mxd-casestudy-card__title {
+      font-family: var(--_font-accent);
+      font-size: clamp(2.4rem, 3vw, 3.6rem);
+      font-weight: 700;
+      line-height: 1.2;
+      color: #161616;
+      margin-bottom: 2rem;
+    }
+
+    .mxd-casestudy-card__descr {
+      font-family: var(--_font-default);
+      font-size: 1.6rem;
+      font-weight: 400;
+      line-height: 1.7;
+      color: #535353;
+      margin-bottom: 1rem;
+    }
+
+    .btnhivoer {
+      height: 4.6rem;
+    }
+
+    .mxd-casestudy-card__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+
+    .mxd-casestudy-card__tags .tag-casestudy {
+      display: inline-block;
+      font-family: var(--_font-default);
+      font-size: 1.1rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #535353;
+      border: 1px solid rgba(22, 22, 22, 0.2);
+      border-radius: 5rem;
+      padding: 0.6rem 1.6rem;
+      transition: all var(--_animspeed-medium) ease;
+    }
+
+    .mxd-casestudy-card__tags .tag-casestudy:hover {
+      border-color: rgba(22, 22, 22, 0.5);
+      color: #161616;
+    }
+
+    @media (max-width: 991px) {
+      .mxd-casestudy-card__inner {
+        flex-direction: column;
+        gap: 3rem;
+        padding: 3rem;
       }
-    </script>
-  </head>
 
-  <body class="bg-background text-foreground font-sans">
+      .mxd-casestudy-card__media,
+      .mxd-casestudy-card__content {
+        flex: 1 1 100%;
+        width: 100%;
+      }
+    }
 
-    <!-- Sticky Header -->
-    <div class="sticky top-0 z-50 bg-background border-b border-border">
-      <div class="w-full max-w-content mx-auto max-sm:px-6">
-        <header class="flex items-center justify-between py-5">
-          <span class="font-archivo tracking-[0.26em] text-[0.82rem]">JIGAR ACHARYA</span>
-          <!-- Desktop nav -->
-          <nav class="hidden sm:flex items-center gap-8 text-[0.75rem] font-medium tracking-[0.2em]">
-            <a href="#work" class="px-3 py-1.5 rounded-full bg-highlight text-foreground shadow-sm">WORK</a>
-            <a href="./about.html" class="hover:opacity-100 opacity-70 transition">ABOUT</a>
-            <a href="https://www.linkedin.com/in/jigar-acharya-722232ab/" target="_blank" rel="noreferrer" class="hover:opacity-100 opacity-70 transition">CONTACT</a>
-          </nav>
-          <!-- Hamburger -->
-          <button id="menuToggle" class="sm:hidden flex flex-col gap-1.5 items-center justify-center w-8 h-8" onclick="toggleMobileMenu()" aria-label="Toggle menu">
-            <span class="block w-5 h-0.5 bg-foreground transition-all"></span>
-            <span class="block w-5 h-0.5 bg-foreground transition-all"></span>
-            <span class="block w-5 h-0.5 bg-foreground transition-all"></span>
-          </button>
-        </header>
-      </div>
-      <!-- Mobile dropdown -->
-      <nav id="mobileMenu" class="hidden bg-background border-b border-border">
-        <div class="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col">
-          <a href="#work" class="px-3 py-2.5 font-medium text-[0.75rem] tracking-[0.2em] text-center border-b border-border/50" onclick="toggleMobileMenu()">WORK</a>
-          <a href="./about.html" class="px-3 py-2.5 font-medium text-[0.75rem] tracking-[0.2em] text-center border-b border-border/50 opacity-70" onclick="toggleMobileMenu()">ABOUT</a>
-          <a href="https://www.linkedin.com/in/jigar-acharya-722232ab/" target="_blank" rel="noreferrer" class="px-3 py-2.5 font-medium text-[0.75rem] tracking-[0.2em] text-center opacity-70">CONTACT</a>
+    @media (max-width: 575px) {
+      .mxd-casestudy-card__inner {
+        padding: 2rem;
+        gap: 2rem;
+      }
+
+      .mxd-casestudy-card__title {
+        font-size: 2.2rem;
+      }
+    }
+  </style>
+  <!-- Selected Projects Case Study Card Styles End -->
+
+  <!-- Hero CTA Button Styles Start -->
+  <style>
+    .hero-cta-btn {
+      border-radius: 10rem;
+      padding: 0.6rem 0.6rem 0.6rem 2.4rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 1.6rem;
+      min-height: auto;
+    }
+
+    .hero-cta-btn__label {
+      font-size: 1.5rem;
+    }
+
+    .hero-cta-btn__icon {
+      width: 3.8rem;
+      height: 3.8rem;
+      border: 2px solid black;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+     
+      font-size: 1.4rem;
+    }
+  </style>
+  <!-- Hero CTA Button Styles End -->
+
+  <!-- Minimal Footer Styles Start -->
+  <style>
+    .mxd-footer--minimal {
+      padding: 0;
+      background: transparent;
+      border-top: none;
+    }
+
+    .mxd-footer--minimal .footer-minimal__divider {
+      border-top: 1px solid rgba(0, 0, 0, 0.12);
+      margin: 0 3rem;
+    }
+
+    .mxd-footer--minimal .footer-minimal__bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2.4rem 3rem;
+      font-size: 1.3rem;
+      color: var(--_color-muted, #888);
+    }
+
+    .mxd-footer--minimal .footer-minimal__label {
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 600;
+    }
+  </style>
+  <!-- Minimal Footer Styles End -->
+
+  <!-- Core Expertise Section Styles Start -->
+    <style>
+     
+
+      .expertise-section__headline {
+        font-family: var(--_font-accent);
+        font-size: clamp(3.2rem, 5vw, 5.6rem);
+        font-weight: 600;
+        color: #161616;
+        line-height: 1.1;
+        margin-bottom: 4rem;
+      }
+
+      .expertise-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 3.5rem;
+      }
+
+      .expertise-card {
+       background: rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: var(--_radius-l);
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+      transition: box-shadow 0.5s cubic-bezier(0.23, 0.65, 0.74, 1.09), transform 0.5s cubic-bezier(0.23, 0.65, 0.74, 1.09), border-color 0.5s ease;
+      text-decoration: none;
+        padding: 4rem 3.2rem 3.2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 3.2rem;
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+      }
+
+      .expertise-card:hover {
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.1);
+        transform: translateY(-4px);
+      }
+
+      .expertise-card__icon-wrap {
+        width: 5.6rem;
+        height: 5.6rem;
+        background: transparent;
+        border: 2px solid #161616;
+        border-radius: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .expertise-card__icon-wrap i {
+        font-size: 2.4rem;
+        color: #161616;
+      }
+
+      .expertise-card__body {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .expertise-card__title {
+        font-family: var(--_font-accent);
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #161616;
+        margin: 0;
+        line-height: 1.3;
+      }
+
+      .expertise-card__desc {
+        font-family: var(--_font-default);
+        font-size: 1.6rem;
+        line-height: 1.7;
+        color: #535353;
+        margin: 0;
+      }
+
+      @media (max-width: 991px) {
+        .expertise-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 575px) {
+        .expertise-grid {
+          grid-template-columns: 1fr;
+          gap: 1.6rem;
+        }
+
+        .expertise-card {
+          padding: 2.4rem;
+        }
+      }
+    </style>
+    <!-- Core Expertise Section Styles End -->
+
+</head>
+
+<body>
+
+  <!-- Loader Start -->
+  <div id="loader" class="loader">
+    <div class="loader__wrapper">
+      <div class="loader__content">
+        <div class="loader__count">
+          <span class="count__text">0</span>
+          <span class="count__percent">%</span>
         </div>
-      </nav>
+      </div>
     </div>
+  </div>
+  <!-- Loader End -->
 
-    <!-- Page content -->
-    <div class="flex flex-col items-center px-4 sm:px-6 lg:px-8 pt-14 pb-10">
-      <div class="w-full max-w-content">
+  <!-- Menu & Menu Hamburger Start -->
+  <nav class="mxd-nav__wrap" data-lenis-prevent="">
 
-        <!-- Hero section -->
-        <main class="mb-16 lg:mb-20">
-          <section
-            aria-labelledby="hero-title"
-            class="relative mb-16 sm:mb-20 lg:mb-24"
-          >
-            <!-- sticky tags (match screenshot style) -->
-            <div
-              class="hidden md:block absolute top-[-10px] right-[129px] rotate-[-11deg] bg-[#aee1ff] text-[12px] px-5 py-2.5 rounded-[4px] border-2 border-black shadow-[2px_3px_0_rgba(0,0,0,0.9)] font-archivo cursor-pointer select-none transition-[transform,box-shadow] duration-200 ease-out hover:-translate-y-1 hover:rotate-[-10deg] hover:shadow-[4px_6px_0_rgba(0,0,0,0.9)]"
-              style="transform-origin: 12px 12px"
-            >
-              <span
-                class="absolute top-1.5 left-2.5 h-[14px] w-[14px] rounded-full border-2 border-black bg-background"
-              ></span>
-              <div class="pl-4 leading-[16px] font-bold">
-                Building scalable systems
-                <br />
-                for growth
+    <!-- Hamburger Start -->
+    <div class="mxd-nav__contain loading__fade">
+      <a href="#0" class="mxd-nav__hamburger">
+        <!-- flip element -->
+        <div class="hamburger__base"></div>
+        <div class="hamburger__line"></div>
+        <div class="hamburger__line"></div>
+      </a>
+    </div>
+    <!-- Hamburger End -->
+
+    <!-- Main Navigation Start -->
+     <div class="mxd-menu__wrapper">
+      <!-- background active layer -->
+      <div class="mxd-menu__base"></div>
+      <!-- menu container -->
+      <div class="mxd-menu__contain">
+        <div class="mxd-menu__inner">
+          <!-- left side -->
+          <div class="mxd-menu__left">
+            <p class="mxd-menu__caption menu-fade-in">🦄 Designing thoughtful digital products that solve real user problems.</p>
+            <div class="main-menu">
+              <nav class="main-menu__content">
+                <ul id="main-menu" class="main-menu__accordion">
+                  <li class="main-menu__item">
+                    <a class="main-menu__link btn btn-anim" href="index.html">
+                      <span class="btn-caption">Home</span>
+                    </a>
+                  </li>
+                  <li class="main-menu__item">
+                    <a class="main-menu__link btn btn-anim" href="works-simple.html">
+                      <span class="btn-caption">Works</span>
+                    </a>
+                  </li>
+                  <li class="main-menu__item">
+                    <a class="main-menu__link btn btn-anim" href="contact.html">
+                      <span class="btn-caption">Contact</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+          <!-- right side -->
+          <div class="mxd-menu__right">
+            <div class="menu-promo">
+              <div class="menu-promo__content">
+                <p class="menu-promo__caption menu-fade-in">👋 Nice to see you!<br>I'm Jigar Acharya, A Lead Product Designer specializing in AI and SaaS platforms</p>
+                <div class="menu-promo__video">
+                  <img src="./img/banner/headerbanner.jpg" alt="header video">
+                </div>
               </div>
             </div>
-            <div
-              class="hidden md:block absolute top-[125px] right-[116px] rotate-[5deg] bg-[#ffe7a8] text-[12px] px-6 py-3 rounded-[4px] border-2 border-black shadow-[2px_3px_0_rgba(0,0,0,0.9)] font-archivo cursor-pointer select-none transition-[transform,box-shadow] duration-200 ease-out hover:-translate-y-1 hover:rotate-[6deg] hover:shadow-[4px_6px_0_rgba(0,0,0,0.9)]"
-              style="transform-origin: 12px 12px"
-            >
-              <span
-                class="absolute top-2 left-2.5 h-[14px] w-[14px] rounded-full border-2 border-black bg-background"
-              ></span>
-              <div class="pl-2 leading-[16px] font-bold">
-                Designing the
-                <br />
-                AI future
-              </div>
-            </div>
-
-            <div class="space-y-4 sm:space-y-5 lg:space-y-6">
-              <div class="space-y-0.5 sm:space-y-1 lg:space-y-1.5">
-                <h1
-                  id="hero-title"
-                  class="font-archivo text-[2.8rem] sm:text-[3.3rem] lg:text-[4.9rem] leading-[1.05] font-semibold tracking-tight"
-                >
-                  Hi, I am Jigar Acharya
-                </h1>
-                <h2
-                  class="font-archivo text-[2.8rem] sm:text-[3.3rem] lg:text-[4.9rem] leading-[1.05] font-semibold tracking-tight"
-                >
-                  A lead product designer
-                </h2>
-              </div>
-
-              <p
-                class="clrmmy max-w-2xl text-[20px] max-sm:text-[0.98rem] leading-relaxed"
-              >
-              Lead Product Designer specializing in
-                <span class="font-semibold"> AI and SaaS platforms,</span>
-              driving end-to-end design vision and leading cross-functional teams to deliver measurable business impact.
+          </div>
+          <!-- data bottom line -->
+          <div class="mxd-menu__data menu-fade-in">
+           <p class="t-xsmall">
+          
+                <a class="no-effect" href="mailto:jigaracharya3@gmail.com" target="_blank">jigaracharya3@gmail.com</a>
               </p>
-            </div>
-          </section>
-
-          <!-- Section intro -->
-          <div class="mb-8 sm:mb-10 lg:mb-12">
-            <h2
-              class="font-archivo text-[1.6rem] sm:text-[1.85rem] lg:text-[2rem] font-semibold tracking-tight"
-            >
-            Selected Projects
-            </h2>
-            <p class="mt-1.5 text-[0.95rem] sm:text-[1rem]">
-              Turning complex problems into intuitive experiences
+            <p class="t-xsmall">
+              <i class="ph ph-copyright"></i>
+              Jigar Acharya 2026
             </p>
           </div>
-
-          <!-- Work / Case studies -->
-          <section
-            id="work"
-            aria-label="Selected work"
-            class="grid md:grid-cols-2 gap-x-10 gap-y-16"
-          >
-
-          <a href="./ai-voice-agent.html">
-            <article
-              class="cursor-pointer card-container"
-            >
-              <div
-                class="relative border-2 card-border bg-[#ffe4c0] shadow-soft"
-              >
-                <!-- Corner circles -->
-                <div class="absolute top-[-8px] left-[-8px] w-4 h-4 rounded-full border-2 card-circle bg-background"></div>
-                <div class="absolute top-[-8px] right-[-8px] w-4 h-4 rounded-full border-2 card-circle bg-background"></div>
-                <div class="absolute bottom-[-8px] left-[-8px] w-4 h-4 rounded-full border-2 card-circle bg-background"></div>
-                <div class="absolute bottom-[-8px] right-[-8px] w-4 h-4 rounded-full border-2 card-circle bg-background"></div>
-                <div
-                  class="bg-white card-image"
-                >
-                  <div
-                  class="bg-white card-image"
-                ><img src="assets/img/voice-agent-banner-2.png" alt="AI Voice Agent" class="w-full h-auto" loading="lazy">
-                
-              
-                </div>
-                </div>
-              </div>
-              <div class="mt-5 space-y-2">
-                <h3
-                  class="font-archivo text-[0.98rem] sm:text-[1.02rem] lg:text-[1.06rem] font-semibold leading-snug"
-                >
-                  How I designed an AI voice system that handles every inbound call — automatically, 24/7
-                </h3>
-                   <p
-                  class="text-[0.72rem] uppercase tracking-[0.18em] text-muted"
-                >
-                  CallHippo, AI Voice System
-                </p>
-               
-                <div class="flex flex-wrap gap-2 pt-1">
-                  <span
-                    class="inline-flex rounded-full border border-border px-3 py-1 text-[0.7rem] uppercase tracking-[0.18em]"
-                    >AI VOICE AGENT</span
-                  >
-                  <span
-                    class="inline-flex rounded-full border border-border px-3 py-1 text-[0.7rem] uppercase tracking-[0.18em]"
-                    >SUPPORT CENTER</span
-                  >
-                  <span
-                    class="inline-flex rounded-full border border-border px-3 py-1 text-[0.7rem] uppercase tracking-[0.18em]"
-                    >0–1</span
-                  >
-                </div>
-              </div>
-            </article>
-            </a>
-            <!-- Card 1 -->
-            <a href="./ai-copilot.html">
-            <article
-              class="cursor-pointer card-container"
-            >
-              <div
-                class="relative border-2 card-border bg-[#cbe9ff]  shadow-soft"
-              >
-                <!-- Corner circles -->
-                <div class="absolute top-[-8px] left-[-8px] w-4 h-4 rounded-full border-2 card-circle bg-background"></div>
-                <div class="absolute top-[-8px] right-[-8px] w-4 h-4 rounded-full border-2 card-circle bg-background"></div>
-                <div class="absolute bottom-[-8px] left-[-8px] w-4 h-4 rounded-full border-2 card-circle bg-background"></div>
-                <div class="absolute bottom-[-8px] right-[-8px] w-4 h-4 rounded-full border-2 card-circle bg-background"></div>
-                <div
-                  class="bg-white card-image"
-                ><img src="assets/img/ai-copilot-baner.svg" alt="AI Copilot" class="w-full h-auto" loading="lazy">
-                
-                  <!-- Replace with real screenshot if available -->
-                </div>
-              </div>
-              <div class="mt-5 space-y-2">
-                <h3
-                  class="font-archivo text-[0.98rem] sm:text-[1.02rem] lg:text-[1.06rem] font-semibold leading-snug"
-                >
-                How I designed an AI-powered coaching layer that turns every sales call into a learning opportunity
-                </h3>
-                <p
-                  class="text-[0.72rem] uppercase tracking-[0.18em] text-muted"
-                >
-                  CallHippo, AI Copilot
-                </p>
-                <div class="flex flex-wrap gap-2 pt-1">
-                  <span
-                    class="inline-flex rounded-full border border-border px-3 py-1 text-[0.7rem] uppercase tracking-[0.18em]"
-                    >Conversation Intelligence</span
-                  >
-                  <span
-                    class="inline-flex rounded-full border border-border px-3 py-1 text-[0.7rem] uppercase tracking-[0.18em]"
-                    >SaaS</span
-                  >
-                  <span
-                    class="inline-flex rounded-full border border-border px-3 py-1 text-[0.7rem] uppercase tracking-[0.18em]"
-                    >AI</span
-                  >
-                  <span
-                    class="inline-flex rounded-full border border-border px-3 py-1 text-[0.7rem] uppercase tracking-[0.18em]"
-                    >0–1</span
-                  >
-                </div>
-              </div>
-            </article>
-            </a>
-
-            <!-- Card 2 -->
-            
-
-            <!-- Card 3 -->
-            <a href="ai-hub.html">
-            <article
-              class="cursor-pointer card-container"
-            >
-              <div class="relative border-2 card-border bg-[#ffe4c0] shadow-soft">
-                <!-- Corner circles -->
-                <div class="absolute top-[-8px] left-[-8px] w-4 h-4 rounded-full border-2 card-circle bg-background"></div>
-                <div class="absolute top-[-8px] right-[-8px] w-4 h-4 rounded-full border-2 card-circle bg-background"></div>
-                <div class="absolute bottom-[-8px] left-[-8px] w-4 h-4 rounded-full border-2 card-circle bg-background"></div>
-                <div class="absolute bottom-[-8px] right-[-8px] w-4 h-4 rounded-full border-2 card-circle bg-background"></div>
-                <div
-                  class="bg-white card-image"
-                >
-                  <div
-                  class="bg-white card-image"
-                ><img src="assets/img/ai-hub-banner.png" alt="AI Hub Chat" class="w-full h-auto" loading="lazy">
-                
-              
-                </div>
-                </div>
-              </div>
-              <div class="mt-5 space-y-2">
-                <h3
-                  class="font-archivo text-[0.98rem] sm:text-[1.02rem] lg:text-[1.06rem] font-semibold leading-snug"
-                >
-                  How I designed an AI knowledge layer that gives support agents instant, accurate answers — without switching tabs or searching docs
-                </h3>
-                  <p
-                  class="text-[0.72rem] uppercase tracking-[0.18em] text-muted"
-                >
-                  CallHippo, AI Hub, Reply with AI
-                </p>
-                <div class="flex flex-wrap gap-2 pt-1">
-                  <span
-                    class="inline-flex rounded-full border border-border px-3 py-1 text-[0.7rem] uppercase tracking-[0.18em]"
-                    >AI Assistant</span
-                  >
-                  <span
-                    class="inline-flex rounded-full border border-border px-3 py-1 text-[0.7rem] uppercase tracking-[0.18em]"
-                    >B2B SaaS</span
-                  >
-                  <span
-                    class="inline-flex rounded-full border border-border px-3 py-1 text-[0.7rem] uppercase tracking-[0.18em]"
-                    >Support Agents</span
-                  >
-                </div>
-              </div>
-            </article>
-            </a>
-
-            <!-- Card 4 -->
-            <a href="https://d1x9dsge91xf6g.cloudfront.net/callhippo/files/brand_guidelines_new.pdf" target="_blank" rel="noreferrer">
-            <article class="cursor-pointer card-container">
-
-
-              <div class="relative border-2 card-border bg-[#ffe4c0] shadow-soft">
-                <!-- Corner circles -->
-                <div class="absolute top-[-8px] left-[-8px] w-4 h-4 rounded-full border-2 card-circle bg-background"></div>
-                <div class="absolute top-[-8px] right-[-8px] w-4 h-4 rounded-full border-2 card-circle bg-background"></div>
-                <div class="absolute bottom-[-8px] left-[-8px] w-4 h-4 rounded-full border-2 card-circle bg-background"></div>
-                <div class="absolute bottom-[-8px] right-[-8px] w-4 h-4 rounded-full border-2 card-circle bg-background"></div>
-                <div
-                  class="bg-white card-image"
-                >
-                  <div
-                  class="bg-white card-image"
-                ><img src="assets/img/brand_guidelines_new.jpg" alt="Brand Guidelines" class="w-full h-auto" loading="lazy">
-                
-              
-                </div>
-                </div>
-              </div>
-              <div class="mt-5 space-y-2">
-                <h3
-                  class="font-archivo text-[0.98rem] sm:text-[1.02rem] lg:text-[1.06rem] font-semibold leading-snug"
-                >
-                  How I designed a website brand guideline that scales across products, teams, and marketing channels
-                </h3>
-                 <p
-                  class="text-[0.72rem] uppercase tracking-[0.18em] text-muted"
-                >
-                  CallHippo, Brand Guideline
-                </p>
-             
-                <div class="flex flex-wrap gap-2 pt-1">
-                  <span
-                    class="inline-flex rounded-full border border-border px-3 py-1 text-[0.7rem] uppercase tracking-[0.18em]"
-                    >marketing</span
-                  >
-                  <span
-                    class="inline-flex rounded-full border border-border px-3 py-1 text-[0.7rem] uppercase tracking-[0.18em]"
-                    >AI</span
-                  >
-                 
-                  <span
-                    class="inline-flex rounded-full border border-border px-3 py-1 text-[0.7rem] uppercase tracking-[0.18em]"
-                    >Website</span
-                  >
-                </div>
-              </div>
-            </article>
-            </a>
-          </section>
-        </main>
-
-        <!-- Footer / sitemap & contact -->
-        <footer
-          class="border-t border-border pt-8 sm:pt-10 mt-auto text-xs text-muted"
-        >
-          <div
-            class="flex flex-col sm:flex-row sm:justify-center sm:justify-center gap-6 sm:gap-10"
-          >
-            
-
-            <!-- Repeated logotype on the right -->
-            <div class="flex flex-col gap-2 items-center sm:items-center justify-center">
-              <span
-                class="text-[0.7rem] sm:text-[0.75rem] tracking-[0.3em] uppercase"
-              >
-                JIGAR ACHARYA 2026
-              </span>
-             <!-- <span
-                class="hidden sm:inline text-[0.7rem] tracking-[0.3em] uppercase"
-              >
-                WORK · ABOUT · CONTACT
-              </span>-->
-            </div>
-          </div>
-        </footer>
+        </div>
       </div>
     </div>
-  </body>
+    <!-- Main Navigation End -->
+
+  </nav>
+  <!-- Menu & Menu Hamburger End -->
+
+  <!-- Header Start -->
+   <header id="header" class="mxd-header">
+    <!-- header logo -->
+    <div class="mxd-header__logo loading__fade">
+      <a href="index.html" class="mxd-logo">
+        <!-- logo icon -->
+        <div class="mxd-logo__image">
+          <img class="brd50d" src="./img/jigar-dp.png" alt="profile pic">
+        </div>
+        
+        <!-- logo text -->
+        <span class="mxd-logo__text">Jigar<br>Acharya</span>
+      </a>
+    </div>
+    <!-- header controls -->
+    <div class="mxd-header__controls loading__fade">
+      <button id="color-switcher" class="mxd-color-switcher" type="button" role="switch" aria-label="light/dark mode"
+        aria-checked="true"></button>
+      <a class="btn btn-anim btn-default btn-mobile-icon btn-outline slide-right-up" href="https://www.linkedin.com/in/jigar-acharya-722232ab/">
+        <span class="btn-caption">Say Hello</span>
+        <i class="ph-bold ph-arrow-up-right"></i>
+      </a>
+    </div>
+  </header>
+  <!-- Header End -->
+
+  <!-- Page Content Start -->
+  <main id="mxd-page-content" class="mxd-page-content container-xxl">
+
+    <!-- Hero Section Start -->
+    <div class="mxd-section">
+      <div class="mxd-hero-09">
+        <div class="mxd-hero-09__wrap loading-wrap">
+          <div class="mxd-hero-09__headline">
+            <div class="hero-09-headline__caption loading__item">
+              <p>Designing products that unite business and user needs.</p>
+            </div>
+            <div class="hero-09-headline__title loading__item">
+
+              <h1 class="mgfourer">Jigar Acharya</h1>
+            </div>
+            <div class="hero-09-headline__cta loading__fade">
+              <a href="#selected-projects" class="btn btn-anim btn-default btn-outline slide-down hero-cta-btn">
+                <span class="btn-caption hero-cta-btn__label">Selected Work</span>
+                <span class="hero-cta-btn__icon">
+                  <i class="ph-bold ph-arrow-down"></i>
+                </span>
+              </a>
+            </div>
+           <!--- <div class="hero-09-headline__tags loading__fade">
+              <span class="tag tag-default tag-outline">UI</span>
+              <span class="tag tag-default tag-outline">UX</span>
+              <span class="tag tag-default tag-outline">Frontend</span>
+              <span class="tag tag-default tag-outline">SaaS Product Design</span>
+              <span class="tag tag-default tag-outline">AI Product UX</span>
+              <span class="tag tag-default tag-outline">Design Systems</span>
+              <span class="tag tag-default tag-outline">Interactive design</span>
+              <span class="tag tag-default tag-outline">A/B Testing</span>
+              <span class="tag tag-default tag-outline">Conversion Optimization</span>
+              <span class="tag tag-default tag-outline">Branding</span>
+
+
+            </div>-->
+          </div>
+          <div class="mxd-hero-09__objects">
+            <div class="hero-09-objects__image loading__item">
+              <img class="mxd-move" src="./img/hero/mypic_2.jpg" alt="Hero Image">
+            </div>
+            <div class="hero-09-objects__item item-01 loading__item">
+              <div class="mxd-counter horizontal">
+                <p id="stats-counter-1" class="mxd-counter__number mxd-stats-number xsmall">9+</p>
+                <p class="mxd-counter__descr t-140 t-bright t-small">Years of<br>experience</p>
+              </div>
+            </div>
+            <div class="hero-09-objects__item item-02 loading__item">
+              <div class="mxd-counter horizontal">
+                <p id="stats-counter-2" class="mxd-counter__number mxd-stats-number xsmall">0</p>
+                <p class="mxd-counter__descr t-140 t-bright t-small">A/B Tests<br>Conducted</p>
+              </div>
+            </div>
+            <div class="hero-09-objects__item item-03 loading__item">
+              <div class="mxd-hero__mark">
+                <span class="mark-icon"></span>
+                <span class="mark-text">4 SaaS Products Shipped</span>
+              </div>
+            </div>
+          </div>
+          <!-- scroll for more -->
+         
+        </div>
+      </div>
+    </div>
+    <!-- Hero Section End -->
+
+    <!-- Section - Selected Projects Start -->
+    <div id="selected-projects" class="mxd-section padding-hero-09 padding-default">
+      <div class="mxd-container grid-container">
+
+        <!-- Block - Section Title Start -->
+        <div class="mxd-block">
+          <div class="mxd-section-title pre-grid">
+            <div class="container-fluid p-0">
+              <div class="row g-0">
+                <div class="col-12 mxd-grid-item no-margin">
+                  <div class="mxd-section-title__hrtitle">
+                    <h2 class="reveal-type anim-uni-in-up">Selected Projects</h2>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Block - Section Title End -->
+
+        <!-- Block - Case Study Card Start -->
+        <div class="mxd-block mxdblokq">
+          <a class="mxd-casestudy-card anim-uni-in-up" href="ai-voice-agent.html">
+            <div class="mxd-casestudy-card__inner">
+              <!-- Image / Mockup -->
+              <div class="mxd-casestudy-card__media">
+                <img src="./img/banner/ai-voice-agent-hero.png" alt="CallHippo AI Voice Agent">
+              </div>
+              <!-- Content -->
+              <div class="mxd-casestudy-card__content">
+                <p class="mxd-casestudy-card__label">CALLHIPPO AI VOICE AGENT - APRIL 2025</p>
+                <h3 class="mxd-casestudy-card__title">Designed an AI voice agent that automates 54% of inbound support
+                  calls</h3>
+                <p class="mxd-casestudy-card__descr">I designed the setup experience for an AI voice agent that can
+                  answer routine support calls automatically, helping teams cover after-hours inquiries and reduce
+                  missed calls.</p>
+
+                <div class="mxd-casestudy-card__btn">
+                  <span class="btn btn-anim btn-default btn-outline slide-right-up btnhivoer">
+                    <span class="btn-caption">View Case Study</span>
+                    <i class="ph-bold ph-arrow-up-right"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <!-- SECOND CARD-->
+          <a class="mxd-casestudy-card anim-uni-in-up" href="dashboard-redesign.html">
+            <div class="mxd-casestudy-card__inner">
+              <!-- Image / Mockup -->
+              <div class="mxd-casestudy-card__media">
+                <img src="./img/banner/dashboard-hero.png" alt="CallHippo Dashboard">
+              </div>
+              <!-- Content -->
+              <div class="mxd-casestudy-card__content">
+                <p class="mxd-casestudy-card__label">CALLHIPPO DASHBOARD - MARCH 2024</p>
+                <h3 class="mxd-casestudy-card__title">Redesigned the call analytics dashboard</h3>
+                <p class="mxd-casestudy-card__descr">I redesigned the dashboard to surface key call metrics and
+                  introduce clearer analytics views, helping sales and support teams quickly understand call activity
+                  and investigate missed calls.</p>
+
+                <div class="mxd-casestudy-card__btn">
+                  <span class="btn btn-anim btn-default btn-outline slide-right-up btnhivoer">
+                    <span class="btn-caption">View Case Study</span>
+                    <i class="ph-bold ph-arrow-up-right"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <!--third card-->
+          <a class="mxd-casestudy-card anim-uni-in-up" href="ai-copilot.html">
+            <div class="mxd-casestudy-card__inner">
+              <!-- Image / Mockup -->
+              <div class="mxd-casestudy-card__media">
+                <img src="./img/banner/ai-copilot.png" alt="CallHippo AI Copilot">
+              </div>
+              <!-- Content -->
+              <div class="mxd-casestudy-card__content">
+                <p class="mxd-casestudy-card__label">CALLHIPPO AI COPILOT - JANUARY 2024</p>
+                <h3 class="mxd-casestudy-card__title">Designed an AI copilot that turns sales calls into coaching
+                  insights</h3>
+                <p class="mxd-casestudy-card__descr">I led the product design for an AI-powered coaching layer that
+                  analyzes every call, helping managers identify patterns and give faster, more objective feedback to
+                  agents.</p>
+
+                <div class="mxd-casestudy-card__btn">
+                  <span class="btn btn-anim btn-default btn-outline slide-right-up btnhivoer">
+                    <span class="btn-caption">View Case Study</span>
+                    <i class="ph-bold ph-arrow-up-right"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <!-- fourth card-->
+          <a class="mxd-casestudy-card anim-uni-in-up" href="ai-hub.html">
+            <div class="mxd-casestudy-card__inner">
+              <!-- Image / Mockup -->
+              <div class="mxd-casestudy-card__media">
+                <img src="./img/banner/ai-hub-cover.png" alt="CallHippo AI Hub">
+              </div>
+              <!-- Content -->
+              <div class="mxd-casestudy-card__content">
+                <p class="mxd-casestudy-card__label">CALLHIPPO AI Hub - JULY 2024</p>
+                <h3 class="mxd-casestudy-card__title">Designed an AI knowledge hub for faster support replies
+                  insights</h3>
+                <p class="mxd-casestudy-card__descr">I designed an AI-powered knowledge layer that surfaces accurate
+                  answers inside live conversations, helping support agents respond faster without leaving the chat.</p>
+                <div class="mxd-casestudy-card__btn">
+                  <span class="btn btn-anim btn-default btn-outline slide-right-up btnhivoer">
+                    <span class="btn-caption">View Case Study</span>
+                    <i class="ph-bold ph-arrow-up-right"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <!--fifth card-->
+          <a class="mxd-casestudy-card anim-uni-in-up" href="https://d1x9dsge91xf6g.cloudfront.net/callhippo/files/brand_guidelines_new.pdf" target="_blank">
+            <div class="mxd-casestudy-card__inner">
+              <!-- Image / Mockup -->
+              <div class="mxd-casestudy-card__media">
+                <img src="./img/banner/brand-guidelines.png" alt="CallHippo Brand Guidelines">
+              </div>
+              <!-- Content -->
+              <div class="mxd-casestudy-card__content">
+                <p class="mxd-casestudy-card__label">CALLHIPPO — BRAND GUIDELINES - MAY 2024</p>
+                <h3 class="mxd-casestudy-card__title">Designed brand guidelines to unify CallHippo’s product and
+                  marketing</h3>
+                <p class="mxd-casestudy-card__descr">I created a scalable brand guideline system covering typography,
+                  color, and UI standards to ensure consistency across the website, product, and marketing channels.</p>
+                <div class="mxd-casestudy-card__btn">
+                  <span class="btn btn-anim btn-default btn-outline slide-right-up btnhivoer">
+                    <span class="btn-caption">View Brand Guidelines</span>
+                    <i class="ph-bold ph-arrow-up-right"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <!-- Block - Case Study Card End -->
+
+      </div>
+    </div>
+    <!-- Section - Selected Projects End -->
+
+
+     <!-- Section - Core Expertise Start -->
+      <div class="mxd-section overflow-hidden padding-default expertise-section">
+        <div class="mxd-container grid-container">
+          <div class="mxd-block">
+            <div class="container-fluid px-0">
+
+              <!-- Section Title -->
+              <div class="row gx-0">
+                <div class="col-12 mxd-grid-item no-margin">
+                  <h2 class="expertise-section__headline reveal-type anim-uni-in-up">Core Expertise</h2>
+                </div>
+              </div>
+
+              <!-- Cards Grid -->
+              <div class="expertise-grid">
+
+                <!-- Card 1 - Product Design -->
+                <div class="expertise-card anim-uni-in-up">
+                  <div class="expertise-card__icon-wrap">
+                    <i class="ph-bold ph-palette"></i>
+                  </div>
+                  <div class="expertise-card__body">
+                    <p class="expertise-card__title">Product Design</p>
+                    <p class="expertise-card__desc">Crafting user-centered interfaces that solve complex problems with simplicity and elegance</p>
+                  </div>
+                </div>
+
+                <!-- Card 2 - Design Strategy -->
+                <div class="expertise-card anim-uni-in-up">
+                  <div class="expertise-card__icon-wrap">
+                    <i class="ph-bold ph-target"></i>
+                  </div>
+                  <div class="expertise-card__body">
+                    <p class="expertise-card__title">Design Strategy</p>
+                    <p class="expertise-card__desc">Aligning business goals with user needs to drive measurable product outcomes</p>
+                  </div>
+                </div>
+
+                <!-- Card 3 - Design Systems -->
+                <div class="expertise-card anim-uni-in-up">
+                  <div class="expertise-card__icon-wrap">
+                    <i class="ph-bold ph-squares-four"></i>
+                  </div>
+                  <div class="expertise-card__body">
+                    <p class="expertise-card__title">Design Systems</p>
+                    <p class="expertise-card__desc">Building scalable design languages that ensure consistency across platforms</p>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Section - Core Expertise End -->
+
+
+
+     <!-- Section - Tech Stack Start -->
+      <div class="mxd-section padding-grid-pre-pinned">
+        <div class="mxd-container grid-container">
+        
+          <!-- Block - Stack Universal Pinned Block with Section Title Start -->
+          <div class="mxd-block">
+            <div class="mxd-pinned-universal">
+              <div class="container-fluid px-0">
+                <div class="row gx-0">
+                  <div class="col-12 col-xl-5 mxd-pinned-universal__static">
+                    <div class="mxd-pinned-universal__static-inner no-margin">
+
+                      <!-- Section Title Start -->
+                      <div class="mxd-section-title h2-only no-margin-desktop">
+                        <div class="container-fluid p-0">
+                          <div class="row g-0">
+                            <div class="col-12 mxd-grid-item no-margin">
+                              <div class="mxd-section-title__title card-split-title">
+                                <h2 class="reveal-type">My favorite<br>stack</h2>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Section Title Start -->
+
+                    </div>
+                  </div>
+                  <div class="col-12 col-xl-7 mxd-pinned-universal__scroll">
+                    <div class="mxd-pinned-universal__scroll-inner mxd-grid-item no-margin">
+                      <div class="mxd-tech-stack-cards grid-cards">
+                        <!-- item -->
+                        <div class="mxd-tech-stack-cards__item animate-card-4">
+                          <div class="mxd-tech-stack-cards__inner-v2">
+                            <div class="mxd-tech-stack-cards__icon">
+                              <img src="img/tech/icon-photoshop.svg" alt="Tech Stack Icon">
+                            </div>
+                            <div class="mxd-tech-stack-cards__title">
+                              <p class="t-bright t-caption">Photoshop</p>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- item -->
+                        <div class="mxd-tech-stack-cards__item animate-card-4">
+                          <div class="mxd-tech-stack-cards__inner-v2">
+                            <div class="mxd-tech-stack-cards__icon">
+                              <img src="img/tech/icon-figma.svg" alt="Tech Stack Icon">
+                            </div>
+                            <div class="mxd-tech-stack-cards__title">
+                              <p class="t-bright t-caption">Figma</p>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- item -->
+                        <div class="mxd-tech-stack-cards__item animate-card-4">
+                          <div class="mxd-tech-stack-cards__inner-v2">
+                            <div class="mxd-tech-stack-cards__icon">
+                              <img src="img/tech/icon-illustrator.svg" alt="Tech Stack Icon">
+                            </div>
+                            <div class="mxd-tech-stack-cards__title">
+                              <p class="t-bright t-caption">Illustrator</p>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- item -->
+                        <div class="mxd-tech-stack-cards__item animate-card-4">
+                          <div class="mxd-tech-stack-cards__inner-v2">
+                            <div class="mxd-tech-stack-cards__icon">
+                              <img src="img/tech/icon-scketch.svg" alt="Tech Stack Icon">
+                            </div>
+                            <div class="mxd-tech-stack-cards__title">
+                              <p class="t-bright t-caption">Sketch</p>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- item -->
+                        <div class="mxd-tech-stack-cards__item animate-card-4">
+                          <div class="mxd-tech-stack-cards__inner-v2">
+                            <div class="mxd-tech-stack-cards__icon">
+                              <img src="img/tech/06_javascript.svg" alt="Tech Stack Icon">
+                            </div>
+                            <div class="mxd-tech-stack-cards__title">
+                              <p class="t-bright t-caption">JavaScript</p>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- item -->
+                        <div class="mxd-tech-stack-cards__item animate-card-4">
+                          <div class="mxd-tech-stack-cards__inner-v2">
+                            <div class="mxd-tech-stack-cards__icon">
+                              <img src="img/tech/icon-html.svg" alt="Tech Stack Icon">
+                            </div>
+                            <div class="mxd-tech-stack-cards__title">
+                              <p class="t-bright t-caption">HTML5</p>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- item -->
+                        <div class="mxd-tech-stack-cards__item animate-card-4">
+                          <div class="mxd-tech-stack-cards__inner-v2">
+                            <div class="mxd-tech-stack-cards__icon">
+                              <img src="img/tech/icon-css.svg" alt="Tech Stack Icon">
+                            </div>
+                            <div class="mxd-tech-stack-cards__title">
+                              <p class="t-bright t-caption">CSS3</p>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- item -->
+                        <div class="mxd-tech-stack-cards__item animate-card-4">
+                          <div class="mxd-tech-stack-cards__inner-v2">
+                            <div class="mxd-tech-stack-cards__icon">
+                              <img src="img/tech/icon-notion.svg" alt="Tech Stack Icon">
+                            </div>
+                            <div class="mxd-tech-stack-cards__title">
+                              <p class="t-bright t-caption">Notion</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Block - Stack Universal Pinned Block with Section Title Start -->
+
+        </div>
+      </div>
+
+    <!-- Section - About Start -->
+    <div class="mxd-section padding-default">
+      <div class="mxd-container grid-container">
+
+        <!-- Block - About Description with Manifest Start -->
+        <div class="mxd-block">
+          <div class="container-fluid px-0">
+            <div class="row gx-0 d-xl-flex justify-content-xl-center">
+              <div class="col-12 col-xl-8 mxd-grid-item no-margin">
+                <div class="mxd-block__content">
+                  <div class="mxd-block__manifest centered anim-uni-in-up">
+                    <p class="mxd-manifest mxd-manifest-l reveal-type">I design products that simplify complex workflows and create meaningful user experiences.</p>
+                    <div class="mxd-manifest__controls anim-uni-in-up">
+                      <div class="mxd-btngroup centered">
+                        
+                        <a class="btn btn-anim btn-default btn-outline slide-down" href="https://docs.google.com/document/d/1Db1YSHKft4BW7J3I2k3m9swv6gRHIpNe/edit?usp=sharing&ouid=100241053695328650112&rtpof=true&sd=true">
+                          <span class="btn-caption">View Resume</span>
+                         <i class="ph-bold ph-arrow-up-right"></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Block - About Description with Manifest End -->
+
+      </div>
+    </div>
+    <!-- Section - About End -->
+
+    <!-- Section - Parallax Divider Start -->
+  
+    <!-- Section - Parallax Divider End -->
+
+    <!-- Section - Blog Preview Start -->
+    
+    <!-- Section - Blog Preview End -->
+
+    <!-- Section - CTA Start -->
+    
+    <!-- Section - CTA End -->
+
+  </main>
+  <!-- Page Content End -->
+
+  <!-- Footer Start -->
+  <footer id="mxd-footer" class="mxd-footer mxd-footer--minimal">
+    <div class="footer-minimal__divider"></div>
+    <div class="footer-minimal__bar">
+      <span>© 2026 Jigar Acharya</span>
+      <span class="footer-minimal__label"><a href="mailto:jigaracharya3@gmail.com">jigaracharya3@gmail.com</a></span>
+    </div>
+  </footer>
+  <!-- Footer End -->
+
+  <!-- To Top Button Start -->
+  <a href="#0" id="to-top" class="btn btn-to-top slide-up anim-no-delay">
+    <i class="ph ph-arrow-up"></i>
+  </a>
+  <!-- To Top Button End -->
+
+  <!-- Load Scripts Start -->
+  <script src="js/libs.min.js"></script>
+  <script src="js/app.js"></script>
+  <!-- counters -->
+  <script>
+    const statsCounter1 = new countUp.CountUp("stats-counter-1", 9, optionsPlus);
+    const statsCounter2 = new countUp.CountUp("stats-counter-2", 30, optionsPlus);
+    statsCounter1.start();
+    statsCounter2.start();
+  </script>
+  <!-- Load Scripts End -->
+
+</body>
+
 </html>
-
-
-
-
-
-

@@ -5,13 +5,13 @@
   <meta charset="UTF-8">
 
   <!-- Page Title -->
-  <title>AI Voice Agent — Case Study | Jigar Acharya, Product Designer</title>
+  <title>CallHippo Dashboard Redesign — Case Study | Jigar Acharya, Product Designer</title>
 
   <!-- Meta Tags -->
   <meta name="description"
-    content="Case study by Jigar Acharya: Designed CallHippo's AI Voice Agent that automates 54% of inbound support calls. Covers research, user flows, design decisions, and outcomes.">
+    content="Case study by Jigar Acharya: Redesigned CallHippo's dashboard to help sales teams understand call performance instantly — without navigating multiple screens. Covers research, design strategy, and outcomes.">
   <meta name="keywords"
-    content="Jigar Acharya, AI Voice Agent, CallHippo, Product Designer, UX Case Study, SaaS Design, AI Product Design, Inbound Call Automation">
+    content="Jigar Acharya, CallHippo, Dashboard Redesign, Product Designer, UX Case Study, SaaS Design, Analytics Design, Call Performance Dashboard">
   <meta name="author" content="Jigar Acharya">
   <meta name="robots" content="noindex, nofollow">
 
@@ -30,9 +30,9 @@
   <meta property="og:type" content="article">
   <meta property="og:image:height" content="1200">
   <meta property="og:image:width" content="1200">
-  <meta property="og:title" content="AI Voice Agent — Case Study | Jigar Acharya, Product Designer">
+  <meta property="og:title" content="CallHippo Dashboard Redesign — Case Study | Jigar Acharya, Product Designer">
   <meta property="og:description"
-    content="Case study by Jigar Acharya: Designed CallHippo's AI Voice Agent that automates 54% of inbound support calls. Covers research, user flows, design decisions, and outcomes.">
+    content="Case study by Jigar Acharya: Redesigned CallHippo's dashboard to help sales teams understand call performance instantly — without navigating multiple screens.">
   <meta property="og:url" content="">
   <meta property="og:image" content="">
   <!-- Open Graph / Social Metadata End -->
@@ -51,8 +51,6 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <!-- Custom Brow justify-content-centerser Color End -->
   <style>
-   
-
     /* Notebook Persona Cards */
     .notebook-card {
       position: relative;
@@ -393,6 +391,43 @@
       font-weight: 700;
       color: #161616;
     }
+
+    /* Problem Result List */
+    .problem-result-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin: 1rem 0 2.8rem;
+    }
+
+    .problem-result-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.2rem;
+    }
+
+    .problem-result-item__icon {
+      color: #E03131;
+     
+      flex-shrink: 0;
+      line-height: 1.4;
+    }
+
+    .problem-result-item__text {
+     
+      line-height: 1.6;
+      color: #333;
+    }
+
+    .problem-result-item__text strong {
+      font-weight: 700;
+      color: #161616;
+    }
+
+    /* Remove inline gap below video elements */
+    video {
+      display: block;
+    }
   </style>
 
   <!-- Minimal Footer Styles Start -->
@@ -564,9 +599,7 @@
               <div class="col-12 col-xl-10 mxd-grid-item mb-5 mt-0">
                 <div class="mxd-block__content">
                   <div class="mxd-block__inner-headline loading__item">
-                    <h1 class="inner-headline__title csthdtl">Designed an AI voice agent that automates 54% of inbound
-                      support
-                      calls</h1>
+                    <h1 class="inner-headline__title csthdtl">Redesigned the call analytics dashboard</h1>
                   </div>
                 </div>
               </div>
@@ -584,14 +617,8 @@
               <div class="col-12 col-xl-10 mxd-grid-item no-margin">
                 <h5 class="ovcontext mxd-block__inner-headline loading__item">Overview & Context</h5>
                 <div class="inner-headline__paragraph loading__item mt-4">
-                  <p class="pb-4">CallHippo’s customers rely on inbound calls for billing questions, product FAQs,
-                    appointments, and
-                    order status — but every call required a human, causing missed after‑hours calls and long waits
-                    during peak times.</p>
-                  <p>Partnering with the PM, I designed CallHippo’s first AI Voice Agent from scratch: a 24/7 inbound
-                    system that handles routine questions and routes calls automatically. The goal was a one‑session,
-                    no‑code setup so any support lead could name, configure, and launch an agent without developer help.
-                  </p>
+                  <p class="pb-4">CallHippo is a cloud-based business phone system used by sales and support teams to manage inbound and outbound calls across global markets.</p>
+                  <p>As the product grew and call data increased, the existing dashboard struggled to communicate meaningful insights. Managers could see large amounts of data, but they couldn’t quickly understand what was actually happening with their team’s call performance. The redesign focused on transforming the dashboard from a data display interface into a decision-support tool.</p>
                 </div>
 
                 <div class="inner-headline__data">
@@ -601,23 +628,22 @@
                         <div class="col-12 col-md-6 col-xl-5 mxd-data-list__column loading__item">
                           <div class="mxd-data-list__item">
                             <p class="mxd-data-list__name">Role</p>
-                            <p class="mxd-data-list__content">Product Designer / UX Lead</p>
+                            <p class="mxd-data-list__content">Lead Product Designer</p>
                           </div>
                           <div class="mxd-data-list__item">
                             <p class="mxd-data-list__name">Responsibilities</p>
-                            <p class="mxd-data-list__content">Research, Product Strategy, Interaction Design, UI Design,
-                              Developer Collaboration</p>
+                            <p class="mxd-data-list__content">UX Research, Information Architecture, UI Design, Engineering Collaboration</p>
                           </div>
                         </div>
                         <div class="col-12 col-md-6 col-xl-5 mxd-data-list__column loading__item">
 
                           <div class="mxd-data-list__item">
-                            <p class="mxd-data-list__name">Duration</p>
-                            <p class="mxd-data-list__content">3 Weeks</p>
+                            <p class="mxd-data-list__name">Collaborators</p>
+                            <p class="mxd-data-list__content">Product Manager, 2 Engineers, QA</p>
                           </div>
                           <div class="mxd-data-list__item">
-                            <p class="mxd-data-list__name">Impact</p>
-                            <p class="mxd-data-list__content">AI handled ~54% of routine inbound calls</p>
+                            <p class="mxd-data-list__name">Duration</p>
+                            <p class="mxd-data-list__content">3 Weeks</p>
                           </div>
                         </div>
                       </div>
@@ -646,7 +672,7 @@
       <div class="mxd-container">
         <div class="mxd-divider loading__fade brdrdisq">
           <div class="mxd-casestudy-card__media">
-            <img src="./img/banner/ai-voice-agent-hero.png" alt="CallHippo AI Voice Agent">
+            <img src="./img/banner/dashboard-hero.png" alt="CallHippo Dashboard Redesign">
           </div>
         </div>
       </div>
@@ -664,36 +690,38 @@
               <div class="col-12 col-xl-10 mxd-grid-item no-margin">
                 <div class="mxd-project__subtitle">
                   <h2 class="reveal-type anim-uni-in-up pb-5">Problem</h2>
-
-                </div>
-              </div>
-            </div>
-            <div class="row justify-content-center gx-0">
-              <div class="col-12 col-xl-5 mxd-grid-item no-margin">
-                <div class="mxd-project__subtitle">
+<div class="mxd-project__content">
+                  <div class="pb-5">
+                    <p class="t-large t-bright anim-uni-in-up pb-4 fnbold">The original dashboard presented many metrics but lacked clear prioritization and structure.</p>
+                    <p class="anim-uni-in-up pb-4">Managers opening the dashboard were confronted with a large collection of numbers with little context. Answering simple questions such as "Are we missing more calls this week?", "Is outbound performance improving?", or "Which agents are handling the most calls?" required navigating across multiple screens and manually connecting information.</p>
+                    <p class="t-large t-bright anim-uni-in-up pb-2 fnbold">As a result:</p>
+                    <div class="problem-result-list">
+                      <div class="problem-result-item anim-uni-in-up">
+                        <i class="ph-bold ph-warning-circle problem-result-item__icon"></i>
+                        <p class="problem-result-item__text"><strong>Performance trends were difficult to identify:</strong> Managers had to manually export data and cross-reference screens to spot any patterns.</p>
+                      </div>
+                      <div class="problem-result-item anim-uni-in-up">
+                        <i class="ph-bold ph-warning-circle problem-result-item__icon"></i>
+                        <p class="problem-result-item__text"><strong>Missed calls went unexplained:</strong> Teams could see the count but had no way to understand the underlying cause.</p>
+                      </div>
+                      <div class="problem-result-item anim-uni-in-up">
+                        <i class="ph-bold ph-warning-circle problem-result-item__icon"></i>
+                        <p class="problem-result-item__text"><strong>Teams struggled to take action quickly:</strong> Without clear signals, operational decisions relied on guesswork rather than evidence.</p>
+                      </div>
+                    </div>
+                    <p class="anim-uni-in-up">The system generated data, but it did not generate insight.</p>
+                  </div>
+                   <div class="mxd-project__subtitle">
 
                   <div class="img-container imccutcont">
-                    <img src="./img/works/problem-illis.jpg" alt="Problem">
+                    <img class="brdcol" src="./img/works/Callhippo-old-Dashboard.png" alt="Dashboard Problem">
                   </div>
                 </div>
-              </div>
-              <div class="col-12 col-xl-5 mxd-grid-item no-margin mt-5">
-                <div class="mxd-project__content">
-                  <div class="">
-                    <p class="t-large t-bright anim-uni-in-up pb-4 fnbold">Context</p>
-                    <p class="anim-uni-in-up">CallHippo customers handle thousands of inbound support calls every day,
-                      many of which are repetitive questions with predictable answers.</p>
-                    <p class="t-large t-bright anim-uni-in-up pb-4 fnbold">Problem</p>
-                    <p class="anim-uni-in-up">Despite having the information available, every call still required a
-                      human agent. During peak hours or after business hours, callers often ended up in queues or
-                      voicemail.</p>
-                    <p class="t-large t-bright anim-uni-in-up pb-4 fnbold">Impact</p>
-                    <p class="anim-uni-in-up">Support teams were losing customers in the moments between a call arriving
-                      and an agent becoming available.</p>
-                  </div>
+                </div>
                 </div>
               </div>
             </div>
+          
           </div>
         </div>
         <!-- Project Block - Problem End -->
@@ -710,10 +738,7 @@
               <div class="col-12 col-xl-10 mxd-grid-item">
                 <div class="mxd-project__content">
                   <div class="mxd-project__paragraph medium-text">
-                    <p class="anim-uni-in-up">The goal was to help support teams handle routine inbound calls without
-                      requiring a human agent for every request. The design focused on enabling automated responses for
-                      predictable call types while ensuring agents could spend their time on more complex conversations.
-                    </p>
+                    <p class="anim-uni-in-up">Before exploring solutions, I defined three goals that would guide the redesign.</p>
                   </div>
                 </div>
               </div>
@@ -729,25 +754,24 @@
                 <div class="col-12 col-xl-3 mxd-project-cards__item mxd-grid-item anim-uni-scale-in-left">
                   <div class="mxd-project-cards__inner bg-base-tint radius-m" style="padding: 2.4rem;">
                     <p class="t-small t-muted"
-                      style="text-transform: uppercase; letter-spacing: 0.1rem; margin-bottom: 0.8rem;">Goal</p>
-                    <p>AI handles predictable call types so a human agent does not need to pick up.</p>
+                      style="text-transform: uppercase; letter-spacing: 0.1rem; margin-bottom: 0.8rem;">Goal 1</p>
+                    <p>Make call performance understandable within seconds of opening the dashboard.</p>
                   </div>
                 </div>
                 <div class="col-12 col-xl-3 mxd-project-cards__item mxd-grid-item anim-uni-scale-in-right">
                   <div class="mxd-project-cards__inner bg-base-tint radius-m" style="padding: 2.4rem;">
                     <p class="t-small t-muted"
-                      style="text-transform: uppercase; letter-spacing: 0.1rem; margin-bottom: 0.8rem;">Baseline</p>
-                    <p>0% containment. Every call required a human agent to answer.</p>
+                      style="text-transform: uppercase; letter-spacing: 0.1rem; margin-bottom: 0.8rem;">Goal 2</p>
+                    <p>Separate monitoring from investigation — quick checks on the dashboard, deeper analysis in a dedicated module.</p>
                   </div>
                 </div>
                 <div class="col-12 col-xl-4 mxd-project-cards__item mxd-grid-item anim-uni-scale-in-left">
                   <div class="mxd-project-cards__inner bg-accent bg-accentgreen radius-m" style="padding: 2.4rem;">
                     <p class="t-small"
                       style="text-transform: uppercase; letter-spacing: 0.1rem; margin-bottom: 0.8rem; opacity: 0.7;">
-                      Outcome</p>
-                    <h5>0% → ~54% containment</h5>
-                    <p class="t-small" style="margin-top: 0.4rem;">Routine calls are now handled by AI.
-                      Human agents focus on complex cases.</p>
+                      Goal 3</p>
+                    <h5>Turn data into actionable insight</h5>
+                    <p class="t-small" style="margin-top: 0.4rem;">Highlight patterns and root causes that help teams make operational decisions — not just display metrics.</p>
                   </div>
                 </div>
               </div>
@@ -763,7 +787,7 @@
             <div class="row justify-content-center gx-0">
               <div class="col-12 col-xl-10 mxd-grid-item no-margin">
                 <div class="mxd-project__subtitle">
-                  <h2 class="reveal-type anim-uni-in-up pb-4">Product Constraints</h2>
+                  <h2 class="reveal-type anim-uni-in-up pb-4">Design Strategy</h2>
 
                 </div>
               </div>
@@ -773,21 +797,19 @@
                 <div class="mxd-project__subtitle">
 
                   <div class="img-container imccutcont">
-                    <img src="./img/works/constrains_pr.jpg" alt="Constraints">
+                    <img src="./img/works/dashboard-skretch.jpg" alt="Design Strategy">
                   </div>
                 </div>
               </div>
               <div class="col-12 col-xl-5 mxd-grid-item no-margin mobpadtop">
                 <div class="mxd-project__content">
                   <div class="">
-                    <p class="t-large t-bright anim-uni-in-up pb-2 fnbold">⚡ Response latency</p>
-                    <p class="anim-uni-in-up pb-4">AI replies must remain under a few seconds during calls.</p>
-                    <p class="t-large t-bright anim-uni-in-up pb-2 fnbold">👩‍💼 Non-technical setup</p>
-                    <p class="anim-uni-in-up pb-4">Support teams must deploy the agent without engineering help.</p>
-                    <p class="t-large t-bright anim-uni-in-up pb-2 fnbold">📚 Knowledge reliability</p>
-                    <p class="anim-uni-in-up pb-4">Responses must be grounded in verified documentation.</p>
-                    <p class="t-large t-bright anim-uni-in-up pb-2 fnbold">⏱ MVP timeline</p>
-                    <p class="anim-uni-in-up">The first version needed to ship quickly for validation.</p>
+                    <p class="t-large t-bright anim-uni-in-up pb-2 fnbold">📊 Prioritize the most important metrics</p>
+                    <p class="anim-uni-in-up pb-4">The dashboard should immediately communicate the most critical signals without overwhelming users.</p>
+                    <p class="t-large t-bright anim-uni-in-up pb-2 fnbold">🔍 Separate overview from deep analysis</p>
+                    <p class="anim-uni-in-up pb-4">Quick monitoring belongs on the dashboard. Deeper insights belong in a dedicated analytics module.</p>
+                    <p class="t-large t-bright anim-uni-in-up pb-2 fnbold">📈 Use visualization to reveal patterns</p>
+                    <p class="anim-uni-in-up">Charts should help users identify trends instantly instead of requiring manual interpretation.</p>
                   </div>
                 </div>
               </div>
@@ -801,15 +823,13 @@
             <div class="row justify-content-center gx-0">
               <div class="col-12 col-xl-10 mxd-grid-item no-margin ">
                 <div class="mxd-project__subtitle">
-                  <h2 class="reveal-type anim-uni-in-up">User Research</h2>
+                  <h2 class="reveal-type anim-uni-in-up">Understanding the Users</h2>
                 </div>
               </div>
               <div class="col-12 col-xl-10 mxd-grid-item mt-zero">
                 <div class="mxd-project__content">
                   <div class="mxd-project__paragraph medium-text">
-                    <p class="anim-uni-in-up">Before moving to solutions, I spent 3 days understanding how support
-                      teams were currently managing inbound call volume. I interviewed 6 people — support managers,
-                      team leads, and SMB owners running their own customer service operations.</p>
+                    <p class="anim-uni-in-up">To better understand how teams used the dashboard, I interviewed sales managers, support team leads, and call center supervisors. Despite their different roles, the frustration was consistent: the dashboard showed numbers but did not help them understand what was happening.</p>
 
                   </div>
                 </div>
@@ -820,9 +840,7 @@
                 <div class="container-fluid px-0">
                   <div class="row justify-content-center gx-0">
                     <div class="col-12 col-xl-10 mxd-grid-item no-margin">
-                      <p class="t-large t-bright anim-uni-in-up" style="margin-top: 3rem;">Two distinct roles — each
-                        with
-                        a different relationship to inbound call management</p>
+                      <p class="t-large t-bright anim-uni-in-up" style="margin-top: 3rem;">Two roles — each with a different need from the dashboard</p>
                     </div>
                   </div>
                   <div class="row justify-content-center gx-0">
@@ -833,12 +851,8 @@
                         </div>
 
                         <div class="notebook-card__avatar">SM</div>
-                        <p class="notebook-card__title">Support Team Lead</p>
-                        <p class="notebook-card__quote">"We miss a huge chunk of calls after 6pm. Those customers don't
-                          call
-                          back. They just leave. I know an AI could handle most of those questions — I just don't know
-                          how
-                          to set it up."</p>
+                        <p class="notebook-card__title">Sales Manager</p>
+                        <p class="notebook-card__quote">"I need to understand how my team is performing on calls, but the dashboard just gives me numbers. I still have to export the data to see trends."</p>
                       </div>
                     </div>
                     <div class="col-12 col-xl-5 mxd-project-cards__item mxd-grid-item anim-uni-scale-in-left">
@@ -847,11 +861,9 @@
                           <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
                         </div>
 
-                        <div class="notebook-card__avatar">SO</div>
-                        <p class="notebook-card__title">SMB Owner</p>
-                        <p class="notebook-card__quote">"I'm the only support person. When I'm on a call, the next
-                          customer
-                          gets nothing. I need something that can at least answer and hold them until I'm free."</p>
+                        <div class="notebook-card__avatar">TL</div>
+                        <p class="notebook-card__title">Support Team Lead</p>
+                        <p class="notebook-card__quote">"We know we're missing calls, but I can't tell why. Are agents unavailable? Are customers dropping in IVR? The dashboard doesn't explain it."</p>
                       </div>
                     </div>
                   </div>
@@ -872,15 +884,13 @@
             <div class="row justify-content-center gx-0">
               <div class="col-12 col-xl-10 mxd-grid-item no-margin">
                 <div class="mxd-project__subtitle">
-                  <h2 class="reveal-type anim-uni-in-up">Research Insights</h2>
+                  <h2 class="reveal-type anim-uni-in-up">Key Insights</h2>
                 </div>
               </div>
               <div class="col-12 col-xl-10 mxd-grid-item mt-zero">
                 <div class="mxd-project__content">
                   <div class="mxd-project__paragraph medium-text">
-                    <p class="anim-uni-in-up">I ran remote interviews and walkthroughs where support leads described
-                      their current call management workflows while thinking aloud. The same patterns surfaced
-                      consistently across team sizes and industries.</p>
+                    <p class="anim-uni-in-up">These conversations confirmed that the issue was not missing data — it was missing structure and clarity. The same patterns surfaced consistently across team sizes and industries.</p>
                   </div>
                 </div>
               </div>
@@ -891,20 +901,20 @@
 
                   <div class="sticky-note anim-uni-scale-in-right">
                     <p class="sticky-note__number">Insight 01</p>
-                    <p class="sticky-note__title">Brand trust mattered more than perfect AI answers</p>
-                    <p class="sticky-note__text">Support leads were less concerned about occasional incorrect responses. Their biggest concern was how the AI sounded to customers. An unnatural or robotic voice would reflect poorly on their brand.</p>
+                    <p class="sticky-note__title">Information hierarchy was unclear</p>
+                    <p class="sticky-note__text">Critical signals like missed calls and agent performance were buried among less important metrics. Users couldn't quickly identify what needed their attention.</p>
                   </div>
 
                   <div class="sticky-note anim-uni-in-up">
                     <p class="sticky-note__number">Insight 02</p>
-                    <p class="sticky-note__title">Users think in call scenarios, not configuration settings</p>
-                    <p class="sticky-note__text">When users described what they wanted the AI to handle, they talked about situations — pricing questions, appointment confirmations, or calls after business hours. They did not think in terms of system configuration or rules. The setup experience needed to match this mental model.</p>
+                    <p class="sticky-note__title">Inbound and outbound calls required different analysis</p>
+                    <p class="sticky-note__text">Sales teams cared about outbound connection rates and campaign performance. Support teams cared about inbound call handling and missed calls. A single analytics view served neither role effectively.</p>
                   </div>
 
                   <div class="sticky-note anim-uni-scale-in-left">
                     <p class="sticky-note__number">Insight 03</p>
-                    <p class="sticky-note__title">Missed after-hours calls were the biggest operational gap</p>
-                    <p class="sticky-note__text">Most teams mentioned the same problem. Customers calling outside business hours often received no response. This made round-the-clock call coverage the most important use case for the AI agent.</p>
+                    <p class="sticky-note__title">Missed calls lacked root-cause visibility</p>
+                    <p class="sticky-note__text">Teams could see the number of missed calls but had no way to understand the reason behind them. Without this context, operational improvements relied on assumptions rather than evidence.</p>
                   </div>
 
                 </div>
@@ -927,16 +937,16 @@
               <div class="col-12 col-xl-10 mxd-grid-item no-margin">
                 <div class="pain-cards-row">
                   <div class="pain-card pain-card--cream anim-uni-scale-in-right">
-                    <p class="pain-card__role">Support Team Lead</p>
-                    <p class="pain-card__item"><span class="pain-card__label">Pain:</span> Missed inbound calls when agents were busy or after business hours.</p>
-                    <p class="pain-card__item"><span class="pain-card__label">Consequence:</span> Customers often left without getting help, leading to unresolved issues and lower satisfaction.</p>
-                    <p class="pain-card__item"><span class="pain-card__label">Need:</span> A system that can automatically handle routine customer calls so agents can focus on complex support cases.</p>
+                    <p class="pain-card__role">Sales Manager</p>
+                    <p class="pain-card__item"><span class="pain-card__label">Pain:</span> Had to export data manually to identify performance trends because the dashboard only showed static numbers.</p>
+                    <p class="pain-card__item"><span class="pain-card__label">Consequence:</span> Decision-making was delayed and relied on guesswork rather than live insights.</p>
+                    <p class="pain-card__item"><span class="pain-card__label">Need:</span> A dashboard that surfaces outbound call trends and team performance at a glance without manual data work.</p>
                   </div>
                   <div class="pain-card pain-card--blue anim-uni-scale-in-left">
-                    <p class="pain-card__role">SMB Owner</p>
-                    <p class="pain-card__item"><span class="pain-card__label">Pain:</span> Solo operators couldn't answer every call while already helping another customer.</p>
-                    <p class="pain-card__item"><span class="pain-card__label">Consequence:</span> Incoming callers received no response, creating missed opportunities and frustrated customers.</p>
-                    <p class="pain-card__item"><span class="pain-card__label">Need:</span> An AI agent that can answer common questions and hold conversations until the owner becomes available.</p>
+                    <p class="pain-card__role">Support Team Lead</p>
+                    <p class="pain-card__item"><span class="pain-card__label">Pain:</span> Could see missed call counts but had no way to identify why calls were being missed.</p>
+                    <p class="pain-card__item"><span class="pain-card__label">Consequence:</span> Operational fixes were based on assumptions, not evidence, leading to ineffective changes.</p>
+                    <p class="pain-card__item"><span class="pain-card__label">Need:</span> Categorized missed call data with root-cause visibility so the team can take targeted action.</p>
                   </div>
                 </div>
               </div>
@@ -950,23 +960,33 @@
             <div class="row justify-content-center gx-0">
               <div class="col-12 col-xl-10 mxd-grid-item no-margin">
                 <div class="mxd-project__subtitle">
-                  <h2 class="reveal-type anim-uni-in-up pb-5 pb-zero">Brainstorming Scoping</h2>
+                  <h2 class="reveal-type anim-uni-in-up pb-5 pb-zero">Key Design Decisions</h2>
                 </div>
               </div>
               <div class="col-12 col-xl-10 mxd-grid-item mt-0">
                 <div class="mxd-project__content">
-                  <div class="mxd-project__paragraph medium-text">
-                    <p class="anim-uni-in-up">After synthesizing research, I ran a prioritization session with the PM
-                      and engineering lead. We mapped potential features against support team needs and build
-                      complexity.</p>
-            
+                  <div class="setup-steps">
+                    <div class="setup-step anim-uni-in-up">
+                      <span class="setup-step__icon">▷▷</span>
+                      <p class="setup-step__text"><strong>Separate quick monitoring from deeper analysis</strong> by introducing a two-layer dashboard structure. The main dashboard gives managers a fast overview, while the analytics module helps them investigate performance in detail.</p>
+                    </div>
+                    <div class="setup-step anim-uni-in-up">
+                      <span class="setup-step__icon">▷▷</span>
+                      <p class="setup-step__text"><strong>Prioritize the metrics managers check most often</strong> such as total calls, inbound and outbound activity, average talk time, and agent performance so the team can understand call performance immediately.</p>
+                    </div>
+                    <div class="setup-step anim-uni-in-up">
+                      <span class="setup-step__icon">▷▷</span>
+                      <p class="setup-step__text"><strong>Create dedicated analytics views for inbound and outbound calls</strong> so sales teams and support teams can focus on the data that matters to their daily work.</p>
+                    </div>
+                    <div class="setup-step anim-uni-in-up">
+                      <span class="setup-step__icon">▷▷</span>
+                      <p class="setup-step__text"><strong>Make missed calls easier to diagnose</strong> by breaking them into clear categories like agents unavailable, IVR abandonment, and outside business hours.</p>
+                    </div>
+                    <div class="setup-step anim-uni-in-up">
+                      <span class="setup-step__icon">▷▷</span>
+                      <p class="setup-step__text"><strong>Use visual charts that reveal patterns quickly</strong> so managers can see trends in call activity without needing to manually interpret raw numbers.</p>
+                    </div>
                   </div>
-                </div>
-              </div>
-              <div class="col-12 col-xl-10 mxd-grid-item no-margin">
-                <div class="img-bordered-caption">
-                  <img src="./img/works/brain-stroming.jpg" alt="Brainstorming and Scoping">
-                  <p class="img-bordered-caption__caption">Image: Early ideation session using the "How Might We" framework to identify opportunities for simplifying AI agent creation and building trust in automated call handling.</p>
                 </div>
               </div>
           </div>
@@ -982,30 +1002,28 @@
             <div class="row justify-content-center gx-0">
               <div class="col-12 col-xl-10 mxd-grid-item no-margin">
                 <div class="mxd-project__subtitle">
-                  <h2 class="reveal-type anim-uni-in-up">Design Tradeoff</h2>
+                  <h2 class="reveal-type anim-uni-in-up">Solution</h2>
                 </div>
               </div>
               <div class="col-12 col-xl-10 mxd-grid-item">
                 <div class="mxd-project__content">
                   <div class="">
-                    <p class="anim-uni-in-up pb-4">Early exploration considered a more configurable setup with multiple
-                      advanced settings for voice behavior, routing, and knowledge mapping. While this approach provided
-                      flexibility, it introduced complexity for support leads and SMB owners who were not technical
-                      users.</p>
+                    <p class="anim-uni-in-up pb-4">The redesigned system introduced a two-layer dashboard architecture. This structure allows managers to monitor performance quickly and explore details only when necessary.</p>
+                     <p class="t-large t-bright anim-uni-in-up pb-2 fnbold">Architecture Diagram</p>
+                    <div class="img-container imccutcont">
+                      <img class="brdcol" src="./img/works/Call-Analytics-Dashboard-Architectur.png" width="737" height="585" alt="Two-layer dashboard architecture">
+                    </div>
 
-                    
                   </div>
                 </div>
               </div>
 
-              <div class="col-12 col-xl-10 mxd-grid-item no-margin">
-                <p class="t-large t-bright anim-uni-in-up pb-2 fnbold">Simplicity vs Flexibility</p>
-                <p class="anim-uni-in-up pb-4">I prioritized a guided setup flow instead, focusing on the essential
-                      steps required to deploy an AI agent quickly. This reduced configuration flexibility but
-                      significantly improved usability and reduced the time required to create an agent.</p>
-                    <div class="img-container imccutcont">
-                      <img src="./img/works/design-tardeoff.png" width="737" height="585" alt="Constraints">
-                    </div>
+              <div class="col-12 col-xl-10 mxd-grid-item no-margin mt-5">
+                <p class="t-large t-bright anim-uni-in-up pb-2 fnbold">1. Simplified main dashboard</p>
+                <p class="anim-uni-in-up pb-4">Provides a quick overview of call activity and team performance. Managers can understand the overall call situation within seconds of opening the dashboard.</p>
+                <p class="t-large t-bright anim-uni-in-up pb-2 fnbold">2. Dedicated analytics module</p>
+                <p class="anim-uni-in-up pb-4">Helps managers investigate inbound calls, outbound activity, and missed call patterns without jumping across multiple screens.</p>
+                   
               </div>
             </div>
 
@@ -1019,30 +1037,28 @@
             <div class="row justify-content-center gx-0">
               <div class="col-12 col-xl-10 mxd-grid-item no-margin">
                 <div class="mxd-project__subtitle">
-                  <h2 class="reveal-type anim-uni-in-up">User Flow</h2>
+                  <h2 class="reveal-type anim-uni-in-up">Feature 1 <br> Main Dashboard</h2>
                 </div>
               </div>
               <div class="col-12 col-xl-10 mxd-grid-item">
                 <div class="mxd-project__content">
                   <div class="mxd-project__paragraph medium-text mt-zero">
-                    <p class="anim-uni-in-up">Before designing the interface, I mapped the full setup journey from a support lead clicking Create Agent to the agent going live. The goal was to understand what decisions users needed to make during setup and how to keep the process simple for non-technical teams.</p>
-                  
+                    <p class="anim-uni-in-up">The original dashboard displayed many metrics without prioritization, making it difficult for managers to quickly understand team performance. The redesigned dashboard highlights the six key metrics managers check most frequently.</p>
+
                   </div>
                 </div>
               </div>
                <div class="col-12 col-xl-10 mxd-grid-item no-margin">
-                  <p class="t-large t-bright anim-uni-in-up mt-4 pb-4 fnbold">Setup flow</p>
+                  <p class="t-large t-bright anim-uni-in-up mt-4 pb-4 fnbold">Six priority metrics</p>
                   <div class="img-container imccutcont pb-4">
-                      <img class="brdcol" src="./img/works/ai-agent-user-flow.png" width="737" height="585" alt="AI Agent User Flow">
+                    <div class=" bg-base-tint radius-m mb-5 brdcol">
+                      <video src="./img/works/dashboard_tour.mp4" class="w-100"
+                        style="border-radius: var(--_radius-m);" autoplay loop muted playsinline preload="none"></video>
                     </div>
-                    <p class="t-large t-bright anim-uni-in-up pb-2 fnbold">Key Design Decision</p>
-                    <p class="anim-uni-in-up pb-4">This exercise revealed an important constraint. Every setup decision had to live inside a single guided popup so users would not need to navigate across multiple pages.</p>
-                     <p class="anim-uni-in-up pb-4">
-
-The sequence was intentional. The agent first needs a knowledge base before defining how it should speak. Once the knowledge is defined, the user can configure the voice and behaviour.</p>
-                     <p class="anim-uni-in-up pb-4">
-
-Keeping everything in one structured flow made the setup faster and easier for support teams.</p>
+                    </div>
+                    <p class="t-large t-bright anim-uni-in-up pb-2 fnbold">Design rationale</p>
+                    <p class="anim-uni-in-up pb-4">Total Calls, Inbound Calls, Outbound Calls, Average Talk Time, Active Agents, and Best Performing Agent are presented using large card components with strong visual hierarchy. The number is emphasized first, followed by the label and supporting context.</p>
+                    <p class="anim-uni-in-up pb-4">Managers can now open the dashboard and understand the overall call situation within seconds. The dashboard effectively functions as a daily operational snapshot.</p>
                </div>
             </div>
           </div>
@@ -1055,40 +1071,46 @@ Keeping everything in one structured flow made the setup faster and easier for s
             <div class="row justify-content-center gx-0">
               <div class="col-12 col-xl-10 mxd-grid-item no-margin">
                 <div class="mxd-project__subtitle">
-                  <h2 class="reveal-type anim-uni-in-up">Design</h2>
+                  <h2 class="reveal-type anim-uni-in-up">Feature 2 <br> Incoming & Outgoing Analytics</h2>
                 </div>
               </div>
               <div class="col-12 col-xl-10 mxd-grid-item">
                 <div class="mxd-project__content">
                   <div class=" medium-text">
-                   
-                    <p class="t-large t-bright anim-uni-in-up fnbold">AI Voice Agent Setup Experience</p>
-                    <p class="anim-uni-in-up">This video shows the final setup flow where support teams can create and deploy an AI agent in a single guided popup. The process includes naming the agent, connecting a knowledge base, configuring voice behaviour, and allocating a phone number.</p>
+
+                    <p class="t-large t-bright anim-uni-in-up fnbold">Separated by call direction</p>
+                    <p class="anim-uni-in-up">Inbound and outbound call data were previously aggregated into a single analytics view, making it difficult for both sales and support teams to interpret performance. The analytics module separates them into two dedicated views.</p>
                   </div>
                 </div>
               </div>
                <div class="col-10 mxd-project-cards__item mxd-grid-item anim-uni-scale-in-right">
                   <div class=" bg-base-tint radius-m mb-5">
-                    <video src="./img/works/ai-voice-agent-demo.mp4" class="w-100"
-                      style="border-radius: var(--_radius-m);" autoplay loop muted playsinline preload="none"></video>
+                   <div class=" bg-base-tint radius-m mb-5 brdcol">
+                      <video src="./img/works/call_analytics.mp4" class="w-100"
+                        style="border-radius: var(--_radius-m);" autoplay loop muted playsinline preload="none"></video>
+                    </div>
                   </div>
                   <div class="mxd-project__subtitle">
-                   <p class="t-large t-bright anim-uni-in-up fnbold">Setup Experience</p>
+                   <p class="t-large t-bright anim-uni-in-up fnbold">Feature 3 <br> Missed Call Analytics</p>
                  <div class="mxd-project__content">
                   <div class=" medium-text">
-                    <p class="anim-uni-in-up">Support teams needed a simple way to create and launch an AI agent without developer help. I designed a guided setup that can be completed in a single popup.</p>
+                    <p class="anim-uni-in-up pb-4">Missed calls were displayed only as a single number, offering no insight into the underlying cause. The redesigned view categorizes missed calls into five operational reasons.</p>
+                     <div class=" bg-base-tint radius-m mb-5 brdcol">
+                      <video src="./img/works/missed_call.mp4" class="w-100"
+                        style="border-radius: var(--_radius-m);" autoplay loop muted playsinline preload="none"></video>
+                    </div>
                     <div class="setup-steps">
                       <div class="setup-step anim-uni-in-up">
                         <span class="setup-step__icon">▷▷</span>
-                        <p class="setup-step__text"><strong>Step 1: Agent identity and knowledge</strong> — The setup starts by defining the agent's name and connecting the knowledge base. This ensures the agent knows what information it can use before any other configuration.</p>
+                        <p class="setup-step__text"><strong>Not answered by agent</strong> — Agent was available but the call was not picked up.</p>
                       </div>
                       <div class="setup-step anim-uni-in-up">
                         <span class="setup-step__icon">▷▷</span>
-                        <p class="setup-step__text"><strong>Step 2: Voice and behaviour</strong> — Next, users choose the agent's voice and tone. A preview option lets them hear how the agent will sound before activating it.</p>
+                        <p class="setup-step__text"><strong>All agents unavailable</strong> — No agents were free to take the call at that moment.</p>
                       </div>
                       <div class="setup-step anim-uni-in-up">
                         <span class="setup-step__icon">▷▷</span>
-                        <p class="setup-step__text"><strong>Step 3: Number allocation</strong> — Finally, the user selects the phone number the agent will answer. Numbers are shown in a visual grid so they are easy to scan and choose.</p>
+                        <p class="setup-step__text"><strong>Abandoned during welcome message / in IVR / outside business hours</strong> — A segmented horizontal bar chart highlights the dominant cause at a glance, allowing teams to diagnose issues and take targeted action.</p>
                       </div>
                     </div>
                   </div>
@@ -1110,7 +1132,7 @@ Keeping everything in one structured flow made the setup faster and easier for s
             <div class="row justify-content-center gx-0">
               <div class="col-12 col-xl-10 mxd-grid-item no-margin">
                 <div class="mxd-project__subtitle">
-                  <h2 class="reveal-type anim-uni-in-up">Outcome</h2>
+                  <h2 class="reveal-type anim-uni-in-up">Results</h2>
                 </div>
               </div>
               <div class="col-12 col-xl-10 mxd-grid-item">
@@ -1119,22 +1141,22 @@ Keeping everything in one structured flow made the setup faster and easier for s
                     <div class="outcome-item anim-uni-in-up">
                       <i class="ph-bold ph-smiley outcome-item__icon"></i>
                       <div>
-                        <p class="outcome-item__title">54% of routine inbound calls handled automatically</p>
-                        <p class="outcome-item__desc">Billing questions, FAQs, appointment confirmations, and order status calls are now handled by the AI agent.</p>
+                        <p class="outcome-item__title">Faster performance visibility</p>
+                        <p class="outcome-item__desc">Managers can now understand call activity within seconds of opening the dashboard — no exports, no manual data work.</p>
                       </div>
                     </div>
                     <div class="outcome-item anim-uni-in-up">
                       <i class="ph-bold ph-smiley outcome-item__icon"></i>
                       <div>
-                        <p class="outcome-item__title">Support teams gained continuous call coverage</p>
-                        <p class="outcome-item__desc">Customers receive responses even outside business hours without requiring additional staffing.</p>
+                        <p class="outcome-item__title">Root-cause visibility for missed calls</p>
+                        <p class="outcome-item__desc">Missed calls are categorized into actionable causes instead of being displayed as a single metric, enabling targeted operational fixes.</p>
                       </div>
                     </div>
                     <div class="outcome-item anim-uni-in-up">
                       <i class="ph-bold ph-smiley outcome-item__icon"></i>
                       <div>
-                        <p class="outcome-item__title">Agents focus on complex support cases</p>
-                        <p class="outcome-item__desc">Human agents spend less time answering repetitive questions and more time resolving customer issues.</p>
+                        <p class="outcome-item__title">Structured analytics for each team</p>
+                        <p class="outcome-item__desc">Dedicated analytics views allow sales and support teams to investigate call performance without navigating across multiple disconnected screens.</p>
                       </div>
                     </div>
                   </div>
@@ -1161,22 +1183,22 @@ Keeping everything in one structured flow made the setup faster and easier for s
                     <div class="outcome-item anim-uni-in-up">
                       <i class="ph-bold ph-smiley outcome-item__icon"></i>
                       <div>
-                        <p class="outcome-item__title">Setup sequence affects user confidence</p>
-                        <p class="outcome-item__desc">The order of the setup flow mattered more than expected. Starting with knowledge, then voice, and finally number allocation helped users understand the agent before activating it.</p>
+                        <p class="outcome-item__title">Data-heavy interfaces require strong hierarchy</p>
+                        <p class="outcome-item__desc">The original dashboard had sufficient data. The real problem was prioritization. Deciding what to surface first had more impact than adding new data.</p>
                       </div>
                     </div>
                     <div class="outcome-item anim-uni-in-up">
                       <i class="ph-bold ph-smiley outcome-item__icon"></i>
                       <div>
-                        <p class="outcome-item__title">Knowledge quality directly affects AI performance</p>
-                        <p class="outcome-item__desc">Teams with well-structured FAQs and support documentation saw much better AI responses. The design had to make connecting a knowledge base simple and visible.</p>
+                        <p class="outcome-item__title">Visualization design is decision design</p>
+                        <p class="outcome-item__desc">The right chart can communicate patterns instantly and eliminate the need for manual interpretation. Choosing chart types based on user questions — not available data — was a key shift.</p>
                       </div>
                     </div>
                     <div class="outcome-item anim-uni-in-up">
                       <i class="ph-bold ph-smiley outcome-item__icon"></i>
                       <div>
-                        <p class="outcome-item__title">Trust is critical when introducing AI features</p>
-                        <p class="outcome-item__desc">Users wanted reassurance before launching the agent. Voice previews and a guided setup helped them feel confident before activating the system.</p>
+                        <p class="outcome-item__title">Analytics tools should enable decisions</p>
+                        <p class="outcome-item__desc">Every analytics feature should be designed around a specific operational question. Early engineering collaboration ensured the analytics design aligned with the underlying data structure.</p>
                       </div>
                     </div>
                   </div>

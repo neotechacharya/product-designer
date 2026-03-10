@@ -1,750 +1,1278 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="robots" content="noindex, nofollow" />
-    <title>CallHippo AI Hub — Case Study</title>
-    <meta
-      name="description"
-      content="Case study: Designing an AI knowledge layer that gives support agents instant, accurate answers."
-    />
+<html lang="en" dir="ltr" color-scheme="light">
 
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
-    />
-     <link rel="apple-touch-icon" sizes="180x180" href="assets/img/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16x16.png">
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              background: "#f6eee3",
-              foreground: "#14110f",
-              muted: "#6c665d",
-              border: "#ded5c7",
-              highlight: "#ffb457",
-            },
-            maxWidth: {
-              content: "1100px",
-              narrow: "760px",
-            },
-            fontFamily: {
-              sans: ['"Figtree"', '"DM Sans"', '"Inter"', "system-ui", "sans-serif"],
-              archivo: ['"Archivo"', '"Archivo Placeholder"', "system-ui", "sans-serif"],
-            },
-            boxShadow: {
-              soft: "0 18px 60px rgba(0,0,0,0.08)",
-            },
-          },
-        },
-      };
-    </script>
+<head>
+  <meta charset="UTF-8">
 
-    <style>
-      @font-face {
-        font-family: "Archivo";
-        src: url("https://framerusercontent.com/third-party-assets/fontshare/wf/RJX4LSNI55LNZ6QWGQALARVRCFUYJDBE/HQPW4MP6HXPYZKXF6CFWGJ6ZOJBHKM3X/UHPKREF72UMVMQSKHPDQ42AVOZPICLOJ.woff2");
-        font-display: swap;
-        font-style: normal;
-        font-weight: 700;
-      }
-      @font-face {
-        font-family: "Archivo";
-        src: url("https://framerusercontent.com/third-party-assets/fontshare/wf/Y42A6OBFKHMPOGSSWNFHV6ASZ7RM3IXN/JID5YS2RALYHLX7OX7ELWBV5EF3C3ZQS/4QOBYYT6LF33KRDEW47UQ3DFAEWGYHD4.woff2");
-        font-style: normal;
-        font-weight: 900;
-      }
-      @font-face {
-        font-family: "Archivo Placeholder";
-        src: local("Arial");
-        ascent-override: 112.34%;
-        descent-override: 41.5%;
-        line-gap-override: 9.11%;
-        size-adjust: 98.81%;
-      }
-      @font-face {
-        font-family: "Figtree";
-        font-style: normal;
-        font-weight: 500;
-        font-display: swap;
-        src: url(https://fonts.gstatic.com/s/figtree/v9/_Xms-HUzqDCFdgfMm4S9DQ.woff2) format("woff2");
-        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304,
-          U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-      }
-      body {
-        text-rendering: geometricPrecision;
-        -webkit-font-smoothing: antialiased;
-      }
-    </style>
-    <script>
-      function toggleMobileMenu() {
-        const menu = document.getElementById('mobileMenu');
-        const toggle = document.getElementById('menuToggle');
-        menu.classList.toggle('hidden');
-        toggle.classList.toggle('active');
-      }
-    </script>
-  </head>
+  <!-- Page Title -->
+  <title>CallHippo AI Hub — Case Study | Jigar Acharya, Product Designer</title>
 
-  <body class="bg-background text-foreground font-sans">
+  <!-- Meta Tags -->
+  <meta name="description"
+    content="Case study by Jigar Acharya: Designed AI Hub for CallHippo — an AI knowledge layer that helps support agents respond faster without leaving the conversation. Covers research, design strategy, and outcomes.">
+  <meta name="keywords"
+    content="Jigar Acharya, CallHippo, AI Hub, Product Designer, UX Case Study, SaaS Design, Knowledge Base, AI Support, Conversational AI">
+  <meta name="author" content="Jigar Acharya">
+  <meta name="robots" content="noindex, nofollow">
 
-    <!-- Sticky Header -->
-    <div class="sticky top-0 z-50 bg-background border-b border-border">
-      <div class="w-full max-w-content mx-auto px-4 sm:px-6 lg:px-8">
-        <header class="flex items-center justify-between py-5">
-          <a href="./index.html" class="flex items-center gap-3 group">
-            <span class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background/70" aria-hidden="true">←</span>
-            <span class="font-archivo tracking-[0.22em] text-[0.72rem] uppercase">Back</span>
-          </a>
-          <!-- Desktop nav -->
-          <nav class="hidden sm:flex items-center gap-8 text-[0.75rem] font-medium tracking-[0.2em]">
-            <a href="./index.html#work" class="hover:opacity-100 opacity-70 transition">WORK</a>
-            <a href="./about.html" class="hover:opacity-100 opacity-70 transition">ABOUT</a>
-            <a href="https://www.linkedin.com/in/jigar-acharya-722232ab/" target="_blank" rel="noreferrer" class="hover:opacity-100 opacity-70 transition">CONTACT</a>
-          </nav>
-          <!-- Hamburger -->
-          <button id="menuToggle" class="sm:hidden flex flex-col gap-1.5 items-center justify-center w-8 h-8" onclick="toggleMobileMenu()" aria-label="Toggle menu">
-            <span class="block w-5 h-0.5 bg-foreground transition-all"></span>
-            <span class="block w-5 h-0.5 bg-foreground transition-all"></span>
-            <span class="block w-5 h-0.5 bg-foreground transition-all"></span>
-          </button>
-        </header>
-      </div>
-      <!-- Mobile dropdown -->
-      <nav id="mobileMenu" class="hidden bg-background border-b border-border">
-        <div class="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col">
-          <a href="./index.html#work" class="px-3 py-2.5 font-medium text-[0.75rem] tracking-[0.2em] text-center border-b border-border/50 opacity-70" onclick="toggleMobileMenu()">WORK</a>
-          <a href="./about.html" class="px-3 py-2.5 font-medium text-[0.75rem] tracking-[0.2em] text-center border-b border-border/50 opacity-70" onclick="toggleMobileMenu()">ABOUT</a>
-          <a href="https://www.linkedin.com/in/jigar-acharya-722232ab/" target="_blank" rel="noreferrer" class="px-3 py-2.5 font-medium text-[0.75rem] tracking-[0.2em] text-center opacity-70">CONTACT</a>
+  <!-- Viewport Meta-->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- Template Favicon & Icons Start -->
+  <link rel="icon" href="img/favicon/favicon.ico" sizes="any">
+  <!--<link rel="icon" href="img/favicon/icon.svg" type="image/svg+xml">-->
+  <link rel="apple-touch-icon" href="img/favicon/apple-touch-icon.png">
+ 
+  <!-- Template Favicon & Icons End -->
+
+  <!-- Open Graph / Social Metadata Start -->
+  <meta property="og:type" content="article">
+  <meta property="og:image:height" content="1200">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:title" content="CallHippo AI Hub — Case Study | Jigar Acharya, Product Designer">
+  <meta property="og:description"
+    content="Case study by Jigar Acharya: Designed AI Hub for CallHippo — an AI knowledge layer that helps support agents respond faster without leaving the conversation.">
+  <meta property="og:url" content="">
+  <meta property="og:image" content="">
+  <!-- Open Graph / Social Metadata End -->
+
+  <!-- Template Styles Start -->
+  <link rel="stylesheet" type="text/css" href="css/loaders/loader.css">
+  <link rel="stylesheet" type="text/css" href="css/plugins.css">
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+  <!-- Template Styles End -->
+
+  <!-- Custom Brow justify-content-centerser Color Start -->
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FAF7F6">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#161616">
+  <meta name="msapplication-navbutton-color" content="#161616">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Custom Brow justify-content-centerser Color End -->
+  <style>
+    /* Notebook Persona Cards */
+    .notebook-card {
+      position: relative;
+      border-radius: 1.6rem;
+      padding: 3.6rem 2.8rem 2.8rem;
+      text-align: center;
+      overflow: hidden;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      height: 100%;
+    }
+
+    .notebook-card--cream {
+      background: #FFF8E1;
+    }
+
+    .notebook-card--blue {
+      background: #E3F2FD;
+    }
+
+    /* Top dots */
+    .notebook-card__dots-top {
+      display: flex;
+      justify-content: center;
+      gap: 1.4rem;
+      position: absolute;
+      top: 1.2rem;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .notebook-card__dots-top span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.12);
+      display: block;
+    }
+
+    /* Right dots */
+    .notebook-card__dots-right {
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+      position: absolute;
+      top: 50%;
+      right: 1.2rem;
+      transform: translateY(-50%);
+    }
+
+    .notebook-card__dots-right span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.12);
+      display: block;
+    }
+
+    /* Avatar circle */
+    .notebook-card__avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: #F8BBD0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0.8rem auto 1.6rem;
+      font-family: var(--_font-accent);
+      font-weight: 700;
+      font-size: 1.8rem;
+      color: #161616;
+    }
+
+    .notebook-card__title {
+      font-family: var(--_font-accent);
+      font-weight: 700;
+      font-size: 1.8rem;
+      color: #161616;
+      margin-bottom: 1.2rem;
+    }
+
+    .notebook-card__quote {
+      font-style: italic;
+      font-size: 1.5rem;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    /* Miro Sticky Notes - Research Insights */
+    .sticky-notes-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2.4rem;
+      margin-top: 3.2rem;
+      align-items: flex-start;
+    }
+
+    .sticky-note {
+      position: relative;
+      background: #FFD54F;
+      padding: 2.4rem 2.4rem 3.6rem;
+      flex: 1 1 260px;
+      min-height: 220px;
+      box-shadow: 3px 6px 18px rgba(0, 0, 0, 0.18), 1px 2px 4px rgba(0, 0, 0, 0.10);
+    }
+
+    /* Folded corner effect */
+    .sticky-note::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(225deg, rgba(0, 0, 0, 0.13) 50%, transparent 50%);
+    }
+
+    /* Alternating slight rotations for Miro feel */
+    .sticky-note:nth-child(1) { transform: rotate(-1.4deg); }
+    .sticky-note:nth-child(2) { transform: rotate(0.9deg); }
+    .sticky-note:nth-child(3) { transform: rotate(-0.6deg); }
+
+    .sticky-note__number {
+      font-size: 1.1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(0, 0, 0, 0.4);
+      margin-bottom: 1.4rem;
+    }
+
+    .sticky-note__title {
+      font-family: var(--_font-accent);
+      font-weight: 700;
+      font-size: 1.55rem;
+      line-height: 1.4;
+      color: #1a1a1a;
+      margin-bottom: 1.2rem;
+    }
+
+    .sticky-note__text {
+      font-size: 1.4rem;
+      line-height: 1.65;
+      color: #2a2a2a;
+    }
+
+    /* Bootstrap container-xxl fix: prevent double-padding from mxd-container.grid-container
+       at 1400px+ where container-xxl takes effect (max-width: 1320px) */
+    @media only screen and (min-width: 1400px) {
+      #mxd-page-content .mxd-container.grid-container {
+        padding-left: 0;
+        padding-right: 0;
+        max-width: 100%;
+      }
+    }
+
+    /* Outcome List */
+    .outcome-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2.4rem;
+      margin-top: 2rem;
+    }
+
+    .outcome-item {
+      display: flex;
+      gap: 1.4rem;
+      align-items: flex-start;
+    }
+
+    .outcome-item__icon {
+      color: #22c55e;
+      font-size: 2rem;
+      flex-shrink: 0;
+      line-height: 1.3;
+    }
+
+    .outcome-item__title {
+      font-weight: 700;
+    
+      line-height: 1.4;
+      color: #161616;
+      margin-bottom: 0.5rem;
+    }
+
+    .outcome-item__desc {
+      font-size: 1.55rem;
+      line-height: 1.65;
+   
+    }
+
+    /* Result Metric Block */
+    .result-metric-block {
+      background: #F7F7F7;
+      border-radius: 1.6rem;
+      padding: 3.2rem;
+      margin-top: 2rem;
+    }
+
+    .result-metric__number {
+      font-size: 7.2rem;
+      font-weight: 700;
+      line-height: 1;
+      color: #161616;
+      font-family: var(--_font-accent);
+      margin-bottom: 0.6rem;
+    }
+
+    .result-metric__label {
+      font-size: 1.3rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #999;
+      margin-bottom: 2.4rem;
+    }
+
+    .result-metric__progress {
+      font-family: var(--_font-accent);
+      font-weight: 700;
+      font-size: 2rem;
+      color: #333;
+      margin-bottom: 1.4rem;
+    }
+
+    .result-metric__desc p {
+      font-size: 1.5rem;
+      line-height: 1.7;
+      color: #555;
+      margin-bottom: 0.8rem;
+    }
+
+    .result-metric__desc p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Setup Steps List */
+    .setup-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 2.4rem;
+      margin-top: 2.4rem;
+    }
+
+    .setup-step {
+      display: flex;
+      gap: 1.4rem;
+      align-items: flex-start;
+    }
+
+    .setup-step__icon {
+      color: #5B6CF9;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      margin-top: 0.15rem;
+      letter-spacing: -0.12em;
+      line-height: 1.6;
+    }
+
+    .setup-step__text {
+     
+      line-height: 1.65;
+      color: var(--_color-base, #161616);
+    }
+
+    .setup-step__text strong {
+      font-weight: 700;
+    }
+
+    /* Bordered image with caption */
+    .img-bordered-caption {
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      border-radius: 1.6rem;
+      padding: 2rem 2rem 0;
+      background: #fff;
+      margin-top: 2rem;
+    }
+
+    .img-bordered-caption img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 0.8rem;
+    }
+
+    .img-bordered-caption__caption {
+      padding: 1.6rem 1rem 1.8rem;
+      text-align: center;
+      font-size: 1.35rem;
+      color: #888;
+      line-height: 1.6;
+    }
+
+    /* Pain Cards - Key User Needs */
+    .pain-cards-row {
+      display: flex;
+      gap: 2.4rem;
+      flex-wrap: wrap;
+      margin-top: 3rem;
+    }
+
+    .pain-card {
+      flex: 1 1 280px;
+      border-radius: 1.6rem;
+      padding: 2.8rem 2.4rem;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .pain-card--cream {
+      background: #FFF8E1;
+    }
+
+    .pain-card--blue {
+      background: #E3F2FD;
+    }
+
+    .pain-card__role {
+      font-family: var(--_font-accent);
+      font-weight: 700;
+      font-size: 1.2rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #E07B39;
+      margin-bottom: 2rem;
+    }
+
+    .pain-card__item {
+      margin-bottom: 1.6rem;
+      font-size: 1.5rem;
+      line-height: 1.65;
+      color: #333;
+    }
+
+    .pain-card__item:last-child {
+      margin-bottom: 0;
+    }
+
+    .pain-card__label {
+      font-weight: 700;
+      color: #161616;
+    }
+
+    /* Problem Result List */
+    .problem-result-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin: 1rem 0 2.8rem;
+    }
+
+    .problem-result-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.2rem;
+    }
+
+    .problem-result-item__icon {
+      color: #E03131;
+     
+      flex-shrink: 0;
+      line-height: 1.4;
+    }
+
+    .problem-result-item__text {
+     
+      line-height: 1.6;
+      color: #333;
+    }
+
+    .problem-result-item__text strong {
+      font-weight: 700;
+      color: #161616;
+    }
+
+    /* Remove inline gap below video elements */
+    video {
+      display: block;
+    }
+  </style>
+
+  <!-- Minimal Footer Styles Start -->
+  <style>
+    .mxd-footer--minimal {
+      padding: 0;
+      background: transparent;
+      border-top: none;
+    }
+
+    .mxd-footer--minimal .footer-minimal__divider {
+      border-top: 1px solid rgba(0, 0, 0, 0.12);
+      margin: 0 3rem;
+    }
+
+    .mxd-footer--minimal .footer-minimal__bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2.4rem 3rem;
+      font-size: 1.3rem;
+      color: var(--_color-muted, #888);
+    }
+
+    .mxd-footer--minimal .footer-minimal__label {
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 600;
+    }
+  </style>
+  <!-- Minimal Footer Styles End -->
+
+</head>
+
+<body>
+
+  <!-- Loader Start -->
+  <div id="loader" class="loader">
+    <div class="loader__wrapper">
+      <div class="loader__content">
+        <div class="loader__count">
+          <span class="count__text">0</span>
+          <span class="count__percent">%</span>
         </div>
-      </nav>
+      </div>
     </div>
-
-    <!-- Page content -->
-    <div class="flex flex-col items-center px-4 sm:px-6 lg:px-8 pt-8 pb-14">
-      <div class="w-full max-w-content">
-
-        <!-- Hero -->
-        <section class="mb-10 sm:mb-14 lg:mb-16">
-          <p class="text-[0.78rem] uppercase tracking-[0.18em] text-muted">
-            CallHippo AI Hub 
-          </p>
-          <h1 class="mt-4 font-archivo text-[2.2rem] sm:text-[2.8rem] lg:text-[3.2rem] leading-[1.08] font-semibold tracking-tight">
-            How I designed an AI knowledge layer that gives support agents instant, accurate answers — without switching tabs or searching docs
-          </h1>
-          <div class="mt-8 border border-border bg-white/70 shadow-soft overflow-hidden">
-            <div class="aspect-[16/8] bg-gradient-to-br from-[#d9f7c7] via-white to-[#d7e9ff] flex items-center justify-center">
-               <div class="aspect-[16/8] sm:aspect-[16/8] bg-gradient-to-br from-[#cbe9ff] via-white to-[#ffe7a8]"><img src="assets/img/ai-hub-banner.png" alt="AI Hub" class="w-full h-auto" loading="lazy"></div>
-            </div>
-          </div>
-        </section>
-
-        <!-- Design Goals -->
-      <!-- ============================================ -->
-<!-- AI COPILOT — Design Goals Section           -->
-<!-- ============================================ -->
-<section class="mb-12 sm:mb-16">
-  <div class="gap-4 mb-4">
-    <h2 class="font-archivo text-[1.5rem] sm:text-[1.75rem] font-semibold tracking-tight">Design Goals</h2>
-    <p>Success metrics were defined during scoping in collaboration with the PM. Baselines were gathered from remote observation sessions and interviews with 11 support agents, team leads, and operations managers.</p>
   </div>
+  <!-- Loader End -->
 
-  <div class="rounded-[22px] border border-border bg-white/75 overflow-hidden">
-    <div class="grid grid-cols-1 sm:grid-cols-4">
-      <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">
-        <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Metric</p>
-      </div>
-      <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">
-        <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Goal</p>
-      </div>
-      <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">
-        <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Baseline That Informed It</p>
-      </div>
-      <div class="px-5 py-4">
-        <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Outcome</p>
-      </div>
+  <!-- Menu & Menu Hamburger Start -->
+  <nav class="mxd-nav__wrap" data-lenis-prevent="">
+
+    <!-- Hamburger Start -->
+    <div class="mxd-nav__contain loading__fade">
+      <a href="#0" class="mxd-nav__hamburger">
+        <!-- flip element -->
+        <div class="hamburger__base"></div>
+        <div class="hamburger__line"></div>
+        <div class="hamburger__line"></div>
+      </a>
     </div>
+    <!-- Hamburger End -->
 
-    <div class="divide-y divide-border">
-      <div class="grid grid-cols-1 sm:grid-cols-4">
-        <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">"Reply with AI" Adoption</div>
-        <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">Strong weekly usage by agents</div>
-        <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">Feature did not exist — agents left the chat to search docs manually for every complex question</div>
-        <div class="px-5 py-4">
-          <span class="font-medium">0% → 73% weekly adoption</span><br/>
-          <span class="text-muted text-sm">Reached by Week 6 post-launch</span>
-        </div>
-      </div>
-      <div class="grid grid-cols-1 sm:grid-cols-4">
-        <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">Agent Response Time</div>
-        <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">Significant reduction</div>
-        <div class="px-5 py-4 border-b sm:border-b-0 sm:border-r border-border">Agents spent 2–4 min per message including tab-switching to find answers</div>
-        <div class="px-5 py-4">
-          <span class="font-medium">2–4 min → ~55 sec</span><br/>
-          <span class="text-muted text-sm">65% faster — agents stayed inside the conversation</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-        <!-- Narrow content -->
-        <div class="max-w-narrow mgauto">
-
-          <!-- Problem -->
-          <section class="mb-10 sm:mb-12">
-            <h2 class="font-archivo text-[1.4rem] sm:text-[1.6rem] font-semibold tracking-tight">Problem</h2>
-            <h3 class="mt-3 font-archivo text-[1.1rem] sm:text-[1.2rem] font-semibold">Support agents were answering the same questions differently — because finding the right answer took too long</h3>
-            <p class="mt-3 text-[1rem] leading-relaxed text-muted">
-              CallHippo serves support teams managing high volumes of inbound customer conversations across WhatsApp, chat, and other channels. The questions customers asked were largely predictable — pricing, integrations, onboarding steps, product features. The answers existed somewhere. But during a live conversation, agents couldn't access them fast enough to be useful.
-            </p>
-            <p class="mt-4 text-[1rem] leading-relaxed text-muted">
-              The typical workflow: a customer asks a question, the agent pauses the conversation, opens a browser tab, searches an internal doc or website, reads through it, composes a response, and types it back — all while the customer waits. For complex products with large knowledge bases, this added significant lag to every interaction.
-            </p>
-            <p class="mt-4 text-[1rem] leading-relaxed text-muted">
-              The result: slower response times, inconsistent answers across agents, and customers who noticed the gaps. The AI capability to surface relevant knowledge instantly was available. What didn't exist was a designed system for importing, managing, and surfacing that knowledge where agents actually needed it — inside the conversation itself.
-            </p>
-          </section>
-
-          <!-- Why This Problem -->
-          <section class="mb-10 sm:mb-12">
-            <h2 class="font-archivo text-[1.4rem] sm:text-[1.6rem] font-semibold tracking-tight">Why This Problem? — Auditing the Current Process</h2>
-            <p class="mt-3 text-[1rem] leading-relaxed text-muted">
-              Before moving to solutions, I spent two weeks understanding how support teams were currently handling knowledge retrieval during live conversations. I interviewed 11 people — support agents, team leads, and operations managers.
-            </p>
-
-            <h3 class="mt-7 font-archivo text-[1.1rem] sm:text-[1.2rem] font-semibold">Two distinct roles — each with a different relationship to in-conversation knowledge</h3>
-            <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div class="rounded-[18px] border border-black/30 bg-[#ffe7a8] shadow-[0_12px_30px_rgba(0,0,0,0.08)] overflow-hidden">
-                <div class="px-5 pt-4">
-                  <div class="flex items-center justify-between gap-2">
-                    <span class="h-[14px] w-[14px] rounded-full bg-background border border-black/25"></span>
-                    <span class="h-[14px] w-[14px] rounded-full bg-background border border-black/25"></span>
-                    <span class="h-[14px] w-[14px] rounded-full bg-background border border-black/25"></span>
-                    <span class="h-[14px] w-[14px] rounded-full bg-background border border-black/25"></span>
-                    <span class="h-[14px] w-[14px] rounded-full bg-background border border-black/25"></span>
-                    <span class="h-[14px] w-[14px] rounded-full bg-background border border-black/25"></span>
-                    <span class="h-[14px] w-[14px] rounded-full bg-background border border-black/25"></span>
-                    <span class="h-[14px] w-[14px] rounded-full bg-background border border-black/25"></span>
-                  </div>
-                </div>
-                <div class="px-5 pt-3 pb-6 text-center">
-                   <div class="mx-auto h-20 w-20 rounded-full bg-[#f7b3d6] border border-black/10 flex items-center justify-center">
-                    <span class="font-archivo text-[1.25rem] font-semibold">SA</span>
-                  </div>
-                  <p class="mt-4 font-archivo text-[1.05rem] sm:text-[1.1rem] font-semibold">Support Agent</p>
-                 
-                  <p class="mt-3 text-sm leading-relaxed text-foreground/80 italic">"I know the answer exists somewhere — in the docs, on the website, in a PDF someone shared in Slack three months ago. But I can't find it fast enough. So I either make my best guess or ask my manager, and the customer is just waiting."</p>
-                </div>
-              </div>
-
-              <div class="rounded-[18px] border border-black/30 bg-[#d7e9ff] shadow-[0_12px_30px_rgba(0,0,0,0.08)] overflow-hidden text-center">
-                <div class="px-5 pt-4">
-                  <div class="flex items-center justify-between gap-2">
-                    <span class="h-[14px] w-[14px] rounded-full bg-background border border-black/25"></span>
-                    <span class="h-[14px] w-[14px] rounded-full bg-background border border-black/25"></span>
-                    <span class="h-[14px] w-[14px] rounded-full bg-background border border-black/25"></span>
-                    <span class="h-[14px] w-[14px] rounded-full bg-background border border-black/25"></span>
-                    <span class="h-[14px] w-[14px] rounded-full bg-background border border-black/25"></span>
-                    <span class="h-[14px] w-[14px] rounded-full bg-background border border-black/25"></span>
-                    <span class="h-[14px] w-[14px] rounded-full bg-background border border-black/25"></span>
-                    <span class="h-[14px] w-[14px] rounded-full bg-background border border-black/25"></span>
-                  </div>
-                </div>
-                <div class="px-5 pt-3 pb-6">
-                    <div class="mx-auto h-20 w-20 rounded-full bg-[#f7b3d6] border border-black/10 flex items-center justify-center">
-                    <span class="font-archivo text-[1.25rem] font-semibold">SA</span>
-                  </div>
-                  <p class="mt-4 font-archivo text-[1.05rem] sm:text-[1.1rem] font-semibold">Support Team Lead</p>
-                  
-                  <p class="mt-3 text-sm leading-relaxed text-foreground/80 italic">"I've seen two agents give completely different answers to the same pricing question in the same hour. It's not a training problem. It's a retrieval problem. The knowledge is there — they just can't get to it in time."</p>
-                </div>
-              </div>
-            </div>
-
-            <h3 class="mt-8 font-archivo text-[1.1rem] sm:text-[1.2rem] font-semibold">The existing experience was failing both roles</h3>
-            <div class="mt-4 space-y-3">
-              <div class="rounded-[14px] border border-border bg-white/70 px-4 py-3">
-                <p class="font-archivo font-semibold text-sm">Knowledge lived everywhere except where agents worked</p>
-                <p class="mt-1 text-sm text-muted">Docs were in Google Drive, pricing was on the website, integration guides were in PDFs. None of it was accessible from inside the chat interface.</p>
-              </div>
-              <div class="rounded-[14px] border border-border bg-white/70 px-4 py-3">
-                <p class="font-archivo font-semibold text-sm">Search was too slow for live conversations</p>
-                <p class="mt-1 text-sm text-muted">Even when agents knew where to look, switching context, finding the right document, and scanning for the answer took long enough that customers experienced it as hesitation.</p>
-              </div>
-              <div class="rounded-[14px] border border-border bg-white/70 px-4 py-3">
-                <p class="font-archivo font-semibold text-sm">Inconsistency was invisible to management</p>
-                <p class="mt-1 text-sm text-muted">Different agents giving different answers to the same question produced no alert, no flag, no signal. It was only caught when a customer complained.</p>
-              </div>
-              <div class="rounded-[14px] border border-border bg-white/70 px-4 py-3">
-                <p class="font-archivo font-semibold text-sm">No feedback loop between customer questions and knowledge gaps</p>
-                <p class="mt-1 text-sm text-muted">When an agent couldn't find an answer, that gap was never recorded anywhere. The same question would stump the next agent too.</p>
-              </div>
-            </div>
-          </section>
-
-          <!-- Research Insights -->
-          <section class="mb-10 sm:mb-12">
-            <h2 class="font-archivo text-[1.4rem] sm:text-[1.6rem] font-semibold tracking-tight">Research — Understanding Each Role's Real Pain</h2>
-            <p class="mt-3 text-[1rem] leading-relaxed text-muted">
-              I ran remote observation sessions where agents handled live conversations while I watched their tab-switching behavior. The patterns were consistent and revealing.
-            </p>
-
-            <div
-              class="mt-6 rounded-[22px] border border-border bg-white/75 overflow-hidden"
-              style="background-image: linear-gradient(to right, rgba(0,0,0,0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.04) 1px, transparent 1px); background-size: 44px 44px;"
-            >
-              <div class="grid grid-cols-1 sm:grid-cols-2 auto-rows-fr">
-
-                <div class="p-5 sm:p-6 border-b sm:border-b-0 sm:border-r border-border flex flex-col">
-                  <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Insight 01</p>
-                  <div class="mt-4 p-2 flex-1 flex">
-                    <div class="relative w-full h-full bg-[#ffd6ea] border-2 border-black/30 rounded-[14px] px-5 pt-9 pb-6 shadow-[0_12px_28px_rgba(0,0,0,0.10)] flex flex-col justify-center">
-                      <span class="absolute top-3 left-3 h-[14px] w-[14px] rounded-full bg-background border-2 border-black/30"></span>
-                      <p class="font-archivo font-semibold text-center">Agents weren't slow — the system was. Speed was the only thing that mattered during a live conversation.</p>
-                      <p class="mt-3 text-sm leading-relaxed text-foreground/80 text-center">The bottleneck was purely retrieval. The moment an agent had to leave the chat interface to find an answer, the conversation stalled.</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="p-5 sm:p-6 border-b sm:border-b-0 border-border flex flex-col">
-                  <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Insight 02</p>
-                  <div class="mt-4 p-2 flex-1 flex">
-                    <div class="relative w-full h-full bg-[#d9f7c7] border-2 border-black/30 rounded-[14px] px-5 pt-9 pb-6 shadow-[0_12px_28px_rgba(0,0,0,0.10)] flex flex-col justify-center">
-                      <span class="absolute top-3 left-3 h-[14px] w-[14px] rounded-full bg-background border-2 border-black/30"></span>
-                      <p class="font-archivo font-semibold text-center">Agents trusted a source more when it was surfaced in context — not when they had to search for it.</p>
-                      <p class="mt-3 text-sm leading-relaxed text-foreground/80 text-center">When agents received a suggested answer alongside the customer's message, they responded faster and with more confidence — even when the underlying content was the same.</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="p-5 sm:p-6 border-t border-b sm:border-t-0 sm:border-b-0 sm:border-r border-border flex flex-col">
-                  <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Insight 03</p>
-                  <div class="mt-4 p-2 flex-1 flex">
-                    <div class="relative w-full h-full bg-[#ffe7a8] border-2 border-black/30 rounded-[14px] px-5 pt-9 pb-6 shadow-[0_12px_28px_rgba(0,0,0,0.10)] flex flex-col justify-center">
-                      <span class="absolute top-3 left-3 h-[14px] w-[14px] rounded-full bg-background border-2 border-black/30"></span>
-                      <p class="font-archivo font-semibold text-center">Admins had no scalable way to keep knowledge current.</p>
-                      <p class="mt-3 text-sm leading-relaxed text-foreground/80 text-center">When product features changed or pricing updated, there was no mechanism to push that change to agents. Knowledge became stale with no visible indicator.</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="p-5 sm:p-6 border-t sm:border-t-0 border-border flex flex-col">
-                  <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Insight 04</p>
-                  <div class="mt-4 p-2 flex-1 flex">
-                    <div class="relative w-full h-full bg-[#d7e9ff] border-2 border-black/30 rounded-[14px] px-5 pt-9 pb-6 shadow-[0_12px_28px_rgba(0,0,0,0.10)] flex flex-col justify-center">
-                      <span class="absolute top-3 left-3 h-[14px] w-[14px] rounded-full bg-background border-2 border-black/30"></span>
-                      <p class="font-archivo font-semibold text-center">The import step was the biggest barrier to getting started.</p>
-                      <p class="mt-3 text-sm leading-relaxed text-foreground/80 text-center">Admins described the import experience as technically opaque. There was no clear path from "I have a website" or "I have a PDF" to "my AI knows about my product."</p>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          </section>
-
-          <!-- Core Challenges -->
-          <section class="mb-10 sm:mb-12">
-            <h2 class="font-archivo text-[1.4rem] sm:text-[1.6rem] font-semibold tracking-tight">Core Challenges Summarized</h2>
-            <div
-              class="mt-6 rounded-[22px] border border-border bg-white/75 overflow-hidden"
-              style="background-image: linear-gradient(to right, rgba(0,0,0,0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.04) 1px, transparent 1px); background-size: 44px 44px;"
-            >
-              <div class="grid grid-cols-2 max-sm:grid-cols-1 auto-rows-fr">
-                <div class="p-5 sm:p-6 border-b sm:border-b-0 sm:border-r border-border flex flex-col">
-                  <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Support Agents</p>
-                  <div class="mt-4 p-2 flex-1 flex">
-                    <div class="relative w-full h-full bg-[#ffd6ea] border-2 border-black/30 rounded-[14px] px-5 pt-9 pb-6 shadow-[0_12px_28px_rgba(0,0,0,0.10)] flex flex-col justify-center">
-                      <span class="absolute top-3 left-3 h-[14px] w-[14px] rounded-full bg-background border-2 border-black/30"></span>
-                      <p class="font-archivo font-semibold text-center">Answers existed but were unreachable during live conversations — making every complex question a performance of confidence they didn't have.</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="p-5 sm:p-6 flex flex-col">
-                  <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Team Leads &amp; Admins</p>
-                  <div class="mt-4 p-2 flex-1 flex">
-                    <div class="relative w-full h-full bg-[#d9f7c7] border-2 border-black/30 rounded-[14px] px-5 pt-9 pb-6 shadow-[0_12px_28px_rgba(0,0,0,0.10)] flex flex-col justify-center">
-                      <span class="absolute top-3 left-3 h-[14px] w-[14px] rounded-full bg-background border-2 border-black/30"></span>
-                      <p class="font-archivo font-semibold text-center">No reliable, maintainable system for keeping knowledge accurate — and no visibility into where the gaps were.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <!-- MVP -->
-          <section class="mb-10 sm:mb-12">
-            <h2 class="font-archivo text-[1.4rem] sm:text-[1.6rem] font-semibold tracking-tight">Brainstorming &amp; Scoping — Choosing the Right MVP</h2>
-            <p class="mt-3 text-[1rem] leading-relaxed text-muted">
-              After synthesizing research, I ran a prioritization session with the PM and engineering lead. We mapped potential features against agent impact and setup complexity.
-            </p>
-
-            <div
-              class="mt-6 relative overflow-hidden rounded-[20px] border border-border bg-white/65 shadow-soft"
-              style="background-image: radial-gradient(rgba(20,17,15,0.06) 1px, transparent 1px); background-size: 18px 18px;"
-            >
-              <div class="absolute inset-y-0 left-0 w-1.5 bg-highlight/80" aria-hidden="true"></div>
-              <div class="px-6 sm:px-7 py-6">
-                <p class="font-archivo text-[1.05rem] sm:text-[1.1rem] font-semibold">We asked: How Might We...</p>
-                <ul class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 text-[0.95rem] leading-relaxed text-foreground/80">
-                  <li class="flex gap-2">
-                    <span class="mt-[0.35rem] h-1.5 w-1.5 rounded-full bg-foreground/70"></span>
-                    <span>Surface the right answer at the right moment — without the agent having to ask for it?</span>
+    <!-- Main Navigation Start -->
+     <div class="mxd-menu__wrapper">
+      <!-- background active layer -->
+      <div class="mxd-menu__base"></div>
+      <!-- menu container -->
+      <div class="mxd-menu__contain">
+        <div class="mxd-menu__inner">
+          <!-- left side -->
+          <div class="mxd-menu__left">
+            <p class="mxd-menu__caption menu-fade-in">🦄 Designing thoughtful digital products that solve real user problems.</p>
+            <div class="main-menu">
+              <nav class="main-menu__content">
+                <ul id="main-menu" class="main-menu__accordion">
+                  <li class="main-menu__item">
+                    <a class="main-menu__link btn btn-anim" href="index.html">
+                      <span class="btn-caption">Home</span>
+                    </a>
                   </li>
-                  <li class="flex gap-2">
-                    <span class="mt-[0.35rem] h-1.5 w-1.5 rounded-full bg-foreground/70"></span>
-                    <span>Make importing company knowledge as simple as pasting a URL or uploading a file?</span>
+                  <li class="main-menu__item">
+                    <a class="main-menu__link btn btn-anim" href="works-simple.html">
+                      <span class="btn-caption">Works</span>
+                    </a>
                   </li>
-                  <li class="flex gap-2">
-                    <span class="mt-[0.35rem] h-1.5 w-1.5 rounded-full bg-foreground/70"></span>
-                    <span>Give agents a way to query the knowledge base directly from inside a conversation?</span>
-                  </li>
-                  <li class="flex gap-2">
-                    <span class="mt-[0.35rem] h-1.5 w-1.5 rounded-full bg-foreground/70"></span>
-                    <span>Help admins see which questions the AI couldn't answer — so they know what to add?</span>
+                  <li class="main-menu__item">
+                    <a class="main-menu__link btn btn-anim" href="contact.html">
+                      <span class="btn-caption">Contact</span>
+                    </a>
                   </li>
                 </ul>
-              </div>
+              </nav>
             </div>
-
-            <h3 class="mt-8 font-archivo text-[1.1rem] sm:text-[1.2rem] font-semibold">Four design priorities emerged as the MVP core</h3>
-            <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div class="rounded-[18px] border border-border bg-white/70 p-4">
-                <div class="flex items-start gap-3">
-                  <div class="mt-0.5 h-9 w-9 flex shrink-0 items-center justify-center rounded-full border border-foreground/20 bg-background text-muted text-lg"><i class="ri-upload-cloud-line"></i></div>
-                  <div>
-                    <p class="font-archivo font-semibold">Frictionless Import</p>
-                    <p class="mt-2 text-sm text-muted">URL and PDF import that requires no technical configuration.</p>
-                  </div>
-                </div>
-              </div>
-              <div class="rounded-[18px] border border-border bg-white/70 p-4">
-                <div class="flex items-start gap-3">
-                  <div class="mt-0.5 h-9 w-9 flex shrink-0 items-center justify-center rounded-full border border-foreground/20 bg-background text-muted text-lg"><i class="ri-checkbox-circle-line"></i></div>
-                  <div>
-                    <p class="font-archivo font-semibold">AI Training Status Visibility</p>
-                    <p class="mt-2 text-sm text-muted">Clear feedback on whether imported content is ready to use.</p>
-                  </div>
-                </div>
-              </div>
-              <div class="rounded-[18px] border border-border bg-white/70 p-4">
-                <div class="flex items-start gap-3">
-                  <div class="mt-0.5 h-9 w-9 flex shrink-0 items-center justify-center rounded-full border border-foreground/20 bg-background text-muted text-lg"><i class="ri-layout-right-2-line"></i></div>
-                  <div>
-                    <p class="font-archivo font-semibold">Reply with AI</p>
-                    <p class="mt-2 text-sm text-muted">Letting agents generate an AI-drafted response directly from the message card.</p>
-                  </div>
-                </div>
-              </div>
-              <div class="rounded-[18px] border border-border bg-white/70 p-4">
-                <div class="flex items-start gap-3">
-                  <div class="mt-0.5 h-9 w-9 flex shrink-0 items-center justify-center rounded-full border border-foreground/20 bg-background text-muted text-lg"><i class="ri-search-eye-line"></i></div>
-                  <div>
-                    <p class="font-archivo font-semibold">Edit Before You Send</p>
-                    <p class="mt-2 text-sm text-muted">Giving agents full control to review, adjust, or send the AI-generated response in one step.</p>
-                  </div>
+          </div>
+          <!-- right side -->
+          <div class="mxd-menu__right">
+            <div class="menu-promo">
+              <div class="menu-promo__content">
+                <p class="menu-promo__caption menu-fade-in">👋 Nice to see you!<br>I'm Jigar Acharya, A Lead Product Designer specializing in AI and SaaS platforms</p>
+                <div class="menu-promo__video">
+                  <img src="./img/banner/headerbanner.jpg" alt="header video">
                 </div>
               </div>
             </div>
-          </section>
-
-          <!-- User Flow -->
-<section class="mb-10 sm:mb-12">
-  <h2 class="font-archivo text-[1.4rem] sm:text-[1.6rem] font-semibold tracking-tight">User Flow</h2>
-  <p class="mt-3 text-[1rem] leading-relaxed text-muted">
-    Before designing any screen, I mapped two connected journeys — the admin path to get knowledge into the system, and the agent path to use it during a live conversation. This flow revealed a critical dependency: the agent experience was only as good as what the admin had imported. Both paths had to be designed together.
-  </p>
-
-  <div
-    class="mt-6 rounded-[22px] border border-border bg-white/75 overflow-hidden"
-    style="
-      background-image: linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px);
-      background-size: 44px 44px;
-    "
-  >
-
-    <!-- Admin lane -->
-    <div class="px-5 sm:px-7 pt-6 pb-4">
-      <span class="inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1 text-[0.72rem] uppercase tracking-[0.18em] text-muted">
-        <span class="h-2 w-2 rounded-full bg-[#ffe7a8]"></span>
-        Admin
-      </span>
-      <div class="mt-4 flex flex-wrap items-center gap-2">
-        <span class="rounded-full bg-[#ffe7a8]/70 border border-black/10 px-3 py-1.5 text-[0.82rem] font-medium">Opens AI Hub</span>
-        <span class="text-muted/40 text-sm">→</span>
-        <span class="rounded-full bg-[#ffe7a8]/70 border border-black/10 px-3 py-1.5 text-[0.82rem] font-medium">Imports URL or PDF</span>
-        <span class="text-muted/40 text-sm">→</span>
-        <span class="rounded-full bg-[#ffe7a8]/70 border border-black/10 px-3 py-1.5 text-[0.82rem] font-medium">Status turns Ready</span>
-        <span class="text-muted/40 text-sm">→</span>
-        <span class="rounded-full bg-[#bff2c3]/70 border border-black/10 px-3 py-1.5 text-[0.82rem] font-medium font-archivo">Knowledge Base Live ✓</span>
+          </div>
+          <!-- data bottom line -->
+          <div class="mxd-menu__data menu-fade-in">
+           <p class="t-xsmall">
+          
+                <a class="no-effect" href="mailto:jigaracharya3@gmail.com" target="_blank">jigaracharya3@gmail.com</a>
+              </p>
+            <p class="t-xsmall">
+              <i class="ph ph-copyright"></i>
+              Jigar Acharya 2026
+            </p>
+          </div>
+        </div>
       </div>
     </div>
+    <!-- Main Navigation End -->
 
-    <!-- Connector -->
-    <div class="flex items-center justify-center py-1">
-      <div class="flex flex-col items-center gap-1 text-muted/40">
-        <div class="h-4 w-px bg-border"></div>
-        <svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M6 10L0 0h12L6 10z" fill="currentColor"/></svg>
-      </div>
+  </nav>
+  <!-- Menu & Menu Hamburger End -->
+
+  <!-- Header Start -->
+   <header id="header" class="mxd-header">
+    <!-- header logo -->
+    <div class="mxd-header__logo loading__fade">
+      <a href="index.html" class="mxd-logo">
+        <!-- logo icon -->
+        <div class="mxd-logo__image">
+          <img class="brd50d" src="./img/jigar-dp.png" alt="profile pic">
+        </div>
+        
+        <!-- logo text -->
+        <span class="mxd-logo__text">Jigar<br>Acharya</span>
+      </a>
     </div>
-
-    <!-- Agent lane -->
-    <div class="px-5 sm:px-7 pt-2 pb-6">
-      <span class="inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1 text-[0.72rem] uppercase tracking-[0.18em] text-muted">
-        <span class="h-2 w-2 rounded-full bg-[#cbe9ff]"></span>
-        Agent
-      </span>
-      <div class="mt-4 flex flex-wrap items-center gap-2">
-        <span class="rounded-full bg-[#cbe9ff]/70 border border-black/10 px-3 py-1.5 text-[0.82rem] font-medium">Receives Customer Message</span>
-        <span class="text-muted/40 text-sm">→</span>
-        <span class="rounded-full bg-[#cbe9ff]/70 border border-black/10 px-3 py-1.5 text-[0.82rem] font-medium">Clicks Reply with AI</span>
-        <span class="text-muted/40 text-sm">→</span>
-        <span class="rounded-full bg-[#cbe9ff]/70 border border-black/10 px-3 py-1.5 text-[0.82rem] font-medium">Reviews AI Answer</span>
-        <span class="text-muted/40 text-sm">→</span>
-        <span class="rounded-full bg-[#cbe9ff]/70 border border-black/10 px-3 py-1.5 text-[0.82rem] font-medium">Edits if Needed</span>
-        <span class="text-muted/40 text-sm">→</span>
-        <span class="rounded-full bg-[#bff2c3]/70 border border-black/10 px-3 py-1.5 text-[0.82rem] font-medium font-archivo">Send Message ✓</span>
-      </div>
+    <!-- header controls -->
+    <div class="mxd-header__controls loading__fade">
+      <button id="color-switcher" class="mxd-color-switcher" type="button" role="switch" aria-label="light/dark mode"
+        aria-checked="true"></button>
+      <a class="btn btn-anim btn-default btn-mobile-icon btn-outline slide-right-up" href="https://www.linkedin.com/in/jigar-acharya-722232ab/">
+        <span class="btn-caption">Say Hello</span>
+        <i class="ph-bold ph-arrow justify-content-center-up-right"></i>
+      </a>
     </div>
+  </header>
+  <!-- Header End -->
 
-  </div>
+  <!-- Page Content Start -->
+  <main id="mxd-page-content" class="mxd-page-content inner-page-content container-xxl casestudypage">
 
-  <!-- Key decision callout -->
-  <div class="mt-4 relative rounded-[18px] border border-border bg-background/70 px-4 sm:px-5 py-4 flex items-start gap-3">
-    <div class="mt-0.5 h-7 w-7 flex shrink-0 items-center justify-center rounded-full bg-highlight/10 border border-highlight/60 text-highlight text-base" aria-hidden="true">
-      <i class="ri-sparkling-line"></i>
-    </div>
-    <div>
-      <p class="font-archivo font-semibold">Key Design Decision from This Flow</p>
-      <p class="mt-1.5 text-sm text-muted">
-        Mapping both paths together revealed that the agent experience depended entirely on what the admin had set up. This meant the import flow — how quickly and confidently an admin could get knowledge into the system — was not a secondary concern. It was the prerequisite for everything else. Designing the import step to feel simple and immediate was the highest-leverage decision in the entire project.
-      </p>
-    </div>
-  </div>
+    <!-- Section - Inner Page Headline Start -->
+    <div class="mxd-section mxd-section-inner-headline padding-default">
+      <div class="mxd-container grid-container">
 
-</section>
+        <!-- Block - Inner Page Headline Start -->
+        <div class="mxd-block loading-wrap">
+          <div class="container-fluid px-0">
+            <div class="row justify-content-center gx-0">
 
-          <!-- Features -->
-          <section class="mb-10 sm:mb-12">
-            <h2 class="font-archivo text-[1.4rem] sm:text-[1.6rem] font-semibold tracking-tight">Design — Feature by Feature</h2>
-
-            <div class="mt-6 space-y-8">
-
-              <!-- Feature 01 -->
-              <article class="rounded-[22px] border border-border bg-white/75 p-5 sm:p-6">
-                <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Feature 01</p>
-                <h3 class="mt-2 font-archivo text-[1.2rem] font-semibold">Import — URL and Document Ingestion</h3>
-                <div class="mt-4 grid grid-cols-1 gap-4">
-                  <!-- Mockup -->
-                  <div class="img-relative"><img src="assets/img/chat-hub-list.svg" alt="Chat hub list view" class="w-full h-auto rounded-[18px]" loading="lazy"></div>
-                  <div>
-                    <p class="font-archivo font-semibold">The Problem it solves</p>
-                    <p class="mt-2 text-sm text-muted">The biggest barrier to using AI Hub wasn't the AI — it was getting content into it. Admins had knowledge on their website, in PDFs, and in help articles. There was no simple path from any of those formats to a trained AI model. The import experience was the gate everything else depended on.</p>
-                  </div>
-                  <div>
-                    <p class="font-archivo font-semibold">Design Decisions</p>
-                    <p class="mt-2 text-sm text-muted">I designed the import flow around two entry points — website URL and document upload — accessible from a single prominent Import button in the top-right. Once imported, each document appears as a named row in the AI Hub table — visible, labeled, and timestamped. The Status column shows "Ready" in green when the AI has finished training on that content, giving admins a clear, unambiguous signal that the knowledge is live. The table format was chosen deliberately over a card grid: admins managing large knowledge bases needed to scan and manage at scale, not interact with individual items one at a time.</p>
-                  </div>
-                  <div class="relative rounded-[18px] border border-border bg-background/70 px-4 sm:px-5 py-4 flex items-start gap-3">
-                    <div class="mt-0.5 h-7 w-7 flex shrink-0 items-center justify-center rounded-full bg-highlight/10 border border-highlight/60 text-highlight text-base"><i class="ri-sparkling-line"></i></div>
-                    <div>
-                      <p class="font-archivo font-semibold">Impact</p>
-                      <p class="mt-1.5 text-sm text-muted">The goal was to make "my AI knows about my product" a step that takes minutes, not a technical project. An admin who can paste a URL and see "Ready" within the same session is an admin who will actually maintain their knowledge base — rather than importing once and abandoning it.</p>
-                    </div>
-                  </div>
-                </div>
-              </article>
-
-              <!-- Feature 02 -->
-              <article class="rounded-[22px] border border-border bg-white/75 p-5 sm:p-6">
-                <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Feature 02</p>
-                <h3 class="mt-2 font-archivo text-[1.2rem] font-semibold">Reply with AI</h3>
-                <div class="mt-4 grid grid-cols-1 gap-4">
-                  <!-- Mockup -->
-                 <div class="img-relative"><img src="assets/img/inchat-con.svg" alt="ai-hub chat panel" class="w-full h-auto rounded-[18px]" loading="lazy"></div>
-
-                  <div>
-                    <p class="font-archivo font-semibold">The Problem it solves</p>
-                    <p class="mt-2 text-sm text-muted">Agents were leaving the chat to find answers — switching tabs, searching docs, reading through pages — while customers waited. Even when they found the right information, the act of retrieving it broke the flow of the conversation. What agents needed wasn't a separate tool. They needed assistance that lived exactly where the work was already happening.</p>
-                  </div>
-                  <div>
-                    <p class="font-archivo font-semibold">Design Decisions</p>
-                    <p class="mt-2 text-sm text-muted">The flow starts on the message itself. When an agent clicks the arrow icon on a message card, a context menu appears with familiar actions — Reply, Forward, Copy — and one new one: Reply with AI, badged distinctly to signal it produces a different kind of output. One click from there triggers the AI to read the message, query the knowledge base, and generate a suggested response.</p>
-                    <p class="mt-2 text-sm text-muted ">That response surfaces as an inline card directly below the customer's message — anchored in the thread, not in a sidebar. The card shows the full AI-generated answer with two actions: Edit and Send. Agents who trust the answer send immediately. Agents who want to adjust — change the tone, add context, correct a detail — edit before it goes out. Neither action requires leaving the conversation or switching any context.</p>
-                     <p class="mt-2 text-sm text-muted mb-4">The two-action model was a deliberate trust decision. Agents should always feel in control of what the customer receives — especially when the content was generated by AI, not written by them. The "AI Assistant is here to help." header makes the origin of the content explicit every time, so agents never accidentally send something they haven't consciously approved.</p>
-                    <div class="img-relative"><img src="assets/img/ai-response.svg" alt="ai-hub chat panel" class="w-full h-auto rounded-[18px]" loading="lazy"></div>
-                   
-                  </div>
-                  <div class="relative rounded-[18px] border border-border bg-background/70 px-4 sm:px-5 py-4 flex items-start gap-3">
-                    <div class="mt-0.5 h-7 w-7 flex shrink-0 items-center justify-center rounded-full bg-highlight/10 border border-highlight/60 text-highlight text-base"><i class="ri-sparkling-line"></i></div>
-                    <div>
-                      <p class="font-archivo font-semibold">Impact</p>
-                      <p class="mt-1.5 text-sm text-muted">The goal was to make the entire journey — from reading a customer message to sending an accurate, knowledge-grounded reply — happen without the agent ever leaving the thread. A trigger that fits the existing workflow, a response that appears in context, and a send path that requires no extra navigation. The feature works because it asks nothing new of the agent. It just makes what they were already doing faster and more accurate.</p>
-                    </div>
-                  </div>
-                </div>
-              </article>
-
-              <!-- Feature 03 -->
-              <article class="rounded-[22px] border border-border bg-white/75 p-5 sm:p-6">
-                <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Feature 03</p>
-                <h3 class="mt-2 font-archivo text-[1.2rem] font-semibold">Knowledge Base Status Table</h3>
-                <div class="mt-4 grid grid-cols-1 gap-4">
-                  <!-- Mockup -->
-                  <div class="rounded-[18px] border border-border bg-gradient-to-br from-[#d9f7c7]/30 to-white/80 p-5">
-                    <div class="rounded-[10px] border border-border bg-white overflow-hidden">
-                      <div class="grid grid-cols-4 px-4 py-2 border-b border-border bg-background/40">
-                        <span class="text-xs font-medium text-muted uppercase tracking-wide col-span-2">Document Name</span>
-                        <span class="text-xs font-medium text-muted uppercase tracking-wide">Status</span>
-                        <span class="text-xs font-medium text-muted uppercase tracking-wide">Created At</span>
-                      </div>
-                      <div class="divide-y divide-border">
-                        <div class="grid grid-cols-4 px-4 py-3 items-center">
-                          <span class="text-xs text-foreground/80 col-span-2">Product Integration Guide ↗</span>
-                          <span class="text-xs font-semibold text-green-600">Ready</span>
-                          <span class="text-xs text-muted">9-2-2026 12:12</span>
-                        </div>
-                        <div class="grid grid-cols-4 px-4 py-3 items-center">
-                          <span class="text-xs text-foreground/80 col-span-2">Pricing & Plans FAQ ↗</span>
-                          <span class="text-xs font-semibold text-green-600">Ready</span>
-                          <span class="text-xs text-muted">9-2-2026 12:11</span>
-                        </div>
-                        <div class="grid grid-cols-4 px-4 py-3 items-center">
-                          <span class="text-xs text-foreground/80 col-span-2">Onboarding Documentation ↗</span>
-                          <span class="text-xs font-semibold text-amber-500">Processing</span>
-                          <span class="text-xs text-muted">9-2-2026 12:10</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div>
-                    <p class="font-archivo font-semibold">The Problem it solves</p>
-                    <p class="mt-2 text-sm text-muted">Admins importing content had no visibility into whether the AI had actually processed it. Was the training complete? Was this version of the doc the current one? When pricing changed and a new PDF was uploaded, was the old one still influencing answers? Without clear status signals, admins couldn't trust what the AI knew — and couldn't manage it confidently.</p>
-                  </div>
-                  <div>
-                    <p class="font-archivo font-semibold">Design Decisions</p>
-                    <p class="mt-2 text-sm text-muted">The AI Hub table surfaces three columns that matter: Document Name, Status, and Created At. Status is rendered as a color-coded label — green "Ready" for trained content — making the state of each document readable in a single glance. The Created At timestamp gives admins a temporal reference: they can see immediately if an article was imported before a product update and flag it for refresh. The delete action on each row makes content management explicit and low-effort. The table is paginated with a 10-per-page default and a page-size control, designed to scale gracefully as knowledge bases grow.</p>
-                  </div>
-                  <div class="relative rounded-[18px] border border-border bg-background/70 px-4 sm:px-5 py-4 flex items-start gap-3">
-                    <div class="mt-0.5 h-7 w-7 flex shrink-0 items-center justify-center rounded-full bg-highlight/10 border border-highlight/60 text-highlight text-base"><i class="ri-sparkling-line"></i></div>
-                    <div>
-                      <p class="font-archivo font-semibold">Impact</p>
-                      <p class="mt-1.5 text-sm text-muted">The goal was to give admins full visibility and control over what the AI knew — and confidence that what was marked "Ready" was actually ready. A well-maintained knowledge base is the foundation of every accurate answer the AI surfaces. The table design made maintenance feel manageable rather than daunting.</p>
-                    </div>
-                  </div>
-                </div>
-              </article>
-
-              <!-- Feature 04 -->
-              
-
-            </div>
-          </section>
-
-          <!-- Results -->
-         <section class="mb-10 sm:mb-12">
-  <h2 class="font-archivo text-[1.4rem] sm:text-[1.6rem] font-semibold tracking-tight">Results</h2>
-
-  <div class="mt-4 img-relative">
-    <img src="assets/img/ai-hub-chat.png" alt="AI Hub chat interface" class="w-full h-auto rounded-[18px]" loading="lazy">
-  </div>
-
-  <!-- Metric cards -->
-  <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-    <div class="rounded-[18px] border border-border bg-white/70 p-5">
-      <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">"Reply with AI" Adoption</p>
-      <p class="mt-2 font-archivo text-[1.6rem] font-semibold tracking-tight">0% → 73%</p>
-      <p class="mt-1 text-sm text-muted">Weekly adoption by Week 6 — agents stayed inside the conversation instead of switching tabs</p>
-    </div>
-    <div class="rounded-[18px] border border-border bg-white/70 p-5">
-      <p class="text-[0.72rem] uppercase tracking-[0.18em] text-muted">Agent Response Time</p>
-      <p class="mt-2 font-archivo text-[1.6rem] font-semibold tracking-tight">2–4 min → ~55 sec</p>
-      <p class="mt-1 text-sm text-muted">65% faster — knowledge surfaced in the thread, not in another tab</p>
-    </div>
-  </div>
-
-  <p class="mt-6 text-[1rem] leading-relaxed text-muted">
-    AI Hub launched to support teams managing high-volume inbound conversations across WhatsApp and live chat. The shift it created was immediate: agents who previously left the conversation to search docs now had answers surfaced inside the thread — at the moment they were needed, without breaking flow.
-  </p>
-
-  <p class="mt-4 text-[1rem] leading-relaxed text-muted">
-    For admins, the equally significant outcome was how quickly knowledge could go live. A URL pasted or a PDF uploaded — status turns green, knowledge is ready. An admin who can get content into the system in a single session is an admin who keeps it current. A knowledge base that's easy to build is one that actually gets maintained.
-  </p>
-
-  <div class="mt-4 img-relative">
-    <img src="assets/img/ai-hub.png" alt="AI Hub knowledge base" class="w-full h-auto rounded-[18px]" loading="lazy">
-  </div>
-
-  <p class="mt-4 text-[1rem] leading-relaxed text-muted">
-    One outcome beyond the original scope: AI Hub became a ramp accelerator for new agents. Junior support members onboarded within days were responding with the same accuracy as experienced agents — because the knowledge they needed surfaced in real time, inside every conversation. A use case never planned, but one that shows how ambient, in-context intelligence can compress onboarding in ways structured training cannot.
-  </p>
-</section>
-
-          <!-- Learnings -->
-          <section class="mb-14">
-            <h2 class="font-archivo text-[1.4rem] sm:text-[1.6rem] font-semibold tracking-tight">What I Learned</h2>
-            <ol class="mt-4 space-y-4">
-              <li class="rounded-[18px] border border-border bg-white/70 p-4">
-                <p class="font-archivo font-semibold">1. The best AI feature is the one that fits where work already happens.</p>
-                <p class="mt-2 text-sm text-muted">Putting "Reply with AI" inside the message context menu — where agents were already clicking — meant zero behavior change. The feature got used because it asked nothing new. The trigger was already there. We just added intelligence to it.</p>
-              </li>
-              <li class="rounded-[18px] border border-border bg-white/70 p-4">
-                <p class="font-archivo font-semibold">2.  The import experience determines whether the feature gets used at all.</p>
-                <p class="mt-2 text-sm text-muted">No matter how good the AI is, if admins can't get their knowledge into the system simply and confidently, the feature doesn't exist in practice. Designing import as a two-step flow — paste URL or upload file, see status turn green — was the prerequisite that made everything else possible.</p>
-              </li>
-              <li class="rounded-[18px] border border-border bg-white/70 p-4">
-                <p class="font-archivo font-semibold">3. Agents need to feel in control of what the customer receives</p>
-                <p class="mt-2 text-sm text-muted">The Edit and Send split wasn't about adding a step — it was about building trust. Agents who knew they could review before sending were more willing to use AI assistance at all. Control is what made the feature feel safe enough to rely on.</p>
-              </li>
+              <!-- Inner Headline Name Start -->
             
-            </ol>
-          </section>
+              <!-- Inner Headline Name Start -->
 
-          <!-- Meta -->
-          <section class="mb-2">
-            <div class="rounded-[22px] border border-border bg-white/75 p-5 sm:p-6">
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-muted">
-                <div>
-                  <p class="font-archivo font-semibold text-foreground">Role</p>
-                  <p>Product Designer / UX Lead</p>
+              <!-- Inner Headline Content Start -->
+              <div class="col-12 col-xl-10 mxd-grid-item mb-5 mt-0">
+                <div class="mxd-block__content">
+                  <div class="mxd-block__inner-headline loading__item">
+                    <h1 class="inner-headline__title csthdtl">Designed an AI knowledge hub for faster support replies insights</h1>
+                  </div>
                 </div>
-                <div>
-                  <p class="font-archivo font-semibold text-foreground">Collaborators</p>
-                  <p>PM, 3 Engineers, ML Team</p>
+              </div>
+              <!-- Inner Headline Content End -->
+
+              <!-- Inner Headline Aside Start -->
+              <div class="col-12"></div>
+              <!-- Inner Headline Aside End -->
+
+            </div>
+            <div class="row justify-content-center g-0">
+             
+
+              <!-- Inner Headline Paragraph & Data Start -->
+              <div class="col-12 col-xl-10 mxd-grid-item no-margin">
+                <h5 class="ovcontext mxd-block__inner-headline loading__item">Overview & Context</h5>
+                <div class="inner-headline__paragraph loading__item mt-4">
+                  <p class="pb-4">Support teams handle hundreds of customer conversations every day. Many of those conversations include the same types of questions — about pricing, integrations, onboarding steps, or product features. The answers usually exist somewhere in documentation, but agents often struggle to find them quickly while a customer is waiting.</p>
+                  <p>I designed AI Hub, a knowledge layer that connects company documentation directly to the conversation interface. It allows agents to generate accurate responses using AI without leaving the chat thread. The goal was simple: help agents answer complex questions faster while keeping the conversation natural and accurate.</p>
                 </div>
-                <div>
-                  <p class="font-archivo font-semibold text-foreground">Tools</p>
-                  <p>Figma, Notion, Maze</p>
+
+                <div class="inner-headline__data">
+                  <div class="mxd-data-list">
+                    <div class="container-fluid p-0">
+                      <div class="row g-0 mxlistitem">
+                        <div class="col-12 col-md-6 col-xl-5 mxd-data-list__column loading__item">
+                          <div class="mxd-data-list__item">
+                            <p class="mxd-data-list__name">Role</p>
+                            <p class="mxd-data-list__content">Product Designer / UX Lead</p>
+                          </div>
+                          <div class="mxd-data-list__item">
+                            <p class="mxd-data-list__name">Responsibilities</p>
+                            <p class="mxd-data-list__content">UX Research, Interaction Design, UI Design, <br>Engineering Collaboration</p>
+                          </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-xl-5 mxd-data-list__column loading__item">
+
+                          <div class="mxd-data-list__item">
+                            <p class="mxd-data-list__name">Team</p>
+                            <p class="mxd-data-list__content">Product Manager, 2 Engineers, QA</p>
+                          </div>
+                          <div class="mxd-data-list__item">
+                            <p class="mxd-data-list__name">Impact</p>
+                            <p class="mxd-data-list__content">73% agent adoption in 6 weeks, avg. response time down to ~55 seconds</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <p class="font-archivo font-semibold text-foreground">Duration</p>
-                  <p>1 Week</p>
+
+              </div>
+              <!-- Inner Headline Paragraph & Data End -->
+
+              <!-- Inner Headline Tags Start -->
+
+            </div>
+            <!-- Inner Headline Tags End -->
+
+          </div>
+        </div>
+        <!-- Block - Inner Page Headline End -->
+
+      </div>
+    </div>
+    <!-- Section - Inner Page Headline End -->
+
+    <!-- Section - Parallax Divider Start -->
+    <div class="mxd-section">
+      <div class="mxd-container">
+        <div class="mxd-divider loading__fade brdrdisq">
+          <div class="mxd-casestudy-card__media">
+            <img src="./img/banner/ai-hub-cover.png" alt="CallHippo AI Hub">
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Section - Parallax Divider End -->
+
+    <!-- Section - Project Details Start -->
+    <div class="mxd-section mxd-project overflow-hidden">
+      <div class="mxd-container grid-container">
+
+        <!-- Project Block - Problem Start -->
+        <div class="mxd-project__block pre-grid">
+          <div class="container-fluid px-0">
+            <div class="row justify-content-center gx-0">
+              <div class="col-12 col-xl-10 mxd-grid-item no-margin">
+                <div class="mxd-project__subtitle">
+                  <h2 class="reveal-type anim-uni-in-up pb-5">Problem</h2>
+<div class="mxd-project__content">
+                  <div class="pb-5">
+                    <p class="t-large t-bright anim-uni-in-up pb-4 fnbold">During live conversations, support agents frequently needed to search documentation to answer customer questions.</p>
+                    <p class="anim-uni-in-up pb-4">This required leaving the chat interface, opening a browser, finding the right document, scanning for the relevant section, and then returning to the conversation. Every step broke the agent's focus and made the customer wait.</p>
+                    <p class="t-large t-bright anim-uni-in-up pb-2 fnbold">As a result:</p>
+                    <div class="problem-result-list">
+                      <div class="problem-result-item anim-uni-in-up">
+                        <i class="ph-bold ph-warning-circle problem-result-item__icon"></i>
+                        <p class="problem-result-item__text"><strong>Response times increased:</strong> Agents lost time switching between tools while customers waited for answers.</p>
+                      </div>
+                      <div class="problem-result-item anim-uni-in-up">
+                        <i class="ph-bold ph-warning-circle problem-result-item__icon"></i>
+                        <p class="problem-result-item__text"><strong>Answers varied between agents:</strong> Without a shared, in-context knowledge source, responses depended on individual memory and experience.</p>
+                      </div>
+                      <div class="problem-result-item anim-uni-in-up">
+                        <i class="ph-bold ph-warning-circle problem-result-item__icon"></i>
+                        <p class="problem-result-item__text"><strong>New agents struggled most:</strong> Without deep product familiarity, new team members couldn't provide accurate responses without extensive searching.</p>
+                      </div>
+                    </div>
+                    <p class="anim-uni-in-up">The core issue was not missing information. The information existed but was not accessible in the moment when agents needed it.</p>
+                  </div>
+                 
+                </div>
                 </div>
               </div>
             </div>
-          </section>
+          
+          </div>
+        </div>
+        <!-- Project Block - Problem End -->
 
+        <!-- Project Block - Design Goals Start -->
+        <div class="mxd-project__block mb-4">
+          <div class="container-fluid px-0">
+            <div class="row justify-content-center gx-0">
+              <div class="col-12 col-xl-10 mxd-grid-item no-margin">
+                <div class="mxd-project__subtitle">
+                  <h2 class="reveal-type anim-uni-in-up">Design Goals</h2>
+                </div>
+              </div>
+              <div class="col-12 col-xl-10 mxd-grid-item">
+                <div class="mxd-project__content">
+                  <div class="mxd-project__paragraph medium-text">
+                    <p class="anim-uni-in-up">The design focused on two connected experiences: admins needed an easy way to import and maintain knowledge, and agents needed immediate access to that knowledge during conversations.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Project Block - Design Goals Table -->
+        <div class="mxd-project__block no-margin">
+          <div class="mxd-project-cards">
+            <div class="container-fluid px-0">
+              <div class="row justify-content-center gx-0">
+
+                <div class="col-12 col-xl-3 mxd-project-cards__item mxd-grid-item anim-uni-scale-in-left">
+                  <div class="mxd-project-cards__inner bg-base-tint radius-m" style="padding: 2.4rem;">
+                    <p class="t-small t-muted"
+                      style="text-transform: uppercase; letter-spacing: 0.1rem; margin-bottom: 0.8rem;">Goal 1</p>
+                    <p>Surface AI assistance inside the conversation so agents never need to open another tool to find an answer.</p>
+                  </div>
+                </div>
+                <div class="col-12 col-xl-3 mxd-project-cards__item mxd-grid-item anim-uni-scale-in-right">
+                  <div class="mxd-project-cards__inner bg-base-tint radius-m" style="padding: 2.4rem;">
+                    <p class="t-small t-muted"
+                      style="text-transform: uppercase; letter-spacing: 0.1rem; margin-bottom: 0.8rem;">Goal 2</p>
+                    <p>Make knowledge import simple — admins should add documentation with a URL or file upload, no technical setup required.</p>
+                  </div>
+                </div>
+                <div class="col-12 col-xl-4 mxd-project-cards__item mxd-grid-item anim-uni-scale-in-left">
+                  <div class="mxd-project-cards__inner bg-accent bg-accentgreen radius-m" style="padding: 2.4rem;">
+                    <p class="t-small"
+                      style="text-transform: uppercase; letter-spacing: 0.1rem; margin-bottom: 0.8rem; opacity: 0.7;">
+                      Goal 3</p>
+                    <h5>Maintain human control over every AI response</h5>
+                    <p class="t-small" style="margin-top: 0.4rem;">Agents review and edit AI suggestions before sending — accuracy and trust stay with the human.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Project Block - Design Goals End -->
+
+        <!-- Project Constraint start -->
+        <!-- Project Block - Problem Start -->
+        <div class="mxd-project__block pre-grid">
+          <div class="container-fluid px-0">
+            <div class="row justify-content-center gx-0">
+              <div class="col-12 col-xl-10 mxd-grid-item no-margin">
+                <div class="mxd-project__subtitle">
+                  <h2 class="reveal-type anim-uni-in-up pb-4">Research & Insights</h2>
+                   <p class="anim-uni-in-up pb-4">I conducted interviews and observation sessions with 11 participants — support agents, team leads, and operations managers — and observed live conversations to study how agents searched for information during customer interactions.</p>
+
+                </div>
+              </div>
+            </div>
+            <div class="row justify-content-center gx-0 align-items-center">
+              <div class="col-12 col-xl-5 mxd-grid-item no-margin">
+                <div class="mxd-project__subtitle">
+
+                  <div class="img-container imccutcont">
+                    <img src="./img/works/ai-hub-interview.webp" alt="AI Hub Research">
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-xl-5 mxd-grid-item no-margin mobpadtop">
+                <div class="mxd-project__content">
+                  <div class="">
+                   
+                    <p class="t-large t-bright anim-uni-in-up pb-2 fnbold">⚡ Speed mattered more than anything</p>
+                    <p class="anim-uni-in-up pb-4">Agents could answer most questions correctly if they had access to the information — but switching between tools slowed them down significantly.</p>
+                    <p class="t-large t-bright anim-uni-in-up pb-2 fnbold">💬 Context builds agent confidence</p>
+                    <p class="anim-uni-in-up pb-4">When information appeared directly next to the customer message, agents responded more confidently and with less hesitation.</p>
+                    <p class="t-large t-bright anim-uni-in-up pb-2 fnbold">🗂 Knowledge import was the biggest barrier</p>
+                    <p class="anim-uni-in-up">Documentation lived across websites, PDFs, and internal files. Admins needed a simple way to bring company knowledge into the system without technical setup.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <!-- Footer -->
-        <footer class="mt-14 border-t border-border pt-8 text-xs text-muted">
-          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <p>© 2026</p>
-            <p class="font-archivo tracking-[0.22em] uppercase">Case Study</p>
+        <!-- Project Block - Understanding the Gap Start -->
+        <div class="mxd-project__block">
+          <div class="container-fluid px-0">
+            <div class="row justify-content-center gx-0">
+              <div class="col-12 col-xl-10 mxd-grid-item no-margin ">
+                <div class="mxd-project__subtitle">
+                  <h2 class="reveal-type anim-uni-in-up">Two User Perspectives</h2>
+                </div>
+              </div>
+              <div class="col-12 col-xl-10 mxd-grid-item mt-zero">
+                <div class="mxd-project__content">
+                  <div class="mxd-project__paragraph medium-text">
+                    <p class="anim-uni-in-up">AI Hub needed to serve two distinct users with different goals. Agents needed help in the moment, while admins needed control over the knowledge foundation. Both experiences had to work seamlessly together.</p>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mxd-project__block no-margin">
+              <div class="mxd-project-cards">
+                <div class="container-fluid px-0">
+                  <div class="row justify-content-center gx-0">
+                    <div class="col-12 col-xl-10 mxd-grid-item no-margin">
+                      <p class="t-large t-bright anim-uni-in-up" style="margin-top: 3rem;">Two roles — each with a different relationship to knowledge</p>
+                    </div>
+                  </div>
+                  <div class="row justify-content-center gx-0">
+                    <div class="col-12 col-xl-5 mxd-project-cards__item mxd-grid-item anim-uni-scale-in-right">
+                      <div class="notebook-card notebook-card--cream">
+                        <div class="notebook-card__dots-top">
+                          <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                        </div>
+
+                        <div class="notebook-card__avatar">SA</div>
+                        <p class="notebook-card__title">Support Agent</p>
+                        <p class="notebook-card__quote">"I know the answer is in the docs somewhere, but I can't go searching while a customer is waiting. It makes me look like I don't know the product."</p>
+                      </div>
+                    </div>
+                    <div class="col-12 col-xl-5 mxd-project-cards__item mxd-grid-item anim-uni-scale-in-left">
+                      <div class="notebook-card notebook-card--blue">
+                        <div class="notebook-card__dots-top">
+                          <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                        </div>
+
+                        <div class="notebook-card__avatar">AD</div>
+                        <p class="notebook-card__title">Admin / Team Lead</p>
+                        <p class="notebook-card__quote">"Our documentation is spread across the website, Google Drive, and three different PDFs. Getting all of that into one place feels like a project in itself."</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </footer>
+        </div>
+        <!-- Persona Cards -->
+
+        <!-- Key User Needs -->
+        
+        <!-- Project Block - Understanding the Gap End -->
+
+        <!-- Project Block - Research Insights Start -->
+        <div class="mxd-project__block">
+          <div class="container-fluid px-0">
+            <div class="row justify-content-center gx-0">
+              <div class="col-12 col-xl-10 mxd-grid-item no-margin">
+                <div class="mxd-project__subtitle">
+                  <h2 class="reveal-type anim-uni-in-up">Key Insights</h2>
+                </div>
+              </div>
+              <div class="col-12 col-xl-10 mxd-grid-item mt-zero">
+                <div class="mxd-project__content">
+                  <div class="mxd-project__paragraph medium-text">
+                    <p class="anim-uni-in-up">Interviews and live observation sessions revealed consistent patterns across support teams of different sizes and industries.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row justify-content-center gx-0">
+              <div class="col-12 col-xl-10 mxd-grid-item no-margin">
+                <div class="sticky-notes-grid">
+
+                  <div class="sticky-note anim-uni-scale-in-right">
+                    <p class="sticky-note__number">Insight 01</p>
+                    <p class="sticky-note__title">Speed mattered more than anything else</p>
+                    <p class="sticky-note__text">Agents could answer most questions correctly if they had the information — but switching between tools added enough friction to slow down every conversation.</p>
+                  </div>
+
+                  <div class="sticky-note anim-uni-in-up">
+                    <p class="sticky-note__number">Insight 02</p>
+                    <p class="sticky-note__title">In-context answers built agent confidence</p>
+                    <p class="sticky-note__text">When information appeared directly next to the customer message, agents responded faster and with more confidence. Leaving the interface to search created hesitation and inconsistency.</p>
+                  </div>
+
+                  <div class="sticky-note anim-uni-scale-in-left">
+                    <p class="sticky-note__number">Insight 03</p>
+                    <p class="sticky-note__title">Importing documentation was the biggest adoption barrier</p>
+                    <p class="sticky-note__text">Documentation lived across websites, PDFs, and internal tools. If setting up the knowledge base felt complicated, teams simply would not maintain it.</p>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+       
+        <!-- Project Block - Research Insights End -->
+<div class="mxd-project__block">
+          <div class="container-fluid px-0">
+            <div class="row justify-content-center gx-0">
+              <div class="col-12 col-xl-10 mxd-grid-item no-margin">
+                <div class="mxd-project__subtitle">
+                  <h2 class="reveal-type anim-uni-in-up">Key User Needs</h2>
+                </div>
+              </div>
+            </div>
+            <div class="row justify-content-center gx-0">
+              <div class="col-12 col-xl-10 mxd-grid-item no-margin">
+                <div class="pain-cards-row">
+                  <div class="pain-card pain-card--cream anim-uni-scale-in-right">
+                    <p class="pain-card__role">Support Agent</p>
+                    <p class="pain-card__item"><span class="pain-card__label">Pain:</span> Had to leave the conversation to search documentation, losing focus and making customers wait.</p>
+                    <p class="pain-card__item"><span class="pain-card__label">Consequence:</span> Response times increased, answers varied between agents, and new team members struggled most.</p>
+                    <p class="pain-card__item"><span class="pain-card__label">Need:</span> AI-generated answer suggestions that appear directly inside the conversation, ready to review and send.</p>
+                  </div>
+                  <div class="pain-card pain-card--blue anim-uni-scale-in-left">
+                    <p class="pain-card__role">Admin / Team Lead</p>
+                    <p class="pain-card__item"><span class="pain-card__label">Pain:</span> Company knowledge was scattered across websites, PDFs, and internal files with no central place to manage it.</p>
+                    <p class="pain-card__item"><span class="pain-card__label">Consequence:</span> Knowledge bases became outdated quickly, leading to inconsistent or incorrect AI responses over time.</p>
+                    <p class="pain-card__item"><span class="pain-card__label">Need:</span> A simple import flow (URL or file upload) with visible status so knowledge stays accurate and up to date.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project Block - MVP Scoping Start -->
+        <div class="mxd-project__block">
+          <div class="container-fluid px-0">
+            <div class="row justify-content-center gx-0">
+              <div class="col-12 col-xl-10 mxd-grid-item no-margin">
+                <div class="mxd-project__subtitle">
+                  <h2 class="reveal-type anim-uni-in-up pb-5 pb-zero">Design Strategy</h2>
+                </div>
+              </div>
+              <div class="col-12 col-xl-10 mxd-grid-item mt-0">
+                <div class="mxd-project__content">
+                  <div class="setup-steps">
+                    <div class="setup-step anim-uni-in-up">
+                      <span class="setup-step__icon">▷▷</span>
+                      <p class="setup-step__text"><strong>Remove friction from knowledge import</strong> — admins should be able to add documentation using a simple URL or file upload, with no technical setup required.</p>
+                    </div>
+                    <div class="setup-step anim-uni-in-up">
+                      <span class="setup-step__icon">▷▷</span>
+                      <p class="setup-step__text"><strong>Surface AI assistance inside the conversation</strong> — agents should never need to open another tool to find an answer while a customer is waiting.</p>
+                    </div>
+                    <div class="setup-step anim-uni-in-up">
+                      <span class="setup-step__icon">▷▷</span>
+                      <p class="setup-step__text"><strong>Maintain human control at every step</strong> — agents review and edit AI-generated responses before sending so accuracy and trust stay with the human.</p>
+                    </div>
+                    <div class="setup-step anim-uni-in-up">
+                      <span class="setup-step__icon">▷▷</span>
+                      <p class="setup-step__text"><strong>Provide visibility into knowledge status</strong> — admins should always know what information the AI is using, with clear processing status and timestamps in the knowledge table.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+        <!-- 4 MVP Priority Cards -->
+        
+        <!-- Project Block - MVP Scoping End -->
+
+        <!-- Project Block - Problem Start -->
+        <div class="mxd-project__block pre-grid">
+          <div class="container-fluid px-0">
+
+            <div class="row justify-content-center gx-0">
+              <div class="col-12 col-xl-10 mxd-grid-item no-margin">
+                <div class="mxd-project__subtitle">
+                  <h2 class="reveal-type anim-uni-in-up">Solution</h2>
+                </div>
+              </div>
+              <div class="col-12 col-xl-10 mxd-grid-item">
+                <div class="mxd-project__content">
+                  <div class="">
+                    <p class="anim-uni-in-up pb-4">The final solution included three main components working together: Knowledge Import for admins, Reply with AI for agents, and a Knowledge Base Management view to maintain accuracy over time.</p>
+                     <p class="t-large t-bright anim-uni-in-up pb-2 fnbold">Solution Overview</p>
+                    <!--<div class="img-container imccutcont">
+                      <img class="brdcol" src="./img/works/ai-hub-solution.png" width="737" height="585" alt="AI Hub Solution Overview">
+                    </div>-->
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 col-xl-10 mxd-grid-item no-margin mt-5">
+                <p class="t-large t-bright anim-uni-in-up pb-2 fnbold">1. Knowledge Import</p>
+                <p class="anim-uni-in-up pb-4">Admins can import documentation by adding a website URL or uploading files such as PDFs. Imported content appears in a knowledge table with a visible processing status so admins know when the AI has learned from the document.</p>
+                <p class="t-large t-bright anim-uni-in-up pb-2 fnbold">2. Reply with AI</p>
+                <p class="anim-uni-in-up pb-4">Agents can generate a response directly from a customer message. The AI reads the message, searches the knowledge base, and generates a suggested reply inside the conversation thread. Agents can edit or send it immediately — the entire workflow stays inside the chat interface.</p>
+                   
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+
+        <!-- Project Block - User Flow Start -->
+        <div class="mxd-project__block">
+          <div class="container-fluid px-0">
+            <div class="row justify-content-center gx-0">
+              <div class="col-12 col-xl-10 mxd-grid-item no-margin">
+                <div class="mxd-project__subtitle">
+                  <h2 class="reveal-type anim-uni-in-up">Feature 1 <br> Reply with AI</h2>
+                </div>
+              </div>
+              <div class="col-12 col-xl-10 mxd-grid-item">
+                <div class="mxd-project__content">
+                  <div class="mxd-project__paragraph medium-text mt-zero">
+                    <p class="anim-uni-in-up">Agents can generate a response directly from a customer message using the Reply with AI option. The AI reads the message, searches the imported knowledge base, and returns a suggested reply — directly below the customer message inside the conversation thread.</p>
+                    <div class="img-container imccutcont">
+                      <img class="brdcol" src="./img/works/inchat-con.svg" width="737" height="585" alt="AI Hub Solution Overview">
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+               <div class="col-12 col-xl-10 mxd-grid-item no-margin">
+                  <p class="t-large t-bright anim-uni-in-up mt-4 pb-4 fnbold">AI reply in action</p>
+                  
+                    <p class="t-large t-bright anim-uni-in-up pb-2 fnbold">Design rationale</p>
+                    <p class="anim-uni-in-up pb-4">By keeping the AI suggestion inside the chat thread, agents never lose context. They can review the response, make edits if needed, and send — all without switching tabs or tools.</p>
+                    <p class="anim-uni-in-up pb-4">This approach keeps the entire workflow inside the chat interface, preserving the natural conversation rhythm for both the agent and the customer.</p>
+                    <div class="img-container imccutcont pb-4">
+                      <img class="brdcol" src="./img/works/ai-response.svg" width="737" height="585" alt="AI Hub Solution Overview">
+                    </div>
+               </div>
+            </div>
+          </div>
+        </div>
+        <!-- Project Block - User Flow End -->
+
+        <!-- Project Block - Design Features Start -->
+        <div class="mxd-project__block">
+          <div class="container-fluid px-0">
+            <div class="row justify-content-center gx-0">
+              <div class="col-12 col-xl-10 mxd-grid-item no-margin">
+                <div class="mxd-project__subtitle">
+                  <h2 class="reveal-type anim-uni-in-up">Feature 2 <br> Knowledge Import</h2>
+                </div>
+              </div>
+              <div class="col-12 col-xl-10 mxd-grid-item">
+                <div class="mxd-project__content">
+                  <div class=" medium-text">
+
+                    <p class="t-large t-bright anim-uni-in-up fnbold">Simple import, visible status</p>
+                    <p class="anim-uni-in-up">Admins can add documentation by entering a website URL or uploading files such as PDFs. Imported content appears in a knowledge table with a visible processing status, so admins always know what the AI has learned and when.</p>
+                  </div>
+                </div>
+              </div>
+               <div class="col-10 mxd-project-cards__item mxd-grid-item anim-uni-scale-in-right">
+                  <div class=" bg-base-tint radius-m mb-5">
+                  <!--<div class=" bg-base-tint radius-m mb-5 brdcol">
+                      <video src="./img/works/ai-hub-import.mp4" class="w-100"
+                        style="border-radius: var(--_radius-m);" autoplay loop muted playsinline preload="none"></video>
+                    </div>--> 
+                  </div>
+                  <div class="mxd-project__subtitle">
+                   <p class="t-large t-bright anim-uni-in-up fnbold">Feature 3 <br> Knowledge Base Management</p>
+                 <div class="mxd-project__content">
+                  <div class=" medium-text">
+                    <p class="anim-uni-in-up pb-4">Admins can see all imported documents in a structured table with status indicators and timestamps. This helps them identify outdated content and keep the knowledge base accurate as the product evolves.</p>
+                    <div class="img-container imccutcont">
+                      <img class="brdcol" src="./img/works/ai-hub.png" width="737" height="585" alt="AI Hub Solution Overview">
+                    </div>
+                    
+                    <div class="setup-steps">
+                      <div class="setup-step anim-uni-in-up">
+                        <span class="setup-step__icon">▷▷</span>
+                        <p class="setup-step__text"><strong>Status indicators</strong> — Each document shows its processing state so admins know which content is live and which is still being indexed.</p>
+                      </div>
+                      <div class="setup-step anim-uni-in-up">
+                        <span class="setup-step__icon">▷▷</span>
+                        <p class="setup-step__text"><strong>Timestamps</strong> — Admins can see when content was last imported, making it easy to identify documentation that may be outdated.</p>
+                      </div>
+                      <div class="setup-step anim-uni-in-up">
+                        <span class="setup-step__icon">▷▷</span>
+                        <p class="setup-step__text"><strong>Structured table layout</strong> — A clean, scannable view of the entire knowledge base so admins can manage documentation without any technical knowledge.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </div>
+                </div>
+            </div>
+          </div>
+        </div>
+        <!-- Feature 01 Video -->
+
+       
+
+       
+
+        <!-- Project Block - Results Start -->
+        <div class="mxd-project__block">
+          <div class="container-fluid px-0">
+            <div class="row justify-content-center gx-0">
+              <div class="col-12 col-xl-10 mxd-grid-item no-margin">
+                <div class="mxd-project__subtitle">
+                  <h2 class="reveal-type anim-uni-in-up">Results</h2>
+                </div>
+              </div>
+              <div class="col-12 col-xl-10 mxd-grid-item">
+                <div class="mxd-project__content">
+                  <div class="outcome-list mt-0">
+                    <div class="outcome-item anim-uni-in-up">
+                      <i class="ph-bold ph-smiley outcome-item__icon"></i>
+                      <div>
+                        <p class="outcome-item__title">0% to 73% weekly AI reply adoption in 6 weeks</p>
+                        <p class="outcome-item__desc">Agents adopted the Reply with AI feature rapidly because it fit directly into their existing workflow without requiring any behavior change.</p>
+                      </div>
+                    </div>
+                    <div class="outcome-item anim-uni-in-up">
+                      <i class="ph-bold ph-smiley outcome-item__icon"></i>
+                      <div>
+                        <p class="outcome-item__title">Average response time decreased from 2–4 minutes to ~55 seconds</p>
+                        <p class="outcome-item__desc">Agents no longer needed to leave the conversation to search for answers, dramatically reducing the time customers spent waiting.</p>
+                      </div>
+                    </div>
+                    <div class="outcome-item anim-uni-in-up">
+                      <i class="ph-bold ph-smiley outcome-item__icon"></i>
+                      <div>
+                        <p class="outcome-item__title">Consistent answers across the team</p>
+                        <p class="outcome-item__desc">With all agents drawing from the same knowledge base, response quality became more uniform — regardless of individual experience level.</p>
+                      </div>
+                    </div>
+                    <div class="outcome-item anim-uni-in-up">
+                      <i class="ph-bold ph-smiley outcome-item__icon"></i>
+                      <div>
+                        <p class="outcome-item__title">Faster onboarding for new agents</p>
+                        <p class="outcome-item__desc">Because knowledge surfaced directly inside conversations, new team members could respond accurately even without deep product familiarity from day one.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Project Block - Results End -->
+
+        <!-- Project Block - Learnings Start -->
+        <div class="mxd-project__block">
+          <div class="container-fluid px-0">
+            <div class="row justify-content-center gx-0">
+              <div class="col-12 col-xl-10 mxd-grid-item no-margin">
+                <div class="mxd-project__subtitle">
+                  <h2 class="reveal-type anim-uni-in-up">What I Learned</h2>
+                </div>
+              </div>
+              <div class="col-12 col-xl-10 mxd-grid-item">
+                <div class="mxd-project__content">
+                  <div class="outcome-list mt-0">
+                    <div class="outcome-item anim-uni-in-up">
+                      <i class="ph-bold ph-smiley outcome-item__icon"></i>
+                      <div>
+                        <p class="outcome-item__title">AI features succeed when they integrate into existing workflows</p>
+                        <p class="outcome-item__desc">Placing AI assistance inside the message actions meant agents did not need to change their behavior. The tool fit into how they already worked rather than asking them to adopt a new process.</p>
+                      </div>
+                    </div>
+                    <div class="outcome-item anim-uni-in-up">
+                      <i class="ph-bold ph-smiley outcome-item__icon"></i>
+                      <div>
+                        <p class="outcome-item__title">The onboarding experience determines adoption</p>
+                        <p class="outcome-item__desc">If importing documentation feels complicated, teams will not maintain their knowledge base. Simplifying the import flow and making processing status visible removed the biggest barrier to getting started.</p>
+                      </div>
+                    </div>
+                    <div class="outcome-item anim-uni-in-up">
+                      <i class="ph-bold ph-smiley outcome-item__icon"></i>
+                      <div>
+                        <p class="outcome-item__title">Human control builds trust in AI systems</p>
+                        <p class="outcome-item__desc">Giving agents the ability to review and edit AI responses made them more comfortable relying on the feature. Trust was not built through accuracy alone — it came from giving users a sense of control.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Project Block - Learnings End -->
+
+        <!-- Project Block - Project Link Start -->
+        <div class="mxd-project__block no-margin">
+          <div class="mxd-project__nav">
+            <div class="mxd-project__divider anim-uni-in-up"></div>
+            <div class="container-fluid p-0">
+              <div class="row justify-content-center g-0">
+                <div class="col-6 mxd-project__navitem left mxd-grid-item no-margin anim-uni-in-up">
+                  <a class="btn btn-anim btn-line-small btn-muted anim-no-delay slide-left" href="project-details.html">
+                    <i class="ph ph-arrow justify-content-center-left"></i>
+                    <span class="btn-caption">Prev</span>
+                  </a>
+                  <a class="mxd-project__link anim-uni-in-up" href="project-details.html">
+                    <span>Mobile app design</span>
+                  </a>
+                </div>
+                <div class="col-6 mxd-project__navitem right mxd-grid-item no-margin anim-uni-in-up">
+                  <a class="btn btn-anim btn-line-small btn-muted anim-no-delay slide-right"
+                    href="project-details.html">
+                    <span class="btn-caption">Next</span>
+                    <i class="ph ph-arrow justify-content-center-right"></i>
+                  </a>
+                  <a class="mxd-project__link  anim-uni-in-up" href="project-details.html">
+                    <span>AI experiments</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Project Block - Project Link End -->
 
       </div>
     </div>
-  </body>
+    <!-- Section - Project Details End -->
+
+    <!-- Section - CTA Start -->
+    
+    <!-- Section - CTA End -->
+
+  </main>
+  <!-- Page Content End -->
+
+  <!-- Footer Start -->
+  <footer id="mxd-footer" class="mxd-footer mxd-footer--minimal">
+    <div class="footer-minimal__divider"></div>
+    <div class="footer-minimal__bar">
+      <span>© 2026 Jigar Acharya</span>
+      <span class="footer-minimal__label">Case Study</span>
+    </div>
+  </footer>
+  <!-- Footer End -->
+
+  <!-- To Top Button Start -->
+  <a href="#0" id="to-top" class="btn btn-to-top slide-up anim-no-delay">
+    <i class="ph-bold ph-arrow-up"></i>
+  </a>
+  <!-- To Top Button End -->
+
+  <!-- Load Scripts Start -->
+  <script src="js/libs.min.js"></script>
+  <script src="js/app.js"></script>
+  <!-- Load Scripts End -->
+
+</body>
+
 </html>
