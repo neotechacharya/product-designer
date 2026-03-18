@@ -53,6 +53,9 @@
 
   <!-- Selected Projects Case Study Card Styles Start -->
   <style>
+    .pb-10 {
+      padding-bottom: 10rem !important;
+    }
     .mxd-casestudy-card {
       background: rgba(255, 255, 255, 0.35);
       backdrop-filter: blur(20px);
@@ -883,7 +886,7 @@
       </div>
 
     <!-- Section - About Start -->
-    <div class="mxd-section padding-default">
+    <div class="mxd-section padding-default pb-10">
       <div class="mxd-container grid-container">
 
         <!-- Block - About Description with Manifest Start -->
@@ -924,8 +927,331 @@
     <!-- Section - Blog Preview End -->
 
     <!-- Section - CTA Start -->
-    
+
     <!-- Section - CTA End -->
+
+    <!-- Section - Testimonials Start -->
+    <style>
+      .testimonials-section {
+        padding-top: 0rem;
+        padding-bottom: 8rem;
+      }
+
+      .testimonials-section__header {
+        margin-bottom: 5.6rem;
+      }
+
+      .testimonials-section__title {
+       text-align: center;
+      }
+
+      .testimonials-section__subtitle {
+        font-size: 1.5rem;
+        color: var(--t-muted);
+        margin: 0;
+        text-align: center;
+      }
+
+      .testimonials-section__avatars {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 2rem;
+        padding: 0.8rem 0 3.2rem;
+      }
+
+      .testimonials-avatar {
+        cursor: pointer;
+        border-radius: 1.4rem;
+        overflow: hidden;
+        width: 118px;
+        height: 90px;
+        flex-shrink: 0;
+        position: relative;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        opacity: 0.68;
+      }
+
+      .testimonials-avatar:nth-child(1) { margin-top: 48px; }
+      .testimonials-avatar:nth-child(2) { margin-top: 28px; }
+      .testimonials-avatar:nth-child(3) { margin-top: 40px; }
+      .testimonials-avatar:nth-child(4) { margin-top: 56px; }
+      .testimonials-avatar:nth-child(5) { margin-top: 20px; }
+
+      /* Center card — class-based so position in DOM doesn't matter */
+      .testimonials-avatar.center-card {
+        margin-top: 0 !important;
+        width: 152px;
+        height: 112px;
+        border-radius: 1.6rem;
+      }
+
+      .testimonials-avatar.active {
+        opacity: 1;
+        box-shadow: none;
+        overflow: visible;
+        background: transparent;
+      }
+
+      .testimonials-avatar__inner {
+        width: 100%;
+        height: 100%;
+        border-radius: inherit;
+        overflow: hidden;
+        background: #e0dbd8;
+      }
+
+      .testimonials-avatar.active .testimonials-avatar__inner {
+        outline: 4px solid #1D3A28;
+        outline-offset: 0px;
+        border-radius: 1.4rem;
+        box-shadow: 0 8px 32px rgba(29,58,40,0.22);
+      }
+
+      .testimonials-avatar.center-card.active .testimonials-avatar__inner {
+        border-radius: 1.6rem;
+      }
+
+      .testimonials-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top center;
+        display: block;
+      }
+
+      .testimonials-avatar:hover:not(.active) {
+        opacity: 0.88;
+      }
+
+      /* Placeholder colors when no image */
+      .testimonials-avatar:nth-child(1) .testimonials-avatar__inner { background: #e8d5c4; }
+      .testimonials-avatar:nth-child(2) .testimonials-avatar__inner { background: #c9dbe8; }
+      .testimonials-avatar:nth-child(3) .testimonials-avatar__inner { background: #c4d4c8; }
+      .testimonials-avatar:nth-child(4) .testimonials-avatar__inner { background: #ddd5c4; }
+      .testimonials-avatar:nth-child(5) .testimonials-avatar__inner { background: #d5c4e8; }
+
+      .testimonials-section__body {
+        text-align: center;
+        max-width: 72rem;
+        margin: 0 auto;
+        padding-top: 0.8rem;
+      }
+
+      .testimonials-section__quote-icon {
+        margin-bottom: 1.2rem;
+        line-height: 1;
+        color: #1D3A28;
+        font-size: 7.2rem;
+      }
+
+      .testimonials-section__quote-icon i {
+        display: inline-block;
+        font-size: inherit;
+        color: inherit;
+        line-height: 1;
+      }
+
+      .testimonial-item {
+        display: none;
+        font-size: 1.7rem;
+        line-height: 1.7;
+        color: var(--t-medium);
+        text-align: center;
+        margin: 0;
+      }
+
+      .testimonial-item.active {
+        display: block;
+        animation: testimonial-fade 0.4s ease;
+      }
+
+      @keyframes testimonial-fade {
+        from { opacity: 0; transform: translateY(8px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+
+      .testimonial-item .t-author {
+        display: block;
+        margin-top: 2.4rem;
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: var(--t-bright);
+        letter-spacing: 0.02em;
+      }
+
+      .testimonial-item .t-role {
+        display: block;
+        font-size: 1.3rem;
+        color: var(--t-muted);
+        font-weight: 400;
+      }
+
+      @media (max-width: 767px) {
+        .testimonials-section {
+          padding-top: 5.6rem;
+          padding-bottom: 5.6rem;
+        }
+        .testimonials-section__header {
+          margin-bottom: 3.6rem;
+        }
+        .testimonials-section__title {
+          font-size: 2.8rem;
+        }
+        .testimonials-section__avatars {
+          gap: clamp(6px, 2vw, 14px);
+          padding-bottom: 2.4rem;
+        }
+        .testimonials-avatar {
+          width: clamp(52px, 14vw, 88px);
+          height: clamp(40px, 10.5vw, 66px);
+          border-radius: 1rem;
+        }
+        .testimonials-avatar:nth-child(1) { margin-top: 30px; }
+        .testimonials-avatar:nth-child(2) { margin-top: 18px; }
+        .testimonials-avatar:nth-child(3) { margin-top: 26px; }
+        .testimonials-avatar:nth-child(4) { margin-top: 36px; }
+        .testimonials-avatar:nth-child(5) { margin-top: 12px; }
+        .testimonials-avatar.center-card {
+          margin-top: 0 !important;
+          width: clamp(66px, 17.5vw, 108px);
+          height: clamp(50px, 13vw, 82px);
+          border-radius: 1.2rem;
+        }
+        .testimonials-section__body {
+          padding: 0 1.6rem;
+        }
+        .testimonials-section__quote-icon { font-size: 4.8rem; }
+        .testimonial-item { font-size: 1.5rem; line-height: 1.65; }
+      }
+
+      @media (max-width: 400px) {
+        .testimonials-section__avatars {
+          gap: clamp(4px, 1.2vw, 8px);
+        }
+        .testimonials-avatar {
+          width: clamp(44px, 12.5vw, 60px);
+          height: clamp(34px, 9.5vw, 46px);
+        }
+        .testimonials-avatar.center-card {
+          width: clamp(56px, 15.5vw, 76px) !important;
+          height: clamp(42px, 11.5vw, 58px) !important;
+        }
+        .testimonials-avatar:nth-child(1) { margin-top: 22px; }
+        .testimonials-avatar:nth-child(2) { margin-top: 14px; }
+        .testimonials-avatar:nth-child(3) { margin-top: 20px; }
+        .testimonials-avatar:nth-child(4) { margin-top: 28px; }
+        .testimonials-avatar:nth-child(5) { margin-top: 10px; }
+      }
+    </style>
+
+    <div class="mxd-section testimonials-section">
+      <div class="mxd-container grid-container">
+        <div class="mxd-block">
+          <div class="container-fluid px-0">
+
+            <!-- Header -->
+            <div class="testimonials-section__header">
+              <h2 class="testimonials-section__title">Testimonials</h2>
+              <p class="testimonials-section__subtitle">Click on the image to see the testimonial!</p>
+            </div>
+
+            <!-- Avatar Cards -->
+            <div class="testimonials-section__avatars">
+
+              <div class="testimonials-avatar" data-index="0">
+                <div class="testimonials-avatar__inner">
+                  <img src="img/avatars/1753985512233.jpg" alt="Siddharth Jain">
+                </div>
+              </div>
+
+              <div class="testimonials-avatar center-card active" data-index="2">
+                <div class="testimonials-avatar__inner">
+                  <img src="img/avatars/1720446537726.jpg" alt="Aishwarya Santani">
+                </div>
+              </div>
+
+             <!-- <div class="testimonials-avatar" data-index="1">
+                <div class="testimonials-avatar__inner">
+                  <img src="img/avatars/1734277608130.jpg" alt="Ravi Vekariya">
+                </div>
+              </div>-->
+
+              <div class="testimonials-avatar" data-index="4">
+                <div class="testimonials-avatar__inner">
+                  <img src="img/avatars/1697198436960.jpg" alt="Akarsh Jain">
+                </div>
+              </div>
+
+            </div>
+            <!-- /Avatar Cards -->
+
+            <!-- Testimonial Body -->
+            <div class="testimonials-section__body">
+
+              <div class="testimonials-section__quote-icon">
+                <i class="ph-fill ph-quotes"></i>
+              </div>
+
+              <p class="testimonial-item" data-for="0">
+              I really enjoyed working with Jigar, whose strong product thinking and UI/UX focus always ensured we built meaningful, user-centric solutions.
+He consistently pushed us to think beyond execution, encouraging data-driven decisions, better user journeys, and scalable product design.
+His guidance helped me grow not just as a developer, but in understanding how great products are shaped end to end.
+                <span class="t-author">Siddharth Jain</span>
+                <span class="t-role">Frontend Developer, Appitsimple</span>
+              </p>
+
+              <p class="testimonial-item" data-for="1">
+             I had the opportunity to work with Jigar Acharya at Appitsimple, and it was a great learning experience.
+He brings a forward-thinking approach, combining strong UI/UX focus with modern technologies like AI to build better products.
+His guidance, feedback, and support made a real impact on my growth as a developer.
+                <span class="t-author">Ravi Vekariya</span>
+                <span class="t-role">React Js Developer, Appitsimple</span>
+              </p>
+
+              <p class="testimonial-item active" data-for="2">
+               Jigar has a strong sense of product thinking and knows how to turn ideas into practical, user-friendly solutions. His work across products like CallHippo and ControlHippo made a real difference to the overall experience and business outcomes. He brings clarity, ownership, and quietly raises the standard for the whole team.
+                <span class="t-author">Aishwarya Santani</span>
+                <span class="t-role">Graphic Designer, SoftwareSuugest.</span>
+              </p>
+
+            
+
+              <p class="testimonial-item" data-for="4">
+                Jigar doesn’t just build products, he builds systems that continue to perform, combining strong product thinking with hands-on execution. He has worked across platforms like CallHippo, ControlHippo, and SoftwareSuggest, focusing on solving root problems and driving real, measurable impact. He brings clarity, ownership, and discipline to everything he does, making him someone teams naturally rely on.
+                <span class="t-author">Akarsh Jain</span>
+                <span class="t-role">Digital Marketing Specialist, Appitsimple</span>
+              </p>
+
+            </div>
+            <!-- /Testimonial Body -->
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Section - Testimonials End -->
+
+    <script>
+      (function () {
+        var avatars = document.querySelectorAll('.testimonials-avatar');
+        var items   = document.querySelectorAll('.testimonial-item');
+
+        avatars.forEach(function (avatar) {
+          avatar.addEventListener('click', function () {
+            var idx = this.getAttribute('data-index');
+
+            avatars.forEach(function (a) { a.classList.remove('active'); });
+            items.forEach(function (t)   { t.classList.remove('active'); });
+
+            this.classList.add('active');
+            var target = document.querySelector('.testimonial-item[data-for="' + idx + '"]');
+            if (target) target.classList.add('active');
+          });
+        });
+      })();
+    </script>
 
   </main>
   <!-- Page Content End -->
