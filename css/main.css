@@ -23283,6 +23283,7 @@ form textarea:required:valid {
 }
 /* button back */
  #btn-back {
+      opacity: 0;
       position: fixed;
       left: 3rem;
       top: 3rem;
