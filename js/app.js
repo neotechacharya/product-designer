@@ -1507,3 +1507,21 @@ gsap.to("[data-speed]", {
 // --------------------------------------------- //
 // Parallax Universal End
 // --------------------------------------------- //
+
+// back button start */
+  (function () {
+      var btnBack = document.querySelector("#btn-back");
+      if (!btnBack) return;
+      gsap.set(btnBack, { opacity: 0, autoAlpha: 0 });
+      gsap.to(btnBack, {
+        opacity: 1,
+        autoAlpha: 1,
+        scrollTrigger: {
+          trigger: "body",
+          start: "top -4%",
+          end: "top -4%",
+          toggleActions: "play none reverse none"
+        }
+      });
+    })();
+// back button end */
