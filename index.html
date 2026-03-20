@@ -204,6 +204,116 @@
   </style>
   <!-- Selected Projects Case Study Card Styles End -->
 
+  <!-- Hero Editorial Styles Start -->
+  <style>
+    .hero-editorial {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: calc(100vh);
+      padding: 8rem 2rem 6rem;
+      text-align: center;
+    }
+
+    .hero-editorial__inner {
+      max-width: 960px;
+      width: 100%;
+    }
+
+    .hero-editorial__title {
+      font-family: var(--_font-accent);
+      font-size: clamp(3rem, 5.2vw, 7.4rem);
+      font-weight: 800;
+      line-height: 1.1;
+      color: #121212;
+      letter-spacing: -0.02em;
+      margin: 0 0 3.2rem;
+    }
+
+    .hero-editorial__photo-wrap {
+      display: inline-block;
+      vertical-align: middle;
+      width: 104px;
+      height: 70px;
+      border-radius: 9999px;
+      overflow: hidden;
+      position: relative;
+      top: -0.15em;
+      margin: 0 0.22em;
+      background: #d8e8e0;
+      flex-shrink: 0;
+    }
+
+    .hero-editorial__photo-wrap img {
+      width: 142%;
+      height: 100%;
+      object-fit: cover;
+      object-position: -22px -6px;
+      display: block;
+    }
+
+    .hero-editorial__subtitle {
+      font-family: var(--_font-default);
+      font-size: clamp(1.5rem, 2vw, 2.8rem);
+      font-weight: 600;
+      line-height: 1.4;
+      color: #121212;
+      margin: 0;
+      opacity: 0.75;
+    }
+  </style>
+  <!-- Hero Editorial Styles End -->
+
+  <!-- Hero Chips Styles Start -->
+  <style>
+    .hero-chips {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 2.4rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: var(--_font-default);
+      font-size: 1.35rem;
+      font-weight: 600;
+      padding: 0.55rem 1.4rem;
+      border-radius: 9999px;
+      letter-spacing: 0.01em;
+    }
+
+    .hero-chip__dot {
+      width: 0.65rem;
+      height: 0.65rem;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .hero-chip--green {
+      background: #e6f4ec;
+      color: #1a7a3c;
+    }
+
+    .hero-chip--green .hero-chip__dot {
+      background: #1a7a3c;
+    }
+
+    .hero-chip--lightprange {
+      background: #FFDFCF;
+      color: #BC5B2B;
+    }
+
+    .hero-chip--lightprange .hero-chip__dot {
+      background: #BC5B2B;
+    }
+  </style>
+  <!-- Hero Chips Styles End -->
+
   <!-- Hero CTA Button Styles Start -->
   <style>
     .hero-cta-btn {
@@ -344,11 +454,20 @@
         color: #535353;
         margin: 0;
       }
-
+    .mtpc {
+      margin-top: 2.4em;
+    }
       @media (max-width: 991px) {
         .expertise-grid {
           grid-template-columns: repeat(2, 1fr);
         }
+        .hero-editorial__photo-wrap {
+          width: 84px;
+          height: 52px;
+       }
+       .mdnone {
+        display: none;
+       }
       }
 
       @media (max-width: 575px) {
@@ -464,7 +583,7 @@
       <a href="index.html" class="mxd-logo">
         <!-- logo icon -->
         <div class="mxd-logo__image">
-          <img class="brd50d" src="./img/jigar-dp.png" alt="profile pic">
+          <img class="brd50d" src="./img/jic_lg.svg" alt="profile pic">
         </div>
         
         <!-- logo text -->
@@ -488,17 +607,34 @@
 
     <!-- Hero Section Start -->
     <div class="mxd-section">
-      <div class="mxd-hero-09">
-        <div class="mxd-hero-09__wrap loading-wrap">
-          <div class="mxd-hero-09__headline">
-            <div class="hero-09-headline__caption loading__item">
-              <p>Product designer by craft, <br class="mnoneq"> coder by habit. Mostly B2B SaaS. </p>
-            </div>
-            <div class="hero-09-headline__title loading__item">
+      <div class="hero-editorial loading-wrap">
+        <div class="hero-editorial__inner">
+          <h1 class="hero-editorial__title loading__item">
+            Product
+            <span class="hero-editorial__photo-wrap">
+              <img src="./img/jigar-dp.png" alt="Jigar Acharya">
+            </span>
+            Designer
+             
+          </h1>
+          <p class="hero-editorial__subtitle loading__fade">
+         Combining B2B SaaS UX expertise with AI-enhanced design process <br class="mdnone">
+to solve complex problems
+          </p>
 
-              <h1 class="mgfourer">Jigar Acharya</h1>
-            </div>
-            <div class="hero-09-headline__cta loading__fade">
+          <!-- Hero Chips -->
+          <div class="hero-chips loading__fade">
+            <span class="hero-chip hero-chip--green">
+              <span class="hero-chip__dot"></span>
+              6+ years of experience
+            </span>
+            <span class="hero-chip hero-chip--lightprange">
+              <span class="hero-chip__dot"></span>
+               Design @ CallHippo
+            </span>
+          </div>
+
+          <div class="hero-09-headline__cta loading__fade mtpc">
               <a href="#selected-projects" class="btn btn-anim btn-default btn-outline slide-down hero-cta-btn">
                 <span class="btn-caption hero-cta-btn__label">Selected Work</span>
                 <span class="hero-cta-btn__icon">
@@ -506,46 +642,6 @@
                 </span>
               </a>
             </div>
-           <!--- <div class="hero-09-headline__tags loading__fade">
-              <span class="tag tag-default tag-outline">UI</span>
-              <span class="tag tag-default tag-outline">UX</span>
-              <span class="tag tag-default tag-outline">Frontend</span>
-              <span class="tag tag-default tag-outline">SaaS Product Design</span>
-              <span class="tag tag-default tag-outline">AI Product UX</span>
-              <span class="tag tag-default tag-outline">Design Systems</span>
-              <span class="tag tag-default tag-outline">Interactive design</span>
-              <span class="tag tag-default tag-outline">A/B Testing</span>
-              <span class="tag tag-default tag-outline">Conversion Optimization</span>
-              <span class="tag tag-default tag-outline">Branding</span>
-
-
-            </div>-->
-          </div>
-          <div class="mxd-hero-09__objects">
-            <div class="hero-09-objects__image loading__item">
-              <img class="mxd-move" src="./img/hero/mypic_2.jpg" alt="Hero Image">
-            </div>
-            <div class="hero-09-objects__item item-01 loading__item">
-              <div class="mxd-counter horizontal">
-                <p id="stats-counter-1" class="mxd-counter__number mxd-stats-number xsmall">9+</p>
-                <p class="mxd-counter__descr t-140 t-bright t-small">Years of<br>experience</p>
-              </div>
-            </div>
-            <div class="hero-09-objects__item item-02 loading__item">
-              <div class="mxd-counter horizontal">
-                <p id="stats-counter-2" class="mxd-counter__number mxd-stats-number xsmall">0</p>
-                <p class="mxd-counter__descr t-140 t-bright t-small">A/B Tests<br>Conducted</p>
-              </div>
-            </div>
-            <div class="hero-09-objects__item item-03 loading__item">
-              <div class="mxd-hero__mark">
-                <span class="mark-icon"></span>
-                <span class="mark-text">4 SaaS Products Shipped</span>
-              </div>
-            </div>
-          </div>
-          <!-- scroll for more -->
-         
         </div>
       </div>
     </div>
@@ -1282,12 +1378,6 @@ His guidance, feedback, and support made a real impact on my growth as a develop
   <script src="js/libs.min.js"></script>
   <script src="js/app.js"></script>
   <!-- counters -->
-  <script>
-    const statsCounter1 = new countUp.CountUp("stats-counter-1", 6, optionsPlus);
-    const statsCounter2 = new countUp.CountUp("stats-counter-2", 30, optionsPlus);
-    statsCounter1.start();
-    statsCounter2.start();
-  </script>
   <!-- Load Scripts End -->
 
 </body>
