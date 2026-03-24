@@ -880,6 +880,9 @@ html.lenis body {
   text-transform: lowercase;
     letter-spacing: normal;
 }
+b {
+  font-weight: var(--fw-bold);
+}
 @media only screen and (min-width: 768px) {
   .mxd-section.padding-default {
     padding-bottom: 11rem;
