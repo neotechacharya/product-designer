@@ -23284,6 +23284,9 @@ form textarea:required:valid {
 #color-switcher {
  display: none;
 }
+.ptctmts {
+  padding-top: 3.2rem;
+} 
 /* button back */
  #btn-back {
       opacity: 0;

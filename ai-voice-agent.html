@@ -434,6 +434,139 @@
   </style>
   <!-- Minimal Footer Styles End -->
 
+  <!-- Section Nav Styles Start -->
+  <style>
+    .case-section-nav {
+      display: none;
+      position: fixed;
+      bottom: 2.4rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 10rem;
+      padding: 0.5rem;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.10), 0 1px 4px rgba(0,0,0,0.06);
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .case-section-nav.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    @media (min-width: 1024px) {
+      .case-section-nav {
+        display: flex;
+        align-items: center;
+        gap: 0.2rem;
+      }
+    }
+
+    .case-section-nav__item {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.8rem 1.4rem;
+      border-radius: 10rem;
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: #555;
+      text-decoration: none;
+      transition: background 0.2s ease, color 0.2s ease;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      letter-spacing: -0.01em;
+    }
+
+    .case-section-nav__item:hover {
+      background: rgba(0, 0, 0, 0.06);
+      color: #111;
+    }
+
+    .case-section-nav__item.is-active {
+      background: #111;
+      color: #fff;
+    }
+
+    .case-section-nav__side-btn {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 4rem;
+      height: 4rem;
+      border-radius: 50%;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: #555;
+      text-decoration: none;
+      font-size: 1.8rem;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .case-section-nav__side-btn:hover {
+      background: rgba(0, 0, 0, 0.06);
+      color: #111;
+    }
+
+    .case-section-nav__sep {
+      display: block;
+      width: 1px;
+      height: 2rem;
+      background: rgba(0, 0, 0, 0.12);
+      flex-shrink: 0;
+      margin: 0 0.4rem;
+    }
+
+    #btn-back,
+    .mxd-nav__contain,
+    #to-top {
+      display: none !important;
+    }
+
+    [color-scheme="dark"] .case-section-nav {
+      background: rgba(30, 30, 30, 0.92);
+      border-color: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4), 0 1px 4px rgba(0,0,0,0.2);
+    }
+
+    [color-scheme="dark"] .case-section-nav__item {
+      color: #aaa;
+    }
+
+    [color-scheme="dark"] .case-section-nav__item:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #eee;
+    }
+
+    [color-scheme="dark"] .case-section-nav__item.is-active {
+      background: #fff;
+      color: #111;
+    }
+
+    [color-scheme="dark"] .case-section-nav__side-btn {
+      color: #aaa;
+    }
+
+    [color-scheme="dark"] .case-section-nav__side-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #eee;
+    }
+
+    [color-scheme="dark"] .case-section-nav__sep {
+      background: rgba(255, 255, 255, 0.15);
+    }
+  </style>
+  <!-- Section Nav Styles End -->
+
 </head>
 
 <body>
@@ -660,7 +793,7 @@
       <div class="mxd-container grid-container">
 
         <!-- Project Block - Problem Start -->
-        <div class="mxd-project__block pre-grid">
+        <div id="sec-problem" class="mxd-project__block pre-grid">
           <div class="container-fluid px-0">
             <div class="row justify-content-center gx-0">
               <div class="col-12 col-xl-10 mxd-grid-item no-margin">
@@ -701,7 +834,7 @@
         <!-- Project Block - Problem End -->
 
         <!-- Project Block - Design Goals Start -->
-        <div class="mxd-project__block mb-4">
+        <div id="sec-goals" class="mxd-project__block mb-4">
           <div class="container-fluid px-0">
             <div class="row justify-content-center gx-0">
               <div class="col-12 col-xl-10 mxd-grid-item no-margin">
@@ -759,7 +892,7 @@
 
         <!-- Project Constraint start -->
         <!-- Project Block - Problem Start -->
-        <div class="mxd-project__block pre-grid">
+        <div id="sec-constraints" class="mxd-project__block pre-grid">
           <div class="container-fluid px-0">
             <div class="row justify-content-center gx-0">
               <div class="col-12 col-xl-10 mxd-grid-item no-margin">
@@ -797,7 +930,7 @@
         </div>
 
         <!-- Project Block - Understanding the Gap Start -->
-        <div class="mxd-project__block">
+        <div id="sec-research" class="mxd-project__block">
           <div class="container-fluid px-0">
             <div class="row justify-content-center gx-0">
               <div class="col-12 col-xl-10 mxd-grid-item no-margin ">
@@ -868,7 +1001,7 @@
         <!-- Project Block - Understanding the Gap End -->
 
         <!-- Project Block - Research Insights Start -->
-        <div class="mxd-project__block">
+        <div id="sec-insights" class="mxd-project__block">
           <div class="container-fluid px-0">
             <div class="row justify-content-center gx-0">
               <div class="col-12 col-xl-10 mxd-grid-item no-margin">
@@ -915,7 +1048,7 @@
         </div>
        
         <!-- Project Block - Research Insights End -->
-<div class="mxd-project__block">
+<div id="sec-user-needs" class="mxd-project__block">
           <div class="container-fluid px-0">
             <div class="row justify-content-center gx-0">
               <div class="col-12 col-xl-10 mxd-grid-item no-margin">
@@ -1015,7 +1148,7 @@
         </div>
 
         <!-- Project Block - User Flow Start -->
-        <div class="mxd-project__block">
+        <div id="sec-flow" class="mxd-project__block">
           <div class="container-fluid px-0">
             <div class="row justify-content-center gx-0">
               <div class="col-12 col-xl-10 mxd-grid-item no-margin">
@@ -1051,7 +1184,7 @@ Keeping everything in one structured flow made the setup faster and easier for s
         <!-- Project Block - User Flow End -->
 
         <!-- Project Block - Design Features Start -->
-        <div class="mxd-project__block">
+        <div id="sec-design" class="mxd-project__block">
           <div class="container-fluid px-0">
             <div class="row justify-content-center gx-0">
               <div class="col-12 col-xl-10 mxd-grid-item no-margin">
@@ -1106,7 +1239,7 @@ Keeping everything in one structured flow made the setup faster and easier for s
        
 
         <!-- Project Block - Results Start -->
-        <div class="mxd-project__block">
+        <div id="sec-outcome" class="mxd-project__block">
           <div class="container-fluid px-0">
             <div class="row justify-content-center gx-0">
               <div class="col-12 col-xl-10 mxd-grid-item no-margin">
@@ -1148,7 +1281,7 @@ Keeping everything in one structured flow made the setup faster and easier for s
         <!-- Project Block - Results End -->
 
         <!-- Project Block - Learnings Start -->
-        <div class="mxd-project__block">
+        <div id="sec-learnings" class="mxd-project__block">
           <div class="container-fluid px-0">
             <div class="row justify-content-center gx-0">
               <div class="col-12 col-xl-10 mxd-grid-item no-margin">
@@ -1250,6 +1383,99 @@ Keeping everything in one structured flow made the setup faster and easier for s
     <i class="ph-bold ph-arrow-up"></i>
   </a>
   <!-- To Top Button End -->
+
+  <!-- Section Nav Start -->
+  <nav class="case-section-nav" aria-label="Case study sections">
+    <a href="index.html" class="case-section-nav__side-btn" aria-label="Back to home">
+      <i class="ph-bold ph-arrow-left"></i>
+    </a>
+    <span class="case-section-nav__sep"></span>
+    <a href="#mxd-page-content"  class="case-section-nav__item" data-section="mxd-page-content">Overview</a>
+    <a href="#sec-problem"       class="case-section-nav__item" data-section="sec-problem">Problem</a>
+    <a href="#sec-goals"         class="case-section-nav__item" data-section="sec-goals">Goals</a>
+    <a href="#sec-constraints"   class="case-section-nav__item" data-section="sec-constraints">Constraints</a>
+    <a href="#sec-research"      class="case-section-nav__item" data-section="sec-research">Research</a>
+    <a href="#sec-insights"      class="case-section-nav__item" data-section="sec-insights">Insights</a>
+    <a href="#sec-user-needs"    class="case-section-nav__item" data-section="sec-user-needs">User Needs</a>
+    <a href="#sec-flow"          class="case-section-nav__item" data-section="sec-flow">Flow</a>
+    <a href="#sec-design"        class="case-section-nav__item" data-section="sec-design">Design</a>
+    <a href="#sec-outcome"       class="case-section-nav__item" data-section="sec-outcome">Outcome</a>
+    <a href="#sec-learnings"     class="case-section-nav__item" data-section="sec-learnings">Learnings</a>
+    <span class="case-section-nav__sep"></span>
+    <button class="case-section-nav__side-btn" id="nav-menu-proxy" type="button" aria-label="Open menu">
+      <i class="ph-bold ph-list"></i>
+    </button>
+  </nav>
+  <!-- Section Nav End -->
+
+  <!-- Section Nav Script Start -->
+  <script>
+    (function () {
+      var navItems = document.querySelectorAll('.case-section-nav__item[data-section]');
+      var sectionIds = Array.from(navItems).map(function (el) { return el.dataset.section; });
+      var sections = sectionIds.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+
+      function setActive(id) {
+        navItems.forEach(function (el) {
+          el.classList.toggle('is-active', el.dataset.section === id);
+        });
+      }
+
+      function onScroll() {
+        var scrollY = window.scrollY || window.pageYOffset;
+        var winH = window.innerHeight;
+        var active = sectionIds[0];
+        for (var i = 0; i < sections.length; i++) {
+          var rect = sections[i].getBoundingClientRect();
+          if (rect.top <= winH * 0.4) {
+            active = sectionIds[i];
+          }
+        }
+        setActive(active);
+      }
+
+      var nav = document.querySelector('.case-section-nav');
+
+      function scrollToSection(id) {
+        var target = document.getElementById(id);
+        if (!target) return;
+        var offset = nav.getBoundingClientRect().bottom + 16;
+        target.style.scrollMarginTop = offset + 'px';
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+
+      navItems.forEach(function (el) {
+        el.addEventListener('click', function (e) {
+          e.preventDefault();
+          scrollToSection(el.dataset.section);
+        });
+      });
+
+      var menuProxy = document.getElementById('nav-menu-proxy');
+      if (menuProxy) {
+        menuProxy.addEventListener('click', function () {
+          var realHamburger = document.querySelector('.mxd-nav__hamburger');
+          if (realHamburger) realHamburger.click();
+        });
+      }
+
+      function updateVisibility() {
+        var scrollY = window.scrollY || window.pageYOffset;
+        var threshold = window.innerHeight * 0.04;
+        if (scrollY > threshold) {
+          nav.classList.add('is-visible');
+        } else {
+          nav.classList.remove('is-visible');
+        }
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('scroll', updateVisibility, { passive: true });
+      onScroll();
+      updateVisibility();
+    })();
+  </script>
+  <!-- Section Nav Script End -->
 
   <!-- Load Scripts Start -->
   <script src="js/libs.min.js"></script>
