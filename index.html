@@ -211,7 +211,7 @@
       align-items: center;
       justify-content: center;
       min-height: calc(100vh);
-      padding: 8rem 2rem 6rem;
+      padding: 11rem 2rem 7rem;
       text-align: center;
     }
 
@@ -227,25 +227,27 @@
       line-height: 1.1;
       color: #121212;
       letter-spacing: -0.02em;
-      margin: 0 0 3.2rem;
+      margin: 0 0 2.4rem;
     }
 
     .hero-editorial__photo-wrap {
-      display: inline-block;
-      vertical-align: middle;
-      width: 104px;
-      height: 70px;
+      display: block;
+      width: 140px;
+      height: 96px;
       border-radius: 9999px;
       overflow: hidden;
-      position: relative;
-      top: -0.15em;
-      margin: 0 0.22em;
+      margin: 0 auto 1.8rem;
       background: #d8e8e0;
-      flex-shrink: 0;
+      border: 4px solid rgba(0,0,0,0.88);
+      box-shadow:
+        0 1px 2px rgba(0,0,0,0.14),
+        0 3px 8px rgba(0,0,0,0.18),
+        0 8px 20px rgba(0,0,0,0.14),
+        0 16px 32px rgba(0,0,0,0.08);
     }
 
     .hero-editorial__photo-wrap img {
-      width: 142%;
+      width: 131%;
       height: 100%;
       object-fit: cover;
       object-position: -22px -6px;
@@ -271,7 +273,7 @@
       justify-content: center;
       align-items: center;
       gap: 1rem;
-      margin-top: 2.4rem;
+      margin-top: 1.6rem;
       flex-wrap: wrap;
     }
 
@@ -455,15 +457,15 @@
         margin: 0;
       }
     .mtpc {
-      margin-top: 2.4em;
+      margin-top: 3.6rem;
     }
       @media (max-width: 991px) {
         .expertise-grid {
           grid-template-columns: repeat(2, 1fr);
         }
         .hero-editorial__photo-wrap {
-          width: 84px;
-          height: 52px;
+          width: 110px;
+          height: 76px;
        }
        .mdnone {
         display: none;
@@ -609,13 +611,11 @@
     <div class="mxd-section">
       <div class="hero-editorial loading-wrap">
         <div class="hero-editorial__inner">
+          <div class="hero-editorial__photo-wrap loading__item">
+            <img src="./img/jigar-dp.png" alt="Jigar Acharya">
+          </div>
           <h1 class="hero-editorial__title loading__item">
-            Product
-            <span class="hero-editorial__photo-wrap">
-              <img src="./img/jigar-dp.png" alt="Jigar Acharya">
-            </span>
-            Designer
-             
+            Product Designer
           </h1>
           <p class="hero-editorial__subtitle loading__fade">
          Combining B2B SaaS UX expertise with AI-enhanced design process <br class="mdnone">
