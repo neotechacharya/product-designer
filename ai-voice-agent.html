@@ -1439,8 +1439,6 @@ Keeping everything in one structured flow made the setup faster and easier for s
       function scrollToSection(id) {
         var target = document.getElementById(id);
         if (!target) return;
-        var offset = nav.getBoundingClientRect().bottom + 16;
-        target.style.scrollMarginTop = offset + 'px';
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
 

@@ -1474,8 +1474,6 @@ I designed Reply with AI — a feature that generates instant reply suggestions 
       function scrollToSection(id) {
         var target = document.getElementById(id);
         if (!target) return;
-        var offset = nav.getBoundingClientRect().bottom + 16;
-        target.style.scrollMarginTop = offset + 'px';
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
 
