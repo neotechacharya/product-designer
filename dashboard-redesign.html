@@ -295,6 +295,52 @@
       margin-bottom: 0;
     }
 
+    /* Solution Cards - 2 column grid */
+    .solution-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 3.2rem;
+    }
+
+    .solution-card {
+      border-radius: 1.6rem;
+      padding: 2.8rem;
+      border: 1px solid rgba(0, 0, 0, 0.07);
+    }
+
+    .solution-card--green { background: #EAF3EE; }
+    .solution-card--peach { background: #FFF3EB; }
+
+    .solution-card__num {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(0, 0, 0, 0.32);
+      margin-bottom: 1.2rem;
+    }
+
+    .solution-card__title {
+      font-family: var(--_font-accent);
+      font-weight: 700;
+      font-size: 1.8rem;
+      color: #161616;
+      line-height: 1.3;
+      margin-bottom: 1rem;
+    }
+
+    .solution-card__desc {
+      font-size: 1.55rem;
+      line-height: 1.65;
+      color: #444;
+      margin: 0;
+    }
+
+    @media (max-width: 640px) {
+      .solution-cards { grid-template-columns: 1fr; }
+    }
+
     /* Setup Steps List */
     .setup-steps {
       display: flex;
@@ -1161,87 +1207,46 @@
               </div>
 
               <div class="col-12 col-xl-10 mxd-grid-item no-margin mt-5">
-                <p class="t-large t-bright anim-uni-in-up pb-2 fnbold">1. Simplified main dashboard</p>
-                <p class="anim-uni-in-up pb-4">Provides a quick overview of call activity and team performance. Managers can understand the overall call situation within seconds of opening the dashboard.</p>
-                <p class="t-large t-bright anim-uni-in-up pb-2 fnbold">2. Dedicated analytics module</p>
-                <p class="anim-uni-in-up pb-4">Helps managers investigate inbound calls, outbound activity, and missed call patterns without jumping across multiple screens.</p>
-                   
-              </div>
-            </div>
-
-
-          </div>
-        </div>
-
-        <!-- Project Block - User Flow Start -->
-        <div class="mxd-project__block">
-          <div class="container-fluid px-0">
-            <div class="row justify-content-center gx-0">
-              <div class="col-12 col-xl-10 mxd-grid-item no-margin">
-                <div class="mxd-project__subtitle">
-                  <h2 class="reveal-type anim-uni-in-up">Feature 1 <br> Main Dashboard</h2>
-                </div>
-              </div>
-              <div class="col-12 col-xl-10 mxd-grid-item">
-                <div class="mxd-project__content">
-                  <div class="mxd-project__paragraph medium-text mt-zero">
-                    <p class="anim-uni-in-up">The original dashboard displayed many metrics without prioritization, making it difficult for managers to quickly understand team performance. The redesigned dashboard highlights the six key metrics managers check most frequently.</p>
-
+                <div class="solution-cards">
+                  <div class="solution-card solution-card--green anim-uni-in-up">
+                    <div class="solution-card__num">01</div>
+                    <p class="solution-card__title">Simplified main dashboard</p>
+                    <p class="solution-card__desc">Provides a quick overview of call activity and team performance. Managers can understand the overall call situation within seconds of opening the dashboard.</p>
+                  </div>
+                  <div class="solution-card solution-card--peach anim-uni-in-up">
+                    <div class="solution-card__num">02</div>
+                    <p class="solution-card__title">Dedicated analytics module</p>
+                    <p class="solution-card__desc">Helps managers investigate inbound calls, outbound activity, and missed call patterns without jumping across multiple screens.</p>
                   </div>
                 </div>
-              </div>
-               <div class="col-12 col-xl-10 mxd-grid-item no-margin">
-                  <p class="t-large t-bright anim-uni-in-up mt-4 pb-4 fnbold">Six priority metrics</p>
-                  <div class="img-container imccutcont pb-4">
+                    <div class="mxd-project__subtitle">
+                   <p class="t-large t-bright anim-uni-in-up fnbold"> Main Dashboard</p>
+                  <p class="anim-uni-in-up">The original dashboard displayed many metrics without prioritization, making it difficult for managers to quickly understand team performance. The redesigned dashboard highlights the six key metrics managers check most frequently.</p>
+                  
+                  <div class="img-container imccutcont pb-2 pt-4">
                     <div class=" bg-base-tint radius-m mb-5 brdcol">
                       <video src="./img/works/dashboard_tour.mp4" class="w-100"
                         style="border-radius: var(--_radius-m);" autoplay loop muted playsinline preload="none"></video>
                     </div>
                     </div>
-                    <p class="t-large t-bright anim-uni-in-up pb-2 fnbold">Design rationale</p>
+                      <p class="t-large t-bright anim-uni-in-up pb-2 fnbold">Design rationale</p>
                     <p class="anim-uni-in-up pb-4">Total Calls, Inbound Calls, Outbound Calls, Average Talk Time, Active Agents, and Best Performing Agent are presented using large card components with strong visual hierarchy. The number is emphasized first, followed by the label and supporting context.</p>
                     <p class="anim-uni-in-up pb-4">Managers can now open the dashboard and understand the overall call situation within seconds. The dashboard effectively functions as a daily operational snapshot.</p>
-               </div>
-            </div>
-          </div>
-        </div>
-        <!-- Project Block - User Flow End -->
-
-        <!-- Project Block - Design Features Start -->
-        <div class="mxd-project__block">
-          <div class="container-fluid px-0">
-            <div class="row justify-content-center gx-0">
-              <div class="col-12 col-xl-10 mxd-grid-item no-margin">
-                <div class="mxd-project__subtitle">
-                  <h2 class="reveal-type anim-uni-in-up">Feature 2 <br> Incoming & Outgoing Analytics</h2>
-                </div>
-              </div>
-              <div class="col-12 col-xl-10 mxd-grid-item">
-                <div class="mxd-project__content">
-                  <div class=" medium-text">
-
-                    <p class="t-large t-bright anim-uni-in-up fnbold">Separated by call direction</p>
-                    <p class="anim-uni-in-up">Inbound and outbound call data were previously aggregated into a single analytics view, making it difficult for both sales and support teams to interpret performance. The analytics module separates them into two dedicated views.</p>
-                  </div>
-                </div>
-              </div>
-               <div class="col-10 mxd-project-cards__item mxd-grid-item anim-uni-scale-in-right">
-                  <div class=" bg-base-tint radius-m mb-5">
+                     <p class="t-large t-bright anim-uni-in-up fnbold">Incoming & Outgoing Analytics</p>
+                      <p class="anim-uni-in-up">Inbound and outbound call data were previously aggregated into a single analytics view, making it difficult for both sales and support teams to interpret performance. The analytics module separates them into two dedicated views.</p>
+                  <div class=" bg-base-tint radius-m mb-5 mt-4">
                    <div class=" bg-base-tint radius-m mb-5 brdcol">
                       <video src="./img/works/call_analytics.mp4" class="w-100"
                         style="border-radius: var(--_radius-m);" autoplay loop muted playsinline preload="none"></video>
                     </div>
                   </div>
-                  <div class="mxd-project__subtitle">
-                   <p class="t-large t-bright anim-uni-in-up fnbold">Feature 3 <br> Missed Call Analytics</p>
-                 <div class="mxd-project__content">
-                  <div class=" medium-text">
-                    <p class="anim-uni-in-up pb-4">Missed calls were displayed only as a single number, offering no insight into the underlying cause. The redesigned view categorizes missed calls into five operational reasons.</p>
-                     <div class=" bg-base-tint radius-m mb-5 brdcol">
+                   <p class="t-large t-bright anim-uni-in-up fnbold">Missed Call Analytics</p>
+                     <p class="anim-uni-in-up pb-4">Missed calls were displayed only as a single number, offering no insight into the underlying cause. The redesigned view categorizes missed calls into five operational reasons.</p>
+                     <div class=" bg-base-tint radius-m mb-5 brdcol pt-4">
                       <video src="./img/works/missed_call.mp4" class="w-100"
                         style="border-radius: var(--_radius-m);" autoplay loop muted playsinline preload="none"></video>
                     </div>
-                    <div class="setup-steps">
+                     <div class="setup-steps">
                       <div class="setup-step anim-uni-in-up">
                         <span class="setup-step__icon">▷▷</span>
                         <p class="setup-step__text"><strong>Not answered by agent</strong> — Agent was available but the call was not picked up.</p>
@@ -1255,14 +1260,18 @@
                         <p class="setup-step__text"><strong>Abandoned during welcome message / in IVR / outside business hours</strong> — A segmented horizontal bar chart highlights the dominant cause at a glance, allowing teams to diagnose issues and take targeted action.</p>
                       </div>
                     </div>
-                  </div>
                 </div>
-                </div>
-                </div>
+              </div>
+              
             </div>
+
+
           </div>
         </div>
-        <!-- Feature 01 Video -->
+
+      
+
+      
 
        
 
