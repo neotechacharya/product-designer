@@ -3,1377 +3,1927 @@
 
 <head>
   <meta charset="UTF-8">
-
-  <!-- Page Title -->
   <title>Jigar Acharya — Product Designer</title>
-
-  <!-- Meta Tags -->
-  <meta name="description"
-    content="Jigar Acharya is a Lead Product Designer specializing in AI and SaaS platforms. Explore case studies, projects, and design work focused on B2B products, user experience, and design systems.">
-  <meta name="keywords"
-    content="Jigar Acharya, Product Designer, UI UX Designer, SaaS Design, AI Product Design, Design Systems, B2B Product Design, Portfolio">
+  <meta name="description" content="Jigar Acharya is a Lead Product Designer specializing in AI and SaaS platforms. Explore case studies, projects, and design work focused on B2B products, user experience, and design systems.">
+  <meta name="keywords" content="Jigar Acharya, Product Designer, UI UX Designer, SaaS Design, AI Product Design, Design Systems, B2B Product Design, Portfolio">
   <meta name="author" content="Jigar Acharya">
   <meta name="robots" content="noindex, nofollow">
-
-  <!-- Viewport Meta-->
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <!-- Template Favicon & Icons Start -->
   <link rel="icon" href="img/favicon/favicon.ico" sizes="any">
- <!--- <link rel="icon" href="img/favicon/icon.svg" type="image/svg+xml">-->
   <link rel="apple-touch-icon" href="img/favicon/apple-touch-icon.png">
- <!-- <link rel="manifest" href="img/favicon/manifest.webmanifest">-->
-  <!-- Template Favicon & Icons End -->
 
-  <!-- Open Graph / Social Metadata Start -->
   <meta property="og:type" content="website">
   <meta property="og:image:height" content="1200">
   <meta property="og:image:width" content="1200">
   <meta property="og:title" content="Jigar Acharya — Product Designer">
-  <meta property="og:description"
-    content="Jigar Acharya is a Lead Product Designer specializing in AI and SaaS platforms. Explore case studies, projects, and design work focused on B2B products, user experience, and design systems.">
+  <meta property="og:description" content="Lead Product Designer specializing in AI and SaaS platforms.">
   <meta property="og:url" content="">
-  <meta property="og:image" content="">
-  <!-- Open Graph / Social Metadata End -->
+  <meta property="og:image" content="img/og-image.jpg">
 
-  <!-- Template Styles Start -->
-  <link rel="stylesheet" type="text/css" href="css/loaders/loader.css">
-  <link rel="stylesheet" type="text/css" href="css/plugins.css">
-  <link rel="stylesheet" type="text/css" href="css/main.css">
-  <!-- Template Styles End -->
-
-  <!-- Custom Browser Color Start -->
-  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FAF7F6">
-  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#161616">
-  <meta name="msapplication-navbutton-color" content="#161616">
+  <meta name="theme-color" content="#0a0a0a">
+  <meta name="msapplication-navbutton-color" content="#0a0a0a">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <!-- Custom Browser Color End -->
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-H7Z239MG7M"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-H7Z239MG7M');
-</script>
-  <!-- Selected Projects Case Study Card Styles Start -->
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-H7Z239MG7M"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-H7Z239MG7M');
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- hls.js -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.7/dist/hls.min.js"></script>
+
   <style>
-    .pb-10 {
-      padding-bottom: 10rem !important;
+    /* ============================================================
+       DESIGN TOKENS
+    ============================================================ */
+    :root {
+      --bg:      hsl(0, 0%, 4%);
+      --surface: hsl(0, 0%, 8%);
+      --text:    hsl(0, 0%, 96%);
+      --muted:   hsl(0, 0%, 53%);
+      --stroke:  hsl(0, 0%, 12%);
+      --accent-a: #89AACC;
+      --accent-b: #4E85BF;
     }
-    .mxd-casestudy-card {
-      background: rgba(255, 255, 255, 0.35);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.5);
-      border-radius: var(--_radius-l);
+
+    /* ============================================================
+       RESET + BASE
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+    /* ============================================================
+       UTILITIES
+    ============================================================ */
+    .accent-gradient { background: linear-gradient(90deg, var(--accent-a) 0%, var(--accent-b) 100%); }
+
+    /* ============================================================
+       KEYFRAMES
+    ============================================================ */
+    @keyframes scroll-down {
+      0%   { transform: translateY(-100%); }
+      100% { transform: translateY(200%); }
+    }
+
+    @keyframes role-fade-in {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0);   }
+    }
+
+    @keyframes gradient-shift {
+      0%   { background-position: 0%   50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0%   50%; }
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1;   transform: scale(1);   }
+      50%       { opacity: 0.4; transform: scale(0.75); }
+    }
+
+    /* ============================================================
+       LOADING SCREEN
+    ============================================================ */
+    #loading-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: var(--bg);
       overflow: hidden;
-      position: relative;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
-      transition: box-shadow 0.5s cubic-bezier(0.23, 0.65, 0.74, 1.09), transform 0.5s cubic-bezier(0.23, 0.65, 0.74, 1.09), border-color 0.5s ease;
-      display: block;
-      text-decoration: none;
-    }
-
-    .mxd-casestudy-card:hover {
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1), 0 4px 16px rgba(0, 0, 0, 0.06);
-      transform: perspective(1000px) rotateX(1deg) rotateY(-1deg) translateY(-3px);
-      border-color: rgba(255, 255, 255, 0.8);
-    }
-
-    .mxd-casestudy-card__btn {
-      margin-top: 2.4rem;
-    }
-
-    .mxd-casestudy-card__btn .btn {
-      font-size: 1.3rem;
-      padding: 0.8rem 2rem;
-      min-height: auto;
-    }
-
-    .mxd-casestudy-card__inner {
       display: flex;
       align-items: center;
-      gap: 4rem;
-      padding: 4rem;
+      justify-content: center;
+    }
+
+    .loading__label {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: loader-fade-up .5s ease-out .1s forwards;
+    }
+    .loading__label-sep {
+      width: 16px; height: 1px;
+      background: var(--accent-a);
+      opacity: .6;
+    }
+
+    .loading__center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .loading__word-wrap {
+      overflow: hidden;
+      text-align: center;
+      height: clamp(3rem, 9vw, 7.5rem);
+      display: flex;
+      align-items: center;
+    }
+
+    .loading__word {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-size: clamp(2.5rem, 8vw, 7rem);
+      line-height: 1;
+      display: block;
+      background: linear-gradient(135deg, var(--text) 0%, var(--muted) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: role-fade-in 0.4s ease-out;
+    }
+
+    .loading__progress {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      opacity: 0;
+      animation: loader-fade-up .5s ease-out .2s forwards;
+    }
+
+    .loading__bar-wrap {
+      width: clamp(120px, 20vw, 200px);
+      height: 2px;
+      background: var(--stroke);
+      border-radius: 1px;
+      overflow: hidden;
+    }
+
+    .loading__bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-a) 0%, var(--accent-b) 100%);
+      transform-origin: left;
+      transform: scaleX(0);
+      border-radius: 1px;
+    }
+
+    .loading__counter {
+      font-family: 'Inter', sans-serif;
+      font-size: .7rem;
+      font-weight: 500;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: .08em;
+      min-width: 2.5rem;
+      text-align: right;
+      user-select: none;
+    }
+
+    @keyframes loader-fade-up {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ============================================================
+       MAIN CONTENT
+    ============================================================ */
+    #main-content {
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    #main-content.vis { opacity: 1; }
+
+    /* ============================================================
+       NAVBAR
+    ============================================================ */
+    #navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 50;
+      display: flex;
+      justify-content: center;
+      padding: 1rem 1rem;
+      pointer-events: none;
+    }
+
+    .nav__pill {
+      pointer-events: all;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 9999px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(20,20,20,0.9);
+      padding: 0.4rem 0.4rem;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .nav__pill.scrolled {
+      box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+    }
+
+    .nav__logo {
+      width: 2.1rem;
+      height: 2.1rem;
+      border-radius: 50%;
+      position: relative;
+      flex-shrink: 0;
+      cursor: pointer;
+      transition: transform 0.25s ease;
+    }
+    .nav__logo:hover { transform: scale(1.1); }
+
+    .nav__logo-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-a), var(--accent-b));
+      transition: background 0.3s;
+    }
+    .nav__logo:hover .nav__logo-ring {
+      background: linear-gradient(315deg, var(--accent-a), var(--accent-b));
+    }
+
+    .nav__logo-inner {
+      position: absolute;
+      inset: 2px;
+      border-radius: 50%;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-size: 0.72rem;
+      color: var(--text);
+    }
+
+    .nav__sep {
+      width: 1px;
+      height: 1.1rem;
+      background: var(--stroke);
+      margin: 0 0.2rem;
+    }
+
+    .nav__link {
+      font-size: 0.78rem;
+      border-radius: 9999px;
+      padding: 0.35rem 0.8rem;
+      color: var(--muted);
+      transition: color 0.2s, background 0.2s;
+      white-space: nowrap;
+    }
+    .nav__link:hover, .nav__link.active {
+      color: var(--text);
+      background: rgba(31,31,31,0.6);
+    }
+
+    .nav__cta {
+      position: relative;
+      border-radius: 9999px;
+      cursor: pointer;
+    }
+    .nav__cta::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 9999px;
+      background: linear-gradient(90deg, var(--accent-a), var(--accent-b));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .nav__cta:hover::before { opacity: 1; }
+
+    .nav__cta-inner {
       position: relative;
       z-index: 1;
+      background: rgba(20,20,20,0.9);
+      border-radius: 9999px;
+      padding: 0.35rem 0.8rem;
+      font-size: 0.78rem;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 0.2rem;
+      backdrop-filter: blur(12px);
     }
 
-    .mxd-casestudy-card__media {
-      flex: 1 1 50%;
+    @media (max-width: 480px) {
+      .nav__sep { display: none; }
+      .nav__link { padding: 0.35rem 0.55rem; font-size: 0.72rem; }
+    }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .hero__bg {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    #hero-video {
+      position: absolute;
+      top: 50%; left: 50%;
+      min-width: 100%; min-height: 100%;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+    }
+
+    .hero__overlay  { position: absolute; inset: 0; background: rgba(0,0,0,0.22); }
+    .hero__fade-btm {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 14rem;
+      background: linear-gradient(to top, var(--bg), transparent);
+    }
+
+    .hero__content {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 6rem 1.5rem 2rem;
+      max-width: 900px;
+      width: 100%;
+    }
+
+    .hero__eyebrow {
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      opacity: 0;
+    }
+
+    .hero__name {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-size: clamp(3.5rem, 10vw, 9rem);
+      line-height: 0.9;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      transform: translateY(50px);
+    }
+
+    .hero__role-line {
+      font-size: clamp(0.875rem, 2vw, 1.125rem);
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+      opacity: 0;
+    }
+
+    .hero__role-word {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      color: var(--text);
+      display: inline-block;
+      animation: role-fade-in 0.4s ease-out;
+    }
+
+    .hero__desc {
+      font-size: clamp(0.875rem, 1.5vw, 0.95rem);
+      color: var(--muted);
+      max-width: 28rem;
+      margin: 0 auto 2.5rem;
+      line-height: 1.75;
+      opacity: 0;
+    }
+
+    .hero__cta {
+      display: inline-flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      opacity: 0;
+    }
+
+    .btn-solid {
+      position: relative;
+      border-radius: 9999px;
+      padding: 0.8rem 1.75rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      background: var(--text);
+      color: var(--bg);
+      cursor: pointer;
+      transition: transform 0.2s, background 0.25s, color 0.25s, box-shadow 0.25s;
+      display: inline-flex; align-items: center;
+    }
+    .btn-solid:hover {
+      background: var(--bg);
+      color: var(--text);
+      transform: scale(1.04);
+      box-shadow: 0 0 0 1.5px var(--accent-a), 0 0 0 3px var(--accent-b);
+    }
+
+    .btn-ghost {
+      position: relative;
+      border-radius: 9999px;
+      padding: 0.8rem 1.75rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      background: var(--bg);
+      color: var(--text);
+      border: 2px solid var(--stroke);
+      cursor: pointer;
+      transition: transform 0.2s, border-color 0.25s, box-shadow 0.25s;
+      display: inline-flex; align-items: center;
+    }
+    .btn-ghost:hover {
+      border-color: transparent;
+      transform: scale(1.04);
+      box-shadow: 0 0 0 1.5px var(--accent-a), 0 0 0 3px var(--accent-b);
+    }
+
+    .hero__scroll {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .hero__scroll-lbl {
+      font-size: 0.6rem;
+      color: var(--muted);
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+    }
+
+    .hero__scroll-line {
+      width: 1px;
+      height: 2.5rem;
+      background: var(--stroke);
+      overflow: hidden;
+      position: relative;
+    }
+    .hero__scroll-line::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, var(--accent-a), var(--accent-b));
+      animation: scroll-down 1.5s ease-in-out infinite;
+    }
+
+    /* ============================================================
+       SECTION SHARED
+    ============================================================ */
+    .sec-wrap  { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+
+    .sec-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+    .sec-eyebrow--center { justify-content: center; }
+    .sec-eyebrow__bar {
+      width: 2rem; height: 1px;
+      background: var(--stroke);
+      flex-shrink: 0;
+    }
+    .sec-eyebrow__txt {
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+    }
+
+    .sec-heading {
+      font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.2;
+      margin-bottom: 0.6rem;
+    }
+    .sec-heading em {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .sec-sub {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.65;
+      max-width: 30rem;
+    }
+
+    .sec-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 2.5rem;
+    }
+
+    /* ============================================================
+       VIEW ALL LINK
+    ============================================================ */
+    .view-all-link {
+      display: none;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      border-radius: 9999px;
+      padding: 0.5rem 1.25rem;
+      border: 1px solid var(--stroke);
+      transition: color 0.2s, box-shadow 0.2s;
+      white-space: nowrap;
+    }
+    .view-all-link:hover {
+      color: var(--text);
+      box-shadow: 0 0 0 1px var(--accent-a);
+    }
+    @media (min-width: 768px) { .view-all-link { display: inline-flex; } }
+
+    /* ============================================================
+       WORKS SECTION
+    ============================================================ */
+    #works { background: var(--bg); padding: 6rem 0 7rem; }
+
+    /* Case study card list */
+    .works-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .cs-card {
+      display: block;
+      background: var(--surface);
+      border: 1px solid var(--stroke);
+      border-radius: 1.5rem;
+      overflow: hidden;
+      text-decoration: none;
+      transition:
+        box-shadow 0.45s cubic-bezier(0.23,0.65,0.74,1.09),
+        transform  0.45s cubic-bezier(0.23,0.65,0.74,1.09),
+        border-color 0.35s ease;
+    }
+    .cs-card:hover {
+      transform: perspective(1200px) rotateX(0.8deg) rotateY(-0.8deg) translateY(-4px);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.45), 0 4px 16px rgba(0,0,0,0.3);
+      border-color: rgba(255,255,255,0.1);
+    }
+    .cs-card:hover .cs-card__media img {
+      box-shadow: 0 0 32px rgba(137,170,204,0.18), 0 0 8px rgba(78,133,191,0.12);
+    }
+
+    .cs-card__inner {
+      display: flex;
+      align-items: center;
+      gap: 3.5rem;
+      padding: 3rem;
+    }
+
+    .cs-card__media {
+      flex: 1 1 52%;
       min-width: 0;
     }
-
-    .mxd-casestudy-card__media img {
+    .cs-card__media {
+      position: relative;
+    }
+    .cs-card__media::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 1.1rem;
+      background: linear-gradient(135deg, rgba(137,170,204,0.55) 0%, rgba(78,133,191,0.35) 50%, rgba(137,170,204,0.15) 100%);
+      z-index: 0;
+      transition: opacity 0.4s ease;
+      opacity: 0.7;
+    }
+    .cs-card:hover .cs-card__media::before {
+      opacity: 1;
+      background: linear-gradient(135deg, rgba(137,170,204,0.8) 0%, rgba(78,133,191,0.55) 50%, rgba(137,170,204,0.3) 100%);
+    }
+    .cs-card__media img {
+      position: relative;
+      z-index: 1;
       width: 100%;
       height: auto;
       display: block;
-      border-radius: 22px;
+      border-radius: 1rem;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: var(--surface);
     }
 
-    .mxd-casestudy-card__content {
-      flex: 1 1 45%;
+    .cs-card__content {
+      flex: 1 1 44%;
       min-width: 0;
     }
 
-    .mxd-casestudy-card__label {
-      font-family: var(--_font-default);
-      font-size: 1.2rem;
+    .cs-card__label {
+      font-size: 0.68rem;
       font-weight: 500;
-      letter-spacing: 0.25em;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: #7C7C7C;
-      margin-bottom: 1rem;
+      color: var(--muted);
+      margin-bottom: 0.9rem;
     }
 
-    .mxd-casestudy-card__title {
-      font-family: var(--_font-accent);
-      font-size: clamp(2.4rem, 3vw, 3.6rem);
-      font-weight: 700;
-      line-height: 1.2;
-      color: #161616;
-      margin-bottom: 2rem;
-    }
-
-    .mxd-casestudy-card__descr {
-      font-family: var(--_font-default);
-      font-size: 1.6rem;
+    .cs-card__title {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
       font-weight: 400;
-      line-height: 1.7;
-      color: #535353;
-      margin-bottom: 1rem;
+      font-size: clamp(1.5rem, 2.5vw, 2.1rem);
+      line-height: 1.2;
+      color: var(--text);
+      margin-bottom: 1.1rem;
     }
 
-    .btnhivoer {
-      height: 4.6rem;
+    .cs-card__desc {
+      font-size: 0.9rem;
+      font-weight: 400;
+      line-height: 1.75;
+      color: var(--muted);
+      margin-bottom: 1.75rem;
     }
 
-    .mxd-casestudy-card__tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.8rem;
-    }
-
-    .mxd-casestudy-card__tags .tag-casestudy {
-      display: inline-block;
-      font-family: var(--_font-default);
-      font-size: 1.1rem;
+    .cs-card__btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-radius: 9999px;
+      padding: 0.6rem 1.4rem;
+      font-size: 0.82rem;
       font-weight: 500;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: #535353;
-      border: 1px solid rgba(22, 22, 22, 0.2);
-      border-radius: 5rem;
-      padding: 0.6rem 1.6rem;
-      transition: all var(--_animspeed-medium) ease;
+      color: var(--text);
+      border: 1px solid var(--stroke);
+      transition: border-color 0.25s, box-shadow 0.25s, color 0.25s;
     }
-
-    .mxd-casestudy-card__tags .tag-casestudy:hover {
-      border-color: rgba(22, 22, 22, 0.5);
-      color: #161616;
+    .cs-card:hover .cs-card__btn {
+      border-color: transparent;
+      box-shadow: 0 0 0 1px var(--accent-a), 0 0 0 2.5px var(--accent-b);
+      color: var(--text);
     }
+    .cs-card__btn-icon {
+      font-style: normal;
+      font-size: 0.75rem;
+      transition: transform 0.2s;
+    }
+    .cs-card:hover .cs-card__btn-icon { transform: translate(2px, -2px); }
 
-    @media (max-width: 991px) {
-      .mxd-casestudy-card__inner {
+    /* Responsive */
+    @media (max-width: 900px) {
+      .cs-card__inner {
+        gap: 2.5rem;
+        padding: 2.5rem;
+      }
+    }
+    @media (max-width: 700px) {
+      .cs-card__inner {
         flex-direction: column;
-        gap: 3rem;
-        padding: 3rem;
+        gap: 1.75rem;
+        padding: 1.75rem;
       }
-
-      .mxd-casestudy-card__media,
-      .mxd-casestudy-card__content {
-        flex: 1 1 100%;
-        width: 100%;
-      }
+      .cs-card__media,
+      .cs-card__content { flex: 1 1 100%; width: 100%; }
     }
 
-    @media (max-width: 575px) {
-      .mxd-casestudy-card__inner {
-        padding: 2rem;
-        gap: 2rem;
-      }
+    /* ============================================================
+       CORE EXPERTISE SECTION
+    ============================================================ */
+    #expertise { background: var(--bg); padding: 0 0 7rem; }
 
-      .mxd-casestudy-card__title {
-        font-size: 2.2rem;
-      }
+    .expertise-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
     }
-  </style>
-  <!-- Selected Projects Case Study Card Styles End -->
+    @media (min-width: 640px)  { .expertise-grid { grid-template-columns: repeat(3, 1fr); } }
 
-  <!-- Hero Editorial Styles Start -->
-  <style>
-    .hero-editorial {
+    .exp-card {
+      background: var(--surface);
+      border: 1px solid var(--stroke);
+      border-radius: 1.5rem;
+      padding: 2rem 2rem 2.25rem;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .exp-card:hover {
+      border-color: rgba(137,170,204,0.2);
+      box-shadow: 0 0 0 1px rgba(137,170,204,0.08), 0 8px 32px rgba(0,0,0,0.3);
+    }
+
+    .exp-card__icon {
+      width: 2.75rem;
+      height: 2.75rem;
+      border-radius: 50%;
+      border: 1px solid var(--stroke);
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: calc(100vh);
-      padding: 11rem 2rem 7rem;
+      margin-bottom: 2rem;
+      color: var(--muted);
+      transition: border-color 0.3s, color 0.3s;
+    }
+    .exp-card:hover .exp-card__icon {
+      border-color: rgba(137,170,204,0.35);
+      color: var(--accent-a);
+    }
+    .exp-card__icon svg { width: 1.1rem; height: 1.1rem; }
+
+    .exp-card__title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.6rem;
+    }
+    .exp-card__desc {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* ============================================================
+       STATEMENT SECTION
+    ============================================================ */
+    #statement {
+      background: var(--bg);
+      padding: 7rem 0;
+      text-align: center;
+      border-top: 1px solid var(--stroke);
+    }
+
+    .statement__text {
+      font-size: clamp(1.75rem, 4vw, 3.25rem);
+      font-weight: 400;
+      color: var(--text);
+      line-height: 1.35;
+      max-width: 820px;
+      margin: 0 auto 2.75rem;
+      letter-spacing: -0.01em;
+    }
+    .statement__text em {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-weight: 400;
+      color: var(--muted);
+    }
+
+    .statement__btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-radius: 9999px;
+      padding: 0.75rem 1.75rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text);
+      border: 1px solid var(--stroke);
+      transition: border-color 0.25s, box-shadow 0.25s, color 0.25s;
+    }
+    .statement__btn:hover {
+      border-color: transparent;
+      box-shadow: 0 0 0 1px var(--accent-a), 0 0 0 2.5px var(--accent-b);
+    }
+
+    /* ============================================================
+       STACK SECTION
+    ============================================================ */
+    #stack { background: var(--bg); padding: 0 0 7rem; }
+
+    .stack-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    @media (min-width: 768px) {
+      .stack-layout {
+        grid-template-columns: 1fr 2fr;
+        gap: 5rem;
+        align-items: center;
+      }
+    }
+
+    .stack-headline {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.15;
+    }
+    .stack-headline em {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+    @media (max-width: 480px) {
+      .stack-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .stack-item {
+      background: var(--surface);
+      border: 1px solid var(--stroke);
+      border-radius: 1.25rem;
+      padding: 1.5rem 1rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+      cursor: default;
+    }
+    .stack-item:hover {
+      border-color: rgba(137,170,204,0.2);
+      box-shadow: 0 0 0 1px rgba(137,170,204,0.08), 0 8px 28px rgba(0,0,0,0.35);
+      transform: translateY(-3px);
+    }
+
+    .stack-item__icon {
+      width: 3rem;
+      height: 3rem;
+      object-fit: contain;
+      border-radius: 0.6rem;
+    }
+
+    .stack-item__name {
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--muted);
+      text-align: center;
+      transition: color 0.2s;
+    }
+    .stack-item:hover .stack-item__name { color: var(--text); }
+
+    /* ============================================================
+       JOURNAL SECTION
+    ============================================================ */
+    #journal { background: var(--bg); padding: 0 0 7rem; }
+
+    .journal-list { display: flex; flex-direction: column; gap: 0.75rem; }
+
+    .journal-entry {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      padding: 0.9rem 1.1rem;
+      background: rgba(20,20,20,0.3);
+      border: 1px solid var(--stroke);
+      border-radius: 3rem;
+      transition: background 0.2s, border-color 0.2s;
+      cursor: pointer;
+    }
+    .journal-entry:hover {
+      background: var(--surface);
+      border-color: rgba(255,255,255,0.07);
+    }
+
+    .journal-entry__thumb {
+      width: 3.25rem; height: 3.25rem;
+      border-radius: 0.9rem;
+      object-fit: cover;
+      flex-shrink: 0;
+      background: var(--stroke);
+    }
+
+    .journal-entry__body { flex: 1; min-width: 0; }
+    .journal-entry__title {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 0.2rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .journal-entry__meta { font-size: 0.72rem; color: var(--muted); }
+
+    .journal-entry__arr {
+      font-size: 1rem;
+      color: var(--muted);
+      flex-shrink: 0;
+      transition: transform 0.2s, color 0.2s;
+    }
+    .journal-entry:hover .journal-entry__arr {
+      transform: translate(2px, -2px);
+      color: var(--text);
+    }
+
+    /* ============================================================
+       TESTIMONIALS SECTION
+    ============================================================ */
+    #testimonials {
+      background: var(--bg);
+      padding: 0 0 7rem;
       text-align: center;
     }
 
-    .hero-editorial__inner {
-      max-width: 960px;
-      width: 100%;
+    .testi__header { margin-bottom: 3.5rem; }
+    .testi__heading {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-weight: 400;
+      text-align: center;
+    }
+    .testi__subtitle {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 0.5rem;
+      letter-spacing: 0.05em;
     }
 
-    .hero-editorial__title {
-      font-family: var(--_font-accent);
-      font-size: clamp(3rem, 5.2vw, 7.4rem);
-      font-weight: 800;
-      line-height: 1.1;
-      color: #121212;
-      letter-spacing: -0.02em;
-      margin: 0 0 2.4rem;
-    }
-
-    .hero-editorial__photo-wrap {
-      display: block;
-      width: 140px;
-      height: 96px;
-      border-radius: 9999px;
-      overflow: hidden;
-      margin: 0 auto 1.8rem;
-      background: #d8e8e0;
-      border: 4px solid rgba(0,0,0,0.88);
-      box-shadow:
-        0 1px 2px rgba(0,0,0,0.14),
-        0 3px 8px rgba(0,0,0,0.18),
-        0 8px 20px rgba(0,0,0,0.14),
-        0 16px 32px rgba(0,0,0,0.08);
-    }
-
-    .hero-editorial__photo-wrap img {
-      width: 131%;
-      height: 100%;
-      object-fit: cover;
-      object-position: -22px -6px;
-      display: block;
-    }
-
-    .hero-editorial__subtitle {
-      font-family: var(--_font-default);
-      font-size: clamp(1.5rem, 2vw, 2.8rem);
-      font-weight: 600;
-      line-height: 1.4;
-      color: #121212;
-      margin: 0;
-      opacity: 0.75;
-    }
-  </style>
-  <!-- Hero Editorial Styles End -->
-
-  <!-- Hero Chips Styles Start -->
-  <style>
-    .hero-chips {
+    /* Avatar fan */
+    .testi__avatars {
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-end;
       gap: 1rem;
-      margin-top: 1.6rem;
-      flex-wrap: wrap;
+      padding-bottom: 3rem;
     }
 
-    .hero-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      font-family: var(--_font-default);
-      font-size: 1.45rem;
-      font-weight: 600;
-      padding: 0.55rem 1.4rem;
-      border-radius: 9999px;
-      letter-spacing: 0.01em;
-    }
-
-    .hero-chip__dot {
-      width: 0.65rem;
-      height: 0.65rem;
-      border-radius: 50%;
+    .testi__avatar {
+      cursor: pointer;
+      border-radius: 1.1rem;
+      overflow: visible;
       flex-shrink: 0;
-    }
-
-    .hero-chip--green {
-      background: #e6f4ec;
-      color: #1a7a3c;
-    }
-
-    .hero-chip--green .hero-chip__dot {
-      background: #1a7a3c;
-    }
-
-    .hero-chip--lightprange {
-      background: #FFDFCF;
-      color: #BC5B2B;
-    }
-
-    .hero-chip--lightprange .hero-chip__dot {
-      background: #BC5B2B;
-    }
-  </style>
-  <!-- Hero Chips Styles End -->
-
-  <!-- Hero CTA Button Styles Start -->
-  <style>
-    .hero-cta-btn {
-      border-radius: 10rem;
-      padding: 0.6rem 0.6rem 0.6rem 2.4rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 1.6rem;
-      min-height: auto;
-    }
-
-    .hero-cta-btn__label {
-      font-size: 1.5rem;
-    }
-
-    .hero-cta-btn__icon {
-      width: 3.8rem;
-      height: 3.8rem;
-      border: 2px solid black;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-     
-      font-size: 1.4rem;
-    }
-  </style>
-  <!-- Hero CTA Button Styles End -->
-
-  <!-- Minimal Footer Styles Start -->
-  <style>
-    .mxd-footer--minimal {
-      padding: 0;
-      background: transparent;
-      border-top: none;
-    }
-
-    .mxd-footer--minimal .footer-minimal__divider {
-      border-top: 1px solid rgba(0, 0, 0, 0.12);
-      margin: 0 3rem;
-    }
-
-    .mxd-footer--minimal .footer-minimal__bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 2.4rem 3rem;
-      font-size: 1.3rem;
-      color: var(--_color-muted, #888);
-    }
-
-    .mxd-footer--minimal .footer-minimal__label {
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      font-weight: 600;
-    }
-  </style>
-  <!-- Minimal Footer Styles End -->
-
-  <!-- Core Expertise Section Styles Start -->
-    <style>
-     
-
-      .expertise-section__headline {
-        font-family: var(--_font-accent);
-        font-size: clamp(3.2rem, 5vw, 5.6rem);
-        font-weight: 600;
-        color: #161616;
-        line-height: 1.1;
-        margin-bottom: 4rem;
-      }
-
-      .expertise-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 3.5rem;
-      }
-
-      .expertise-card {
-       background: rgba(255, 255, 255, 0.35);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.5);
-      border-radius: var(--_radius-l);
-      overflow: hidden;
       position: relative;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
-      transition: box-shadow 0.5s cubic-bezier(0.23, 0.65, 0.74, 1.09), transform 0.5s cubic-bezier(0.23, 0.65, 0.74, 1.09), border-color 0.5s ease;
-      text-decoration: none;
-        padding: 4rem 3.2rem 3.2rem;
-        display: flex;
-        flex-direction: column;
-        gap: 3.2rem;
-        transition: box-shadow 0.3s ease, transform 0.3s ease;
-      }
-
-      .expertise-card:hover {
-        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.1);
-        transform: translateY(-4px);
-      }
-
-      .expertise-card__icon-wrap {
-        width: 5.6rem;
-        height: 5.6rem;
-        background: transparent;
-        border: 2px solid #161616;
-        border-radius: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .expertise-card__icon-wrap i {
-        font-size: 2.4rem;
-        color: #161616;
-      }
-
-      .expertise-card__body {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-      }
-
-      .expertise-card__title {
-        font-family: var(--_font-accent);
-        font-size: 2.5rem;
-        font-weight: 700;
-        color: #161616;
-        margin: 0;
-        line-height: 1.3;
-      }
-
-      .expertise-card__desc {
-        font-family: var(--_font-default);
-        font-size: 1.6rem;
-        line-height: 1.7;
-        color: #535353;
-        margin: 0;
-      }
-    .mtpc {
-      margin-top: 3.6rem;
+      transition: transform 0.3s, opacity 0.3s;
+      opacity: 0.45;
     }
-      @media (max-width: 991px) {
-        .expertise-grid {
-          grid-template-columns: repeat(2, 1fr);
-        }
-        .hero-editorial__photo-wrap {
-          width: 110px;
-          height: 76px;
-       }
-       .mdnone {
-        display: none;
-       }
-      }
+    .testi__avatar:hover:not(.active) { opacity: 0.7; transform: translateY(-3px); }
+    .testi__avatar.active { opacity: 1; }
 
-      @media (max-width: 575px) {
-        .expertise-grid {
-          grid-template-columns: 1fr;
-          gap: 1.6rem;
-        }
+    .testi__avatar:nth-child(1) { margin-bottom: 28px; width: 108px; height: 82px;  }
+    .testi__avatar:nth-child(2) { margin-bottom: 0;    width: 136px; height: 104px; } /* center */
+    .testi__avatar:nth-child(3) { margin-bottom: 28px; width: 108px; height: 82px;  }
 
-        .expertise-card {
-          padding: 2.4rem;
-        }
-      }
-    </style>
-    <!-- Core Expertise Section Styles End -->
+    .testi__avatar-inner {
+      width: 100%; height: 100%;
+      border-radius: inherit;
+      overflow: hidden;
+      background: var(--surface);
+      transition: box-shadow 0.3s, outline 0.3s;
+    }
+    .testi__avatar.active .testi__avatar-inner {
+      outline: 3px solid var(--accent-a);
+      outline-offset: 2px;
+      box-shadow: 0 0 20px rgba(137,170,204,0.25);
+    }
+    .testi__avatar img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+    }
 
+    /* Quote body */
+    .testi__body { max-width: 680px; margin: 0 auto; }
+
+    .testi__quote-icon {
+      font-size: 2rem;
+      color: var(--accent-a);
+      margin-bottom: 1.5rem;
+      line-height: 1;
+    }
+
+    .testi__item {
+      display: none;
+      font-size: clamp(0.95rem, 1.8vw, 1.125rem);
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .testi__item.active { display: block; }
+
+    .testi__name {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-top: 1.75rem;
+      margin-bottom: 0.2rem;
+    }
+    .testi__role {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    @media (max-width: 480px) {
+      .testi__avatars { gap: 0.75rem; }
+    }
+
+    /* ============================================================
+       STATS SECTION
+    ============================================================ */
+    #stats {
+      background: var(--bg);
+      padding: 5rem 0;
+      border-top: 1px solid var(--stroke);
+      border-bottom: 1px solid var(--stroke);
+    }
+
+    .stats-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3rem;
+      text-align: center;
+    }
+    @media (min-width: 560px) { .stats-grid { grid-template-columns: repeat(3, 1fr); } }
+
+    .stat__num {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-size: clamp(3rem, 6vw, 5rem);
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    .stat__lbl {
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+    }
+
+    /* ============================================================
+       CONTACT / FOOTER
+    ============================================================ */
+    #contact {
+      position: relative;
+      background: var(--bg);
+      padding: 6rem 0 3.5rem;
+      overflow: hidden;
+    }
+
+    .contact__video-wrap { position: absolute; inset: 0; overflow: hidden; }
+    #contact-video {
+      position: absolute;
+      top: 50%; left: 50%;
+      min-width: 100%; min-height: 100%;
+      transform: translate(-50%, -50%) scaleY(-1);
+      object-fit: cover;
+    }
+    .contact__video-overlay {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.62);
+    }
+
+    .contact__body { position: relative; z-index: 10; }
+
+    /* Marquee */
+    .marquee-wrap { overflow: hidden; margin-bottom: 5rem; }
+    .marquee-track { display: flex; white-space: nowrap; }
+    .marquee-item {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-size: clamp(3rem, 7vw, 6rem);
+      color: rgba(245,245,245,0.055);
+      padding-right: 1rem;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* CTA */
+    .contact__cta { text-align: center; margin-bottom: 5rem; }
+
+    .contact__heading {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-size: clamp(2.25rem, 5vw, 4.25rem);
+      color: var(--text);
+      margin-bottom: 2rem;
+      line-height: 1.15;
+    }
+
+    .email-btn {
+      position: relative;
+      display: inline-flex;
+      border-radius: 9999px;
+      cursor: pointer;
+    }
+    .email-btn::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 9999px;
+      background: linear-gradient(90deg, var(--accent-a), var(--accent-b));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .email-btn:hover::before { opacity: 1; }
+
+    .email-btn__inner {
+      position: relative;
+      z-index: 1;
+      background: var(--bg);
+      border-radius: 9999px;
+      border: 1px solid var(--stroke);
+      padding: 0.875rem 2rem;
+      font-size: 0.875rem;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: border-color 0.3s;
+    }
+    .email-btn:hover .email-btn__inner { border-color: transparent; }
+
+    /* Footer bar */
+    .footer-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      align-items: center;
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--stroke);
+    }
+    @media (min-width: 640px) {
+      .footer-bar { flex-direction: row; justify-content: space-between; }
+    }
+
+    .footer-bar__socials { display: flex; gap: 1.25rem; align-items: center; }
+
+    .footer-social {
+      font-size: 0.78rem;
+      color: var(--muted);
+      transition: color 0.2s;
+    }
+    .footer-social:hover { color: var(--text); }
+
+    .footer-avail {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+    .avail-dot {
+      width: 0.45rem; height: 0.45rem;
+      border-radius: 50%;
+      background: #22c55e;
+      flex-shrink: 0;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    .footer-copy { font-size: 0.72rem; color: var(--muted); }
+
+    /* ============================================================
+       SCROLL REVEAL
+    ============================================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.75s cubic-bezier(0.25,0.1,0.25,1),
+                  transform 0.75s cubic-bezier(0.25,0.1,0.25,1);
+    }
+    .reveal.vis { opacity: 1; transform: translateY(0); }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+  </style>
 </head>
 
 <body>
 
-  <!-- Loader Start -->
-  <div id="loader" class="loader">
-    <div class="loader__wrapper">
-      <div class="loader__content">
-        <div class="loader__count">
-          <span class="count__text">0</span>
-          <span class="count__percent">%</span>
-        </div>
+<!-- ================================================================
+     LOADING SCREEN
+================================================================ -->
+<div id="loading-screen">
+  <div class="loading__center">
+    <div class="loading__label" id="ls-label">
+      Jigar Acharya
+      <span class="loading__label-sep"></span>
+      Product Designer
+    </div>
+    <div class="loading__word-wrap">
+      <span class="loading__word" id="ls-word">Design</span>
+    </div>
+    <div class="loading__progress">
+      <div class="loading__bar-wrap">
+        <div class="loading__bar" id="ls-bar"></div>
       </div>
+      <span class="loading__counter" id="ls-counter">0%</span>
     </div>
   </div>
-  <!-- Loader End -->
+</div>
 
-  <!-- Menu & Menu Hamburger Start -->
-  <nav class="mxd-nav__wrap" data-lenis-prevent="">
 
-    <!-- Hamburger Start -->
-    <div class="mxd-nav__contain loading__fade">
-      <a href="#0" class="mxd-nav__hamburger">
-        <!-- flip element -->
-        <div class="hamburger__base"></div>
-        <div class="hamburger__line"></div>
-        <div class="hamburger__line"></div>
-      </a>
-    </div>
-    <!-- Hamburger End -->
+<!-- ================================================================
+     MAIN CONTENT
+================================================================ -->
+<div id="main-content">
 
-    <!-- Main Navigation Start -->
-     <div class="mxd-menu__wrapper">
-      <!-- background active layer -->
-      <div class="mxd-menu__base"></div>
-      <!-- menu container -->
-      <div class="mxd-menu__contain">
-        <div class="mxd-menu__inner">
-          <!-- left side -->
-          <div class="mxd-menu__left">
-            <p class="mxd-menu__caption menu-fade-in">🦄 Designing thoughtful digital products that solve real user problems.</p>
-            <div class="main-menu">
-              <nav class="main-menu__content">
-                <ul id="main-menu" class="main-menu__accordion">
-                  <li class="main-menu__item">
-                    <a class="main-menu__link btn btn-anim" href="index.html">
-                      <span class="btn-caption">Home</span>
-                    </a>
-                  </li>
-                  <li class="main-menu__item">
-                    <a class="main-menu__link btn btn-anim" href="#selected-projects">
-                      <span class="btn-caption">Works</span>
-                    </a>
-                  </li>
-                  <li class="main-menu__item">
-                    <a class="main-menu__link btn btn-anim" target="_blank" href="https://docs.google.com/document/d/1EWNIqPz05B3XOAnOKZrtzcq2-0bP-2uF/edit">
-                      <span class="btn-caption">Resume</span>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-          </div>
-          <!-- right side -->
-          <div class="mxd-menu__right">
-            <div class="menu-promo">
-              <div class="menu-promo__content">
-                <p class="menu-promo__caption menu-fade-in">👋 Nice to see you!<br>I'm Jigar Acharya, A Lead Product Designer specializing in AI and SaaS platforms</p>
-                <div class="menu-promo__video">
-                  <img src="./img/banner/headerbanner.jpg" alt="header video">
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- data bottom line -->
-          <div class="mxd-menu__data menu-fade-in">
-           <p class="t-xsmall">
-          
-                <a class="no-effect" href="mailto:jigaracharya3@gmail.com" target="_blank">jigaracharya3@gmail.com</a>
-              </p>
-            <p class="t-xsmall">
-              <i class="ph ph-copyright"></i>
-              Jigar Acharya 2026
-            </p>
-          </div>
-        </div>
+  <!-- ── NAVBAR ──────────────────────────────────────────────── -->
+  <nav id="navbar" aria-label="Main navigation">
+    <div class="nav__pill" id="nav-pill">
+
+      <div class="nav__logo" id="nav-logo" role="button" tabindex="0" aria-label="Home">
+        <div class="nav__logo-ring"></div>
+        <div class="nav__logo-inner">JA</div>
       </div>
-    </div>
-    <!-- Main Navigation End -->
 
+      <div class="nav__sep"></div>
+
+      <a href="#hero"  class="nav__link active" data-section="hero">Home</a>
+      <a href="#works" class="nav__link" data-section="works">Work</a>
+      <a href="https://docs.google.com/document/d/1EWNIqPz05B3XOAnOKZrtzcq2-0bP-2uF/edit"
+         target="_blank" rel="noopener" class="nav__link">Resume</a>
+
+      <div class="nav__sep"></div>
+
+      <a href="https://www.linkedin.com/in/jigar-acharya-722232ab/" target="_blank" rel="noopener" class="nav__cta">
+        <div class="nav__cta-inner">LinkedIn <span>↗</span></div>
+      </a>
+
+    </div>
   </nav>
-  <!-- Menu & Menu Hamburger End -->
 
-  <!-- Header Start -->
-   <header id="header" class="mxd-header">
-    <!-- header logo -->
-    <div class="mxd-header__logo loading__fade">
-      <a href="index.html" class="mxd-logo">
-        <!-- logo icon -->
-        <div class="mxd-logo__image">
-          <img class="brd50d" src="./img/jic_lg.svg" alt="profile pic">
+
+  <!-- ── HERO ────────────────────────────────────────────────── -->
+  <section id="hero" aria-label="Introduction">
+
+    <div class="hero__bg">
+      <video id="hero-video" autoplay muted loop playsinline></video>
+      <div class="hero__overlay"></div>
+      <div class="hero__fade-btm"></div>
+    </div>
+
+    <div class="hero__content">
+      <h1 class="hero__name gsap-name">Jigar Acharya</h1>
+
+      <p class="hero__role-line gsap-blur">
+        A <span class="hero__role-word" id="hero-role">Product</span> designer based in India.
+      </p>
+
+      <p class="hero__desc gsap-blur">
+        Combining B2B SaaS UX expertise with AI-enhanced design process to solve complex problems
+      </p>
+
+      <div class="hero__cta gsap-blur">
+        <a href="#works" class="btn-solid">See Works</a>
+        <a href="https://www.linkedin.com/in/jigar-acharya-722232ab/" target="_blank" rel="noopener" class="btn-ghost">LinkedIn ↗</a>
+      </div>
+    </div>
+
+
+  </section>
+
+
+  <!-- ── WORKS ───────────────────────────────────────────────── -->
+  <section id="works" aria-label="Selected work">
+    <div class="sec-wrap">
+
+      <div class="sec-header-row reveal">
+        <div>
+          <h2 class="sec-heading">Featured <em>projects</em></h2>
+          <p class="sec-sub">AI and SaaS products shaped end-to-end — from research to shipped interface.</p>
         </div>
-        
-        <!-- logo text -->
-        <span class="mxd-logo__text">Jigar<br>Acharya</span>
+      </div>
+
+      <div class="works-list">
+
+        <!-- Card 1 — Dashboard -->
+        <a href="dashboard-redesign.html" class="cs-card reveal">
+          <div class="cs-card__inner">
+            <div class="cs-card__media">
+              <img src="img/banner/dashboard-hero.png" alt="CallHippo Dashboard" loading="lazy">
+            </div>
+            <div class="cs-card__content">
+              <p class="cs-card__label">Callhippo Dashboard</p>
+              <h3 class="cs-card__title">Redesigned the call analytics dashboard</h3>
+              <p class="cs-card__desc">Replaced manual spreadsheet-based reporting with a real-time dashboard, enabling faster, data-driven decisions and full visibility into team performance.</p>
+              <span class="cs-card__btn">
+                View Case Study <span class="cs-card__btn-icon">↗</span>
+              </span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 2 — AI Voice Agent -->
+        <a href="ai-voice-agent.html" class="cs-card reveal">
+          <div class="cs-card__inner">
+            <div class="cs-card__media">
+              <img src="img/banner/ai-voice-agent-hero.png" alt="CallHippo AI Voice Agent" loading="lazy">
+            </div>
+            <div class="cs-card__content">
+              <p class="cs-card__label">Callhippo AI Voice Agent</p>
+              <h3 class="cs-card__title">Designed CallHippo's first AI Voice Agent from 0 to 1</h3>
+              <p class="cs-card__desc">Took it from nothing to a shipped AI product in 3 weeks — answers calls, books meetings, qualifies leads, and routes to humans. I designed every part: setup, management, and configuration.</p>
+              <span class="cs-card__btn">
+                View Case Study <span class="cs-card__btn-icon">↗</span>
+              </span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 3 — AI Copilot -->
+        <a href="ai-copilot.html" class="cs-card reveal">
+          <div class="cs-card__inner">
+            <div class="cs-card__media">
+              <img src="img/banner/ai-copilot.png" alt="CallHippo AI Copilot" loading="lazy">
+            </div>
+            <div class="cs-card__content">
+              <p class="cs-card__label">Callhippo AI Copilot</p>
+              <h3 class="cs-card__title">Designed an AI Copilot for scalable call coaching</h3>
+              <p class="cs-card__desc">Built a coaching layer that analyzes call conversations and helps teams deliver faster, data-driven feedback at scale.</p>
+              <span class="cs-card__btn">
+                View Case Study <span class="cs-card__btn-icon">↗</span>
+              </span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 4 — AI Hub -->
+        <a href="ai-hub.html" class="cs-card reveal">
+          <div class="cs-card__inner">
+            <div class="cs-card__media">
+              <img src="img/banner/ai-hub-cover.png" alt="CallHippo AI Hub" loading="lazy">
+            </div>
+            <div class="cs-card__content">
+              <p class="cs-card__label">Callhippo AI Hub</p>
+              <h3 class="cs-card__title">Designed Reply with AI for faster support responses</h3>
+              <p class="cs-card__desc">An AI feature that generates instant reply suggestions inside chat, helping support agents respond faster without ever leaving the conversation.</p>
+              <span class="cs-card__btn">
+                View Case Study <span class="cs-card__btn-icon">↗</span>
+              </span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 5 — Brand Guidelines -->
+        <a href="https://d1x9dsge91xf6g.cloudfront.net/callhippo/files/brand_guidelines_new.pdf"
+           target="_blank" rel="noopener" class="cs-card reveal">
+          <div class="cs-card__inner">
+            <div class="cs-card__media">
+              <img src="img/banner/brand-guidelines.png" alt="CallHippo Brand Guidelines" loading="lazy">
+            </div>
+            <div class="cs-card__content">
+              <p class="cs-card__label">Callhippo Brand Guidelines</p>
+              <h3 class="cs-card__title">Designed brand guidelines to unify product and marketing</h3>
+              <p class="cs-card__desc">A scalable brand guideline system covering typography, color, and UI standards — ensuring consistency across the website, product, and all marketing channels.</p>
+              <span class="cs-card__btn">
+                View Brand Guidelines <span class="cs-card__btn-icon">↗</span>
+              </span>
+            </div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── CORE EXPERTISE ─────────────────────────────────────── -->
+  <section id="expertise" aria-label="Core Expertise">
+    <div class="sec-wrap">
+
+      <div class="sec-header-row reveal">
+        <div>
+          <div class="sec-eyebrow">
+            <div class="sec-eyebrow__bar"></div>
+            <span class="sec-eyebrow__txt">Capabilities</span>
+          </div>
+          <h2 class="sec-heading">Core <em>Expertise</em></h2>
+        </div>
+      </div>
+
+      <div class="expertise-grid">
+
+        <!-- Product Design -->
+        <div class="exp-card reveal">
+          <div class="exp-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 8a4 4 0 0 1 0 8"/>
+              <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+            </svg>
+          </div>
+          <h3 class="exp-card__title">Product Design</h3>
+          <p class="exp-card__desc">Crafting user-centered interfaces that solve complex problems with simplicity and elegance.</p>
+        </div>
+
+        <!-- Design Strategy -->
+        <div class="exp-card reveal reveal-delay-1">
+          <div class="exp-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <circle cx="12" cy="12" r="3"/>
+              <line x1="12" y1="2" x2="12" y2="9"/>
+              <line x1="12" y1="15" x2="12" y2="22"/>
+              <line x1="2" y1="12" x2="9" y2="12"/>
+              <line x1="15" y1="12" x2="22" y2="12"/>
+            </svg>
+          </div>
+          <h3 class="exp-card__title">Design Strategy</h3>
+          <p class="exp-card__desc">Aligning business goals with user needs to drive measurable and lasting product outcomes.</p>
+        </div>
+
+        <!-- Design Systems -->
+        <div class="exp-card reveal reveal-delay-2">
+          <div class="exp-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7" rx="1"/>
+              <rect x="14" y="3" width="7" height="7" rx="1"/>
+              <rect x="3" y="14" width="7" height="7" rx="1"/>
+              <rect x="14" y="14" width="7" height="7" rx="1"/>
+            </svg>
+          </div>
+          <h3 class="exp-card__title">Design Systems</h3>
+          <p class="exp-card__desc">Building scalable design languages that ensure consistency and speed across platforms.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── STATEMENT ──────────────────────────────────────────── -->
+  <section id="statement" aria-label="Design statement">
+    <div class="sec-wrap">
+      <p class="statement__text reveal">
+        I design products that simplify complex workflows and create meaningful <em>user experiences.</em>
+      </p>
+      <a href="https://docs.google.com/document/d/1EWNIqPz05B3XOAnOKZrtzcq2-0bP-2uF/edit"
+         target="_blank" rel="noopener" class="statement__btn reveal">
+        View Resume ↗
       </a>
     </div>
-    <!-- header controls -->
-    <div class="mxd-header__controls loading__fade">
-      <button id="color-switcher" class="mxd-color-switcher" type="button" role="switch" aria-label="light/dark mode"
-        aria-checked="true"></button>
-      <a class="btn btn-anim btn-default btn-mobile-icon btn-outline slide-right-up" href="https://www.linkedin.com/in/jigar-acharya-722232ab/">
-        <span class="btn-caption">Say Hello</span>
-        <i class="ph-bold ph-arrow-up-right"></i>
-      </a>
+  </section>
+
+
+  <!-- ── STACK ──────────────────────────────────────────────── -->
+  <section id="stack" aria-label="Favorite stack">
+    <div class="sec-wrap">
+
+      <div class="stack-layout">
+
+        <!-- Left: heading -->
+        <div class="reveal">
+          <div class="sec-eyebrow">
+            <div class="sec-eyebrow__bar"></div>
+            <span class="sec-eyebrow__txt">Toolbox</span>
+          </div>
+          <h2 class="stack-headline">My favorite <em>stack</em></h2>
+        </div>
+
+        <!-- Right: tool grid — row 1 -->
+        <div class="stack-grid">
+
+          <div class="stack-item reveal">
+            <img src="img/tech/icon-photoshop.png" alt="Photoshop" class="stack-item__icon">
+            <span class="stack-item__name">Photoshop</span>
+          </div>
+
+          <div class="stack-item reveal reveal-delay-1">
+            <img src="img/tech/icon-figma.png" alt="Figma" class="stack-item__icon">
+            <span class="stack-item__name">Figma</span>
+          </div>
+
+          <div class="stack-item reveal reveal-delay-2">
+            <img src="img/tech/icon-illustrator.png" alt="Illustrator" class="stack-item__icon">
+            <span class="stack-item__name">Illustrator</span>
+          </div>
+
+          <div class="stack-item reveal reveal-delay-3">
+            <img src="img/tech/icon-scketch.png" alt="Sketch" class="stack-item__icon">
+            <span class="stack-item__name">Sketch</span>
+          </div>
+
+          <div class="stack-item reveal">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg" alt="JavaScript" class="stack-item__icon">
+            <span class="stack-item__name">JavaScript</span>
+          </div>
+
+          <div class="stack-item reveal reveal-delay-1">
+            <img src="img/tech/icon-html.png" alt="HTML5" class="stack-item__icon">
+            <span class="stack-item__name">HTML5</span>
+          </div>
+
+          <div class="stack-item reveal reveal-delay-2">
+            <img src="img/tech/icon-css.png" alt="CSS3" class="stack-item__icon">
+            <span class="stack-item__name">CSS3</span>
+          </div>
+
+          <div class="stack-item reveal reveal-delay-3">
+            <img src="img/tech/icon-notion.png" alt="Notion" class="stack-item__icon">
+            <span class="stack-item__name">Notion</span>
+          </div>
+
+        </div>
+      </div>
+
     </div>
-  </header>
-  <!-- Header End -->
+  </section>
 
-  <!-- Page Content Start -->
-  <main id="mxd-page-content" class="mxd-page-content container-xxl">
 
-    <!-- Hero Section Start -->
-    <div class="mxd-section">
-      <div class="hero-editorial loading-wrap">
-        <div class="hero-editorial__inner">
-          <div class="hero-editorial__photo-wrap loading__item">
-            <img src="./img/jigar-dp.png" alt="Jigar Acharya">
-          </div>
-          <h1 class="hero-editorial__title loading__item">
-            Product Designer
-          </h1>
-          <p class="hero-editorial__subtitle loading__fade">
-         Combining B2B SaaS UX expertise with AI-enhanced design process <br class="mdnone">
-to solve complex problems
-          </p>
+  <!-- ── TESTIMONIALS ───────────────────────────────────────── -->
+  <section id="testimonials" aria-label="Testimonials">
+    <div class="sec-wrap">
 
-          <!-- Hero Chips -->
-          <div class="hero-chips loading__fade">
-            <span class="hero-chip hero-chip--green">
-              <span class="hero-chip__dot"></span>
-              8+ years of experience
-            </span>
-            <span class="hero-chip hero-chip--lightprange">
-              <span class="hero-chip__dot"></span>
-               Design @ CallHippo
-            </span>
-          </div>
-
-          <div class="hero-09-headline__cta loading__fade mtpc">
-              <a href="#selected-projects" class="btn btn-anim btn-default btn-outline slide-down hero-cta-btn">
-                <span class="btn-caption hero-cta-btn__label">Selected Work</span>
-                <span class="hero-cta-btn__icon">
-                  <i class="ph-bold ph-arrow-down"></i>
-                </span>
-              </a>
-            </div>
+      <div class="testi__header reveal">
+        <div class="sec-eyebrow sec-eyebrow--center">
+          <div class="sec-eyebrow__bar"></div>
+          <span class="sec-eyebrow__txt">Kind Words</span>
+          <div class="sec-eyebrow__bar"></div>
         </div>
+        <h2 class="sec-heading testi__heading">What people <em>say</em></h2>
+        <p class="testi__subtitle">Click on a photo to read the testimonial</p>
       </div>
+
+      <!-- Avatar fan -->
+      <div class="testi__avatars reveal">
+
+        <div class="testi__avatar" data-idx="1">
+          <div class="testi__avatar-inner">
+            <img src="img/avatars/1697198436960.jpg" alt="Akarsh Jain">
+          </div>
+        </div>
+
+        <div class="testi__avatar active" data-idx="2">
+          <div class="testi__avatar-inner">
+            <img src="img/avatars/1720446537726.jpg" alt="Aishwarya Santani">
+          </div>
+        </div>
+
+        <div class="testi__avatar" data-idx="3">
+          <div class="testi__avatar-inner">
+            <img src="img/avatars/1734277608130.jpg" alt="Ravi Vekariya">
+          </div>
+        </div>
+
+
+      </div>
+
+      <!-- Quote body -->
+      <div class="testi__body reveal">
+
+        <div class="testi__quote-icon" aria-hidden="true">"</div>
+
+        <div class="testi__item" data-idx="1">
+          Jigar doesn't just build products, he builds systems that continue to perform, combining strong product thinking with hands-on execution. He has worked across platforms like CallHippo, ControlHippo, and SoftwareSuggest, focusing on solving root problems and driving real, measurable impact. He brings clarity, ownership, and discipline to everything he does, making him someone teams naturally rely on.
+          <span class="testi__name">Akarsh Jain</span>
+          <span class="testi__role">Digital Marketing Specialist, Appitsimple</span>
+        </div>
+
+        <div class="testi__item active" data-idx="2">
+          Jigar has a strong sense of product thinking and knows how to turn ideas into practical, user-friendly solutions. His work across products like CallHippo and ControlHippo made a real difference to the overall experience and business outcomes. He brings clarity, ownership, and quietly raises the standard for the whole team.
+          <span class="testi__name">Aishwarya Santani</span>
+          <span class="testi__role">Graphic Designer, SoftwareSuggest</span>
+        </div>
+
+        <div class="testi__item" data-idx="3">
+          I had the opportunity to work with Jigar Acharya at Appitsimple, and it was a great learning experience. He brings a forward-thinking approach, combining strong UI/UX focus with modern technologies like AI to build better products. His guidance, feedback, and support made a real impact on my growth as a developer.
+          <span class="testi__name">Ravi Vekariya</span>
+          <span class="testi__role">React JS Developer, Appitsimple</span>
+        </div>
+
+        <div class="testi__item" data-idx="4">
+          I really enjoyed working with Jigar, whose strong product thinking and UI/UX focus always ensured we built meaningful, user-centric solutions. He consistently pushed us to think beyond execution, encouraging data-driven decisions, better user journeys, and scalable product design.
+          <span class="testi__name">Siddharth Jain</span>
+          <span class="testi__role">Frontend Developer, Appitsimple</span>
+        </div>
+
+      </div>
+
     </div>
-    <!-- Hero Section End -->
+  </section>
 
-    <!-- Section - Selected Projects Start -->
-    <div id="selected-projects" class="mxd-section padding-hero-09 padding-default">
-      <div class="mxd-container grid-container">
 
-        <!-- Block - Section Title Start -->
-        <div class="mxd-block">
-          <div class="mxd-section-title pre-grid">
-            <div class="container-fluid p-0">
-              <div class="row g-0">
-                <div class="col-12 mxd-grid-item no-margin">
-                  <div class="mxd-section-title__hrtitle">
-                    <h2 class="reveal-type anim-uni-in-up">Selected Work</h2>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Block - Section Title End -->
+  <!-- ── CONTACT / FOOTER ────────────────────────────────────── -->
+  <footer id="contact" aria-label="Contact">
 
-        <!-- Block - Case Study Card Start -->
-        <div class="mxd-block mxdblokq">
- <a class="mxd-casestudy-card anim-uni-in-up" href="dashboard-redesign.html">
-            <div class="mxd-casestudy-card__inner">
-              <!-- Image / Mockup -->
-              <div class="mxd-casestudy-card__media">
-                <img src="./img/banner/dashboard-hero.png" alt="CallHippo Dashboard">
-              </div>
-              <!-- Content -->
-              <div class="mxd-casestudy-card__content">
-                <p class="mxd-casestudy-card__label">CALLHIPPO DASHBOARD - MARCH 2024</p>
-                <h3 class="mxd-casestudy-card__title">Redesigned the call analytics dashboard</h3>
-                <p class="mxd-casestudy-card__descr">I redesigned the dashboard to replace manual spreadsheet-based reporting, enabling real-time visibility into team performance and faster, data-driven decision-making.</p>
-
-                <div class="mxd-casestudy-card__btn">
-                  <span class="btn btn-anim btn-default btn-outline slide-right-up btnhivoer">
-                    <span class="btn-caption">View Case Study</span>
-                    <i class="ph-bold ph-arrow-up-right"></i>
-                  </span>
-                </div>
-              </div>
-            </div>
-          </a>
-          
-          <a class="mxd-casestudy-card anim-uni-in-up" href="ai-voice-agent.html">
-            <div class="mxd-casestudy-card__inner">
-              <!-- Image / Mockup -->
-              <div class="mxd-casestudy-card__media">
-                <img src="./img/banner/ai-voice-agent-hero.png" alt="CallHippo AI Voice Agent">
-              </div>
-              <!-- Content -->
-              <div class="mxd-casestudy-card__content">
-                <p class="mxd-casestudy-card__label">CALLHIPPO AI VOICE AGENT - APRIL 2025</p>
-                <h3 class="mxd-casestudy-card__title">Designed CallHippo's first AI Voice Agent from 0 to 1</h3>
-                <p class="mxd-casestudy-card__descr">Took it from nothing to a shipped AI product in 3 weeks. The agent answers calls, books meetings, qualifies leads, and routes to humans when needed. I designed every part of it — setup, management, and configuration.</p>
-
-                <div class="mxd-casestudy-card__btn">
-                  <span class="btn btn-anim btn-default btn-outline slide-right-up btnhivoer">
-                    <span class="btn-caption">View Case Study</span>
-                    <i class="ph-bold ph-arrow-up-right"></i>
-                  </span>
-                </div>
-              </div>
-            </div>
-          </a>
-
-          <!-- SECOND CARD-->
-         
-
-          <!--third card-->
-          <a class="mxd-casestudy-card anim-uni-in-up" href="ai-copilot.html">
-            <div class="mxd-casestudy-card__inner">
-              <!-- Image / Mockup -->
-              <div class="mxd-casestudy-card__media">
-                <img src="./img/banner/ai-copilot.png" alt="CallHippo AI Copilot">
-              </div>
-              <!-- Content -->
-              <div class="mxd-casestudy-card__content">
-                <p class="mxd-casestudy-card__label">CALLHIPPO AI COPILOT - JANUARY 2024</p>
-                <h3 class="mxd-casestudy-card__title">Designed an AI Copilot for scalable call coaching</h3>
-                <p class="mxd-casestudy-card__descr">Built a coaching layer that analyzes call conversations and helps teams deliver faster, data-driven feedback</p>
-
-                <div class="mxd-casestudy-card__btn">
-                  <span class="btn btn-anim btn-default btn-outline slide-right-up btnhivoer">
-                    <span class="btn-caption">View Case Study</span>
-                    <i class="ph-bold ph-arrow-up-right"></i>
-                  </span>
-                </div>
-              </div>
-            </div>
-          </a>
-
-          <!-- fourth card-->
-          <a class="mxd-casestudy-card anim-uni-in-up" href="ai-hub.html">
-            <div class="mxd-casestudy-card__inner">
-              <!-- Image / Mockup -->
-              <div class="mxd-casestudy-card__media">
-                <img src="./img/banner/ai-hub-cover.png" alt="CallHippo AI Hub">
-              </div>
-              <!-- Content -->
-              <div class="mxd-casestudy-card__content">
-                <p class="mxd-casestudy-card__label">CALLHIPPO AI Hub - JULY 2024</p>
-                <h3 class="mxd-casestudy-card__title">Designed Reply with AI for faster support responses</h3>
-                <p class="mxd-casestudy-card__descr">Designed an AI feature that generates instant reply suggestions inside chat, helping support agents respond faster without leaving the conversation</p>
-                <div class="mxd-casestudy-card__btn">
-                  <span class="btn btn-anim btn-default btn-outline slide-right-up btnhivoer">
-                    <span class="btn-caption">View Case Study</span>
-                    <i class="ph-bold ph-arrow-up-right"></i>
-                  </span>
-                </div>
-              </div>
-            </div>
-          </a>
-
-          <!--fifth card-->
-          <a class="mxd-casestudy-card anim-uni-in-up" href="https://d1x9dsge91xf6g.cloudfront.net/callhippo/files/brand_guidelines_new.pdf" target="_blank">
-            <div class="mxd-casestudy-card__inner">
-              <!-- Image / Mockup -->
-              <div class="mxd-casestudy-card__media">
-                <img src="./img/banner/brand-guidelines.png" alt="CallHippo Brand Guidelines">
-              </div>
-              <!-- Content -->
-              <div class="mxd-casestudy-card__content">
-                <p class="mxd-casestudy-card__label">CALLHIPPO — BRAND GUIDELINES - MAY 2024</p>
-                <h3 class="mxd-casestudy-card__title">Designed brand guidelines to unify CallHippo’s product and
-                  marketing</h3>
-                <p class="mxd-casestudy-card__descr">I created a scalable brand guideline system covering typography,
-                  color, and UI standards to ensure consistency across the website, product, and marketing channels.</p>
-                <div class="mxd-casestudy-card__btn">
-                  <span class="btn btn-anim btn-default btn-outline slide-right-up btnhivoer">
-                    <span class="btn-caption">View Brand Guidelines</span>
-                    <i class="ph-bold ph-arrow-up-right"></i>
-                  </span>
-                </div>
-              </div>
-            </div>
-          </a>
-        </div>
-        <!-- Block - Case Study Card End -->
-
-      </div>
+    <div class="contact__video-wrap">
+      <video id="contact-video" autoplay muted loop playsinline></video>
+      <div class="contact__video-overlay"></div>
     </div>
-    <!-- Section - Selected Projects End -->
 
+    <div class="contact__body sec-wrap">
 
-     <!-- Section - Core Expertise Start -->
-      <div class="mxd-section overflow-hidden padding-default expertise-section">
-        <div class="mxd-container grid-container">
-          <div class="mxd-block">
-            <div class="container-fluid px-0">
-
-              <!-- Section Title -->
-              <div class="row gx-0">
-                <div class="col-12 mxd-grid-item no-margin">
-                  <h2 class="expertise-section__headline reveal-type anim-uni-in-up">Core Expertise</h2>
-                </div>
-              </div>
-
-              <!-- Cards Grid -->
-              <div class="expertise-grid">
-
-                <!-- Card 1 - Product Design -->
-                <div class="expertise-card anim-uni-in-up">
-                  <div class="expertise-card__icon-wrap">
-                    <i class="ph-bold ph-palette"></i>
-                  </div>
-                  <div class="expertise-card__body">
-                    <p class="expertise-card__title">Product Design</p>
-                    <p class="expertise-card__desc">Crafting user-centered interfaces that solve complex problems with simplicity and elegance</p>
-                  </div>
-                </div>
-
-                <!-- Card 2 - Design Strategy -->
-                <div class="expertise-card anim-uni-in-up">
-                  <div class="expertise-card__icon-wrap">
-                    <i class="ph-bold ph-target"></i>
-                  </div>
-                  <div class="expertise-card__body">
-                    <p class="expertise-card__title">Design Strategy</p>
-                    <p class="expertise-card__desc">Aligning business goals with user needs to drive measurable product outcomes</p>
-                  </div>
-                </div>
-
-                <!-- Card 3 - Design Systems -->
-                <div class="expertise-card anim-uni-in-up">
-                  <div class="expertise-card__icon-wrap">
-                    <i class="ph-bold ph-squares-four"></i>
-                  </div>
-                  <div class="expertise-card__body">
-                    <p class="expertise-card__title">Design Systems</p>
-                    <p class="expertise-card__desc">Building scalable design languages that ensure consistency across platforms</p>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Section - Core Expertise End -->
-
-
-
-     <!-- Section - Tech Stack Start -->
-      <div class="mxd-section padding-grid-pre-pinned">
-        <div class="mxd-container grid-container">
-        
-          <!-- Block - Stack Universal Pinned Block with Section Title Start -->
-          <div class="mxd-block">
-            <div class="mxd-pinned-universal">
-              <div class="container-fluid px-0">
-                <div class="row gx-0">
-                  <div class="col-12 col-xl-5 mxd-pinned-universal__static">
-                    <div class="mxd-pinned-universal__static-inner no-margin">
-
-                      <!-- Section Title Start -->
-                      <div class="mxd-section-title h2-only no-margin-desktop">
-                        <div class="container-fluid p-0">
-                          <div class="row g-0">
-                            <div class="col-12 mxd-grid-item no-margin">
-                              <div class="mxd-section-title__title card-split-title">
-                                <h2 class="reveal-type">My favorite<br>stack</h2>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- Section Title Start -->
-
-                    </div>
-                  </div>
-                  <div class="col-12 col-xl-7 mxd-pinned-universal__scroll">
-                    <div class="mxd-pinned-universal__scroll-inner mxd-grid-item no-margin">
-                      <div class="mxd-tech-stack-cards grid-cards">
-                        <!-- item -->
-                        <div class="mxd-tech-stack-cards__item animate-card-4">
-                          <div class="mxd-tech-stack-cards__inner-v2">
-                            <div class="mxd-tech-stack-cards__icon">
-                              <img src="img/tech/icon-photoshop.svg" alt="Tech Stack Icon">
-                            </div>
-                            <div class="mxd-tech-stack-cards__title">
-                              <p class="t-bright t-caption">Photoshop</p>
-                            </div>
-                          </div>
-                        </div>
-                        <!-- item -->
-                        <div class="mxd-tech-stack-cards__item animate-card-4">
-                          <div class="mxd-tech-stack-cards__inner-v2">
-                            <div class="mxd-tech-stack-cards__icon">
-                              <img src="img/tech/icon-figma.svg" alt="Tech Stack Icon">
-                            </div>
-                            <div class="mxd-tech-stack-cards__title">
-                              <p class="t-bright t-caption">Figma</p>
-                            </div>
-                          </div>
-                        </div>
-                        <!-- item -->
-                        <div class="mxd-tech-stack-cards__item animate-card-4">
-                          <div class="mxd-tech-stack-cards__inner-v2">
-                            <div class="mxd-tech-stack-cards__icon">
-                              <img src="img/tech/icon-illustrator.svg" alt="Tech Stack Icon">
-                            </div>
-                            <div class="mxd-tech-stack-cards__title">
-                              <p class="t-bright t-caption">Illustrator</p>
-                            </div>
-                          </div>
-                        </div>
-                        <!-- item -->
-                        <div class="mxd-tech-stack-cards__item animate-card-4">
-                          <div class="mxd-tech-stack-cards__inner-v2">
-                            <div class="mxd-tech-stack-cards__icon">
-                              <img src="img/tech/icon-scketch.svg" alt="Tech Stack Icon">
-                            </div>
-                            <div class="mxd-tech-stack-cards__title">
-                              <p class="t-bright t-caption">Sketch</p>
-                            </div>
-                          </div>
-                        </div>
-                        <!-- item -->
-                        <div class="mxd-tech-stack-cards__item animate-card-4">
-                          <div class="mxd-tech-stack-cards__inner-v2">
-                            <div class="mxd-tech-stack-cards__icon">
-                              <img src="img/tech/06_javascript.svg" alt="Tech Stack Icon">
-                            </div>
-                            <div class="mxd-tech-stack-cards__title">
-                              <p class="t-bright t-caption">JavaScript</p>
-                            </div>
-                          </div>
-                        </div>
-                        <!-- item -->
-                        <div class="mxd-tech-stack-cards__item animate-card-4">
-                          <div class="mxd-tech-stack-cards__inner-v2">
-                            <div class="mxd-tech-stack-cards__icon">
-                              <img src="img/tech/icon-html.svg" alt="Tech Stack Icon">
-                            </div>
-                            <div class="mxd-tech-stack-cards__title">
-                              <p class="t-bright t-caption">HTML5</p>
-                            </div>
-                          </div>
-                        </div>
-                        <!-- item -->
-                        <div class="mxd-tech-stack-cards__item animate-card-4">
-                          <div class="mxd-tech-stack-cards__inner-v2">
-                            <div class="mxd-tech-stack-cards__icon">
-                              <img src="img/tech/icon-css.svg" alt="Tech Stack Icon">
-                            </div>
-                            <div class="mxd-tech-stack-cards__title">
-                              <p class="t-bright t-caption">CSS3</p>
-                            </div>
-                          </div>
-                        </div>
-                        <!-- item -->
-                        <div class="mxd-tech-stack-cards__item animate-card-4">
-                          <div class="mxd-tech-stack-cards__inner-v2">
-                            <div class="mxd-tech-stack-cards__icon">
-                              <img src="img/tech/icon-notion.svg" alt="Tech Stack Icon">
-                            </div>
-                            <div class="mxd-tech-stack-cards__title">
-                              <p class="t-bright t-caption">Notion</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- Block - Stack Universal Pinned Block with Section Title Start -->
-
+      <!-- Marquee -->
+      <div class="marquee-wrap" aria-hidden="true">
+        <div class="marquee-track" id="marquee-track">
+          <span class="marquee-item">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
+          <span class="marquee-item">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
+          <span class="marquee-item">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
+          <span class="marquee-item">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
+          <span class="marquee-item">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
+          <span class="marquee-item">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
+          <span class="marquee-item">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
+          <span class="marquee-item">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
+          <span class="marquee-item">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
+          <span class="marquee-item">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
+          <!-- duplicate for seamless loop -->
+          <span class="marquee-item" aria-hidden="true">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
+          <span class="marquee-item" aria-hidden="true">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
+          <span class="marquee-item" aria-hidden="true">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
+          <span class="marquee-item" aria-hidden="true">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
+          <span class="marquee-item" aria-hidden="true">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
+          <span class="marquee-item" aria-hidden="true">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
+          <span class="marquee-item" aria-hidden="true">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
+          <span class="marquee-item" aria-hidden="true">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
+          <span class="marquee-item" aria-hidden="true">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
+          <span class="marquee-item" aria-hidden="true">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
         </div>
       </div>
 
-    <!-- Section - About Start -->
-    <div class="mxd-section padding-default pb-10">
-      <div class="mxd-container grid-container">
-
-        <!-- Block - About Description with Manifest Start -->
-        <div class="mxd-block">
-          <div class="container-fluid px-0">
-            <div class="row gx-0 d-xl-flex justify-content-xl-center">
-              <div class="col-12 col-xl-8 mxd-grid-item no-margin">
-                <div class="mxd-block__content">
-                  <div class="mxd-block__manifest centered anim-uni-in-up">
-                    <p class="mxd-manifest mxd-manifest-l reveal-type">I design products that simplify complex workflows and create meaningful user experiences.</p>
-                    <div class="mxd-manifest__controls anim-uni-in-up">
-                      <div class="mxd-btngroup centered">
-                        
-                        <a class="btn btn-anim btn-default btn-outline slide-down" href="https://docs.google.com/document/d/1Db1YSHKft4BW7J3I2k3m9swv6gRHIpNe/edit?usp=sharing&ouid=100241053695328650112&rtpof=true&sd=true">
-                          <span class="btn-caption">View Resume</span>
-                         <i class="ph-bold ph-arrow-up-right"></i>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+      <!-- CTA -->
+      <div class="contact__cta reveal">
+        <h2 class="contact__heading">Let's build something <em>great together</em></h2>
+        <a href="mailto:jigaracharya3@gmail.com" class="email-btn">
+          <div class="email-btn__inner">
+            <span>jigaracharya3@gmail.com</span>
+            <span>↗</span>
           </div>
-        </div>
-        <!-- Block - About Description with Manifest End -->
-
+        </a>
       </div>
-    </div>
-    <!-- Section - About End -->
 
-    <!-- Section - Parallax Divider Start -->
-  
-    <!-- Section - Parallax Divider End -->
-
-    <!-- Section - Blog Preview Start -->
-    
-    <!-- Section - Blog Preview End -->
-
-    <!-- Section - CTA Start -->
-
-    <!-- Section - CTA End -->
-
-    <!-- Section - Testimonials Start -->
-    <style>
-      .testimonials-section {
-        padding-top: 0rem;
-        padding-bottom: 8rem;
-      }
-
-      .testimonials-section__header {
-        margin-bottom: 5.6rem;
-      }
-
-      .testimonials-section__title {
-       text-align: center;
-      }
-
-      .testimonials-section__subtitle {
-        font-size: 1.5rem;
-        color: var(--t-muted);
-        margin: 0;
-        text-align: center;
-      }
-
-      .testimonials-section__avatars {
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-        gap: 2rem;
-        padding: 0.8rem 0 3.2rem;
-      }
-
-      .testimonials-avatar {
-        cursor: pointer;
-        border-radius: 1.4rem;
-        overflow: hidden;
-        width: 118px;
-        height: 90px;
-        flex-shrink: 0;
-        position: relative;
-        box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-        transition: opacity 0.3s ease, transform 0.3s ease;
-        opacity: 0.68;
-      }
-
-      .testimonials-avatar:nth-child(1) { margin-top: 48px; }
-      .testimonials-avatar:nth-child(2) { margin-top: 28px; }
-      .testimonials-avatar:nth-child(3) { margin-top: 40px; }
-      .testimonials-avatar:nth-child(4) { margin-top: 56px; }
-      .testimonials-avatar:nth-child(5) { margin-top: 20px; }
-
-      /* Center card — class-based so position in DOM doesn't matter */
-      .testimonials-avatar.center-card {
-        margin-top: 0 !important;
-        width: 152px;
-        height: 112px;
-        border-radius: 1.6rem;
-      }
-
-      .testimonials-avatar.active {
-        opacity: 1;
-        box-shadow: none;
-        overflow: visible;
-        background: transparent;
-      }
-
-      .testimonials-avatar__inner {
-        width: 100%;
-        height: 100%;
-        border-radius: inherit;
-        overflow: hidden;
-        background: #e0dbd8;
-      }
-
-      .testimonials-avatar.active .testimonials-avatar__inner {
-        outline: 4px solid #1D3A28;
-        outline-offset: 0px;
-        border-radius: 1.4rem;
-        box-shadow: 0 8px 32px rgba(29,58,40,0.22);
-      }
-
-      .testimonials-avatar.center-card.active .testimonials-avatar__inner {
-        border-radius: 1.6rem;
-      }
-
-      .testimonials-avatar img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: top center;
-        display: block;
-      }
-
-      .testimonials-avatar:hover:not(.active) {
-        opacity: 0.88;
-      }
-
-      /* Placeholder colors when no image */
-      .testimonials-avatar:nth-child(1) .testimonials-avatar__inner { background: #e8d5c4; }
-      .testimonials-avatar:nth-child(2) .testimonials-avatar__inner { background: #c9dbe8; }
-      .testimonials-avatar:nth-child(3) .testimonials-avatar__inner { background: #c4d4c8; }
-      .testimonials-avatar:nth-child(4) .testimonials-avatar__inner { background: #ddd5c4; }
-      .testimonials-avatar:nth-child(5) .testimonials-avatar__inner { background: #d5c4e8; }
-
-      .testimonials-section__body {
-        text-align: center;
-        max-width: 72rem;
-        margin: 0 auto;
-        padding-top: 0.8rem;
-      }
-
-      .testimonials-section__quote-icon {
-        margin-bottom: 1.2rem;
-        line-height: 1;
-        color: #1D3A28;
-        font-size: 7.2rem;
-      }
-
-      .testimonials-section__quote-icon i {
-        display: inline-block;
-        font-size: inherit;
-        color: inherit;
-        line-height: 1;
-      }
-
-      .testimonial-item {
-        display: none;
-        font-size: 1.7rem;
-        line-height: 1.7;
-        color: var(--t-medium);
-        text-align: center;
-        margin: 0;
-      }
-
-      .testimonial-item.active {
-        display: block;
-        animation: testimonial-fade 0.4s ease;
-      }
-
-      @keyframes testimonial-fade {
-        from { opacity: 0; transform: translateY(8px); }
-        to   { opacity: 1; transform: translateY(0); }
-      }
-
-      .testimonial-item .t-author {
-        display: block;
-        margin-top: 2.4rem;
-        font-size: 1.4rem;
-        font-weight: 600;
-        color: var(--t-bright);
-        letter-spacing: 0.02em;
-      }
-
-      .testimonial-item .t-role {
-        display: block;
-        font-size: 1.3rem;
-        color: var(--t-muted);
-        font-weight: 400;
-      }
-
-      @media (max-width: 767px) {
-        .testimonials-section {
-          padding-top: 5.6rem;
-          padding-bottom: 5.6rem;
-        }
-        .testimonials-section__header {
-          margin-bottom: 3.6rem;
-        }
-        .testimonials-section__title {
-          font-size: 2.8rem;
-        }
-        .testimonials-section__avatars {
-          gap: clamp(6px, 2vw, 14px);
-          padding-bottom: 2.4rem;
-        }
-        .testimonials-avatar {
-          width: clamp(52px, 14vw, 88px);
-          height: clamp(40px, 10.5vw, 66px);
-          border-radius: 1rem;
-        }
-        .testimonials-avatar:nth-child(1) { margin-top: 30px; }
-        .testimonials-avatar:nth-child(2) { margin-top: 18px; }
-        .testimonials-avatar:nth-child(3) { margin-top: 26px; }
-        .testimonials-avatar:nth-child(4) { margin-top: 36px; }
-        .testimonials-avatar:nth-child(5) { margin-top: 12px; }
-        .testimonials-avatar.center-card {
-          margin-top: 0 !important;
-          width: clamp(66px, 17.5vw, 108px);
-          height: clamp(50px, 13vw, 82px);
-          border-radius: 1.2rem;
-        }
-        .testimonials-section__body {
-          padding: 0 1.6rem;
-        }
-        .testimonials-section__quote-icon { font-size: 4.8rem; }
-        .testimonial-item { font-size: 1.5rem; line-height: 1.65; }
-      }
-
-      @media (max-width: 400px) {
-        .testimonials-section__avatars {
-          gap: clamp(4px, 1.2vw, 8px);
-        }
-        .testimonials-avatar {
-          width: clamp(44px, 12.5vw, 60px);
-          height: clamp(34px, 9.5vw, 46px);
-        }
-        .testimonials-avatar.center-card {
-          width: clamp(56px, 15.5vw, 76px) !important;
-          height: clamp(42px, 11.5vw, 58px) !important;
-        }
-        .testimonials-avatar:nth-child(1) { margin-top: 22px; }
-        .testimonials-avatar:nth-child(2) { margin-top: 14px; }
-        .testimonials-avatar:nth-child(3) { margin-top: 20px; }
-        .testimonials-avatar:nth-child(4) { margin-top: 28px; }
-        .testimonials-avatar:nth-child(5) { margin-top: 10px; }
-      }
-    </style>
-
-    <div class="mxd-section testimonials-section">
-      <div class="mxd-container grid-container">
-        <div class="mxd-block">
-          <div class="container-fluid px-0">
-
-            <!-- Header -->
-            <div class="testimonials-section__header">
-              <h2 class="testimonials-section__title">Testimonials</h2>
-              <p class="testimonials-section__subtitle">Click on the image to see the testimonial!</p>
-            </div>
-
-            <!-- Avatar Cards -->
-            <div class="testimonials-section__avatars">
-
-              <div class="testimonials-avatar" data-index="0">
-                <div class="testimonials-avatar__inner">
-                  <img src="img/avatars/1753985512233.jpg" alt="Siddharth Jain">
-                </div>
-              </div>
-
-              <div class="testimonials-avatar center-card active" data-index="2">
-                <div class="testimonials-avatar__inner">
-                  <img src="img/avatars/1720446537726.jpg" alt="Aishwarya Santani">
-                </div>
-              </div>
-
-             <!-- <div class="testimonials-avatar" data-index="1">
-                <div class="testimonials-avatar__inner">
-                  <img src="img/avatars/1734277608130.jpg" alt="Ravi Vekariya">
-                </div>
-              </div>-->
-
-              <div class="testimonials-avatar" data-index="4">
-                <div class="testimonials-avatar__inner">
-                  <img src="img/avatars/1697198436960.jpg" alt="Akarsh Jain">
-                </div>
-              </div>
-
-            </div>
-            <!-- /Avatar Cards -->
-
-            <!-- Testimonial Body -->
-            <div class="testimonials-section__body">
-
-              <div class="testimonials-section__quote-icon">
-                <i class="ph-fill ph-quotes"></i>
-              </div>
-
-              <p class="testimonial-item" data-for="0">
-              I really enjoyed working with Jigar, whose strong product thinking and UI/UX focus always ensured we built meaningful, user-centric solutions.
-He consistently pushed us to think beyond execution, encouraging data-driven decisions, better user journeys, and scalable product design.
-His guidance helped me grow not just as a developer, but in understanding how great products are shaped end to end.
-                <span class="t-author">Siddharth Jain</span>
-                <span class="t-role">Frontend Developer, Appitsimple</span>
-              </p>
-
-              <p class="testimonial-item" data-for="1">
-             I had the opportunity to work with Jigar Acharya at Appitsimple, and it was a great learning experience.
-He brings a forward-thinking approach, combining strong UI/UX focus with modern technologies like AI to build better products.
-His guidance, feedback, and support made a real impact on my growth as a developer.
-                <span class="t-author">Ravi Vekariya</span>
-                <span class="t-role">React Js Developer, Appitsimple</span>
-              </p>
-
-              <p class="testimonial-item active" data-for="2">
-               Jigar has a strong sense of product thinking and knows how to turn ideas into practical, user-friendly solutions. His work across products like CallHippo and ControlHippo made a real difference to the overall experience and business outcomes. He brings clarity, ownership, and quietly raises the standard for the whole team.
-                <span class="t-author">Aishwarya Santani</span>
-                <span class="t-role">Graphic Designer, SoftwareSuugest.</span>
-              </p>
-
-            
-
-              <p class="testimonial-item" data-for="4">
-                Jigar doesn’t just build products, he builds systems that continue to perform, combining strong product thinking with hands-on execution. He has worked across platforms like CallHippo, ControlHippo, and SoftwareSuggest, focusing on solving root problems and driving real, measurable impact. He brings clarity, ownership, and discipline to everything he does, making him someone teams naturally rely on.
-                <span class="t-author">Akarsh Jain</span>
-                <span class="t-role">Digital Marketing Specialist, Appitsimple</span>
-              </p>
-
-            </div>
-            <!-- /Testimonial Body -->
-
-          </div>
+      <!-- Footer bar -->
+      <div class="footer-bar">
+        <div class="footer-bar__socials">
+          <a href="https://www.linkedin.com/in/jigar-acharya-722232ab/" target="_blank" rel="noopener" class="footer-social">LinkedIn</a>
+          <a href="https://dribbble.com/jigar007" target="_blank" rel="noopener" class="footer-social">Dribbble</a>
         </div>
+
+        <p class="footer-copy">© 2026 Jigar Acharya</p>
       </div>
-    </div>
-    <!-- Section - Testimonials End -->
 
-    <script>
-      (function () {
-        var avatars = document.querySelectorAll('.testimonials-avatar');
-        var items   = document.querySelectorAll('.testimonial-item');
-
-        avatars.forEach(function (avatar) {
-          avatar.addEventListener('click', function () {
-            var idx = this.getAttribute('data-index');
-
-            avatars.forEach(function (a) { a.classList.remove('active'); });
-            items.forEach(function (t)   { t.classList.remove('active'); });
-
-            this.classList.add('active');
-            var target = document.querySelector('.testimonial-item[data-for="' + idx + '"]');
-            if (target) target.classList.add('active');
-          });
-        });
-      })();
-    </script>
-
-  </main>
-  <!-- Page Content End -->
-
-  <!-- Footer Start -->
-  <footer id="mxd-footer" class="mxd-footer mxd-footer--minimal">
-    <div class="footer-minimal__divider"></div>
-    <div class="footer-minimal__bar">
-      <span>© 2026 Jigar Acharya</span>
-      <span class="footer-minimal__label"><a href="mailto:jigaracharya3@gmail.com">jigaracharya3@gmail.com</a></span>
     </div>
   </footer>
-  <!-- Footer End -->
 
-  <!-- To Top Button Start -->
-  <a href="#0" id="to-top" class="btn btn-to-top slide-up anim-no-delay">
-    <i class="ph ph-arrow-up"></i>
-  </a>
-  <!-- To Top Button End -->
+</div><!-- /#main-content -->
 
-  <!-- Load Scripts Start -->
-  <script src="js/libs.min.js"></script>
-  <script src="js/app.js"></script>
-  <!-- counters -->
-  <!-- Load Scripts End -->
+
+<!-- ================================================================
+     SCRIPTS
+================================================================ -->
+<script>
+(function () {
+  'use strict';
+
+  /* ── LOADING SCREEN ───────────────────────────────────────── */
+  const lsScreen  = document.getElementById('loading-screen');
+  const lsLabel   = document.getElementById('ls-label');
+  const lsWord    = document.getElementById('ls-word');
+  const lsCounter = document.getElementById('ls-counter');
+  const lsBar     = document.getElementById('ls-bar');
+  const mainEl    = document.getElementById('main-content');
+
+  const LS_WORDS    = ['Design', 'Create', 'Inspire'];
+  const LS_DURATION = 2700;
+  let   wordIdx     = 0;
+
+  // Cycle words
+  const wordTimer = setInterval(() => {
+    wordIdx = (wordIdx + 1) % LS_WORDS.length;
+    lsWord.style.animation = 'none';
+    void lsWord.offsetHeight; // force reflow
+    lsWord.style.animation  = 'role-fade-in 0.4s ease-out';
+    lsWord.textContent = LS_WORDS[wordIdx];
+  }, 900);
+
+  // Counter RAF
+  const t0 = performance.now();
+
+  function tickCounter(now) {
+    const p  = Math.min((now - t0) / LS_DURATION, 1);
+    const ep = 1 - Math.pow(1 - p, 3); // ease-out cubic
+    const n  = Math.round(ep * 100);
+
+    lsCounter.textContent     = n + '%';
+    lsBar.style.transform     = `scaleX(${ep})`;
+
+    if (p < 1) {
+      requestAnimationFrame(tickCounter);
+    } else {
+      clearInterval(wordTimer);
+      setTimeout(completeLoading, 400);
+    }
+  }
+  requestAnimationFrame(tickCounter);
+
+  function completeLoading() {
+    lsScreen.style.cssText += 'transition:opacity 0.5s cubic-bezier(.4,0,.2,1),transform 0.5s cubic-bezier(.4,0,.2,1);opacity:0;transform:scale(1.02);';
+    setTimeout(() => {
+      lsScreen.style.display = 'none';
+      mainEl.classList.add('vis');
+      boot();
+    }, 520);
+  }
+
+
+  /* ── BOOT (runs after loader) ─────────────────────────────── */
+  function boot() {
+    initNavbar();
+    initVideos();
+    initGSAP();
+    initReveal();
+    initRoles();
+    initMarquee();
+  }
+
+
+  /* ── NAVBAR ──────────────────────────────────────────────── */
+  function initNavbar() {
+    const pill = document.getElementById('nav-pill');
+    const logo = document.getElementById('nav-logo');
+
+    // Scroll shadow
+    window.addEventListener('scroll', () => {
+      pill.classList.toggle('scrolled', window.scrollY > 80);
+    }, { passive: true });
+
+    // Logo → top
+    logo.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    logo.addEventListener('keydown', e => { if (e.key === 'Enter') window.scrollTo({ top: 0, behavior: 'smooth' }); });
+
+    // Smooth anchor clicks + active state
+    document.querySelectorAll('.nav__link[href^="#"]').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const target = document.querySelector(link.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+        document.querySelectorAll('.nav__link').forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+      });
+    });
+  }
+
+
+  /* ── HLS VIDEOS ──────────────────────────────────────────── */
+  const HLS_SRC = 'https://stream.mux.com/Aa02T7oM1wH5Mk5EEVDYhbZ1ChcdhRsS2m1NYyx4Ua1g.m3u8';
+
+  function attachHLS(videoEl) {
+    if (typeof Hls !== 'undefined' && Hls.isSupported()) {
+      const hls = new Hls({ startLevel: -1, maxBufferLength: 15 });
+      hls.loadSource(HLS_SRC);
+      hls.attachMedia(videoEl);
+    } else if (videoEl.canPlayType('application/vnd.apple.mpegurl')) {
+      videoEl.src = HLS_SRC;
+    }
+  }
+
+  function initVideos() {
+    attachHLS(document.getElementById('hero-video'));
+    attachHLS(document.getElementById('contact-video'));
+  }
+
+
+  /* ── GSAP HERO ENTRANCE ──────────────────────────────────── */
+  function initGSAP() {
+    if (typeof gsap === 'undefined') {
+      // Fallback: just show elements
+      document.querySelectorAll('.gsap-name, .gsap-blur').forEach(el => {
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+      });
+      return;
+    }
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Name reveal
+    gsap.to('.gsap-name', {
+      opacity: 1,
+      y: 0,
+      duration: 1.2,
+      ease: 'power3.out',
+      delay: 0.1,
+    });
+
+    // Blur-in elements
+    gsap.set('.gsap-blur', { opacity: 0, filter: 'blur(10px)', y: 20 });
+    gsap.to('.gsap-blur', {
+      opacity: 1,
+      filter: 'blur(0px)',
+      y: 0,
+      duration: 1,
+      stagger: 0.12,
+      delay: 0.35,
+      ease: 'power3.out',
+    });
+  }
+
+
+  /* ── INTERSECTION OBSERVER REVEAL ───────────────────────── */
+  function initReveal() {
+    if (!('IntersectionObserver' in window)) {
+      document.querySelectorAll('.reveal').forEach(el => el.classList.add('vis'));
+      return;
+    }
+
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('vis');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '-40px' });
+
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  }
+
+
+  /* ── ROLE CYCLING ────────────────────────────────────────── */
+  function initRoles() {
+    const roles   = ['Product', 'UI/UX'];
+    const roleEl  = document.getElementById('hero-role');
+    let   roleIdx = 0;
+
+    setInterval(() => {
+      roleIdx = (roleIdx + 1) % roles.length;
+      roleEl.style.animation = 'none';
+      void roleEl.offsetHeight;
+      roleEl.style.animation = 'role-fade-in 0.4s ease-out';
+      roleEl.textContent     = roles[roleIdx];
+    }, 2000);
+  }
+
+
+  /* ── MARQUEE ─────────────────────────────────────────────── */
+  function initMarquee() {
+    if (typeof gsap !== 'undefined') {
+      gsap.to('#marquee-track', {
+        xPercent: -50,
+        duration: 42,
+        ease: 'none',
+        repeat: -1,
+      });
+    } else {
+      // CSS fallback
+      const track = document.getElementById('marquee-track');
+      if (track) track.style.animation = 'marquee-css 42s linear infinite';
+    }
+  }
+
+  /* ── TESTIMONIALS ────────────────────────────────────────── */
+  (function () {
+    const avatars = document.querySelectorAll('.testi__avatar');
+    const items   = document.querySelectorAll('.testi__item');
+
+    avatars.forEach(av => {
+      av.addEventListener('click', () => {
+        const idx = av.dataset.idx;
+
+        avatars.forEach(a => a.classList.remove('active'));
+        items.forEach(i => i.classList.remove('active'));
+
+        av.classList.add('active');
+        const target = document.querySelector(`.testi__item[data-idx="${idx}"]`);
+        if (target) target.classList.add('active');
+      });
+    });
+  })();
+
+})();
+</script>
 
 </body>
-
 </html>

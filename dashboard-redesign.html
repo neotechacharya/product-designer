@@ -1,1314 +1,393 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" color-scheme="light">
-
+<html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
-
-  <!-- Page Title -->
-  <title>CallHippo Dashboard Redesign — Case Study | Jigar Acharya, Product Designer</title>
-
-  <!-- Meta Tags -->
-  <meta name="description"
-    content="Case study by Jigar Acharya: Redesigned CallHippo's dashboard to help sales teams understand call performance instantly — without navigating multiple screens. Covers research, design strategy, and outcomes.">
-  <meta name="keywords"
-    content="Jigar Acharya, CallHippo, Dashboard Redesign, Product Designer, UX Case Study, SaaS Design, Analytics Design, Call Performance Dashboard">
+  <title>CallHippo Dashboard Redesign — Case Study | Jigar Acharya</title>
+  <meta name="description" content="Case study by Jigar Acharya: Redesigned CallHippo's dashboard to help sales teams understand call performance instantly — without navigating multiple screens.">
+  <meta name="keywords" content="Jigar Acharya, CallHippo, Dashboard Redesign, Product Designer, UX Case Study, SaaS Design, Analytics Design">
   <meta name="author" content="Jigar Acharya">
   <meta name="robots" content="noindex, nofollow">
-
-  <!-- Viewport Meta-->
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-  <!-- Template Favicon & Icons Start -->
   <link rel="icon" href="img/favicon/favicon.ico" sizes="any">
-  <!--<link rel="icon" href="img/favicon/icon.svg" type="image/svg+xml">-->
   <link rel="apple-touch-icon" href="img/favicon/apple-touch-icon.png">
- 
-  <!-- Template Favicon & Icons End -->
-
-  <!-- Open Graph / Social Metadata Start -->
   <meta property="og:type" content="article">
-  <meta property="og:image:height" content="1200">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:title" content="CallHippo Dashboard Redesign — Case Study | Jigar Acharya, Product Designer">
-  <meta property="og:description"
-    content="Case study by Jigar Acharya: Redesigned CallHippo's dashboard to help sales teams understand call performance instantly — without navigating multiple screens.">
+  <meta property="og:title" content="CallHippo Dashboard Redesign — Case Study | Jigar Acharya">
+  <meta property="og:description" content="Redesigned CallHippo's dashboard to help sales teams understand call performance instantly.">
   <meta property="og:url" content="">
-  <meta property="og:image" content="">
-  <!-- Open Graph / Social Metadata End -->
+  <meta property="og:image" content="img/og-image.jpg">
+  <meta name="theme-color" content="#0a0a0a">
 
-  <!-- Template Styles Start -->
-  <link rel="stylesheet" type="text/css" href="css/loaders/loader.css">
-  <link rel="stylesheet" type="text/css" href="css/plugins.css">
-  <link rel="stylesheet" type="text/css" href="css/main.css">
-  <!-- Template Styles End -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-H7Z239MG7M"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-H7Z239MG7M');</script>
 
-  <!-- Custom Brow justify-content-centerser Color Start -->
-  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FAF7F6">
-  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#161616">
-  <meta name="msapplication-navbutton-color" content="#161616">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-H7Z239MG7M"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
-  gtag('config', 'G-H7Z239MG7M');
-</script>
-  <!-- Custom Brow justify-content-centerser Color End -->
   <style>
-    /* Notebook Persona Cards */
-    .notebook-card {
-      position: relative;
-      border-radius: 1.6rem;
-      padding: 3.6rem 2.8rem 2.8rem;
-      text-align: center;
-      overflow: hidden;
-      border: 1px solid rgba(0, 0, 0, 0.08);
-      height: 100%;
+    /* ── TOKENS ── */
+    :root {
+      --bg:       hsl(0,0%,4%);
+      --surface:  hsl(0,0%,8%);
+      --text:     hsl(0,0%,96%);
+      --muted:    hsl(0,0%,53%);
+      --stroke:   hsl(0,0%,12%);
+      --accent-a: #89AACC;
+      --accent-b: #4E85BF;
     }
 
-    .notebook-card--cream {
-      background: #FFF8E1;
+    /* ── RESET ── */
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+    a{text-decoration:none;color:inherit;}
+    img{display:block;max-width:100%;}
+    button{font-family:inherit;cursor:pointer;border:none;background:none;}
+    video{display:block;}
+
+    /* ── KEYFRAMES ── */
+    @keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(.75);}}
+
+    /* ── MINIMAL GRID ── */
+    .container-fluid,.container-xxl{padding:0;max-width:100%;}
+    .row{display:flex;flex-wrap:wrap;}
+    .justify-content-center{justify-content:center;}
+    .align-items-center{align-items:center;}
+    .gx-0,.g-0{gap:0;}
+    [class*="col-"]{width:100%;flex:0 0 100%;max-width:100%;}
+    .px-0{padding-left:0!important;padding-right:0!important;}
+    .p-0{padding:0!important;}
+    .pb-5{padding-bottom:1.25rem;}.pb-4{padding-bottom:.75rem;}.pb-2{padding-bottom:.5rem;}
+    .pt-4{padding-top:1rem;}
+    .mt-4{margin-top:1rem;}.mt-5{margin-top:1.5rem;}.mb-5{margin-bottom:1.5rem;}.mb-4{margin-bottom:1rem;}
+    .mt-0,.mt-zero{margin-top:0;}.pb-zero{padding-bottom:0;}.no-margin{margin:0;}.pre-grid{border-top:none;padding-top:2.5rem;}
+    .overflow-hidden{overflow:hidden;}.w-100{width:100%;}
+    @media(min-width:1200px){
+      .col-xl-3{flex:0 0 25%;max-width:25%;}
+      .col-xl-4{flex:0 0 33.333%;max-width:33.333%;}
+      .col-xl-5{flex:0 0 41.666%;max-width:41.666%;}
+      .col-xl-10{flex:0 0 83.333%;max-width:83.333%;}
+      .mobpadtop{padding-top:0;}
     }
+    .col-10{flex:0 0 83.333%;max-width:83.333%;}
+    @media(max-width:768px){.col-10{flex:0 0 100%;max-width:100%;}.mobpadtop{padding-top:2rem;}}
 
-    .notebook-card--blue {
-      background: #E3F2FD;
-    }
+    /* ── NAVBAR ── */
+    #navbar{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:center;padding:1rem;pointer-events:none;}
+    .nav__pill{pointer-events:all;display:inline-flex;align-items:center;border-radius:9999px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.08);background:rgba(20,20,20,.9);padding:.4rem .4rem;transition:box-shadow .3s ease;}
+    .nav__pill.scrolled{box-shadow:0 4px 30px rgba(0,0,0,.4);}
+    .nav__logo{width:2.1rem;height:2.1rem;border-radius:50%;position:relative;flex-shrink:0;cursor:pointer;transition:transform .25s ease;}
+    .nav__logo:hover{transform:scale(1.1);}
+    .nav__logo-ring{position:absolute;inset:0;border-radius:50%;background:linear-gradient(135deg,var(--accent-a),var(--accent-b));transition:background .3s;}
+    .nav__logo:hover .nav__logo-ring{background:linear-gradient(315deg,var(--accent-a),var(--accent-b));}
+    .nav__logo-inner{position:absolute;inset:2px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;font-family:'Instrument Serif',serif;font-style:italic;font-size:.72rem;color:var(--text);}
+    .nav__sep{width:1px;height:1.1rem;background:var(--stroke);margin:0 .2rem;}
+    .nav__link{font-size:.78rem;border-radius:9999px;padding:.35rem .8rem;color:var(--muted);transition:color .2s,background .2s;white-space:nowrap;}
+    .nav__link:hover,.nav__link.active{color:var(--text);background:rgba(31,31,31,.6);}
+    .nav__cta{position:relative;border-radius:9999px;cursor:pointer;}
+    .nav__cta::before{content:'';position:absolute;inset:-2px;border-radius:9999px;background:linear-gradient(90deg,var(--accent-a),var(--accent-b));opacity:0;transition:opacity .3s;}
+    .nav__cta:hover::before{opacity:1;}
+    .nav__cta-inner{position:relative;z-index:1;background:rgba(20,20,20,.9);border-radius:9999px;padding:.35rem .8rem;font-size:.78rem;color:var(--text);display:flex;align-items:center;gap:.2rem;backdrop-filter:blur(12px);}
+    @media(max-width:480px){.nav__sep{display:none;}.nav__link{padding:.35rem .55rem;font-size:.72rem;}}
 
-    /* Top dots */
-    .notebook-card__dots-top {
-      display: flex;
-      justify-content: center;
-      gap: 1.4rem;
-      position: absolute;
-      top: 1.2rem;
-      left: 50%;
-      transform: translateX(-50%);
-    }
+    /* ── SCROLL REVEAL ── */
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .75s cubic-bezier(.25,.1,.25,1),transform .75s cubic-bezier(.25,.1,.25,1);}
+    .reveal.vis{opacity:1;transform:translateY(0);}
+    .reveal-delay-1{transition-delay:.1s;}.reveal-delay-2{transition-delay:.2s;}.reveal-delay-3{transition-delay:.3s;}
 
-    .notebook-card__dots-top span {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: rgba(0, 0, 0, 0.12);
-      display: block;
-    }
+    /* ── PAGE WRAPPER ── */
+    .inner-page-content{padding-top:2rem;}
 
-    /* Right dots */
-    .notebook-card__dots-right {
-      display: flex;
-      flex-direction: column;
-      gap: 1.4rem;
-      position: absolute;
-      top: 50%;
-      right: 1.2rem;
-      transform: translateY(-50%);
-    }
+    /* ── HERO SECTION ── */
+    .mxd-section-inner-headline{background:var(--bg);padding:2rem 0 2rem;}
+    .mxd-container{max-width:1200px;margin:0 auto;padding:0 1.5rem;}
+    .grid-container{padding:0 1.5rem;}
+    .mxd-block{width:100%;}
 
-    .notebook-card__dots-right span {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: rgba(0, 0, 0, 0.12);
-      display: block;
-    }
+    .cs-back{display:inline-flex;align-items:center;gap:.5rem;font-size:.78rem;color:var(--muted);border-radius:9999px;padding:.35rem .9rem .35rem .65rem;border:1px solid var(--stroke);margin-bottom:2.5rem;transition:color .2s,border-color .2s;}
+    .cs-back:hover{color:var(--text);border-color:rgba(255,255,255,.12);}
 
-    /* Avatar circle */
-    .notebook-card__avatar {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      background: #F8BBD0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0.8rem auto 1.6rem;
-      font-family: var(--_font-accent);
-      font-weight: 700;
-      font-size: 1.8rem;
-      color: #161616;
-    }
+    .inner-headline__title.csthdtl{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;font-size:clamp(2rem,4.5vw,3.5rem);line-height:1.15;color:var(--text);letter-spacing:-.01em;margin-bottom:.5rem;}
 
-    .notebook-card__title {
-      font-family: var(--_font-accent);
-      font-weight: 700;
-      font-size: 1.8rem;
-      color: #161616;
-      margin-bottom: 1.2rem;
-    }
+    .ovcontext{font-size:.7rem;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);margin-bottom:.75rem;margin-top:1.5rem;}
 
-    .notebook-card__quote {
-      font-style: italic;
-      font-size: 1.5rem;
-      line-height: 1.6;
-      color: #333;
-    }
+    .inner-headline__paragraph p{font-size:.975rem;line-height:1.75;color:var(--muted);margin-bottom:1rem;}
+    .inner-headline__paragraph p:last-child{margin-bottom:0;}
 
-    /* Miro Sticky Notes - Research Insights */
-    .sticky-notes-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2.4rem;
-      margin-top: 3.2rem;
-      align-items: flex-start;
-    }
+    /* meta data grid */
+    .inner-headline__data{margin-top:1.5rem;}
+    .mxd-data-list{border:1px solid var(--stroke);border-radius:1.25rem;overflow:hidden;}
+    .mxd-data-list__column{padding:0;}
+    .mxd-data-list__item{padding:1rem 1.5rem;border-bottom:1px solid var(--stroke);border-right:1px solid var(--stroke);}
+    .mxd-data-list__item:last-child{border-bottom:none;}
+    @media(max-width:768px){.mxd-data-list__item{border-right:none;}}
+    .mxd-data-list__name{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem;}
+    .mxd-data-list__content{font-size:.875rem;color:var(--text);line-height:1.5;}
+    .mxlistitem .mxd-data-list__column:last-child .mxd-data-list__item{border-right:none;}
 
-    .sticky-note {
-      position: relative;
-      background: #FFD54F;
-      padding: 2.4rem 2.4rem 3.6rem;
-      flex: 1 1 260px;
-      min-height: 220px;
-      box-shadow: 3px 6px 18px rgba(0, 0, 0, 0.18), 1px 2px 4px rgba(0, 0, 0, 0.10);
-    }
+    /* ── HERO IMAGE ── */
+    .mxd-section:not(.mxd-section-inner-headline):not(.mxd-project){padding:2rem 0 0;}
+    .mxd-divider{max-width:1200px;margin:0 auto;padding:0 1.5rem;}
+    .mxd-casestudy-card__media{border-radius:1.5rem;overflow:hidden;border:1px solid var(--stroke);position:relative;}
+    .mxd-casestudy-card__media::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(137,170,204,.06) 0%,transparent 60%);z-index:1;pointer-events:none;}
+    .mxd-casestudy-card__media img{width:100%;height:auto;display:block;}
 
-    /* Folded corner effect */
-    .sticky-note::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      width: 36px;
-      height: 36px;
-      background: linear-gradient(225deg, rgba(0, 0, 0, 0.13) 50%, transparent 50%);
-    }
+    /* ── CONTENT BODY ── */
+    .mxd-project{background:var(--bg);padding:2rem 0 6rem;}
+    .mxd-project .mxd-container{max-width:1200px;margin:0 auto;padding:0 1.5rem;}
+    .mxd-grid-item{padding:0 1rem;}
+    @media(max-width:768px){.mxd-grid-item{padding:0;}}
 
-    /* Alternating slight rotations for Miro feel */
-    .sticky-note:nth-child(1) { transform: rotate(-1.4deg); }
-    .sticky-note:nth-child(2) { transform: rotate(0.9deg); }
-    .sticky-note:nth-child(3) { transform: rotate(-0.6deg); }
+    /* ── PROJECT BLOCKS ── */
+    .mxd-project__block{padding:2.5rem 0;border-top:1px solid var(--stroke);}
+    .mxd-project__block.no-margin{padding-top:1rem;border-top:none;}
+    .mxd-project__block.pre-grid{border-top:none;padding-top:2.5rem;}
+    .mxd-project__block.pre-grid + .mxd-project__block.no-margin{border-top:none;}
 
-    .sticky-note__number {
-      font-size: 1.1rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: rgba(0, 0, 0, 0.4);
-      margin-bottom: 1.4rem;
-    }
+    .mxd-project__subtitle h2,
+    .mxd-project__subtitle .reveal-type{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;font-size:clamp(1.75rem,3vw,2.5rem);color:var(--text);line-height:1.2;margin-bottom:.75rem;}
 
-    .sticky-note__title {
-      font-family: var(--_font-accent);
-      font-weight: 700;
-      font-size: 1.55rem;
-      line-height: 1.4;
-      color: #1a1a1a;
-      margin-bottom: 1.2rem;
-    }
+    .mxd-project__subtitle h5.reveal-type.ptctmts,
+    .mxd-project__subtitle h5.ptctmts{font-family:'Inter',sans-serif;font-style:normal;font-size:1rem;font-weight:600;color:var(--text);margin:1.25rem 0 .5rem;letter-spacing:0;}
 
-    .sticky-note__text {
-      font-size: 1.4rem;
-      line-height: 1.65;
-      color: #2a2a2a;
-    }
+    .casestudypage p{font-size:.95rem;line-height:1.75;color:var(--muted);margin-bottom:1rem;}
+    .casestudypage p:last-child{margin-bottom:0;}
+    .casestudypage p.t-bright{color:var(--text);}
+    .sticky-note p,.notebook-card p,.pain-card p,.solution-card p{margin-bottom:0;}
+    .sticky-note__number{color:rgba(0,0,0,.45)!important;}
+    .sticky-note__title{color:#1a1a1a!important;}
+    .sticky-note__text{color:#2a2a2a!important;}
 
-    /* Bootstrap container-xxl fix: prevent double-padding from mxd-container.grid-container
-       at 1400px+ where container-xxl takes effect (max-width: 1320px) */
-    @media only screen and (min-width: 1400px) {
-      #mxd-page-content .mxd-container.grid-container {
-        padding-left: 0;
-        padding-right: 0;
-        max-width: 100%;
-      }
-    }
+    /* text utilities */
+    .t-large{font-size:1rem;}
+    .t-bright{color:var(--text)!important;}
+    .fnbold{font-weight:600;}
+    .t-muted{color:var(--muted)!important;}
+    .t-small{font-size:.875rem;}
+    .t-xsmall{font-size:.78rem;}
+    .goalpt{margin-bottom:.25rem;}
 
-    /* Outcome List */
-    .outcome-list {
-      display: flex;
-      flex-direction: column;
-      gap: 2.4rem;
-      margin-top: 2rem;
-    }
+    /* images inline */
+    .img-container{margin:1rem 0;}
+    .img-container img{border-radius:1rem;}
+    .imccutcont{}
+    .brdcol{border-radius:1rem;border:1px solid var(--stroke);width:100%;height:auto;}
 
-    .outcome-item {
-      display: flex;
-      gap: 1.4rem;
-      align-items: flex-start;
-    }
+    /* videos */
+    .bg-base-tint{background:var(--surface);border-radius:1.25rem;border:1px solid var(--stroke);overflow:hidden;}
+    .brdcol.w-100{border-radius:1rem;}
+    .radius-m{border-radius:1.25rem;}
 
-    .outcome-item__icon {
-      color: #22c55e;
-      font-size: 2rem;
-      flex-shrink: 0;
-      line-height: 1.3;
-    }
+    /* ── NOTEBOOK PERSONA CARDS ── */
+    .mxd-project-cards{width:100%;}
+    .mxd-project-cards__item{padding-top:.75rem;display:flex;}
+    .mxd-project-cards__inner{background:var(--surface);border:1px solid var(--stroke);border-radius:1.25rem;width:100%;}
+    .bg-accent.bg-accentgreen{background:rgba(34,197,94,.06)!important;border-color:rgba(34,197,94,.2)!important;}
 
-    .outcome-item__title {
-      font-weight: 700;
-    
-      line-height: 1.4;
-      color: #161616;
-      margin-bottom: 0.5rem;
-    }
+    .notebook-card{position:relative;background:var(--surface);border:1px solid var(--stroke);border-radius:1.25rem;padding:2rem 1.75rem;text-align:center;overflow:hidden;}
+    .notebook-card__dots-top,.notebook-card__dots-right{display:none;}
+    .notebook-card__avatar{width:2.75rem;height:2.75rem;border-radius:50%;background:rgba(137,170,204,.1);border:1px solid rgba(137,170,204,.25);display:flex;align-items:center;justify-content:center;margin:.5rem auto 1rem;font-size:.72rem;font-weight:600;color:var(--accent-a);}
+    .notebook-card__title{font-size:.9rem;font-weight:600;color:var(--text);margin-bottom:.75rem;}
+    .notebook-card__quote{font-size:.875rem;font-style:italic;line-height:1.7;color:var(--muted);}
 
-    .outcome-item__desc {
-      font-size: 1.55rem;
-      line-height: 1.65;
-   
-    }
+    /* ── STICKY NOTES (yellow — intentional research artefact) ── */
+    .sticky-notes-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;margin:1.5rem 0;}
+    .sticky-note{position:relative;background:#F5C842;padding:1.75rem 1.75rem 2.5rem;border-radius:.25rem;box-shadow:3px 6px 20px rgba(0,0,0,.4),1px 2px 4px rgba(0,0,0,.2);}
+    .sticky-note::after{content:'';position:absolute;bottom:0;right:0;width:32px;height:32px;background:linear-gradient(225deg,rgba(0,0,0,.15) 50%,transparent 50%);}
+    .sticky-note:nth-child(1){transform:rotate(-1.2deg);}
+    .sticky-note:nth-child(2){transform:rotate(.8deg);}
+    .sticky-note:nth-child(3){transform:rotate(-.5deg);}
+    .sticky-note__number{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:rgba(0,0,0,.45);margin-bottom:.75rem;}
+    .sticky-note__title{font-size:.9rem;font-weight:700;line-height:1.4;color:#1a1a1a;margin-bottom:.6rem;}
+    .sticky-note__text{font-size:.85rem;line-height:1.6;color:#2a2a2a;}
 
-    /* Result Metric Block */
-    .result-metric-block {
-      background: #F7F7F7;
-      border-radius: 1.6rem;
-      padding: 3.2rem;
-      margin-top: 2rem;
-    }
+    /* ── PAIN CARDS ── */
+    .pain-cards-row{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin:1.5rem 0;}
+    @media(max-width:640px){.pain-cards-row{grid-template-columns:1fr;}}
+    .pain-card{background:var(--surface);border:1px solid var(--stroke);border-radius:1.25rem;padding:1.75rem;border-top:3px solid;}
+    .pain-card--cream{border-top-color:rgba(137,170,204,.5);}
+    .pain-card--blue{border-top-color:rgba(78,133,191,.5);}
+    .pain-card__role{font-size:.68rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--accent-a);margin-bottom:1.25rem;}
+    .pain-card__item{font-size:.875rem;line-height:1.65;color:var(--muted);margin-bottom:.9rem;}
+    .pain-card__item:last-child{margin-bottom:0;}
+    .pain-card__label{font-weight:600;color:var(--text);}
 
-    .result-metric__number {
-      font-size: 7.2rem;
-      font-weight: 700;
-      line-height: 1;
-      color: #161616;
-      font-family: var(--_font-accent);
-      margin-bottom: 0.6rem;
-    }
+    /* ── SOLUTION CARDS ── */
+    .solution-cards{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin:1.5rem 0;}
+    @media(max-width:640px){.solution-cards{grid-template-columns:1fr;}}
+    .solution-card{background:var(--surface);border:1px solid var(--stroke);border-radius:1.25rem;padding:1.75rem;}
+    .solution-card--green{border-top:3px solid rgba(34,197,94,.35);}
+    .solution-card--peach{border-top:3px solid rgba(137,170,204,.35);}
+    .solution-card__num{font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:.75rem;}
+    .solution-card__title{font-size:.95rem;font-weight:600;color:var(--text);line-height:1.4;margin-bottom:.5rem;}
+    .solution-card__desc{font-size:.875rem;line-height:1.65;color:var(--muted);}
 
-    .result-metric__label {
-      font-size: 1.3rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: #999;
-      margin-bottom: 2.4rem;
-    }
+    /* ── PROBLEM RESULT LIST ── */
+    .problem-result-list{display:flex;flex-direction:column;gap:1rem;margin:1.25rem 0 1.75rem;}
+    .problem-result-item{display:flex;align-items:flex-start;gap:.75rem;}
+    .problem-result-item__icon{color:rgba(137,170,204,.55);font-size:.9rem;flex-shrink:0;line-height:1.7;font-style:normal;}
+    .problem-result-item__text{font-size:.9rem;line-height:1.65;color:var(--muted);}
+    .problem-result-item__text strong{color:var(--text);font-weight:600;}
 
-    .result-metric__progress {
-      font-family: var(--_font-accent);
-      font-weight: 700;
-      font-size: 2rem;
-      color: #333;
-      margin-bottom: 1.4rem;
-    }
+    /* ── SETUP STEPS ── */
+    .setup-steps{display:flex;flex-direction:column;gap:.5rem;margin:1rem 0;}
+    .setup-step{display:flex;gap:1rem;align-items:flex-start;}
+    .setup-step__icon{color:var(--accent-a);font-size:.7rem;flex-shrink:0;line-height:1.8;letter-spacing:-.08em;opacity:.7;font-style:normal;}
+    .setup-step__text{font-size:.9rem;line-height:1.65;color:var(--muted);}
+    .setup-step__text strong{color:var(--text);font-weight:600;}
 
-    .result-metric__desc p {
-      font-size: 1.5rem;
-      line-height: 1.7;
-      color: #555;
-      margin-bottom: 0.8rem;
-    }
+    /* ── OUTCOME LIST ── */
+    .outcome-list{display:flex;flex-direction:column;gap:1.5rem;margin:1rem 0;}
+    .outcome-item{display:flex;gap:1rem;align-items:flex-start;}
+    .outcome-item__icon{color:#22c55e;font-size:1.1rem;flex-shrink:0;line-height:1.5;font-style:normal;}
+    .outcome-item__title{font-size:.9rem;font-weight:600;color:var(--text);margin-bottom:.25rem;line-height:1.4;}
+    .outcome-item__desc{font-size:.875rem;line-height:1.65;color:var(--muted);}
 
-    .result-metric__desc p:last-child {
-      margin-bottom: 0;
-    }
+    /* ── IMG BORDERED CAPTION ── */
+    .img-bordered-caption{border:1px solid var(--stroke);border-radius:1.25rem;padding:1.5rem 1.5rem 0;background:var(--surface);margin:1.25rem 0;}
+    .img-bordered-caption img{width:100%;border-radius:.75rem;}
+    .img-bordered-caption__caption{padding:1rem .5rem 1.25rem;text-align:center;font-size:.78rem;color:var(--muted);line-height:1.6;}
 
-    /* Solution Cards - 2 column grid */
-    .solution-cards {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      margin-bottom: 3.2rem;
-    }
+    /* ── FOOTER ── */
+    #mxd-footer{border-top:1px solid var(--stroke);padding:1.5rem;}
+    .footer-minimal__bar{display:flex;justify-content:space-between;align-items:center;max-width:1200px;margin:0 auto;padding:0 1.5rem;}
+    .footer-minimal__bar span{font-size:.78rem;color:var(--muted);}
+    .footer-minimal__label{text-transform:uppercase;letter-spacing:.12em;font-size:.68rem;font-weight:600;}
+    .footer-minimal__divider{display:none;}
 
-    .solution-card {
-      border-radius: 1.6rem;
-      padding: 2.8rem;
-      border: 1px solid rgba(0, 0, 0, 0.07);
-    }
+    /* ── SECTION NAV ── */
+    #btn-back,#to-top,.mxd-nav__wrap,.mxd-header{display:none!important;}
 
-    .solution-card--green { background: #EAF3EE; }
-    .solution-card--peach { background: #FFF3EB; }
+    .case-section-nav{display:none;position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);z-index:100;background:rgba(20,20,20,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.08);border-radius:9999px;padding:.4rem;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .3s ease;box-shadow:0 4px 30px rgba(0,0,0,.5);}
+    .case-section-nav.is-visible{opacity:1;pointer-events:auto;}
+    @media(min-width:1024px){.case-section-nav{display:flex;align-items:center;gap:.1rem;}}
 
-    .solution-card__num {
-      font-size: 1.1rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: rgba(0, 0, 0, 0.32);
-      margin-bottom: 1.2rem;
-    }
+    .case-section-nav__item{display:inline-flex;align-items:center;padding:.35rem .8rem;border-radius:9999px;font-size:.72rem;font-weight:500;color:var(--muted);cursor:pointer;border:none;background:transparent;transition:background .2s,color .2s;text-decoration:none;}
+    .case-section-nav__item:hover{background:rgba(255,255,255,.06);color:var(--text);}
+    .case-section-nav__item.is-active{background:var(--text);color:var(--bg);}
 
-    .solution-card__title {
-      font-family: var(--_font-accent);
-      font-weight: 700;
-      font-size: 1.8rem;
-      color: #161616;
-      line-height: 1.3;
-      margin-bottom: 1rem;
-    }
+    .case-section-nav__side-btn{flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:2.1rem;height:2.1rem;border-radius:50%;background:transparent;border:none;cursor:pointer;color:var(--muted);font-size:.85rem;text-decoration:none;transition:background .2s,color .2s;}
+    .case-section-nav__side-btn:hover{background:rgba(255,255,255,.06);color:var(--text);}
 
-    .solution-card__desc {
-      font-size: 1.55rem;
-      line-height: 1.65;
-      color: #444;
-      margin: 0;
-    }
-
-    @media (max-width: 640px) {
-      .solution-cards { grid-template-columns: 1fr; }
-    }
-
-    /* Setup Steps List */
-    .setup-steps {
-      display: flex;
-      flex-direction: column;
-      gap: 2.4rem;
-      margin-top: 2.4rem;
-    }
-
-    .setup-step {
-      display: flex;
-      gap: 1.4rem;
-      align-items: flex-start;
-    }
-
-    .setup-step__icon {
-      color: #5B6CF9;
-      font-size: 1.5rem;
-      flex-shrink: 0;
-      margin-top: 0.15rem;
-      letter-spacing: -0.12em;
-      line-height: 1.6;
-    }
-
-    .setup-step__text {
-     
-      line-height: 1.65;
-      color: var(--_color-base, #161616);
-    }
-
-    .setup-step__text strong {
-      font-weight: 700;
-    }
-
-    /* Bordered image with caption */
-    .img-bordered-caption {
-      border: 1px solid rgba(0, 0, 0, 0.12);
-      border-radius: 1.6rem;
-      padding: 2rem 2rem 0;
-      background: #fff;
-      margin-top: 2rem;
-    }
-
-    .img-bordered-caption img {
-      width: 100%;
-      height: auto;
-      display: block;
-      border-radius: 0.8rem;
-    }
-
-    .img-bordered-caption__caption {
-      padding: 1.6rem 1rem 1.8rem;
-      text-align: center;
-      font-size: 1.35rem;
-      color: #888;
-      line-height: 1.6;
-    }
-
-    /* Pain Cards - Key User Needs */
-    .pain-cards-row {
-      display: flex;
-      gap: 2.4rem;
-      flex-wrap: wrap;
-      margin-top: 3rem;
-    }
-
-    .pain-card {
-      flex: 1 1 280px;
-      border-radius: 1.6rem;
-      padding: 2.8rem 2.4rem;
-      border: 1px solid rgba(0, 0, 0, 0.08);
-    }
-
-    .pain-card--cream {
-      background: #FFF8E1;
-    }
-
-    .pain-card--blue {
-      background: #E3F2FD;
-    }
-
-    .pain-card__role {
-      font-family: var(--_font-accent);
-      font-weight: 700;
-      font-size: 1.2rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: #E07B39;
-      margin-bottom: 2rem;
-    }
-
-    .pain-card__item {
-      margin-bottom: 1.6rem;
-      font-size: 1.5rem;
-      line-height: 1.65;
-      color: #333;
-    }
-
-    .pain-card__item:last-child {
-      margin-bottom: 0;
-    }
-
-    .pain-card__label {
-      font-weight: 700;
-      color: #161616;
-    }
-
-    /* Problem Result List */
-    .problem-result-list {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      margin: 1rem 0 2.8rem;
-    }
-
-    .problem-result-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 1.2rem;
-    }
-
-    .problem-result-item__icon {
-      color: #E03131;
-     
-      flex-shrink: 0;
-      line-height: 1.4;
-    }
-
-    .problem-result-item__text {
-     
-      line-height: 1.6;
-      color: #333;
-    }
-
-    .problem-result-item__text strong {
-      font-weight: 700;
-      color: #161616;
-    }
-
-    /* Remove inline gap below video elements */
-    video {
-      display: block;
-    }
+    .case-section-nav__sep{display:block;width:1px;height:1.1rem;background:var(--stroke);flex-shrink:0;margin:0 .25rem;}
   </style>
-
-  <!-- Minimal Footer Styles Start -->
-  <style>
-    .mxd-footer--minimal {
-      padding: 0;
-      background: transparent;
-      border-top: none;
-    }
-
-    .mxd-footer--minimal .footer-minimal__divider {
-      border-top: 1px solid rgba(0, 0, 0, 0.12);
-      margin: 0 3rem;
-    }
-
-    .mxd-footer--minimal .footer-minimal__bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 2.4rem 3rem;
-      font-size: 1.3rem;
-      color: var(--_color-muted, #888);
-    }
-
-    .mxd-footer--minimal .footer-minimal__label {
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      font-weight: 600;
-    }
-  </style>
-  <!-- Minimal Footer Styles End -->
-
-  <!-- Section Nav Styles Start -->
-  <style>
-    .case-section-nav {
-      display: none;
-      position: fixed;
-      bottom: 2.4rem;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 1000;
-      background: rgba(255, 255, 255, 0.92);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(0, 0, 0, 0.08);
-      border-radius: 10rem;
-      padding: 0.5rem;
-      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.10), 0 1px 4px rgba(0,0,0,0.06);
-      white-space: nowrap;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-    }
-
-    .case-section-nav.is-visible {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    @media (min-width: 1024px) {
-      .case-section-nav {
-        display: flex;
-        align-items: center;
-        gap: 0.2rem;
-      }
-    }
-
-    .case-section-nav__item {
-      display: inline-flex;
-      align-items: center;
-      padding: 0.8rem 1.4rem;
-      border-radius: 10rem;
-      font-size: 1.25rem;
-      font-weight: 500;
-      color: #555;
-      text-decoration: none;
-      transition: background 0.2s ease, color 0.2s ease;
-      cursor: pointer;
-      border: none;
-      background: transparent;
-      letter-spacing: -0.01em;
-    }
-
-    .case-section-nav__item:hover {
-      background: rgba(0, 0, 0, 0.06);
-      color: #111;
-    }
-
-    .case-section-nav__item.is-active {
-      background: #111;
-      color: #fff;
-    }
-
-    .case-section-nav__side-btn {
-      flex-shrink: 0;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 4rem;
-      height: 4rem;
-      border-radius: 50%;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      color: #555;
-      text-decoration: none;
-      font-size: 1.8rem;
-      transition: background 0.2s ease, color 0.2s ease;
-    }
-
-    .case-section-nav__side-btn:hover {
-      background: rgba(0, 0, 0, 0.06);
-      color: #111;
-    }
-
-    .case-section-nav__sep {
-      display: block;
-      width: 1px;
-      height: 2rem;
-      background: rgba(0, 0, 0, 0.12);
-      flex-shrink: 0;
-      margin: 0 0.4rem;
-    }
-
-    #btn-back,
-    .mxd-nav__contain,
-    #to-top {
-      display: none !important;
-    }
-
-    [color-scheme="dark"] .case-section-nav {
-      background: rgba(30, 30, 30, 0.92);
-      border-color: rgba(255, 255, 255, 0.08);
-      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4), 0 1px 4px rgba(0,0,0,0.2);
-    }
-
-    [color-scheme="dark"] .case-section-nav__item {
-      color: #aaa;
-    }
-
-    [color-scheme="dark"] .case-section-nav__item:hover {
-      background: rgba(255, 255, 255, 0.08);
-      color: #eee;
-    }
-
-    [color-scheme="dark"] .case-section-nav__item.is-active {
-      background: #fff;
-      color: #111;
-    }
-
-    [color-scheme="dark"] .case-section-nav__side-btn {
-      color: #aaa;
-    }
-
-    [color-scheme="dark"] .case-section-nav__side-btn:hover {
-      background: rgba(255, 255, 255, 0.08);
-      color: #eee;
-    }
-
-    [color-scheme="dark"] .case-section-nav__sep {
-      background: rgba(255, 255, 255, 0.15);
-    }
-  </style>
-  <!-- Section Nav Styles End -->
-
 </head>
 
 <body>
 
-  <!-- Loader Start -->
-  <div id="loader" class="loader">
-    <div class="loader__wrapper">
-      <div class="loader__content">
-        <div class="loader__count">
-          <span class="count__text">0</span>
-          <span class="count__percent">%</span>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Loader End -->
+<!-- ── PAGE CONTENT ── -->
+<main id="mxd-page-content" class="inner-page-content container-xxl casestudypage">
 
-  <!-- Menu & Menu Hamburger Start -->
-  <nav class="mxd-nav__wrap" data-lenis-prevent="">
+  <!-- Hero -->
+  <div class="mxd-section mxd-section-inner-headline padding-default">
+    <div class="mxd-container grid-container">
+      <div class="mxd-block loading-wrap">
+        <div class="container-fluid px-0">
 
-    <!-- Hamburger Start -->
-    <div class="mxd-nav__contain loading__fade">
-      <a href="#0" class="mxd-nav__hamburger">
-        <!-- flip element -->
-        <div class="hamburger__base"></div>
-        <div class="hamburger__line"></div>
-        <div class="hamburger__line"></div>
-      </a>
-    </div>
-    <!-- Hamburger End -->
-
-    <!-- Main Navigation Start -->
-     <div class="mxd-menu__wrapper">
-      <!-- background active layer -->
-      <div class="mxd-menu__base"></div>
-      <!-- menu container -->
-      <div class="mxd-menu__contain">
-        <div class="mxd-menu__inner">
-          <!-- left side -->
-          <div class="mxd-menu__left">
-            <p class="mxd-menu__caption menu-fade-in">🦄 Designing thoughtful digital products that solve real user problems.</p>
-            <div class="main-menu">
-              <nav class="main-menu__content">
-                 <ul id="main-menu" class="main-menu__accordion">
-                  <li class="main-menu__item">
-                    <a class="main-menu__link btn btn-anim" href="index.html">
-                      <span class="btn-caption">Home</span>
-                    </a>
-                  </li>
-                  <li class="main-menu__item">
-                    <a class="main-menu__link btn btn-anim" href="/product-designer/#selected-projects">
-                      <span class="btn-caption">Works</span>
-                    </a>
-                  </li>
-                  <li class="main-menu__item">
-                    <a class="main-menu__link btn btn-anim" target="_blank" href="https://docs.google.com/document/u/0/d/1Db1YSHKft4BW7J3I2k3m9swv6gRHIpNe/">
-                      <span class="btn-caption">Resume</span>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-          </div>
-          <!-- right side -->
-          <div class="mxd-menu__right">
-            <div class="menu-promo">
-              <div class="menu-promo__content">
-                <p class="menu-promo__caption menu-fade-in">👋 Nice to see you!<br>I'm Jigar Acharya, A Lead Product Designer specializing in AI and SaaS platforms</p>
-                <div class="menu-promo__video">
-                  <img src="./img/banner/headerbanner.jpg" alt="header video">
+          <div class="row justify-content-center gx-0">
+            <div class="col-12 col-xl-10 mxd-grid-item mb-5 mt-0">
+              <div class="mxd-block__content">
+                <div class="mxd-block__inner-headline loading__item">
+                  <h1 class="inner-headline__title csthdtl">Redesigned the call analytics dashboard</h1>
                 </div>
               </div>
             </div>
+            <div class="col-12"></div>
           </div>
-          <!-- data bottom line -->
-          <div class="mxd-menu__data menu-fade-in">
-           <p class="t-xsmall">
-          
-                <a class="no-effect" href="mailto:jigaracharya3@gmail.com" target="_blank">jigaracharya3@gmail.com</a>
-              </p>
-            <p class="t-xsmall">
-              <i class="ph ph-copyright"></i>
-              Jigar Acharya 2026
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Main Navigation End -->
 
-  </nav>
-  <!-- Menu & Menu Hamburger End -->
-
-  <!-- Header Start -->
-   <header id="header" class="mxd-header">
-    <!-- header logo -->
-    <div class="mxd-header__logo loading__fade">
-      <a href="index.html" class="mxd-logo">
-        <!-- logo icon -->
-        <div class="mxd-logo__image">
-          <img class="brd50d" src="./img/jic_lg.svg" alt="profile pic">
-        </div>
-        
-        <!-- logo text -->
-        <span class="mxd-logo__text">Jigar<br>Acharya</span>
-      </a>
-    </div>
-    <!-- header controls -->
-    <div class="mxd-header__controls loading__fade">
-      <button id="color-switcher" class="mxd-color-switcher" type="button" role="switch" aria-label="light/dark mode"
-        aria-checked="true"></button>
-      <a class="btn btn-anim btn-default btn-mobile-icon btn-outline slide-right-up" href="https://www.linkedin.com/in/jigar-acharya-722232ab/">
-        <span class="btn-caption">Say Hello</span>
-        <i class="ph-bold ph-arrow justify-content-center-up-right"></i>
-      </a>
-    </div>
-  </header>
-  <!-- Header End -->
-
-  <!-- Page Content Start -->
-  <main id="mxd-page-content" class="mxd-page-content inner-page-content container-xxl casestudypage">
-
-    <!-- Section - Inner Page Headline Start -->
-    <div class="mxd-section mxd-section-inner-headline padding-default">
-      <div class="mxd-container grid-container">
-
-        <!-- Block - Inner Page Headline Start -->
-        <div class="mxd-block loading-wrap">
-          <div class="container-fluid px-0">
-            <div class="row justify-content-center gx-0">
-
-              <!-- Inner Headline Name Start -->
-            
-              <!-- Inner Headline Name Start -->
-
-              <!-- Inner Headline Content Start -->
-              <div class="col-12 col-xl-10 mxd-grid-item mb-5 mt-0">
-                <div class="mxd-block__content">
-                  <div class="mxd-block__inner-headline loading__item">
-                    <h1 class="inner-headline__title csthdtl">Redesigned the call analytics dashboard</h1>
-                  </div>
-                </div>
+          <div class="row justify-content-center g-0">
+            <div class="col-12 col-xl-10 mxd-grid-item no-margin">
+              <h5 class="ovcontext mxd-block__inner-headline loading__item">Overview & Context</h5>
+              <div class="inner-headline__paragraph loading__item mt-4">
+                <p class="pb-4">CallHippo is a cloud-based business phone system used by sales and support teams to manage inbound and outbound calls across global markets.</p>
+                <p>As the product grew and call data increased, the existing dashboard struggled to communicate meaningful insights. Managers could see large amounts of data, but they couldn't quickly understand what was actually happening with their team's call performance. The redesign focused on transforming the dashboard from a data display interface into a decision-support tool.</p>
               </div>
-              <!-- Inner Headline Content End -->
 
-              <!-- Inner Headline Aside Start -->
-              <div class="col-12"></div>
-              <!-- Inner Headline Aside End -->
-
-            </div>
-            <div class="row justify-content-center g-0">
-             
-
-              <!-- Inner Headline Paragraph & Data Start -->
-              <div class="col-12 col-xl-10 mxd-grid-item no-margin">
-                <h5 class="ovcontext mxd-block__inner-headline loading__item">Overview & Context</h5>
-                <div class="inner-headline__paragraph loading__item mt-4">
-                  <p class="pb-4">CallHippo is a cloud-based business phone system used by sales and support teams to manage inbound and outbound calls across global markets.</p>
-                  <p>As the product grew and call data increased, the existing dashboard struggled to communicate meaningful insights. Managers could see large amounts of data, but they couldn’t quickly understand what was actually happening with their team’s call performance. The redesign focused on transforming the dashboard from a data display interface into a decision-support tool.</p>
-                </div>
-
-                <div class="inner-headline__data">
-                  <div class="mxd-data-list">
-                    <div class="container-fluid p-0">
-                      <div class="row g-0 mxlistitem">
-                        <div class="col-12 col-md-6 col-xl-5 mxd-data-list__column loading__item">
-                          <div class="mxd-data-list__item">
-                            <p class="mxd-data-list__name">Role</p>
-                            <p class="mxd-data-list__content">Lead Product Designer</p>
-                          </div>
-                          <div class="mxd-data-list__item">
-                            <p class="mxd-data-list__name">Responsibilities</p>
-                            <p class="mxd-data-list__content">UX Research, Information Architecture, UI Design, Engineering Collaboration</p>
-                          </div>
+              <div class="inner-headline__data">
+                <div class="mxd-data-list">
+                  <div class="container-fluid p-0">
+                    <div class="row g-0 mxlistitem">
+                      <div class="col-12 col-md-6 col-xl-5 mxd-data-list__column loading__item">
+                        <div class="mxd-data-list__item">
+                          <p class="mxd-data-list__name">Role</p>
+                          <p class="mxd-data-list__content">Lead Product Designer</p>
                         </div>
-                        <div class="col-12 col-md-6 col-xl-5 mxd-data-list__column loading__item">
-
-                          <div class="mxd-data-list__item">
-                            <p class="mxd-data-list__name">Collaborators</p>
-                            <p class="mxd-data-list__content">Product Manager, 2 Engineers, QA</p>
-                          </div>
-                          <div class="mxd-data-list__item">
-                            <p class="mxd-data-list__name">Duration</p>
-                            <p class="mxd-data-list__content">3 Weeks</p>
-                          </div>
+                        <div class="mxd-data-list__item">
+                          <p class="mxd-data-list__name">Responsibilities</p>
+                          <p class="mxd-data-list__content">UX Research, Information Architecture, UI Design, Engineering Collaboration</p>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6 col-xl-5 mxd-data-list__column loading__item">
+                        <div class="mxd-data-list__item">
+                          <p class="mxd-data-list__name">Collaborators</p>
+                          <p class="mxd-data-list__content">Product Manager, 2 Engineers, QA</p>
+                        </div>
+                        <div class="mxd-data-list__item">
+                          <p class="mxd-data-list__name">Duration</p>
+                          <p class="mxd-data-list__content">3 Weeks</p>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-
               </div>
-              <!-- Inner Headline Paragraph & Data End -->
-
-              <!-- Inner Headline Tags Start -->
 
             </div>
-            <!-- Inner Headline Tags End -->
-
-          </div>
-        </div>
-        <!-- Block - Inner Page Headline End -->
-
-      </div>
-    </div>
-    <!-- Section - Inner Page Headline End -->
-
-    <!-- Section - Parallax Divider Start -->
-    <div class="mxd-section">
-      <div class="mxd-container">
-        <div class="mxd-divider loading__fade brdrdisq">
-          <div class="mxd-casestudy-card__media">
-            <img src="./img/banner/dashboard-hero.png" alt="CallHippo Dashboard Redesign">
           </div>
         </div>
       </div>
     </div>
-    <!-- Section - Parallax Divider End -->
+  </div>
 
-    <!-- Section - Project Details Start -->
-    <div class="mxd-section mxd-project overflow-hidden">
-      <div class="mxd-container grid-container">
+  <!-- Hero Image -->
+  <div class="mxd-section">
+    <div class="mxd-container">
+      <div class="mxd-divider loading__fade brdrdisq">
+        <div class="mxd-casestudy-card__media">
+          <img src="./img/banner/dashboard-hero.png" alt="CallHippo Dashboard Redesign">
+        </div>
+      </div>
+    </div>
+  </div>
 
-        <!-- Project Block - Problem Start -->
-        <div id="sec-problem" class="mxd-project__block pre-grid">
-          <div class="container-fluid px-0">
-            <div class="row justify-content-center gx-0">
-              <div class="col-12 col-xl-10 mxd-grid-item no-margin">
-                <div class="mxd-project__subtitle">
-                  <h2 class="reveal-type anim-uni-in-up pb-5">Problem</h2>
-<div class="mxd-project__content">
+  <!-- Content -->
+  <div class="mxd-section mxd-project overflow-hidden">
+    <div class="mxd-container grid-container">
+
+      <!-- Problem -->
+      <div id="sec-problem" class="mxd-project__block pre-grid">
+        <div class="container-fluid px-0">
+          <div class="row justify-content-center gx-0">
+            <div class="col-12 col-xl-10 mxd-grid-item no-margin">
+              <div class="mxd-project__subtitle">
+                <h2 class="reveal-type anim-uni-in-up">Problem</h2>
+                <div class="mxd-project__content">
                   <div class="pb-5">
-                    <p class="t-large t-bright anim-uni-in-up pb-4 fnbold">The original dashboard presented many metrics but lacked clear prioritization and structure.</p>
+                    <p class="t-large t-bright anim-uni-in-up fnbold">The original dashboard presented many metrics but lacked clear prioritization and structure.</p>
                     <p class="anim-uni-in-up pb-4">Managers opening the dashboard were confronted with a large collection of numbers with little context. Answering simple questions such as "Are we missing more calls this week?", "Is outbound performance improving?", or "Which agents are handling the most calls?" required navigating across multiple screens and manually connecting information.</p>
-                    <p class="t-large t-bright anim-uni-in-up pb-2 fnbold">As a result:</p>
+                    <p class="t-large t-bright anim-uni-in-up fnbold">As a result:</p>
                     <div class="problem-result-list">
                       <div class="problem-result-item anim-uni-in-up">
-                        <i class="ph-bold ph-warning-circle problem-result-item__icon"></i>
+                        <i class="ph-bold ph-warning-circle problem-result-item__icon">⚠</i>
                         <p class="problem-result-item__text"><strong>Performance trends were difficult to identify:</strong> Managers had to manually export data and cross-reference screens to spot any patterns.</p>
                       </div>
                       <div class="problem-result-item anim-uni-in-up">
-                        <i class="ph-bold ph-warning-circle problem-result-item__icon"></i>
+                        <i class="ph-bold ph-warning-circle problem-result-item__icon">⚠</i>
                         <p class="problem-result-item__text"><strong>Missed calls went unexplained:</strong> Teams could see the count but had no way to understand the underlying cause.</p>
                       </div>
                       <div class="problem-result-item anim-uni-in-up">
-                        <i class="ph-bold ph-warning-circle problem-result-item__icon"></i>
+                        <i class="ph-bold ph-warning-circle problem-result-item__icon">⚠</i>
                         <p class="problem-result-item__text"><strong>Teams struggled to take action quickly:</strong> Without clear signals, operational decisions relied on guesswork rather than evidence.</p>
                       </div>
                     </div>
                     <p class="anim-uni-in-up">The system generated data, but it did not generate insight.</p>
                   </div>
-                   <div class="mxd-project__subtitle">
-
-                  <div class="img-container imccutcont">
-                    <img class="brdcol" src="./img/works/Callhippo-old-Dashboard.png" alt="Dashboard Problem">
-                  </div>
-                </div>
-                </div>
-                </div>
-              </div>
-            </div>
-          
-          </div>
-        </div>
-        <!-- Project Block - Problem End -->
-
-        <!-- Project Block - Design Goals Start -->
-        <div id="sec-goals" class="mxd-project__block mb-4">
-          <div class="container-fluid px-0">
-            <div class="row justify-content-center gx-0">
-              <div class="col-12 col-xl-10 mxd-grid-item no-margin">
-                <div class="mxd-project__subtitle">
-                  <h2 class="reveal-type anim-uni-in-up">Design Goals</h2>
-                </div>
-              </div>
-              <div class="col-12 col-xl-10 mxd-grid-item">
-                <div class="mxd-project__content">
-                  <div class="mxd-project__paragraph medium-text">
-                    <p class="anim-uni-in-up">Before exploring solutions, I defined three goals that would guide the redesign.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Project Block - Design Goals Table -->
-        <div class="mxd-project__block no-margin">
-          <div class="mxd-project-cards">
-            <div class="container-fluid px-0">
-              <div class="row justify-content-center gx-0">
-
-                <div class="col-12 col-xl-3 mxd-project-cards__item mxd-grid-item anim-uni-scale-in-left">
-                  <div class="mxd-project-cards__inner bg-base-tint radius-m" style="padding: 2.4rem;">
-                    <p class="t-small t-muted"
-                      style="text-transform: uppercase; letter-spacing: 0.1rem; margin-bottom: 0.8rem;">Goal 1</p>
-                    <p>Make call performance understandable within seconds of opening the dashboard.</p>
-                  </div>
-                </div>
-                <div class="col-12 col-xl-3 mxd-project-cards__item mxd-grid-item anim-uni-scale-in-right">
-                  <div class="mxd-project-cards__inner bg-base-tint radius-m" style="padding: 2.4rem;">
-                    <p class="t-small t-muted"
-                      style="text-transform: uppercase; letter-spacing: 0.1rem; margin-bottom: 0.8rem;">Goal 2</p>
-                    <p>Separate monitoring from investigation — quick checks on the dashboard, deeper analysis in a dedicated module.</p>
-                  </div>
-                </div>
-                <div class="col-12 col-xl-4 mxd-project-cards__item mxd-grid-item anim-uni-scale-in-left">
-                  <div class="mxd-project-cards__inner bg-accent bg-accentgreen radius-m" style="padding: 2.4rem;">
-                    <p class="t-small"
-                      style="text-transform: uppercase; letter-spacing: 0.1rem; margin-bottom: 0.8rem; opacity: 0.7;">
-                      Goal 3</p>
-                    <h5>Turn data into actionable insight</h5>
-                    <p class="t-small" style="margin-top: 0.4rem;">Highlight patterns and root causes that help teams make operational decisions — not just display metrics.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Project Block - Design Goals End -->
-
-        <!-- Project Constraint start -->
-        <!-- Project Block - Problem Start -->
-        <div id="sec-strategy" class="mxd-project__block pre-grid">
-          <div class="container-fluid px-0">
-            <div class="row justify-content-center gx-0">
-              <div class="col-12 col-xl-10 mxd-grid-item no-margin">
-                <div class="mxd-project__subtitle">
-                  <h2 class="reveal-type anim-uni-in-up pb-4">Design Strategy</h2>
-
-                </div>
-              </div>
-            </div>
-            <div class="row justify-content-center gx-0 align-items-center">
-              <div class="col-12 col-xl-5 mxd-grid-item no-margin">
-                <div class="mxd-project__subtitle">
-
-                  <div class="img-container imccutcont">
-                    <img src="./img/works/dashboard-skretch.jpg" alt="Design Strategy">
-                  </div>
-                </div>
-              </div>
-              <div class="col-12 col-xl-5 mxd-grid-item no-margin mobpadtop">
-                <div class="mxd-project__content">
-                  <div class="">
-                    <p class="t-large t-bright anim-uni-in-up pb-2 fnbold">📊 Prioritize the most important metrics</p>
-                    <p class="anim-uni-in-up pb-4">The dashboard should immediately communicate the most critical signals without overwhelming users.</p>
-                    <p class="t-large t-bright anim-uni-in-up pb-2 fnbold">🔍 Separate overview from deep analysis</p>
-                    <p class="anim-uni-in-up pb-4">Quick monitoring belongs on the dashboard. Deeper insights belong in a dedicated analytics module.</p>
-                    <p class="t-large t-bright anim-uni-in-up pb-2 fnbold">📈 Use visualization to reveal patterns</p>
-                    <p class="anim-uni-in-up">Charts should help users identify trends instantly instead of requiring manual interpretation.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Project Block - Understanding the Gap Start -->
-        <div id="sec-users" class="mxd-project__block">
-          <div class="container-fluid px-0">
-            <div class="row justify-content-center gx-0">
-              <div class="col-12 col-xl-10 mxd-grid-item no-margin ">
-                <div class="mxd-project__subtitle">
-                  <h2 class="reveal-type anim-uni-in-up">Understanding the Users</h2>
-                </div>
-              </div>
-              <div class="col-12 col-xl-10 mxd-grid-item mt-zero">
-                <div class="mxd-project__content">
-                  <div class="mxd-project__paragraph medium-text">
-                    <p class="anim-uni-in-up">To better understand how teams used the dashboard, I interviewed sales managers, support team leads, and call center supervisors. Despite their different roles, the frustration was consistent: the dashboard showed numbers but did not help them understand what was happening.</p>
-
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="mxd-project__block no-margin">
-              <div class="mxd-project-cards">
-                <div class="container-fluid px-0">
-                  <div class="row justify-content-center gx-0">
-                    <div class="col-12 col-xl-10 mxd-grid-item no-margin">
-                      <p class="t-large t-bright anim-uni-in-up" style="margin-top: 3rem;">Two roles — each with a different need from the dashboard</p>
-                    </div>
-                  </div>
-                  <div class="row justify-content-center gx-0">
-                    <div class="col-12 col-xl-5 mxd-project-cards__item mxd-grid-item anim-uni-scale-in-right">
-                      <div class="notebook-card notebook-card--cream">
-                        <div class="notebook-card__dots-top">
-                          <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-                        </div>
-
-                        <div class="notebook-card__avatar">SM</div>
-                        <p class="notebook-card__title">Sales Manager</p>
-                        <p class="notebook-card__quote">"I need to understand how my team is performing on calls, but the dashboard just gives me numbers. I still have to export the data to see trends."</p>
-                      </div>
-                    </div>
-                    <div class="col-12 col-xl-5 mxd-project-cards__item mxd-grid-item anim-uni-scale-in-left">
-                      <div class="notebook-card notebook-card--blue">
-                        <div class="notebook-card__dots-top">
-                          <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-                        </div>
-
-                        <div class="notebook-card__avatar">TL</div>
-                        <p class="notebook-card__title">Support Team Lead</p>
-                        <p class="notebook-card__quote">"We know we're missing calls, but I can't tell why. Are agents unavailable? Are customers dropping in IVR? The dashboard doesn't explain it."</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Persona Cards -->
-
-        <!-- Key User Needs -->
-        
-        <!-- Project Block - Understanding the Gap End -->
-
-        <!-- Project Block - Research Insights Start -->
-        <div id="sec-insights" class="mxd-project__block">
-          <div class="container-fluid px-0">
-            <div class="row justify-content-center gx-0">
-              <div class="col-12 col-xl-10 mxd-grid-item no-margin">
-                <div class="mxd-project__subtitle">
-                  <h2 class="reveal-type anim-uni-in-up">Key Insights</h2>
-                </div>
-              </div>
-              <div class="col-12 col-xl-10 mxd-grid-item mt-zero">
-                <div class="mxd-project__content">
-                  <div class="mxd-project__paragraph medium-text">
-                    <p class="anim-uni-in-up">These conversations confirmed that the issue was not missing data — it was missing structure and clarity. The same patterns surfaced consistently across team sizes and industries.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row justify-content-center gx-0">
-              <div class="col-12 col-xl-10 mxd-grid-item no-margin">
-                <div class="sticky-notes-grid">
-
-                  <div class="sticky-note anim-uni-scale-in-right">
-                    <p class="sticky-note__number">Insight 01</p>
-                    <p class="sticky-note__title">Information hierarchy was unclear</p>
-                    <p class="sticky-note__text">Critical signals like missed calls and agent performance were buried among less important metrics. Users couldn't quickly identify what needed their attention.</p>
-                  </div>
-
-                  <div class="sticky-note anim-uni-in-up">
-                    <p class="sticky-note__number">Insight 02</p>
-                    <p class="sticky-note__title">Inbound and outbound calls required different analysis</p>
-                    <p class="sticky-note__text">Sales teams cared about outbound connection rates and campaign performance. Support teams cared about inbound call handling and missed calls. A single analytics view served neither role effectively.</p>
-                  </div>
-
-                  <div class="sticky-note anim-uni-scale-in-left">
-                    <p class="sticky-note__number">Insight 03</p>
-                    <p class="sticky-note__title">Missed calls lacked root-cause visibility</p>
-                    <p class="sticky-note__text">Teams could see the number of missed calls but had no way to understand the reason behind them. Without this context, operational improvements relied on assumptions rather than evidence.</p>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-       
-        <!-- Project Block - Research Insights End -->
-<div id="sec-user-needs" class="mxd-project__block">
-          <div class="container-fluid px-0">
-            <div class="row justify-content-center gx-0">
-              <div class="col-12 col-xl-10 mxd-grid-item no-margin">
-                <div class="mxd-project__subtitle">
-                  <h2 class="reveal-type anim-uni-in-up">Key User Needs</h2>
-                </div>
-              </div>
-            </div>
-            <div class="row justify-content-center gx-0">
-              <div class="col-12 col-xl-10 mxd-grid-item no-margin">
-                <div class="pain-cards-row">
-                  <div class="pain-card pain-card--cream anim-uni-scale-in-right">
-                    <p class="pain-card__role">Sales Manager</p>
-                    <p class="pain-card__item"><span class="pain-card__label">Pain:</span> Had to export data manually to identify performance trends because the dashboard only showed static numbers.</p>
-                    <p class="pain-card__item"><span class="pain-card__label">Consequence:</span> Decision-making was delayed and relied on guesswork rather than live insights.</p>
-                    <p class="pain-card__item"><span class="pain-card__label">Need:</span> A dashboard that surfaces outbound call trends and team performance at a glance without manual data work.</p>
-                  </div>
-                  <div class="pain-card pain-card--blue anim-uni-scale-in-left">
-                    <p class="pain-card__role">Support Team Lead</p>
-                    <p class="pain-card__item"><span class="pain-card__label">Pain:</span> Could see missed call counts but had no way to identify why calls were being missed.</p>
-                    <p class="pain-card__item"><span class="pain-card__label">Consequence:</span> Operational fixes were based on assumptions, not evidence, leading to ineffective changes.</p>
-                    <p class="pain-card__item"><span class="pain-card__label">Need:</span> Categorized missed call data with root-cause visibility so the team can take targeted action.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Project Block - MVP Scoping Start -->
-        <div id="sec-decisions" class="mxd-project__block">
-          <div class="container-fluid px-0">
-            <div class="row justify-content-center gx-0">
-              <div class="col-12 col-xl-10 mxd-grid-item no-margin">
-                <div class="mxd-project__subtitle">
-                  <h2 class="reveal-type anim-uni-in-up pb-5 pb-zero">Key Design Decisions</h2>
-                </div>
-              </div>
-              <div class="col-12 col-xl-10 mxd-grid-item mt-0">
-                <div class="mxd-project__content">
-                  <div class="setup-steps">
-                    <div class="setup-step anim-uni-in-up">
-                      <span class="setup-step__icon">▷▷</span>
-                      <p class="setup-step__text"><strong>Separate quick monitoring from deeper analysis</strong> by introducing a two-layer dashboard structure. The main dashboard gives managers a fast overview, while the analytics module helps them investigate performance in detail.</p>
-                    </div>
-                    <div class="setup-step anim-uni-in-up">
-                      <span class="setup-step__icon">▷▷</span>
-                      <p class="setup-step__text"><strong>Prioritize the metrics managers check most often</strong> such as total calls, inbound and outbound activity, average talk time, and agent performance so the team can understand call performance immediately.</p>
-                    </div>
-                    <div class="setup-step anim-uni-in-up">
-                      <span class="setup-step__icon">▷▷</span>
-                      <p class="setup-step__text"><strong>Create dedicated analytics views for inbound and outbound calls</strong> so sales teams and support teams can focus on the data that matters to their daily work.</p>
-                    </div>
-                    <div class="setup-step anim-uni-in-up">
-                      <span class="setup-step__icon">▷▷</span>
-                      <p class="setup-step__text"><strong>Make missed calls easier to diagnose</strong> by breaking them into clear categories like agents unavailable, IVR abandonment, and outside business hours.</p>
-                    </div>
-                    <div class="setup-step anim-uni-in-up">
-                      <span class="setup-step__icon">▷▷</span>
-                      <p class="setup-step__text"><strong>Use visual charts that reveal patterns quickly</strong> so managers can see trends in call activity without needing to manually interpret raw numbers.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-          </div>
-        </div>
-        <!-- 4 MVP Priority Cards -->
-        
-        <!-- Project Block - MVP Scoping End -->
-
-        <!-- Project Block - Problem Start -->
-        <div id="sec-solution" class="mxd-project__block pre-grid">
-          <div class="container-fluid px-0">
-
-            <div class="row justify-content-center gx-0">
-              <div class="col-12 col-xl-10 mxd-grid-item no-margin">
-                <div class="mxd-project__subtitle">
-                  <h2 class="reveal-type anim-uni-in-up">Solution</h2>
-                </div>
-              </div>
-              <div class="col-12 col-xl-10 mxd-grid-item">
-                <div class="mxd-project__content">
-                  <div class="">
-                    <p class="anim-uni-in-up pb-4">The redesigned system introduced a two-layer dashboard architecture. This structure allows managers to monitor performance quickly and explore details only when necessary.</p>
-                     <p class="t-large t-bright anim-uni-in-up pb-2 fnbold">Architecture Diagram</p>
+                  <div class="mxd-project__subtitle">
                     <div class="img-container imccutcont">
-                      <img class="brdcol" src="./img/works/Call-Analytics-Dashboard-Architectur.png" width="737" height="585" alt="Two-layer dashboard architecture">
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-12 col-xl-10 mxd-grid-item no-margin mt-5">
-                <div class="solution-cards">
-                  <div class="solution-card solution-card--green anim-uni-in-up">
-                    <div class="solution-card__num">01</div>
-                    <p class="solution-card__title">Simplified main dashboard</p>
-                    <p class="solution-card__desc">Provides a quick overview of call activity and team performance. Managers can understand the overall call situation within seconds of opening the dashboard.</p>
-                  </div>
-                  <div class="solution-card solution-card--peach anim-uni-in-up">
-                    <div class="solution-card__num">02</div>
-                    <p class="solution-card__title">Dedicated analytics module</p>
-                    <p class="solution-card__desc">Helps managers investigate inbound calls, outbound activity, and missed call patterns without jumping across multiple screens.</p>
-                  </div>
-                </div>
-                    <div class="mxd-project__subtitle">
-                   <p class="t-large t-bright anim-uni-in-up fnbold"> Main Dashboard</p>
-                  <p class="anim-uni-in-up">The original dashboard displayed many metrics without prioritization, making it difficult for managers to quickly understand team performance. The redesigned dashboard highlights the six key metrics managers check most frequently.</p>
-                  
-                  <div class="img-container imccutcont pb-2 pt-4">
-                    <div class=" bg-base-tint radius-m mb-5 brdcol">
-                      <video src="./img/works/dashboard_tour.mp4" class="w-100"
-                        style="border-radius: var(--_radius-m);" autoplay loop muted playsinline preload="none"></video>
-                    </div>
-                    </div>
-                      <p class="t-large t-bright anim-uni-in-up pb-2 fnbold">Design rationale</p>
-                    <p class="anim-uni-in-up pb-4">Total Calls, Inbound Calls, Outbound Calls, Average Talk Time, Active Agents, and Best Performing Agent are presented using large card components with strong visual hierarchy. The number is emphasized first, followed by the label and supporting context.</p>
-                    <p class="anim-uni-in-up pb-4">Managers can now open the dashboard and understand the overall call situation within seconds. The dashboard effectively functions as a daily operational snapshot.</p>
-                     <p class="t-large t-bright anim-uni-in-up fnbold">Incoming & Outgoing Analytics</p>
-                      <p class="anim-uni-in-up">Inbound and outbound call data were previously aggregated into a single analytics view, making it difficult for both sales and support teams to interpret performance. The analytics module separates them into two dedicated views.</p>
-                  <div class=" bg-base-tint radius-m mb-5 mt-4">
-                   <div class=" bg-base-tint radius-m mb-5 brdcol">
-                      <video src="./img/works/call_analytics.mp4" class="w-100"
-                        style="border-radius: var(--_radius-m);" autoplay loop muted playsinline preload="none"></video>
-                    </div>
-                  </div>
-                   <p class="t-large t-bright anim-uni-in-up fnbold">Missed Call Analytics</p>
-                     <p class="anim-uni-in-up pb-4">Missed calls were displayed only as a single number, offering no insight into the underlying cause. The redesigned view categorizes missed calls into five operational reasons.</p>
-                     <div class=" bg-base-tint radius-m mb-5 brdcol pt-4">
-                      <video src="./img/works/missed_call.mp4" class="w-100"
-                        style="border-radius: var(--_radius-m);" autoplay loop muted playsinline preload="none"></video>
-                    </div>
-                     <div class="setup-steps">
-                      <div class="setup-step anim-uni-in-up">
-                        <span class="setup-step__icon">▷▷</span>
-                        <p class="setup-step__text"><strong>Not answered by agent</strong> — Agent was available but the call was not picked up.</p>
-                      </div>
-                      <div class="setup-step anim-uni-in-up">
-                        <span class="setup-step__icon">▷▷</span>
-                        <p class="setup-step__text"><strong>All agents unavailable</strong> — No agents were free to take the call at that moment.</p>
-                      </div>
-                      <div class="setup-step anim-uni-in-up">
-                        <span class="setup-step__icon">▷▷</span>
-                        <p class="setup-step__text"><strong>Abandoned during welcome message / in IVR / outside business hours</strong> — A segmented horizontal bar chart highlights the dominant cause at a glance, allowing teams to diagnose issues and take targeted action.</p>
-                      </div>
-                    </div>
-                </div>
-              </div>
-              
-            </div>
-
-
-          </div>
-        </div>
-
-      
-
-      
-
-       
-
-       
-
-        <!-- Project Block - Results Start -->
-        <div id="sec-results" class="mxd-project__block">
-          <div class="container-fluid px-0">
-            <div class="row justify-content-center gx-0">
-              <div class="col-12 col-xl-10 mxd-grid-item no-margin">
-                <div class="mxd-project__subtitle">
-                  <h2 class="reveal-type anim-uni-in-up">Results</h2>
-                </div>
-              </div>
-              <div class="col-12 col-xl-10 mxd-grid-item">
-                <div class="mxd-project__content">
-                  <div class="outcome-list mt-0">
-                    <div class="outcome-item anim-uni-in-up">
-                      <i class="ph-bold ph-smiley outcome-item__icon"></i>
-                      <div>
-                        <p class="outcome-item__title">Faster performance visibility</p>
-                        <p class="outcome-item__desc">Managers can now understand call activity within seconds of opening the dashboard — no exports, no manual data work.</p>
-                      </div>
-                    </div>
-                    <div class="outcome-item anim-uni-in-up">
-                      <i class="ph-bold ph-smiley outcome-item__icon"></i>
-                      <div>
-                        <p class="outcome-item__title">Root-cause visibility for missed calls</p>
-                        <p class="outcome-item__desc">Missed calls are categorized into actionable causes instead of being displayed as a single metric, enabling targeted operational fixes.</p>
-                      </div>
-                    </div>
-                    <div class="outcome-item anim-uni-in-up">
-                      <i class="ph-bold ph-smiley outcome-item__icon"></i>
-                      <div>
-                        <p class="outcome-item__title">Structured analytics for each team</p>
-                        <p class="outcome-item__desc">Dedicated analytics views allow sales and support teams to investigate call performance without navigating across multiple disconnected screens.</p>
-                      </div>
+                      <img class="brdcol" src="./img/works/Callhippo-old-Dashboard.png" alt="Dashboard Problem">
                     </div>
                   </div>
                 </div>
@@ -1316,209 +395,461 @@
             </div>
           </div>
         </div>
-        
-        <!-- Project Block - Results End -->
-
-        <!-- Project Block - Learnings Start -->
-        <div id="sec-learnings" class="mxd-project__block">
-          <div class="container-fluid px-0">
-            <div class="row justify-content-center gx-0">
-              <div class="col-12 col-xl-10 mxd-grid-item no-margin">
-                <div class="mxd-project__subtitle">
-                  <h2 class="reveal-type anim-uni-in-up">What I Learned</h2>
-                </div>
-              </div>
-              <div class="col-12 col-xl-10 mxd-grid-item">
-                <div class="mxd-project__content">
-                  <div class="outcome-list mt-0">
-                    <div class="outcome-item anim-uni-in-up">
-                      <i class="ph-bold ph-smiley outcome-item__icon"></i>
-                      <div>
-                        <p class="outcome-item__title">Data-heavy interfaces require strong hierarchy</p>
-                        <p class="outcome-item__desc">The original dashboard had sufficient data. The real problem was prioritization. Deciding what to surface first had more impact than adding new data.</p>
-                      </div>
-                    </div>
-                    <div class="outcome-item anim-uni-in-up">
-                      <i class="ph-bold ph-smiley outcome-item__icon"></i>
-                      <div>
-                        <p class="outcome-item__title">Visualization design is decision design</p>
-                        <p class="outcome-item__desc">The right chart can communicate patterns instantly and eliminate the need for manual interpretation. Choosing chart types based on user questions — not available data — was a key shift.</p>
-                      </div>
-                    </div>
-                    <div class="outcome-item anim-uni-in-up">
-                      <i class="ph-bold ph-smiley outcome-item__icon"></i>
-                      <div>
-                        <p class="outcome-item__title">Analytics tools should enable decisions</p>
-                        <p class="outcome-item__desc">Every analytics feature should be designed around a specific operational question. Early engineering collaboration ensured the analytics design aligned with the underlying data structure.</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Project Block - Learnings End -->
-
-        <!-- Project Block - Project Link Start -->
-       <!-- <div class="mxd-project__block no-margin">
-          <div class="mxd-project__nav">
-            <div class="mxd-project__divider anim-uni-in-up"></div>
-            <div class="container-fluid p-0">
-              <div class="row justify-content-center g-0">
-                <div class="col-6 mxd-project__navitem left mxd-grid-item no-margin anim-uni-in-up">
-                  <a class="btn btn-anim btn-line-small btn-muted anim-no-delay slide-left" href="project-details.html">
-                    <i class="ph ph-arrow justify-content-center-left"></i>
-                    <span class="btn-caption">Prev</span>
-                  </a>
-                  <a class="mxd-project__link anim-uni-in-up" href="project-details.html">
-                    <span>Mobile app design</span>
-                  </a>
-                </div>
-                <div class="col-6 mxd-project__navitem right mxd-grid-item no-margin anim-uni-in-up">
-                  <a class="btn btn-anim btn-line-small btn-muted anim-no-delay slide-right"
-                    href="project-details.html">
-                    <span class="btn-caption">Next</span>
-                    <i class="ph ph-arrow justify-content-center-right"></i>
-                  </a>
-                  <a class="mxd-project__link  anim-uni-in-up" href="project-details.html">
-                    <span>AI experiments</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> -->
-        <!-- Project Block - Project Link End -->
-
       </div>
+
+      <!-- Design Goals -->
+      <div id="sec-goals" class="mxd-project__block">
+        <div class="container-fluid px-0">
+          <div class="row justify-content-center gx-0">
+            <div class="col-12 col-xl-10 mxd-grid-item no-margin">
+              <div class="mxd-project__subtitle">
+                <h2 class="reveal-type anim-uni-in-up">Design Goals</h2>
+              </div>
+            </div>
+            <div class="col-12 col-xl-10 mxd-grid-item">
+              <div class="mxd-project__content">
+                <div class="mxd-project__paragraph medium-text">
+                  <p class="anim-uni-in-up">Before exploring solutions, I defined three goals that would guide the redesign.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mxd-project-cards">
+          <div class="container-fluid px-0">
+            <div class="row justify-content-center gx-0">
+              <div class="col-12 col-xl-3 mxd-project-cards__item mxd-grid-item anim-uni-scale-in-left">
+                <div class="mxd-project-cards__inner" style="padding:1.75rem;">
+                  <p class="t-small t-muted" style="text-transform:uppercase;letter-spacing:.1rem;margin-bottom:.8rem;">Goal 1</p>
+                  <p class="t-small t-muted">Make call performance understandable within seconds of opening the dashboard.</p>
+                </div>
+              </div>
+              <div class="col-12 col-xl-3 mxd-project-cards__item mxd-grid-item anim-uni-scale-in-right">
+                <div class="mxd-project-cards__inner" style="padding:1.75rem;">
+                  <p class="t-small t-muted" style="text-transform:uppercase;letter-spacing:.1rem;margin-bottom:.8rem;">Goal 2</p>
+                  <p class="t-small t-muted">Separate monitoring from investigation — quick checks on the dashboard, deeper analysis in a dedicated module.</p>
+                </div>
+              </div>
+              <div class="col-12 col-xl-4 mxd-project-cards__item mxd-grid-item anim-uni-scale-in-left">
+                <div class="mxd-project-cards__inner" style="padding:1.75rem;">
+                  <p class="t-small t-muted" style="text-transform:uppercase;letter-spacing:.1rem;margin-bottom:.8rem;">Goal 3</p>
+                  <p class="t-small t-muted">Turn data into actionable insight — highlight patterns and root causes that help teams make operational decisions, not just display metrics.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Design Strategy -->
+      <div id="sec-strategy" class="mxd-project__block pre-grid">
+        <div class="container-fluid px-0">
+          <div class="row justify-content-center gx-0">
+            <div class="col-12 col-xl-10 mxd-grid-item no-margin">
+              <div class="mxd-project__subtitle">
+                <h2 class="reveal-type anim-uni-in-up">Design Strategy</h2>
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-center gx-0 align-items-center">
+            <div class="col-12 col-xl-5 mxd-grid-item no-margin">
+              <div class="mxd-project__subtitle">
+                <div class="img-container imccutcont">
+                  <img src="./img/works/dashboard-skretch.jpg" alt="Design Strategy">
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-xl-5 mxd-grid-item no-margin mobpadtop">
+              <div class="mxd-project__content">
+                <div class="">
+                  <p class="t-large t-bright anim-uni-in-up fnbold">📊 Prioritize the most important metrics</p>
+                  <p class="anim-uni-in-up pb-2">The dashboard should immediately communicate the most critical signals without overwhelming users.</p>
+                  <p class="t-large t-bright anim-uni-in-up fnbold">🔍 Separate overview from deep analysis</p>
+                  <p class="anim-uni-in-up pb-2">Quick monitoring belongs on the dashboard. Deeper insights belong in a dedicated analytics module.</p>
+                  <p class="t-large t-bright anim-uni-in-up fnbold">📈 Use visualization to reveal patterns</p>
+                  <p class="anim-uni-in-up">Charts should help users identify trends instantly instead of requiring manual interpretation.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Understanding the Users -->
+      <div id="sec-users" class="mxd-project__block">
+        <div class="container-fluid px-0">
+          <div class="row justify-content-center gx-0">
+            <div class="col-12 col-xl-10 mxd-grid-item no-margin">
+              <div class="mxd-project__subtitle">
+                <h2 class="reveal-type anim-uni-in-up">Understanding the Users</h2>
+              </div>
+            </div>
+            <div class="col-12 col-xl-10 mxd-grid-item mt-zero">
+              <div class="mxd-project__content">
+                <div class="mxd-project__paragraph medium-text">
+                  <p class="anim-uni-in-up">To better understand how teams used the dashboard, I interviewed sales managers, support team leads, and call center supervisors. Despite their different roles, the frustration was consistent: the dashboard showed numbers but did not help them understand what was happening.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mxd-project__block no-margin">
+            <div class="mxd-project-cards">
+              <div class="container-fluid px-0">
+                <div class="row justify-content-center gx-0">
+                  <div class="col-12 col-xl-10 mxd-grid-item no-margin">
+                    <p class="t-large t-bright anim-uni-in-up" style="margin-top:3rem;">Two roles — each with a different need from the dashboard</p>
+                  </div>
+                </div>
+                <div class="row justify-content-center gx-0">
+                  <div class="col-12 col-xl-5 mxd-project-cards__item mxd-grid-item anim-uni-scale-in-right">
+                    <div class="notebook-card notebook-card--cream">
+                      <div class="notebook-card__dots-top"><span></span><span></span><span></span></div>
+                      <div class="notebook-card__avatar">SM</div>
+                      <p class="notebook-card__title">Sales Manager</p>
+                      <p class="notebook-card__quote">"I need to understand how my team is performing on calls, but the dashboard just gives me numbers. I still have to export the data to see trends."</p>
+                    </div>
+                  </div>
+                  <div class="col-12 col-xl-5 mxd-project-cards__item mxd-grid-item anim-uni-scale-in-left">
+                    <div class="notebook-card notebook-card--blue">
+                      <div class="notebook-card__dots-top"><span></span><span></span><span></span></div>
+                      <div class="notebook-card__avatar">TL</div>
+                      <p class="notebook-card__title">Support Team Lead</p>
+                      <p class="notebook-card__quote">"We know we're missing calls, but I can't tell why. Are agents unavailable? Are customers dropping in IVR? The dashboard doesn't explain it."</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Key Insights -->
+      <div id="sec-insights" class="mxd-project__block">
+        <div class="container-fluid px-0">
+          <div class="row justify-content-center gx-0">
+            <div class="col-12 col-xl-10 mxd-grid-item no-margin">
+              <div class="mxd-project__subtitle">
+                <h2 class="reveal-type anim-uni-in-up">Key Insights</h2>
+              </div>
+            </div>
+            <div class="col-12 col-xl-10 mxd-grid-item mt-zero">
+              <div class="mxd-project__content">
+                <div class="mxd-project__paragraph medium-text">
+                  <p class="anim-uni-in-up">These conversations confirmed that the issue was not missing data — it was missing structure and clarity. The same patterns surfaced consistently across team sizes and industries.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-center gx-0">
+            <div class="col-12 col-xl-10 mxd-grid-item no-margin">
+              <div class="sticky-notes-grid">
+                <div class="sticky-note anim-uni-scale-in-right">
+                  <p class="sticky-note__number">Insight 01</p>
+                  <p class="sticky-note__title">Information hierarchy was unclear</p>
+                  <p class="sticky-note__text">Critical signals like missed calls and agent performance were buried among less important metrics. Users couldn't quickly identify what needed their attention.</p>
+                </div>
+                <div class="sticky-note anim-uni-in-up">
+                  <p class="sticky-note__number">Insight 02</p>
+                  <p class="sticky-note__title">Inbound and outbound calls required different analysis</p>
+                  <p class="sticky-note__text">Sales teams cared about outbound connection rates and campaign performance. Support teams cared about inbound call handling and missed calls. A single analytics view served neither role effectively.</p>
+                </div>
+                <div class="sticky-note anim-uni-scale-in-left">
+                  <p class="sticky-note__number">Insight 03</p>
+                  <p class="sticky-note__title">Missed calls lacked root-cause visibility</p>
+                  <p class="sticky-note__text">Teams could see the number of missed calls but had no way to understand the reason behind them. Without this context, operational improvements relied on assumptions rather than evidence.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Key User Needs -->
+      <div id="sec-user-needs" class="mxd-project__block">
+        <div class="container-fluid px-0">
+          <div class="row justify-content-center gx-0">
+            <div class="col-12 col-xl-10 mxd-grid-item no-margin">
+              <div class="mxd-project__subtitle">
+                <h2 class="reveal-type anim-uni-in-up">Key User Needs</h2>
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-center gx-0">
+            <div class="col-12 col-xl-10 mxd-grid-item no-margin">
+              <div class="pain-cards-row">
+                <div class="pain-card pain-card--cream anim-uni-scale-in-right">
+                  <p class="pain-card__role">Sales Manager</p>
+                  <p class="pain-card__item"><span class="pain-card__label">Pain:</span> Had to export data manually to identify performance trends because the dashboard only showed static numbers.</p>
+                  <p class="pain-card__item"><span class="pain-card__label">Consequence:</span> Decision-making was delayed and relied on guesswork rather than live insights.</p>
+                  <p class="pain-card__item"><span class="pain-card__label">Need:</span> A dashboard that surfaces outbound call trends and team performance at a glance without manual data work.</p>
+                </div>
+                <div class="pain-card pain-card--blue anim-uni-scale-in-left">
+                  <p class="pain-card__role">Support Team Lead</p>
+                  <p class="pain-card__item"><span class="pain-card__label">Pain:</span> Could see missed call counts but had no way to identify why calls were being missed.</p>
+                  <p class="pain-card__item"><span class="pain-card__label">Consequence:</span> Operational fixes were based on assumptions, not evidence, leading to ineffective changes.</p>
+                  <p class="pain-card__item"><span class="pain-card__label">Need:</span> Categorized missed call data with root-cause visibility so the team can take targeted action.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Key Design Decisions -->
+      <div id="sec-decisions" class="mxd-project__block">
+        <div class="container-fluid px-0">
+          <div class="row justify-content-center gx-0">
+            <div class="col-12 col-xl-10 mxd-grid-item no-margin">
+              <div class="mxd-project__subtitle">
+                <h2 class="reveal-type anim-uni-in-up">Key Design Decisions</h2>
+              </div>
+            </div>
+            <div class="col-12 col-xl-10 mxd-grid-item mt-0">
+              <div class="mxd-project__content">
+                <div class="setup-steps">
+                  <div class="setup-step anim-uni-in-up">
+                    <span class="setup-step__icon">▷▷</span>
+                    <p class="setup-step__text"><strong>Separate quick monitoring from deeper analysis</strong> by introducing a two-layer dashboard structure. The main dashboard gives managers a fast overview, while the analytics module helps them investigate performance in detail.</p>
+                  </div>
+                  <div class="setup-step anim-uni-in-up">
+                    <span class="setup-step__icon">▷▷</span>
+                    <p class="setup-step__text"><strong>Prioritize the metrics managers check most often</strong> such as total calls, inbound and outbound activity, average talk time, and agent performance so the team can understand call performance immediately.</p>
+                  </div>
+                  <div class="setup-step anim-uni-in-up">
+                    <span class="setup-step__icon">▷▷</span>
+                    <p class="setup-step__text"><strong>Create dedicated analytics views for inbound and outbound calls</strong> so sales teams and support teams can focus on the data that matters to their daily work.</p>
+                  </div>
+                  <div class="setup-step anim-uni-in-up">
+                    <span class="setup-step__icon">▷▷</span>
+                    <p class="setup-step__text"><strong>Make missed calls easier to diagnose</strong> by breaking them into clear categories like agents unavailable, IVR abandonment, and outside business hours.</p>
+                  </div>
+                  <div class="setup-step anim-uni-in-up">
+                    <span class="setup-step__icon">▷▷</span>
+                    <p class="setup-step__text"><strong>Use visual charts that reveal patterns quickly</strong> so managers can see trends in call activity without needing to manually interpret raw numbers.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Solution -->
+      <div id="sec-solution" class="mxd-project__block pre-grid">
+        <div class="container-fluid px-0">
+          <div class="row justify-content-center gx-0">
+            <div class="col-12 col-xl-10 mxd-grid-item no-margin">
+              <div class="mxd-project__subtitle">
+                <h2 class="reveal-type anim-uni-in-up">Solution</h2>
+              </div>
+            </div>
+            <div class="col-12 col-xl-10 mxd-grid-item">
+              <div class="mxd-project__content">
+                <div class="">
+                  <p class="anim-uni-in-up pb-4">The redesigned system introduced a two-layer dashboard architecture. This structure allows managers to monitor performance quickly and explore details only when necessary.</p>
+                  <p class="t-large t-bright anim-uni-in-up fnbold">Architecture Diagram</p>
+                  <div class="img-container imccutcont">
+                    <img class="brdcol" src="./img/works/Call-Analytics-Dashboard-Architectur.png" width="737" height="585" alt="Two-layer dashboard architecture">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-xl-10 mxd-grid-item no-margin mt-5">
+              <div class="solution-cards">
+                <div class="solution-card solution-card--green anim-uni-in-up">
+                  <div class="solution-card__num">01</div>
+                  <p class="solution-card__title">Simplified main dashboard</p>
+                  <p class="solution-card__desc">Provides a quick overview of call activity and team performance. Managers can understand the overall call situation within seconds of opening the dashboard.</p>
+                </div>
+                <div class="solution-card solution-card--peach anim-uni-in-up">
+                  <div class="solution-card__num">02</div>
+                  <p class="solution-card__title">Dedicated analytics module</p>
+                  <p class="solution-card__desc">Helps managers investigate inbound calls, outbound activity, and missed call patterns without jumping across multiple screens.</p>
+                </div>
+              </div>
+
+              <div class="mxd-project__subtitle">
+                <p class="t-large t-bright anim-uni-in-up fnbold">Main Dashboard</p>
+                <p class="anim-uni-in-up">The original dashboard displayed many metrics without prioritization, making it difficult for managers to quickly understand team performance. The redesigned dashboard highlights the six key metrics managers check most frequently.</p>
+                <div class="bg-base-tint brdcol" style="margin:1rem 0;">
+                  <video src="./img/works/dashboard_tour.mp4" class="w-100" autoplay loop muted playsinline preload="none"></video>
+                </div>
+                <p class="t-large t-bright anim-uni-in-up fnbold">Design rationale</p>
+                <p class="anim-uni-in-up pb-4">Total Calls, Inbound Calls, Outbound Calls, Average Talk Time, Active Agents, and Best Performing Agent are presented using large card components with strong visual hierarchy. The number is emphasized first, followed by the label and supporting context.</p>
+                <p class="anim-uni-in-up pb-4">Managers can now open the dashboard and understand the overall call situation within seconds. The dashboard effectively functions as a daily operational snapshot.</p>
+                <p class="t-large t-bright anim-uni-in-up fnbold">Incoming &amp; Outgoing Analytics</p>
+                <p class="anim-uni-in-up">Inbound and outbound call data were previously aggregated into a single analytics view, making it difficult for both sales and support teams to interpret performance. The analytics module separates them into two dedicated views.</p>
+                <div class="bg-base-tint brdcol" style="margin:1rem 0;">
+                  <video src="./img/works/call_analytics.mp4" class="w-100" autoplay loop muted playsinline preload="none"></video>
+                </div>
+                <p class="t-large t-bright anim-uni-in-up fnbold">Missed Call Analytics</p>
+                <p class="anim-uni-in-up pb-4">Missed calls were displayed only as a single number, offering no insight into the underlying cause. The redesigned view categorizes missed calls into five operational reasons.</p>
+                <div class="bg-base-tint brdcol" style="margin:1rem 0;">
+                  <video src="./img/works/missed_call.mp4" class="w-100" autoplay loop muted playsinline preload="none"></video>
+                </div>
+                <div class="setup-steps">
+                  <div class="setup-step anim-uni-in-up">
+                    <span class="setup-step__icon">▷▷</span>
+                    <p class="setup-step__text"><strong>Not answered by agent</strong> — Agent was available but the call was not picked up.</p>
+                  </div>
+                  <div class="setup-step anim-uni-in-up">
+                    <span class="setup-step__icon">▷▷</span>
+                    <p class="setup-step__text"><strong>All agents unavailable</strong> — No agents were free to take the call at that moment.</p>
+                  </div>
+                  <div class="setup-step anim-uni-in-up">
+                    <span class="setup-step__icon">▷▷</span>
+                    <p class="setup-step__text"><strong>Abandoned during welcome message / in IVR / outside business hours</strong> — A segmented horizontal bar chart highlights the dominant cause at a glance, allowing teams to diagnose issues and take targeted action.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div id="sec-results" class="mxd-project__block">
+        <div class="container-fluid px-0">
+          <div class="row justify-content-center gx-0">
+            <div class="col-12 col-xl-10 mxd-grid-item no-margin">
+              <div class="mxd-project__subtitle">
+                <h2 class="reveal-type anim-uni-in-up">Results</h2>
+              </div>
+            </div>
+            <div class="col-12 col-xl-10 mxd-grid-item">
+              <div class="mxd-project__content">
+                <div class="outcome-list mt-0">
+                  <div class="outcome-item anim-uni-in-up">
+                    <i class="outcome-item__icon">✦</i>
+                    <div>
+                      <p class="outcome-item__title">Faster performance visibility</p>
+                      <p class="outcome-item__desc">Managers can now understand call activity within seconds of opening the dashboard — no exports, no manual data work.</p>
+                    </div>
+                  </div>
+                  <div class="outcome-item anim-uni-in-up">
+                    <i class="outcome-item__icon">✦</i>
+                    <div>
+                      <p class="outcome-item__title">Root-cause visibility for missed calls</p>
+                      <p class="outcome-item__desc">Missed calls are categorized into actionable causes instead of being displayed as a single metric, enabling targeted operational fixes.</p>
+                    </div>
+                  </div>
+                  <div class="outcome-item anim-uni-in-up">
+                    <i class="outcome-item__icon">✦</i>
+                    <div>
+                      <p class="outcome-item__title">Structured analytics for each team</p>
+                      <p class="outcome-item__desc">Dedicated analytics views allow sales and support teams to investigate call performance without navigating across multiple disconnected screens.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Learnings -->
+      <div id="sec-learnings" class="mxd-project__block">
+        <div class="container-fluid px-0">
+          <div class="row justify-content-center gx-0">
+            <div class="col-12 col-xl-10 mxd-grid-item no-margin">
+              <div class="mxd-project__subtitle">
+                <h2 class="reveal-type anim-uni-in-up">What I Learned</h2>
+              </div>
+            </div>
+            <div class="col-12 col-xl-10 mxd-grid-item">
+              <div class="mxd-project__content">
+                <div class="outcome-list mt-0">
+                  <div class="outcome-item anim-uni-in-up">
+                    <i class="outcome-item__icon">✦</i>
+                    <div>
+                      <p class="outcome-item__title">Data-heavy interfaces require strong hierarchy</p>
+                      <p class="outcome-item__desc">The original dashboard had sufficient data. The real problem was prioritization. Deciding what to surface first had more impact than adding new data.</p>
+                    </div>
+                  </div>
+                  <div class="outcome-item anim-uni-in-up">
+                    <i class="outcome-item__icon">✦</i>
+                    <div>
+                      <p class="outcome-item__title">Visualization design is decision design</p>
+                      <p class="outcome-item__desc">The right chart can communicate patterns instantly and eliminate the need for manual interpretation. Choosing chart types based on user questions — not available data — was a key shift.</p>
+                    </div>
+                  </div>
+                  <div class="outcome-item anim-uni-in-up">
+                    <i class="outcome-item__icon">✦</i>
+                    <div>
+                      <p class="outcome-item__title">Analytics tools should enable decisions</p>
+                      <p class="outcome-item__desc">Every analytics feature should be designed around a specific operational question. Early engineering collaboration ensured the analytics design aligned with the underlying data structure.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
-    <!-- Section - Project Details End -->
+  </div>
 
-    <!-- Section - CTA Start -->
-    
-    <!-- Section - CTA End -->
+</main>
 
-  </main>
-  <!-- Page Content End -->
+<!-- Footer -->
+<footer id="mxd-footer" class="mxd-footer mxd-footer--minimal">
+  <div class="footer-minimal__divider"></div>
+  <div class="footer-minimal__bar">
+    <span>© 2026 Jigar Acharya</span>
+    <span class="footer-minimal__label">Case Study</span>
+  </div>
+</footer>
 
-  <!-- Footer Start -->
-  <footer id="mxd-footer" class="mxd-footer mxd-footer--minimal">
-    <div class="footer-minimal__divider"></div>
-    <div class="footer-minimal__bar">
-      <span>© 2026 Jigar Acharya</span>
-      <span class="footer-minimal__label">Case Study</span>
-    </div>
-  </footer>
-  <!-- Footer End -->
-    <!-- Back Button Start -->
-  <a href="index.html" id="btn-back" class="btn slide-up anim-no-delay">
-    <i class="ph-bold ph-arrow-left"></i>
-  </a>
-  <!-- Back Button End -->
+<!-- Section Nav -->
+<nav class="case-section-nav" aria-label="Case study sections">
+  <a href="index.html" class="case-section-nav__side-btn" aria-label="Back to home">←</a>
+  <span class="case-section-nav__sep"></span>
+  <a href="#mxd-page-content" class="case-section-nav__item" data-section="mxd-page-content">Overview</a>
+  <a href="#sec-problem"      class="case-section-nav__item" data-section="sec-problem">Problem</a>
+  <a href="#sec-goals"        class="case-section-nav__item" data-section="sec-goals">Goals</a>
+  <a href="#sec-strategy"     class="case-section-nav__item" data-section="sec-strategy">Strategy</a>
+  <a href="#sec-users"        class="case-section-nav__item" data-section="sec-users">Users</a>
+  <a href="#sec-insights"     class="case-section-nav__item" data-section="sec-insights">Insights</a>
+  <a href="#sec-user-needs"   class="case-section-nav__item" data-section="sec-user-needs">User Needs</a>
+  <a href="#sec-decisions"    class="case-section-nav__item" data-section="sec-decisions">Decisions</a>
+  <a href="#sec-solution"     class="case-section-nav__item" data-section="sec-solution">Solution</a>
+  <a href="#sec-results"      class="case-section-nav__item" data-section="sec-results">Results</a>
+  <a href="#sec-learnings"    class="case-section-nav__item" data-section="sec-learnings">Learnings</a>
+  <span class="case-section-nav__sep"></span>
+  <button class="case-section-nav__side-btn" id="nav-menu-proxy" type="button" aria-label="Menu">☰</button>
+</nav>
 
-  <!-- To Top Button Start -->
-  <a href="#0" id="to-top" class="btn btn-to-top slide-up anim-no-delay">
-    <i class="ph-bold ph-arrow-up"></i>
-  </a>
-  <!-- To Top Button End -->
+<script>
+(function(){
+  var navItems=document.querySelectorAll('.case-section-nav__item[data-section]');
+  var sectionIds=Array.from(navItems).map(function(el){return el.dataset.section;});
+  var sections=sectionIds.map(function(id){return document.getElementById(id);}).filter(Boolean);
+  var nav=document.querySelector('.case-section-nav');
 
-  <!-- Section Nav Start -->
-  <nav class="case-section-nav" aria-label="Case study sections">
-    <a href="index.html" class="case-section-nav__side-btn" aria-label="Back to home">
-      <i class="ph-bold ph-arrow-left"></i>
-    </a>
-    <span class="case-section-nav__sep"></span>
-    <a href="#mxd-page-content" class="case-section-nav__item" data-section="mxd-page-content">Overview</a>
-    <a href="#sec-problem"    class="case-section-nav__item" data-section="sec-problem">Problem</a>
-    <a href="#sec-goals"      class="case-section-nav__item" data-section="sec-goals">Goals</a>
-    <a href="#sec-strategy"   class="case-section-nav__item" data-section="sec-strategy">Strategy</a>
-    <a href="#sec-users"      class="case-section-nav__item" data-section="sec-users">Users</a>
-    <a href="#sec-insights"   class="case-section-nav__item" data-section="sec-insights">Insights</a>
-    <a href="#sec-user-needs" class="case-section-nav__item" data-section="sec-user-needs">User Needs</a>
-    <a href="#sec-decisions"  class="case-section-nav__item" data-section="sec-decisions">Decisions</a>
-    <a href="#sec-solution"   class="case-section-nav__item" data-section="sec-solution">Solution</a>
-    <a href="#sec-results"    class="case-section-nav__item" data-section="sec-results">Results</a>
-    <a href="#sec-learnings"  class="case-section-nav__item" data-section="sec-learnings">Learnings</a>
-    <span class="case-section-nav__sep"></span>
-    <button class="case-section-nav__side-btn" id="nav-menu-proxy" type="button" aria-label="Open menu">
-      <i class="ph-bold ph-list"></i>
-    </button>
-  </nav>
-  <!-- Section Nav End -->
+  function setActive(id){navItems.forEach(function(el){el.classList.toggle('is-active',el.dataset.section===id);});}
+  function onScroll(){
+    var active=sectionIds[0];
+    for(var i=0;i<sections.length;i++){if(sections[i].getBoundingClientRect().top<=window.innerHeight*.4){active=sectionIds[i];}}
+    setActive(active);
+  }
+  function updateVis(){nav.classList.toggle('is-visible',window.scrollY>window.innerHeight*.04);}
+  navItems.forEach(function(el){
+    el.addEventListener('click',function(e){
+      e.preventDefault();
+      var t=document.getElementById(el.dataset.section);
+      if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  });
+  window.addEventListener('scroll',onScroll,{passive:true});
+  window.addEventListener('scroll',updateVis,{passive:true});
+  onScroll();updateVis();
 
-  <!-- Section Nav Script Start -->
-  <script>
-    (function () {
-      var navItems = document.querySelectorAll('.case-section-nav__item[data-section]');
-      var sectionIds = Array.from(navItems).map(function (el) { return el.dataset.section; });
-      var sections = sectionIds.map(function (id) { return document.getElementById(id); }).filter(Boolean);
-
-      function setActive(id) {
-        navItems.forEach(function (el) {
-          el.classList.toggle('is-active', el.dataset.section === id);
-        });
-      }
-
-      function onScroll() {
-        var scrollY = window.scrollY || window.pageYOffset;
-        var winH = window.innerHeight;
-        var active = sectionIds[0];
-        for (var i = 0; i < sections.length; i++) {
-          var rect = sections[i].getBoundingClientRect();
-          if (rect.top <= winH * 0.4) {
-            active = sectionIds[i];
-          }
-        }
-        setActive(active);
-      }
-
-      var nav = document.querySelector('.case-section-nav');
-
-      function scrollToSection(id) {
-        var target = document.getElementById(id);
-        if (!target) return;
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-
-      navItems.forEach(function (el) {
-        el.addEventListener('click', function (e) {
-          e.preventDefault();
-          scrollToSection(el.dataset.section);
-        });
-      });
-
-      var menuProxy = document.getElementById('nav-menu-proxy');
-      if (menuProxy) {
-        menuProxy.addEventListener('click', function () {
-          var realHamburger = document.querySelector('.mxd-nav__hamburger');
-          if (realHamburger) realHamburger.click();
-        });
-      }
-
-      function updateVisibility() {
-        var scrollY = window.scrollY || window.pageYOffset;
-        var threshold = window.innerHeight * 0.04;
-        if (scrollY > threshold) {
-          nav.classList.add('is-visible');
-        } else {
-          nav.classList.remove('is-visible');
-        }
-      }
-
-      window.addEventListener('scroll', onScroll, { passive: true });
-      window.addEventListener('scroll', updateVisibility, { passive: true });
-      onScroll();
-      updateVisibility();
-    })();
-  </script>
-  <!-- Section Nav Script End -->
-
-  <!-- Load Scripts Start -->
-  <script src="js/libs.min.js"></script>
-  <script src="js/app.js"></script>
-  <!-- Load Scripts End -->
-
+  var ro=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('vis');ro.unobserve(e.target);}});},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(function(el){ro.observe(el);});
+})();
+</script>
 </body>
-
 </html>
