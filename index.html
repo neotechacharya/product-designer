@@ -1707,6 +1707,22 @@
 (function () {
   'use strict';
 
+  /* ── HLS CONFIG (needed early by loader) ─────────────────── */
+  const HLS_SRC = 'https://stream.mux.com/Aa02T7oM1wH5Mk5EEVDYhbZ1ChcdhRsS2m1NYyx4Ua1g.m3u8';
+
+  function attachHLS(videoEl) {
+    if (!videoEl || videoEl.dataset.hlsAttached) return;
+    videoEl.dataset.hlsAttached = '1';
+    videoEl.preload = 'auto';
+    if (typeof Hls !== 'undefined' && Hls.isSupported()) {
+      const hls = new Hls({ startLevel: -1, maxBufferLength: 15 });
+      hls.loadSource(HLS_SRC);
+      hls.attachMedia(videoEl);
+    } else if (videoEl.canPlayType('application/vnd.apple.mpegurl')) {
+      videoEl.src = HLS_SRC;
+    }
+  }
+
   /* ── LOADING SCREEN ───────────────────────────────────────── */
   const lsScreen  = document.getElementById('loading-screen');
   const lsLabel   = document.getElementById('ls-label');
@@ -1716,7 +1732,8 @@
   const mainEl    = document.getElementById('main-content');
 
   const LS_WORDS    = ['Design', 'Create', 'Inspire'];
-  const LS_DURATION = 2700;
+  const LS_MIN_DURATION = 2700;
+  const LS_MAX_DURATION = 9000; // hard cap — don't trap user on slow networks
   let   wordIdx     = 0;
 
   // Cycle words
@@ -1728,22 +1745,60 @@
     lsWord.textContent = LS_WORDS[wordIdx];
   }, 900);
 
-  // Counter RAF
+  // Start video loading immediately (in parallel with loader) so it's ready when loader finishes
+  let heroVideoReady = false;
+  const heroVideoReadyPromise = new Promise(resolve => {
+    const onReady = () => { heroVideoReady = true; resolve(); };
+    // Kick off HLS attach as soon as Hls lib is parsed; retry until it's available
+    const tryAttach = () => {
+      const v = document.getElementById('hero-video');
+      if (!v) return;
+      const done = () => { v.removeEventListener('loadeddata', done); v.removeEventListener('canplay', done); onReady(); };
+      v.addEventListener('loadeddata', done, { once: true });
+      v.addEventListener('canplay', done, { once: true });
+      v.addEventListener('error', onReady, { once: true });
+      attachHLS(v);
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', tryAttach, { once: true });
+    } else {
+      tryAttach();
+    }
+    // Safety: resolve after max duration regardless
+    setTimeout(onReady, LS_MAX_DURATION);
+  });
+
+  // Counter RAF — progresses to 90% over LS_MIN_DURATION, then waits for video; 90→100 on video ready
   const t0 = performance.now();
+  let finishing = false;
+  let finalT0 = 0;
+  let progressAtFinish = 0;
 
   function tickCounter(now) {
-    const p  = Math.min((now - t0) / LS_DURATION, 1);
-    const ep = 1 - Math.pow(1 - p, 3); // ease-out cubic
-    const n  = Math.round(ep * 100);
+    let ep;
+    if (!finishing) {
+      const p = Math.min((now - t0) / LS_MIN_DURATION, 1);
+      ep = (1 - Math.pow(1 - p, 3)) * 0.9; // ease-out cubic capped at 90%
 
-    lsCounter.textContent     = n + '%';
-    lsBar.style.transform     = `scaleX(${ep})`;
+      if (p >= 1 && heroVideoReady) {
+        finishing = true;
+        finalT0 = now;
+        progressAtFinish = ep;
+      }
+    } else {
+      const fp = Math.min((now - finalT0) / 350, 1);
+      ep = progressAtFinish + (1 - progressAtFinish) * fp;
+    }
 
-    if (p < 1) {
+    const n = Math.round(ep * 100);
+    lsCounter.textContent = n + '%';
+    lsBar.style.transform = `scaleX(${ep})`;
+
+    if (ep < 1) {
       requestAnimationFrame(tickCounter);
     } else {
       clearInterval(wordTimer);
-      setTimeout(completeLoading, 400);
+      setTimeout(completeLoading, 250);
     }
   }
   requestAnimationFrame(tickCounter);
@@ -1753,6 +1808,9 @@
     setTimeout(() => {
       lsScreen.style.display = 'none';
       mainEl.classList.add('vis');
+      // Make sure the hero video is playing now that it's visible
+      const hv = document.getElementById('hero-video');
+      if (hv) { const pr = hv.play(); if (pr && pr.catch) pr.catch(() => {}); }
       boot();
     }, 520);
   }
@@ -1761,7 +1819,7 @@
   /* ── BOOT (runs after loader) ─────────────────────────────── */
   function boot() {
     initNavbar();
-    initVideos();
+    initVideos(); // attaches contact video (hero already attached during loader)
     initGSAP();
     initReveal();
     initRoles();
@@ -1797,19 +1855,8 @@
 
 
   /* ── HLS VIDEOS ──────────────────────────────────────────── */
-  const HLS_SRC = 'https://stream.mux.com/Aa02T7oM1wH5Mk5EEVDYhbZ1ChcdhRsS2m1NYyx4Ua1g.m3u8';
-
-  function attachHLS(videoEl) {
-    if (typeof Hls !== 'undefined' && Hls.isSupported()) {
-      const hls = new Hls({ startLevel: -1, maxBufferLength: 15 });
-      hls.loadSource(HLS_SRC);
-      hls.attachMedia(videoEl);
-    } else if (videoEl.canPlayType('application/vnd.apple.mpegurl')) {
-      videoEl.src = HLS_SRC;
-    }
-  }
-
   function initVideos() {
+    // hero-video already attached during loader; attachHLS is idempotent
     attachHLS(document.getElementById('hero-video'));
     attachHLS(document.getElementById('contact-video'));
   }
