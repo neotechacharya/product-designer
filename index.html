@@ -46,7 +46,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
   <!-- hls.js -->
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.7/dist/hls.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.7/dist/hls.min.js" defer></script>
+
+  <!-- Hero poster (Mux auto-generated thumbnail) -->
+  <link rel="preload" as="image" href="https://image.mux.com/Aa02T7oM1wH5Mk5EEVDYhbZ1ChcdhRsS2m1NYyx4Ua1g/thumbnail.webp?width=1280&time=0" fetchpriority="high">
 
   <style>
     /* ============================================================
@@ -334,11 +337,22 @@
       align-items: center;
       gap: 0.2rem;
       backdrop-filter: blur(12px);
+      white-space: nowrap;
+    }
+
+    @media (max-width: 768px) {
+      #navbar { padding: 0.75rem 0.5rem; }
+      .nav__pill { padding: 0.3rem 0.3rem; max-width: calc(100vw - 1rem); }
+      .nav__sep { display: none; }
+      .nav__link { padding: 0.3rem 0.5rem; font-size: 0.7rem; }
+      .nav__cta-inner { padding: 0.3rem 0.65rem; font-size: 0.7rem; }
+      .nav__logo { width: 1.85rem; height: 1.85rem; }
     }
 
     @media (max-width: 480px) {
-      .nav__sep { display: none; }
-      .nav__link { padding: 0.35rem 0.55rem; font-size: 0.72rem; }
+      .nav__link { padding: 0.28rem 0.4rem; font-size: 0.66rem; }
+      .nav__cta-inner { padding: 0.28rem 0.55rem; font-size: 0.66rem; }
+      .nav__link--desktop { display: none; }
     }
 
     /* ============================================================
@@ -361,10 +375,12 @@
 
     #hero-video {
       position: absolute;
-      top: 50%; left: 50%;
-      min-width: 100%; min-height: 100%;
-      transform: translate(-50%, -50%);
+      inset: 0;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
+      object-position: center;
+      background: var(--bg);
     }
 
     .hero__overlay  { position: absolute; inset: 0; background: rgba(0,0,0,0.22); }
@@ -1104,10 +1120,13 @@
     .contact__video-wrap { position: absolute; inset: 0; overflow: hidden; }
     #contact-video {
       position: absolute;
-      top: 50%; left: 50%;
-      min-width: 100%; min-height: 100%;
-      transform: translate(-50%, -50%) scaleY(-1);
+      inset: 0;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
+      object-position: center;
+      transform: scaleY(-1);
+      background: var(--bg);
     }
     .contact__video-overlay {
       position: absolute; inset: 0;
@@ -1273,8 +1292,8 @@
 
       <a href="#hero"  class="nav__link active" data-section="hero">Home</a>
       <a href="#works" class="nav__link" data-section="works">Work</a>
-      <a href="https://docs.google.com/document/d/1EWNIqPz05B3XOAnOKZrtzcq2-0bP-2uF/edit"
-         target="_blank" rel="noopener" class="nav__link">Resume</a>
+      <a href="#stack" class="nav__link nav__link--desktop" data-section="stack">Tools</a>
+      <a href="#testimonials" class="nav__link" data-section="testimonials">Testimonials</a>
 
       <div class="nav__sep"></div>
 
@@ -1290,7 +1309,8 @@
   <section id="hero" aria-label="Introduction">
 
     <div class="hero__bg">
-      <video id="hero-video" autoplay muted loop playsinline></video>
+      <video id="hero-video" autoplay muted loop playsinline preload="none"
+             poster="https://image.mux.com/Aa02T7oM1wH5Mk5EEVDYhbZ1ChcdhRsS2m1NYyx4Ua1g/thumbnail.webp?width=1280&time=0"></video>
       <div class="hero__overlay"></div>
       <div class="hero__fade-btm"></div>
     </div>
@@ -1732,8 +1752,7 @@
   const mainEl    = document.getElementById('main-content');
 
   const LS_WORDS    = ['Design', 'Create', 'Inspire'];
-  const LS_MIN_DURATION = 2700;
-  const LS_MAX_DURATION = 9000; // hard cap — don't trap user on slow networks
+  const LS_DURATION = 1500; // fixed, fast — video loads lazily after
   let   wordIdx     = 0;
 
   // Cycle words
@@ -1745,60 +1764,21 @@
     lsWord.textContent = LS_WORDS[wordIdx];
   }, 900);
 
-  // Start video loading immediately (in parallel with loader) so it's ready when loader finishes
-  let heroVideoReady = false;
-  const heroVideoReadyPromise = new Promise(resolve => {
-    const onReady = () => { heroVideoReady = true; resolve(); };
-    // Kick off HLS attach as soon as Hls lib is parsed; retry until it's available
-    const tryAttach = () => {
-      const v = document.getElementById('hero-video');
-      if (!v) return;
-      const done = () => { v.removeEventListener('loadeddata', done); v.removeEventListener('canplay', done); onReady(); };
-      v.addEventListener('loadeddata', done, { once: true });
-      v.addEventListener('canplay', done, { once: true });
-      v.addEventListener('error', onReady, { once: true });
-      attachHLS(v);
-    };
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', tryAttach, { once: true });
-    } else {
-      tryAttach();
-    }
-    // Safety: resolve after max duration regardless
-    setTimeout(onReady, LS_MAX_DURATION);
-  });
-
-  // Counter RAF — progresses to 90% over LS_MIN_DURATION, then waits for video; 90→100 on video ready
+  // Counter RAF — fixed duration, ease-out
   const t0 = performance.now();
-  let finishing = false;
-  let finalT0 = 0;
-  let progressAtFinish = 0;
 
   function tickCounter(now) {
-    let ep;
-    if (!finishing) {
-      const p = Math.min((now - t0) / LS_MIN_DURATION, 1);
-      ep = (1 - Math.pow(1 - p, 3)) * 0.9; // ease-out cubic capped at 90%
+    const p  = Math.min((now - t0) / LS_DURATION, 1);
+    const ep = 1 - Math.pow(1 - p, 3);
 
-      if (p >= 1 && heroVideoReady) {
-        finishing = true;
-        finalT0 = now;
-        progressAtFinish = ep;
-      }
-    } else {
-      const fp = Math.min((now - finalT0) / 350, 1);
-      ep = progressAtFinish + (1 - progressAtFinish) * fp;
-    }
-
-    const n = Math.round(ep * 100);
-    lsCounter.textContent = n + '%';
+    lsCounter.textContent = Math.round(ep * 100) + '%';
     lsBar.style.transform = `scaleX(${ep})`;
 
     if (ep < 1) {
       requestAnimationFrame(tickCounter);
     } else {
       clearInterval(wordTimer);
-      setTimeout(completeLoading, 250);
+      setTimeout(completeLoading, 200);
     }
   }
   requestAnimationFrame(tickCounter);
@@ -1808,9 +1788,6 @@
     setTimeout(() => {
       lsScreen.style.display = 'none';
       mainEl.classList.add('vis');
-      // Make sure the hero video is playing now that it's visible
-      const hv = document.getElementById('hero-video');
-      if (hv) { const pr = hv.play(); if (pr && pr.catch) pr.catch(() => {}); }
       boot();
     }, 520);
   }
