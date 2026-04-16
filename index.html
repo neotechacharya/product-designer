@@ -11,6 +11,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
+  <link rel="icon" href="img/favicon/icon.svg" type="image/svg+xml">
   <link rel="icon" href="img/favicon/favicon.ico" sizes="any">
   <link rel="apple-touch-icon" href="img/favicon/apple-touch-icon.png">
 
@@ -22,10 +23,10 @@
   <meta property="og:url" content="">
   <meta property="og:image" content="img/og-image.jpg">
 
-  <meta name="theme-color" content="#0a0a0a">
-  <meta name="msapplication-navbutton-color" content="#0a0a0a">
+  <meta name="theme-color" content="#fafafa">
+  <meta name="msapplication-navbutton-color" content="#fafafa">
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-H7Z239MG7M"></script>
@@ -56,11 +57,11 @@
        DESIGN TOKENS
     ============================================================ */
     :root {
-      --bg:      hsl(0, 0%, 4%);
-      --surface: hsl(0, 0%, 8%);
-      --text:    hsl(0, 0%, 96%);
-      --muted:   hsl(0, 0%, 53%);
-      --stroke:  hsl(0, 0%, 12%);
+      --bg:      hsl(0, 0%, 99%);
+      --surface: hsl(210, 15%, 94%);
+      --text:    hsl(0, 0%, 8%);
+      --muted:   hsl(215, 15%, 32%);
+      --stroke:  hsl(210, 15%, 87%);
       --accent-a: #89AACC;
       --accent-b: #4E85BF;
     }
@@ -70,11 +71,20 @@
     ============================================================ */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+      /* Fixed to viewport — identical gradient visible behind every section as you scroll */
+      background:
+        radial-gradient(ellipse 75% 55% at 100% 0%,   rgba(137,170,204,0.22) 0%, transparent 58%),
+        radial-gradient(ellipse 65% 50% at 0%   100%,  rgba(78,133,191,0.15)  0%, transparent 55%),
+        radial-gradient(ellipse 50% 40% at 50%  50%,   rgba(175,208,235,0.1)  0%, transparent 50%),
+        hsl(0, 0%, 99%);
+      background-attachment: fixed;
+    }
 
     body {
       font-family: 'Inter', sans-serif;
-      background: var(--bg);
+      background: transparent;
       color: var(--text);
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
@@ -112,6 +122,61 @@
     @keyframes pulse-dot {
       0%, 100% { opacity: 1;   transform: scale(1);   }
       50%       { opacity: 0.4; transform: scale(0.75); }
+    }
+
+    /* ============================================================
+       GRADIENT WAVE CANVAS
+    ============================================================ */
+    .wave-canvas {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: transparent;
+    }
+
+    .wave-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      pointer-events: none;
+      will-change: transform;
+    }
+
+    .wave-blob--1 {
+      width: 70vw; height: 70vw;
+      max-width: 920px; max-height: 920px;
+      background: radial-gradient(circle at center, rgba(137,170,204,0.32) 0%, transparent 60%);
+      top: -18%; right: -18%;
+      animation: wave-float 16s ease-in-out infinite;
+    }
+
+    .wave-blob--2 {
+      width: 55vw; height: 55vw;
+      max-width: 720px; max-height: 720px;
+      background: radial-gradient(circle at center, rgba(78,133,191,0.18) 0%, transparent 60%);
+      bottom: -12%; left: -12%;
+      animation: wave-float 21s ease-in-out infinite reverse;
+    }
+
+    .wave-blob--3 {
+      width: 42vw; height: 42vw;
+      max-width: 560px; max-height: 560px;
+      background: radial-gradient(circle at center, rgba(175,208,235,0.25) 0%, transparent 60%);
+      top: 35%; left: 15%;
+      animation: wave-drift 25s ease-in-out infinite;
+    }
+
+    @keyframes wave-float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25%       { transform: translate(3%, -4%) scale(1.05); }
+      50%       { transform: translate(-2%,  3%) scale(0.96); }
+      75%       { transform: translate(4%,   2%) scale(1.03); }
+    }
+
+    @keyframes wave-drift {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33%       { transform: translate(-5%, -3%) scale(1.07); }
+      66%       { transform: translate( 4%,  5%) scale(0.93); }
     }
 
     /* ============================================================
@@ -243,14 +308,14 @@
       border-radius: 9999px;
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255,255,255,0.08);
-      background: rgba(20,20,20,0.9);
+      border: 1px solid rgba(0,0,0,0.07);
+      background: rgba(255,255,255,0.92);
       padding: 0.4rem 0.4rem;
       transition: box-shadow 0.3s ease;
     }
 
     .nav__pill.scrolled {
-      box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+      box-shadow: 0 4px 30px rgba(0,0,0,0.08);
     }
 
     .nav__logo {
@@ -306,7 +371,7 @@
     }
     .nav__link:hover, .nav__link.active {
       color: var(--text);
-      background: rgba(31,31,31,0.6);
+      background: rgba(0,0,0,0.05);
     }
 
     .nav__cta {
@@ -328,7 +393,7 @@
     .nav__cta-inner {
       position: relative;
       z-index: 1;
-      background: rgba(20,20,20,0.9);
+      background: rgba(255,255,255,0.92);
       border-radius: 9999px;
       padding: 0.35rem 0.8rem;
       font-size: 0.78rem;
@@ -599,7 +664,7 @@
     /* ============================================================
        WORKS SECTION
     ============================================================ */
-    #works { background: var(--bg); padding: 6rem 0 7rem; }
+    #works { background: transparent; padding: 6rem 0 7rem; }
 
     /* Case study card list */
     .works-list {
@@ -610,23 +675,24 @@
 
     .cs-card {
       display: block;
-      background: var(--surface);
+      background: #ffffff;
       border: 1px solid var(--stroke);
       border-radius: 1.5rem;
       overflow: hidden;
       text-decoration: none;
+      box-shadow: 0 4px 20px rgba(137,170,204,0.1), 0 1px 4px rgba(0,0,0,0.04);
       transition:
         box-shadow 0.45s cubic-bezier(0.23,0.65,0.74,1.09),
         transform  0.45s cubic-bezier(0.23,0.65,0.74,1.09),
         border-color 0.35s ease;
     }
     .cs-card:hover {
-      transform: perspective(1200px) rotateX(0.8deg) rotateY(-0.8deg) translateY(-4px);
-      box-shadow: 0 24px 60px rgba(0,0,0,0.45), 0 4px 16px rgba(0,0,0,0.3);
-      border-color: rgba(255,255,255,0.1);
+      transform: perspective(1200px) rotateX(0.8deg) rotateY(-0.8deg) translateY(-5px);
+      box-shadow: 0 24px 60px rgba(137,170,204,0.2), 0 4px 16px rgba(78,133,191,0.08);
+      border-color: rgba(137,170,204,0.45);
     }
     .cs-card:hover .cs-card__media img {
-      box-shadow: 0 0 32px rgba(137,170,204,0.18), 0 0 8px rgba(78,133,191,0.12);
+      box-shadow: 0 0 32px rgba(137,170,204,0.2), 0 0 8px rgba(78,133,191,0.14);
     }
 
     .cs-card__inner {
@@ -664,8 +730,8 @@
       height: auto;
       display: block;
       border-radius: 1rem;
-      border: 1px solid rgba(255,255,255,0.06);
-      background: var(--surface);
+      border: 1px solid rgba(0,0,0,0.04);
+      background: #ffffff;
     }
 
     .cs-card__content {
@@ -744,7 +810,7 @@
     /* ============================================================
        CORE EXPERTISE SECTION
     ============================================================ */
-    #expertise { background: var(--bg); padding: 0 0 7rem; }
+    #expertise { background: transparent; padding: 0 0 7rem; }
 
     .expertise-grid {
       display: grid;
@@ -754,34 +820,47 @@
     @media (min-width: 640px)  { .expertise-grid { grid-template-columns: repeat(3, 1fr); } }
 
     .exp-card {
-      background: var(--surface);
+      background: #ffffff;
       border: 1px solid var(--stroke);
       border-radius: 1.5rem;
       padding: 2rem 2rem 2.25rem;
+      box-shadow: 0 4px 20px rgba(137,170,204,0.1), 0 1px 4px rgba(0,0,0,0.04);
       transition: border-color 0.3s, box-shadow 0.3s;
     }
     .exp-card:hover {
-      border-color: rgba(137,170,204,0.2);
-      box-shadow: 0 0 0 1px rgba(137,170,204,0.08), 0 8px 32px rgba(0,0,0,0.3);
+      border-color: rgba(137,170,204,0.4);
+      box-shadow: 0 12px 40px rgba(137,170,204,0.18), 0 2px 8px rgba(0,0,0,0.04);
     }
 
     .exp-card__icon {
       width: 2.75rem;
       height: 2.75rem;
       border-radius: 50%;
-      border: 1px solid var(--stroke);
       display: flex;
       align-items: center;
       justify-content: center;
       margin-bottom: 2rem;
-      color: var(--muted);
-      transition: border-color 0.3s, color 0.3s;
+      transition: transform 0.3s ease;
     }
-    .exp-card:hover .exp-card__icon {
-      border-color: rgba(137,170,204,0.35);
-      color: var(--accent-a);
-    }
+    .exp-card:hover .exp-card__icon { transform: scale(1.08); }
     .exp-card__icon svg { width: 1.1rem; height: 1.1rem; }
+
+    /* Per-card icon colours */
+    .expertise-grid .exp-card:nth-child(1) .exp-card__icon {
+      background: rgba(137,170,204,0.16);
+      border: 1.5px solid rgba(137,170,204,0.35);
+      color: #5E96C2;
+    }
+    .expertise-grid .exp-card:nth-child(2) .exp-card__icon {
+      background: rgba(82,178,165,0.14);
+      border: 1.5px solid rgba(82,178,165,0.32);
+      color: #3EA898;
+    }
+    .expertise-grid .exp-card:nth-child(3) .exp-card__icon {
+      background: rgba(148,130,210,0.13);
+      border: 1.5px solid rgba(148,130,210,0.3);
+      color: #8B74C8;
+    }
 
     .exp-card__title {
       font-size: 1rem;
@@ -799,7 +878,7 @@
        STATEMENT SECTION
     ============================================================ */
     #statement {
-      background: var(--bg);
+      background: transparent;
       padding: 7rem 0;
       text-align: center;
       border-top: 1px solid var(--stroke);
@@ -841,7 +920,7 @@
     /* ============================================================
        STACK SECTION
     ============================================================ */
-    #stack { background: var(--bg); padding: 0 0 7rem; }
+    #stack { background: transparent; padding: 0 0 7rem; }
 
     .stack-layout {
       display: grid;
@@ -879,7 +958,7 @@
     }
 
     .stack-item {
-      background: var(--surface);
+      background: #ffffff;
       border: 1px solid var(--stroke);
       border-radius: 1.25rem;
       padding: 1.5rem 1rem 1.25rem;
@@ -887,12 +966,19 @@
       flex-direction: column;
       align-items: center;
       gap: 1rem;
-      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+      box-shadow:
+        0 4px 16px rgba(137,170,204,0.1),
+        inset 0 1px 0 rgba(255,255,255,0.88);
+      transition: border-color 0.3s, box-shadow 0.3s, background 0.3s, transform 0.3s;
       cursor: default;
     }
     .stack-item:hover {
-      border-color: rgba(137,170,204,0.2);
-      box-shadow: 0 0 0 1px rgba(137,170,204,0.08), 0 8px 28px rgba(0,0,0,0.35);
+      background: rgba(255,255,255,0.7);
+      border-color: rgba(137,170,204,0.48);
+      box-shadow:
+        0 0 0 1px rgba(137,170,204,0.2),
+        0 10px 32px rgba(137,170,204,0.18),
+        inset 0 1px 0 rgba(255,255,255,0.95);
       transform: translateY(-3px);
     }
 
@@ -915,7 +1001,7 @@
     /* ============================================================
        JOURNAL SECTION
     ============================================================ */
-    #journal { background: var(--bg); padding: 0 0 7rem; }
+    #journal { background: transparent; padding: 0 0 7rem; }
 
     .journal-list { display: flex; flex-direction: column; gap: 0.75rem; }
 
@@ -924,7 +1010,7 @@
       align-items: center;
       gap: 1.25rem;
       padding: 0.9rem 1.1rem;
-      background: rgba(20,20,20,0.3);
+      background: rgba(0,0,0,0.02);
       border: 1px solid var(--stroke);
       border-radius: 3rem;
       transition: background 0.2s, border-color 0.2s;
@@ -932,7 +1018,7 @@
     }
     .journal-entry:hover {
       background: var(--surface);
-      border-color: rgba(255,255,255,0.07);
+      border-color: rgba(137,170,204,0.3);
     }
 
     .journal-entry__thumb {
@@ -970,7 +1056,7 @@
        TESTIMONIALS SECTION
     ============================================================ */
     #testimonials {
-      background: var(--bg);
+      background: transparent;
       padding: 0 0 7rem;
       text-align: center;
     }
@@ -1075,7 +1161,7 @@
        STATS SECTION
     ============================================================ */
     #stats {
-      background: var(--bg);
+      background: transparent;
       padding: 5rem 0;
       border-top: 1px solid var(--stroke);
       border-bottom: 1px solid var(--stroke);
@@ -1130,7 +1216,7 @@
     }
     .contact__video-overlay {
       position: absolute; inset: 0;
-      background: rgba(0,0,0,0.62);
+      background: rgba(255,255,255,0.1);
     }
 
     .contact__body { position: relative; z-index: 10; }
@@ -1142,7 +1228,7 @@
       font-family: 'Instrument Serif', serif;
       font-style: italic;
       font-size: clamp(3rem, 7vw, 6rem);
-      color: rgba(245,245,245,0.055);
+      color: rgba(10,10,10,0.07);
       padding-right: 1rem;
       white-space: nowrap;
       flex-shrink: 0;
@@ -1309,9 +1395,11 @@
   <section id="hero" aria-label="Introduction">
 
     <div class="hero__bg">
-      <video id="hero-video" autoplay muted loop playsinline preload="none"
-             poster="https://image.mux.com/Aa02T7oM1wH5Mk5EEVDYhbZ1ChcdhRsS2m1NYyx4Ua1g/thumbnail.webp?width=1280&time=0"></video>
-      <div class="hero__overlay"></div>
+      <div class="wave-canvas">
+        <div class="wave-blob wave-blob--1"></div>
+        <div class="wave-blob wave-blob--2"></div>
+        <div class="wave-blob wave-blob--3"></div>
+      </div>
       <div class="hero__fade-btm"></div>
     </div>
 
@@ -1460,9 +1548,8 @@
         <div class="exp-card reveal">
           <div class="exp-card__icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"/>
-              <path d="M12 8a4 4 0 0 1 0 8"/>
-              <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+              <path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+              <path d="m15 5 4 4"/>
             </svg>
           </div>
           <h3 class="exp-card__title">Product Design</h3>
@@ -1660,38 +1747,15 @@
   <footer id="contact" aria-label="Contact">
 
     <div class="contact__video-wrap">
-      <video id="contact-video" autoplay muted loop playsinline></video>
-      <div class="contact__video-overlay"></div>
+      <div class="wave-canvas">
+        <div class="wave-blob wave-blob--1"></div>
+        <div class="wave-blob wave-blob--2"></div>
+        <div class="wave-blob wave-blob--3"></div>
+      </div>
     </div>
 
     <div class="contact__body sec-wrap">
 
-      <!-- Marquee -->
-      <div class="marquee-wrap" aria-hidden="true">
-        <div class="marquee-track" id="marquee-track">
-          <span class="marquee-item">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
-          <span class="marquee-item">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
-          <span class="marquee-item">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
-          <span class="marquee-item">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
-          <span class="marquee-item">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
-          <span class="marquee-item">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
-          <span class="marquee-item">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
-          <span class="marquee-item">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
-          <span class="marquee-item">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
-          <span class="marquee-item">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
-          <!-- duplicate for seamless loop -->
-          <span class="marquee-item" aria-hidden="true">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
-          <span class="marquee-item" aria-hidden="true">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
-          <span class="marquee-item" aria-hidden="true">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
-          <span class="marquee-item" aria-hidden="true">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
-          <span class="marquee-item" aria-hidden="true">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
-          <span class="marquee-item" aria-hidden="true">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
-          <span class="marquee-item" aria-hidden="true">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
-          <span class="marquee-item" aria-hidden="true">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
-          <span class="marquee-item" aria-hidden="true">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
-          <span class="marquee-item" aria-hidden="true">DESIGNING THE FUTURE &nbsp;•&nbsp; </span>
-        </div>
-      </div>
 
       <!-- CTA -->
       <div class="contact__cta reveal">

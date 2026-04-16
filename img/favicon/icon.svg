@@ -1,25 +1,35 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 64 64">
+  <!-- Generator: Adobe Illustrator 30.3.0, SVG Export Plug-In . SVG Version: 2.1.3 Build 182)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: #141414;
+      }
 
-	<style type="text/css">
-		.icon__cat {
-			fill: #9F8BE7;
-		}
-		.icon__eyes {
-			fill: #ffffff;
-		}
-		@media (prefers-color-scheme: dark) {
-			.icon__cat {
-			fill: #DDF160;
-			}
-			.icon__eyes {
-				fill: #000000;
-			}
-		}
-	</style>
+      .st1 {
+        fill: #fff;
+        stroke: #fff;
+        stroke-miterlimit: 10;
+      }
 
-	<path class="icon__cat" d="M15,8v1h1v1h-1v1v1v1v1h-1v1h0h-1h-1h-1h-1h-1h-1h-1h-1h-1h-1H2.8H2.4H2.1h0v-1H1v-1v-1v-1v-1H0V9h1V8H0V7h1h0.7v-1v-1h1v-1
-		v-1v-1h1v-1h1v1h1v1h1h1h1h1v-1h1v-1h1v1h1v1v1v1h1v1v1H15h1v1H15z"/>
+      .st2 {
+        isolation: isolate;
+      }
 
-	<path class="icon__eyes" d="M9.7,5.9h1v1v1h-1V7V5.9z M5.2,7v1h1V7v-1h-1V7z"/>
-
+      .st3 {
+        fill: url(#linear-gradient);
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="-38.39" y1="104.39" x2="-37.39" y2="103.39" gradientTransform="translate(2457 6681) scale(64 -64)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#89aacc"/>
+      <stop offset="1" stop-color="#4e85bf"/>
+    </linearGradient>
+  </defs>
+  <circle class="st3" cx="32" cy="32" r="32"/>
+  <circle class="st0" cx="32" cy="32" r="29.5"/>
+  <g class="st2">
+    <path class="st1" d="M20.31,46.13c-.56,0-1.01-.15-1.36-.45-.35-.3-.52-.69-.52-1.17,0-.4.12-.76.36-1.08s.57-.48.99-.48c.36,0,.61.1.75.3s.23.43.28.69c.05.26.12.49.21.69.09.2.27.3.52.3.38,0,.72-.22,1.03-.66.31-.44.55-1.06.73-1.85l5.14-22.28c.1-.42.1-.7,0-.84-.1-.14-.35-.25-.75-.33l-.6-.12c-.26-.06-.39-.17-.39-.33,0-.24.18-.36.54-.36h5.32c.28,0,.42.1.42.3,0,.22-.2.36-.6.42l-.6.09c-.44.06-.74.16-.9.31-.16.15-.29.43-.39.85l-4.22,18.24c-.56,2.39-1.37,4.28-2.44,5.67-1.07,1.39-2.25,2.08-3.54,2.08Z"/>
+    <path class="st1" d="M29.22,39.7c-.24,0-.36-.1-.36-.3,0-.18.16-.31.48-.39l.48-.09c.4-.08.74-.27,1.03-.58.29-.31.56-.74.82-1.3l8.94-18.69c.1-.2.2-.33.3-.39.1-.06.19-.09.27-.09.1,0,.18.03.25.09.07.06.11.19.11.39l.33,18.96c.02.56.09.94.21,1.15.12.21.37.36.75.46l.39.09c.24.06.36.18.36.36,0,.22-.17.33-.51.33h-4.93c-.26,0-.39-.1-.39-.3,0-.22.2-.35.6-.39l.6-.06c.34-.04.57-.15.7-.33.13-.18.19-.49.19-.93l-.06-4.64c0-.52-.27-.78-.81-.78h-3.2c-.52,0-.91.26-1.17.78l-1.94,4.01c-.54,1.14-.36,1.76.54,1.88l.42.06c.3.04.45.16.45.36,0,.22-.17.33-.51.33h-4.34ZM35.89,31.39h3.35c.34,0,.51-.17.51-.51l-.06-8.16h-.15l-3.92,8.16c-.08.14-.09.26-.03.36.06.1.16.15.3.15Z"/>
+  </g>
 </svg>
