@@ -241,6 +241,12 @@
     .setup-step__text{font-size:.9rem;line-height:1.65;color:var(--muted);}
     .setup-step__text strong{color:var(--text);font-weight:600;}
 
+    /* Alternative considered / Why rejected — sits under a setup-step */
+    .setup-step__alt{margin:.25rem 0 .5rem 2rem;padding:.85rem 1.1rem;background:rgba(137,170,204,.06);border-left:2px solid var(--accent-a);border-radius:0 .5rem .5rem 0;}
+    .setup-step__alt p{font-size:.85rem;line-height:1.65;color:var(--muted);margin-bottom:.5rem;}
+    .setup-step__alt p:last-child{margin-bottom:0;}
+    .setup-step__alt-label{font-style:italic;color:var(--text);font-weight:500;margin-right:.35rem;}
+
     /* ── OUTCOME LIST ── */
     .outcome-list{display:flex;flex-direction:column;gap:1.5rem;margin:1rem 0;}
     .outcome-item{display:flex;gap:1rem;align-items:flex-start;}
@@ -295,7 +301,7 @@
             <div class="col-12 col-xl-10 mxd-grid-item mb-5 mt-0">
               <div class="mxd-block__content">
                 <div class="mxd-block__inner-headline loading__item">
-                  <h1 class="inner-headline__title csthdtl">Redesigned the call analytics dashboard</h1>
+                  <h1 class="inner-headline__title csthdtl">Designed the call analytics dashboard from zero</h1>
                 </div>
               </div>
             </div>
@@ -307,7 +313,7 @@
               <h5 class="ovcontext mxd-block__inner-headline loading__item">Overview & Context</h5>
               <div class="inner-headline__paragraph loading__item mt-4">
                 <p class="pb-4">CallHippo is a cloud-based business phone system used by sales and support teams to manage inbound and outbound calls across global markets.</p>
-                <p>As the product grew and call data increased, the existing dashboard struggled to communicate meaningful insights. Managers could see large amounts of data, but they couldn't quickly understand what was actually happening with their team's call performance. The redesign focused on transforming the dashboard from a data display interface into a decision-support tool.</p>
+                <p>While reviewing customer support tickets, I noticed a recurring pattern — customers were repeatedly asking how to export team data to spreadsheets. That told me something important: the product wasn't showing them the insights they actually needed. Managers were leaving the product every week to rebuild reports in Excel. So I proposed a dedicated call-analytics dashboard to replace that workflow.</p>
               </div>
 
               <div class="inner-headline__data">
@@ -370,8 +376,8 @@
                 <h2 class="reveal-type anim-uni-in-up">Problem</h2>
                 <div class="mxd-project__content">
                   <div class="pb-5">
-                    <p class="t-large t-bright anim-uni-in-up fnbold">The original dashboard presented many metrics but lacked clear prioritization and structure.</p>
-                    <p class="anim-uni-in-up pb-4">Managers opening the dashboard were confronted with a large collection of numbers with little context. Answering simple questions such as "Are we missing more calls this week?", "Is outbound performance improving?", or "Which agents are handling the most calls?" required navigating across multiple screens and manually connecting information.</p>
+                    <p class="t-large t-bright anim-uni-in-up fnbold">A pattern in customer support tickets revealed the real problem: customers were exporting team data to spreadsheets every week because the product wasn't showing them the insights managers actually needed.</p>
+                    <p class="anim-uni-in-up pb-4">Managers opening the dashboard were confronted with a large collection of numbers with little context. Answering simple questions such as "Are we missing more calls this week?", "Is outbound performance improving?", or "Which agents are handling the most calls?" required exporting data, cross-referencing screens, and manually connecting information.</p>
                     <p class="t-large t-bright anim-uni-in-up fnbold">As a result:</p>
                     <div class="problem-result-list">
                       <div class="problem-result-item anim-uni-in-up">
@@ -395,6 +401,50 @@
                       <p class="img-bordered-caption__caption">Old Dashboard UI</p>
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Constraints -->
+      <div id="sec-constraints" class="mxd-project__block">
+        <div class="container-fluid px-0">
+          <div class="row justify-content-center gx-0">
+            <div class="col-12 col-xl-10 mxd-grid-item no-margin">
+              <div class="mxd-project__subtitle">
+                <h2 class="reveal-type anim-uni-in-up">Constraints</h2>
+              </div>
+            </div>
+            <div class="col-12 col-xl-10 mxd-grid-item">
+              <div class="mxd-project__content">
+                <div class="mxd-project__paragraph medium-text">
+                  <p class="anim-uni-in-up">Every design decision on this project came out of a simple triangle — time, scope, and quality. You can only get two at once. Here is which constraints were fixed, and which one I traded.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mxd-project-cards">
+          <div class="container-fluid px-0">
+            <div class="row justify-content-center gx-0">
+              <div class="col-12 col-xl-3 mxd-project-cards__item mxd-grid-item anim-uni-scale-in-left">
+                <div class="mxd-project-cards__inner" style="padding:1.75rem;">
+                  <p class="t-small t-muted" style="text-transform:uppercase;letter-spacing:.1rem;margin-bottom:.8rem;">Time — Fixed</p>
+                  <p class="t-small t-muted">Three weeks, end to end. CallHippo had an aggressive release calendar. No room for broad user testing or polishing every interaction.</p>
+                </div>
+              </div>
+              <div class="col-12 col-xl-3 mxd-project-cards__item mxd-grid-item anim-uni-scale-in-right">
+                <div class="mxd-project-cards__inner" style="padding:1.75rem;">
+                  <p class="t-small t-muted" style="text-transform:uppercase;letter-spacing:.1rem;margin-bottom:.8rem;">Quality — Fixed</p>
+                  <p class="t-small t-muted">The dashboard had to work on the first open. Managers would use it daily — a confusing version one would cost trust with every sales manager who opened it.</p>
+                </div>
+              </div>
+              <div class="col-12 col-xl-4 mxd-project-cards__item mxd-grid-item anim-uni-scale-in-left">
+                <div class="mxd-project-cards__inner" style="padding:1.75rem;">
+                  <p class="t-small t-muted" style="text-transform:uppercase;letter-spacing:.1rem;margin-bottom:.8rem;">Scope — Traded</p>
+                  <p class="t-small t-muted">With time fixed and quality high, scope was where I made room. That led directly to the two-layer split — the main dashboard carries only the 6 questions managers check daily. Everything else lives in the analytics module.</p>
                 </div>
               </div>
             </div>
@@ -617,9 +667,17 @@
                     <span class="setup-step__icon">▷▷</span>
                     <p class="setup-step__text"><strong>Separate quick monitoring from deeper analysis</strong> by introducing a two-layer dashboard structure. The main dashboard gives managers a fast overview, while the analytics module helps them investigate performance in detail.</p>
                   </div>
+                  <div class="setup-step__alt anim-uni-in-up">
+                    <p><em class="setup-step__alt-label">Alternative considered:</em>My first version kept everything on a single page — the overview metrics at the top, and the advanced analytics module directly below.</p>
+                    <p><em class="setup-step__alt-label">Why I rejected it:</em>Both sections fought for the same attention. The page got long and dense. Managers had to scroll to find anything, which killed the quick-glance quality I wanted from the overview. Splitting them into two layers gave the main dashboard back its "understand within seconds" feel, and let the analytics module focus on deeper investigation.</p>
+                  </div>
                   <div class="setup-step anim-uni-in-up">
                     <span class="setup-step__icon">▷▷</span>
                     <p class="setup-step__text"><strong>Prioritize the metrics managers check most often</strong> such as total calls, inbound and outbound activity, average talk time, and agent performance so the team can understand call performance immediately.</p>
+                  </div>
+                  <div class="setup-step__alt anim-uni-in-up">
+                    <p><em class="setup-step__alt-label">Alternative considered:</em>Picking the metrics from intuition, or mirroring the old dashboard's list.</p>
+                    <p><em class="setup-step__alt-label">Why I rejected it:</em>I grounded the selection in two inputs — competitor analysis of peer tools, and the pattern of questions in support tickets. The metrics that consistently showed up in both are what made the final cut.</p>
                   </div>
                   <div class="setup-step anim-uni-in-up">
                     <span class="setup-step__icon">▷▷</span>
@@ -725,6 +783,27 @@
             </div>
             <div class="col-12 col-xl-10 mxd-grid-item">
               <div class="mxd-project__content">
+                <p class="t-large t-bright anim-uni-in-up fnbold">Post-launch signals</p>
+                <p class="anim-uni-in-up pb-3">After launch, I tracked two signals:</p>
+                <div class="outcome-list mt-0">
+                  <div class="outcome-item anim-uni-in-up">
+                    <i class="outcome-item__icon">✦</i>
+                    <div>
+                      <p class="outcome-item__title">Support ticket volume</p>
+                      <p class="outcome-item__desc">The same "how do I export team data?" pattern that surfaced the original opportunity noticeably decreased in the weeks following launch. Managers were getting their answers inside the product.</p>
+                    </div>
+                  </div>
+                  <div class="outcome-item anim-uni-in-up">
+                    <i class="outcome-item__icon">✦</i>
+                    <div>
+                      <p class="outcome-item__title">Heatmap analysis</p>
+                      <p class="outcome-item__desc">Post-launch click tracking showed the new Call Analytics module becoming one of the most-used areas of the dashboard — particularly the missed-call root-cause view. The two-layer separation was being used as intended.</p>
+                    </div>
+                  </div>
+                </div>
+                <p class="anim-uni-in-up" style="font-size:.85rem;color:var(--muted);font-style:italic;margin-top:1rem;">I did not capture exact before/after numbers at the time, but both signals pointed the same way.</p>
+
+                <p class="t-large t-bright anim-uni-in-up fnbold" style="margin-top:2.5rem;">User experience outcomes</p>
                 <div class="outcome-list mt-0">
                   <div class="outcome-item anim-uni-in-up">
                     <i class="outcome-item__icon">✦</i>
@@ -814,6 +893,7 @@
   <span class="case-section-nav__sep"></span>
   <a href="#mxd-page-content" class="case-section-nav__item" data-section="mxd-page-content">Overview</a>
   <a href="#sec-problem"      class="case-section-nav__item" data-section="sec-problem">Problem</a>
+  <a href="#sec-constraints"  class="case-section-nav__item" data-section="sec-constraints">Constraints</a>
   <a href="#sec-goals"        class="case-section-nav__item" data-section="sec-goals">Goals</a>
   <a href="#sec-strategy"     class="case-section-nav__item" data-section="sec-strategy">Strategy</a>
   <a href="#sec-users"        class="case-section-nav__item" data-section="sec-users">Users</a>

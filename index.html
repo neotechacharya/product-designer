@@ -875,6 +875,100 @@
     }
 
     /* ============================================================
+       GROWTH / MARKETING + EXPERIMENTATION SECTION
+    ============================================================ */
+    #growth { background: transparent; padding: 0 0 7rem; }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+    @media (min-width: 640px) { .metrics-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 960px) { .metrics-grid { grid-template-columns: repeat(4, 1fr); } }
+
+    .metric-card {
+      background: #ffffff;
+      border: 1px solid var(--stroke);
+      border-radius: 1.5rem;
+      padding: 2rem 1.75rem;
+      box-shadow: 0 4px 20px rgba(137,170,204,0.1), 0 1px 4px rgba(0,0,0,0.04);
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+    }
+    .metric-card:hover {
+      border-color: rgba(137,170,204,0.4);
+      box-shadow: 0 12px 40px rgba(137,170,204,0.18), 0 2px 8px rgba(0,0,0,0.04);
+      transform: translateY(-3px);
+    }
+
+    .metric-card__numbers {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+      min-height: 2.6rem;
+    }
+    .metric-card__before {
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+    }
+    .metric-card__arrow {
+      font-size: 0.9rem;
+      color: var(--muted);
+      opacity: 0.55;
+    }
+    .metric-card__after {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(1.9rem, 3.2vw, 2.5rem);
+      line-height: 1;
+      background: linear-gradient(135deg, var(--accent-a) 0%, var(--accent-b) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .metric-card__product {
+      font-size: 0.62rem;
+      font-weight: 600;
+      color: var(--accent-b);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      margin-bottom: 0.85rem;
+    }
+
+    .metric-card__label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .metric-card__desc {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .growth-note {
+      margin-top: 2.5rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-style: italic;
+      text-align: center;
+      max-width: 40rem;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.65;
+    }
+
+    /* ============================================================
        STATEMENT SECTION
     ============================================================ */
     #statement {
@@ -1445,8 +1539,8 @@
             </div>
             <div class="cs-card__content">
               <p class="cs-card__label">Callhippo Dashboard</p>
-              <h3 class="cs-card__title">Redesigned the call analytics dashboard</h3>
-              <p class="cs-card__desc">Replaced manual spreadsheet-based reporting with a real-time dashboard, enabling faster, data-driven decisions and full visibility into team performance.</p>
+              <h3 class="cs-card__title">Designed the call analytics dashboard from zero</h3>
+              <p class="cs-card__desc">Spotted a pattern in support tickets — customers kept asking how to export team data to spreadsheets. Proposed and designed a real-time dashboard that replaced the weekly Excel workflow with live visibility for sales managers.</p>
               <span class="cs-card__btn">
                 View Case Study <span class="cs-card__btn-icon">↗</span>
               </span>
@@ -1528,6 +1622,77 @@
   </section>
 
 
+  <!-- ── MARKETING + EXPERIMENTATION ────────────────────────── -->
+  <section id="growth" aria-label="Marketing and experimentation">
+    <div class="sec-wrap">
+
+      <div class="sec-header-row reveal">
+        <div>
+          <div class="sec-eyebrow">
+            <div class="sec-eyebrow__bar"></div>
+            <span class="sec-eyebrow__txt">Growth</span>
+          </div>
+          <h2 class="sec-heading">Marketing + <em>experimentation</em></h2>
+          <p class="sec-sub">Alongside product work, I ran A/B testing programs on CallHippo and SoftwareSuggest. 15+ shipped tests across key page templates. These are the lifts.</p>
+        </div>
+      </div>
+
+      <div class="metrics-grid">
+
+        <!-- Feature pages -->
+        <div class="metric-card reveal">
+          <p class="metric-card__product">CallHippo</p>
+          <div class="metric-card__numbers">
+            <span class="metric-card__before">3.33%</span>
+            <span class="metric-card__arrow">→</span>
+            <span class="metric-card__after">7.81%</span>
+          </div>
+          <p class="metric-card__label">Feature pages</p>
+          <p class="metric-card__desc">Conversion on category / feature pages.</p>
+        </div>
+
+        <!-- Country pages -->
+        <div class="metric-card reveal reveal-delay-1">
+          <p class="metric-card__product">CallHippo</p>
+          <div class="metric-card__numbers">
+            <span class="metric-card__before">6.71%</span>
+            <span class="metric-card__arrow">→</span>
+            <span class="metric-card__after">10.67%</span>
+          </div>
+          <p class="metric-card__label">Country pages</p>
+          <p class="metric-card__desc">Conversion on geo-targeted landing pages.</p>
+        </div>
+
+        <!-- Profile pages -->
+        <div class="metric-card reveal reveal-delay-2">
+          <p class="metric-card__product">SoftwareSuggest</p>
+          <div class="metric-card__numbers">
+            <span class="metric-card__before">3.51%</span>
+            <span class="metric-card__arrow">→</span>
+            <span class="metric-card__after">6.66%</span>
+          </div>
+          <p class="metric-card__label">Profile pages</p>
+          <p class="metric-card__desc">Conversion on software profile pages.</p>
+        </div>
+
+        <!-- Homepage -->
+        <div class="metric-card reveal reveal-delay-3">
+          <p class="metric-card__product">CallHippo</p>
+          <div class="metric-card__numbers">
+            <span class="metric-card__after">+34%</span>
+          </div>
+          <p class="metric-card__label">Homepage</p>
+          <p class="metric-card__desc">Lift in overall homepage conversions.</p>
+        </div>
+
+      </div>
+
+      <p class="growth-note reveal">This work lives outside my core product focus — but it's where I learned how measurable design really gets.</p>
+
+    </div>
+  </section>
+
+
   <!-- ── CORE EXPERTISE ─────────────────────────────────────── -->
   <section id="expertise" aria-label="Core Expertise">
     <div class="sec-wrap">
@@ -1553,23 +1718,19 @@
             </svg>
           </div>
           <h3 class="exp-card__title">Product Design</h3>
-          <p class="exp-card__desc">Crafting user-centered interfaces that solve complex problems with simplicity and elegance.</p>
+          <p class="exp-card__desc">B2B SaaS for operational teams. 8+ years. Research-led, including 3 shipped AI features: Voice Agent, Copilot, and AI reply suggestions.</p>
         </div>
 
-        <!-- Design Strategy -->
+        <!-- Design + Code -->
         <div class="exp-card reveal reveal-delay-1">
           <div class="exp-card__icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"/>
-              <circle cx="12" cy="12" r="3"/>
-              <line x1="12" y1="2" x2="12" y2="9"/>
-              <line x1="12" y1="15" x2="12" y2="22"/>
-              <line x1="2" y1="12" x2="9" y2="12"/>
-              <line x1="15" y1="12" x2="22" y2="12"/>
+              <polyline points="16 18 22 12 16 6"/>
+              <polyline points="8 6 2 12 8 18"/>
             </svg>
           </div>
-          <h3 class="exp-card__title">Design Strategy</h3>
-          <p class="exp-card__desc">Aligning business goals with user needs to drive measurable and lasting product outcomes.</p>
+          <h3 class="exp-card__title">Design + Code</h3>
+          <p class="exp-card__desc">Fluent in React, HTML, CSS, and JavaScript. I read code, write prototypes, and close the gap between design intent and shipped behaviour.</p>
         </div>
 
         <!-- Design Systems -->
@@ -1583,7 +1744,7 @@
             </svg>
           </div>
           <h3 class="exp-card__title">Design Systems</h3>
-          <p class="exp-card__desc">Building scalable design languages that ensure consistency and speed across platforms.</p>
+          <p class="exp-card__desc">Built CallHippo's design system from zero. Tokens, components, Figma library, and docs and cut design-to-dev handoff time by 35%.</p>
         </div>
 
       </div>
@@ -1595,7 +1756,7 @@
   <section id="statement" aria-label="Design statement">
     <div class="sec-wrap">
       <p class="statement__text reveal">
-        I design products that simplify complex workflows and create meaningful <em>user experiences.</em>
+        Design gets real when the constraints are clear. Time, scope, quality — <em>you can only pick two.</em> My job is to find which one the team is ready to trade, then ship fast enough to learn.
       </p>
       <a href="https://docs.google.com/document/d/1EWNIqPz05B3XOAnOKZrtzcq2-0bP-2uF/edit"
          target="_blank" rel="noopener" class="statement__btn reveal">
@@ -1624,43 +1785,43 @@
         <div class="stack-grid">
 
           <div class="stack-item reveal">
-            <img src="img/tech/icon-photoshop.png" alt="Photoshop" class="stack-item__icon">
-            <span class="stack-item__name">Photoshop</span>
-          </div>
-
-          <div class="stack-item reveal reveal-delay-1">
             <img src="img/tech/icon-figma.png" alt="Figma" class="stack-item__icon">
             <span class="stack-item__name">Figma</span>
           </div>
 
+          <div class="stack-item reveal reveal-delay-1">
+            <img src="img/tech/icon-notion.png" alt="Notion" class="stack-item__icon">
+            <span class="stack-item__name">Notion</span>
+          </div>
+
           <div class="stack-item reveal reveal-delay-2">
-            <img src="img/tech/icon-illustrator.png" alt="Illustrator" class="stack-item__icon">
-            <span class="stack-item__name">Illustrator</span>
+            <img src="img/tech/02_react.svg" alt="React" class="stack-item__icon">
+            <span class="stack-item__name">React</span>
           </div>
 
           <div class="stack-item reveal reveal-delay-3">
-            <img src="img/tech/icon-scketch.png" alt="Sketch" class="stack-item__icon">
-            <span class="stack-item__name">Sketch</span>
-          </div>
-
-          <div class="stack-item reveal">
             <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg" alt="JavaScript" class="stack-item__icon">
             <span class="stack-item__name">JavaScript</span>
           </div>
 
-          <div class="stack-item reveal reveal-delay-1">
+          <div class="stack-item reveal">
             <img src="img/tech/icon-html.png" alt="HTML5" class="stack-item__icon">
             <span class="stack-item__name">HTML5</span>
           </div>
 
-          <div class="stack-item reveal reveal-delay-2">
+          <div class="stack-item reveal reveal-delay-1">
             <img src="img/tech/icon-css.png" alt="CSS3" class="stack-item__icon">
             <span class="stack-item__name">CSS3</span>
           </div>
 
+          <div class="stack-item reveal reveal-delay-2">
+            <img src="https://cdn.simpleicons.org/cursor/000000" alt="Cursor" class="stack-item__icon">
+            <span class="stack-item__name">Cursor</span>
+          </div>
+
           <div class="stack-item reveal reveal-delay-3">
-            <img src="img/tech/icon-notion.png" alt="Notion" class="stack-item__icon">
-            <span class="stack-item__name">Notion</span>
+            <img src="https://cdn.simpleicons.org/claude/CC785C" alt="Claude" class="stack-item__icon">
+            <span class="stack-item__name">Claude</span>
           </div>
 
         </div>
