@@ -1,0 +1,2549 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Uniblox — Ecommerce for Insurance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Poppins:ital,wght@1,300;1,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --c-paper:        #ffffff;
+    --c-canvas:       #dde2f4;
+    --c-ink:          #161821;
+    --c-ink-soft:     #99a1b1;
+    --c-line:         #e5e7eb;
+    --c-line-strong:  #c8cdd6;
+    --c-tint:         #f5f5f5;
+    --c-blue:         #006ed9;
+    --c-blue-deep:    #004fa0;
+    --c-cyan:         #42b5cf;
+    --c-mute:         #909090;
+    --c-error:        #c0382b;
+    --c-success:      #1a7f4f;
+    --r:              14px;
+    --r-sm:           10px;
+    --r-xs:           6px;
+    /* Motion-library easing curves transcribed for vanilla CSS */
+    --spring:         cubic-bezier(0.2, 0.7, 0.1, 1);
+    --ease-out:       cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-out:    cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  html,body{height:100%}
+  /* offset for the sticky glass nav so the demo isn't hidden under it on jump */
+  #see-it{scroll-margin-top:96px}
+  body{
+    font-family:'Poppins', system-ui, sans-serif;
+    color:var(--c-ink);
+    /* Layered atmospheric mesh — cyan / blue / lavender wash + refined dot grid */
+    background-color: #f4f7fc;
+    background-image:
+      radial-gradient(ellipse 640px 460px at 10% -2%, rgba(66,181,207,0.24), transparent 65%),
+      radial-gradient(ellipse 520px 420px at 90% 4%, rgba(0,110,217,0.15), transparent 60%),
+      radial-gradient(ellipse 820px 480px at 50% 92%, rgba(221,226,244,0.6), transparent 70%),
+      radial-gradient(ellipse 420px 320px at 78% 46%, rgba(66,181,207,0.09), transparent 70%),
+      radial-gradient(circle at 1px 1px, rgba(22,24,33,0.07) 1px, transparent 0);
+    background-size: auto, auto, auto, auto, 24px 24px;
+    background-attachment: fixed, fixed, fixed, fixed, scroll;
+    background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, repeat;
+    font-size:14px;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    position:relative;
+  }
+
+  /* ---------- ambient background layers ---------- */
+  .bg-layer{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:0;
+  }
+  /* layer 1 · slowly drifting aurora blobs (Motion principle: ambient long-cycle motion) */
+  .bg-aurora{
+    background:
+      radial-gradient(circle 560px at 22% 28%, rgba(66,181,207,0.18), transparent 65%),
+      radial-gradient(circle 480px at 78% 68%, rgba(0,110,217,0.12), transparent 60%),
+      radial-gradient(circle 400px at 55% 52%, rgba(221,226,244,0.45), transparent 70%);
+    will-change: transform;
+    animation: auroraDrift 52s cubic-bezier(0.65, 0, 0.35, 1) infinite alternate;
+  }
+  @keyframes auroraDrift{
+    0%   { transform: translate3d(0, 0, 0) scale(1); }
+    33%  { transform: translate3d(-55px, 45px, 0) scale(1.08); }
+    66%  { transform: translate3d(65px, -30px, 0) scale(1.04); }
+    100% { transform: translate3d(-25px, -55px, 0) scale(1.06); }
+  }
+  /* layer 2 · SVG grain noise for tactility */
+  .bg-grain{
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 240px 240px;
+    opacity: 0.04;
+    mix-blend-mode: multiply;
+  }
+  /* layer 3 · faint diagonal line texture as a structural anchor */
+  .bg-lines{
+    background-image: repeating-linear-gradient(
+      135deg,
+      transparent 0,
+      transparent 80px,
+      rgba(22,24,33,0.012) 80px,
+      rgba(22,24,33,0.012) 81px
+    );
+  }
+  ::selection{background:var(--c-ink);color:var(--c-paper)}
+  .num{font-family:'IBM Plex Mono', ui-monospace, monospace; font-feature-settings:"tnum" 1;}
+  a{color:inherit; text-decoration:none}
+
+  /* respect prefers-reduced-motion (Motion-library principle) */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* ---------- shell ---------- */
+  .shell{
+    max-width:1180px;
+    margin:0 auto;
+    padding:32px 40px 96px;
+    position:relative;
+    z-index:1;
+  }
+
+  /* ---------- topnav · frosted-glass pill ---------- */
+  .topnav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:8px 10px 8px 22px;
+    margin-bottom:96px;
+    position:sticky;
+    top:16px;
+    z-index:50;
+    border-radius:999px;
+    background:rgba(255,255,255,0.55);
+    backdrop-filter: blur(22px) saturate(180%);
+    -webkit-backdrop-filter: blur(22px) saturate(180%);
+    border:1px solid rgba(255,255,255,0.7);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.85),
+      inset 0 -1px 0 rgba(15,23,42,0.04),
+      0 1px 2px rgba(15,23,42,0.04),
+      0 8px 28px rgba(15,23,42,0.06);
+    transition: background .3s var(--spring), box-shadow .3s var(--spring);
+  }
+  .topnav:hover{
+    background:rgba(255,255,255,0.66);
+  }
+  .brand{display:flex; align-items:center; gap:11px}
+  .mark{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:auto; height:30px;
+  }
+  .mark svg{display:block; height:100%; width:auto}
+  .brand b{font-weight:600; letter-spacing:-0.02em; font-size:17px}
+  .brand b span{color:var(--c-cyan)}
+  .navlinks{display:flex; align-items:center; gap:6px}
+  .navlinks a{
+    padding:8px 14px; border-radius:999px;
+    font-size:13px; color:var(--c-ink);
+    transition:.18s var(--spring);
+    display:inline-flex; align-items:center; gap:5px;
+  }
+  .navlinks a:hover{background:var(--c-tint)}
+  .navlinks a .chev{font-size:9px; opacity:.55}
+  .auth{display:flex; align-items:center; gap:8px}
+  .auth .login{padding:8px 14px; font-size:13px; color:var(--c-ink-soft)}
+  .auth .login:hover{color:var(--c-ink)}
+  .btn{
+    --bg:var(--c-ink); --fg:var(--c-paper); --bd:var(--c-ink);
+    border:1px solid var(--bd); background:var(--bg); color:var(--fg);
+    font-family:inherit; font-weight:500; font-size:13px;
+    padding:10px 18px; border-radius:999px;
+    cursor:pointer;
+    display:inline-flex; align-items:center; gap:9px;
+    transition:.22s var(--spring);
+  }
+  .btn:hover{transform:translateY(-1px)}
+  .btn.primary{--bg:var(--c-blue); --bd:var(--c-blue)}
+  .btn.primary:hover{--bg:var(--c-blue-deep); --bd:var(--c-blue-deep)}
+  .btn.ghost{--bg:transparent; --fg:var(--c-ink); --bd:var(--c-line-strong)}
+  .btn.ghost:hover{--bg:var(--c-paper)}
+  .btn .arrow{
+    width:20px;height:20px;border-radius:50%;
+    background:rgba(255,255,255,.16);
+    display:grid;place-items:center;
+  }
+  .btn.ghost .arrow{background:transparent;border:1px solid var(--c-line-strong)}
+  /* scroll-cue button — gentle chevron bob to signal "jump to demo" */
+  .btn-scroll .arrow svg{transition: transform .35s var(--spring)}
+  .btn-scroll:hover .arrow svg{animation: chevBob 1.1s var(--ease-in-out) infinite}
+  @keyframes chevBob{
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(2px); }
+  }
+
+  /* ---------- hero · unboxed, center-stage ---------- */
+  .hero{
+    padding:0;
+    position:relative;
+    background:transparent;
+    border:none;
+  }
+  .hero::before{
+    content:""; position:absolute; top:-80px; left:50%;
+    transform:translateX(-50%);
+    width:780px; height:380px; border-radius:50%;
+    background:radial-gradient(ellipse, rgba(66,181,207,0.10), transparent 65%);
+    pointer-events:none;
+    z-index:0;
+  }
+  .hero-grid{
+    display:flex;
+    flex-direction:column;
+    gap:64px;
+    position:relative;
+    z-index:1;
+  }
+
+  /* ---------- centered hero text block ---------- */
+  .hero-text{
+    text-align:center;
+    max-width:840px;
+    margin: 0 auto;
+    width:100%;
+    padding-top:24px;
+    display:flex; flex-direction:column;
+    align-items:center;
+  }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:10px;
+    font-size:11px; letter-spacing:0.22em; text-transform:uppercase;
+    color:var(--c-ink-soft);
+    padding:7px 13px;
+    border:1px solid var(--c-line);
+    border-radius:999px;
+    background:var(--c-paper);
+  }
+  .eyebrow .sparkle{
+    display:inline-flex; align-items:center; justify-content:center;
+    font-size:13px; line-height:1;
+    transform-origin:center;
+    animation: sparkleTwinkle 2.6s var(--ease-in-out) infinite;
+  }
+  @keyframes sparkleTwinkle{
+    0%, 100%{ transform: scale(1) rotate(0deg);   opacity: 0.95; }
+    35%     { transform: scale(1.18) rotate(8deg); opacity: 1; }
+    70%     { transform: scale(0.92) rotate(-4deg); opacity: 0.85; }
+  }
+
+  h1.display{
+    font-weight:300;
+    font-size:66px;
+    line-height:1.04;
+    letter-spacing:-0.04em;
+    margin:20px 0 26px;
+    color:var(--c-ink);
+    text-wrap: balance;
+  }
+  h1.display em{
+    font-style:italic; font-weight:300; color:var(--c-blue);
+    letter-spacing:-0.025em;
+  }
+  h1.display em::after{
+    content:""; display:inline-block;
+    width:7px;height:7px;border-radius:50%;
+    background:var(--c-cyan); transform:translateY(-2px);
+    margin-left:2px;
+  }
+  .lede{
+    font-weight:300; font-size:17px; line-height:1.55;
+    color:#3a3f4a;
+    max-width:54ch;
+    margin: 0 auto 36px;
+  }
+  .ctas{display:flex; gap:10px; margin-bottom:40px; justify-content:center}
+  .btn.lg{padding:14px 22px; font-size:14px}
+  .btn.lg .arrow{width:24px;height:24px}
+
+  .stat-strip{
+    display:inline-flex;
+    border-top:1px dashed var(--c-line);
+    padding-top:22px;
+    align-items:stretch;
+  }
+  .stat{
+    display:flex; flex-direction:column;
+    padding-right:24px;
+    border-right:1px solid var(--c-line);
+  }
+  .stat:last-child{border-right:none}
+  .stat:not(:first-child){padding-left:24px}
+  .stat .v{
+    font-family:'IBM Plex Mono', monospace; font-weight:300;
+    font-size:24px; letter-spacing:-0.025em; line-height:1;
+    color:var(--c-ink);
+  }
+  .stat .v sub{font-size:12px; color:var(--c-ink-soft); font-weight:400; margin-left:3px; letter-spacing:0}
+  .stat em{
+    font-style:normal; font-size:10px;
+    letter-spacing:0.18em; text-transform:uppercase;
+    color:var(--c-ink-soft);
+    margin-top:8px;
+  }
+
+  .editorial-foot{
+    display:inline-flex; align-items:center; gap:16px;
+    margin-top:36px; padding:0;
+    font-size:11px; color:var(--c-ink-soft);
+    letter-spacing:0.06em;
+  }
+  .editorial-foot .num{color:var(--c-ink); font-weight:400}
+  .vline{width:1px; height:14px; background:var(--c-line)}
+
+  /* ---------- right column · the platform window ---------- */
+  .window{
+    position:relative;
+    border:1px solid var(--c-line);
+    border-radius:var(--r);
+    background:var(--c-paper);
+    overflow:hidden;
+    will-change: transform;
+  }
+
+  /* window chrome (browser-like) */
+  .chrome{
+    display:flex; align-items:center; gap:16px;
+    padding:11px 16px;
+    border-bottom:1px solid var(--c-line);
+    background:var(--c-tint);
+  }
+  .chrome .dots{display:flex; gap:6px}
+  .chrome .dot{
+    width:11px;height:11px;border-radius:50%;
+    background:var(--c-line-strong);
+  }
+  .chrome .dot:nth-child(1){background:#e07a72}
+  .chrome .dot:nth-child(2){background:#e6c258}
+  .chrome .dot:nth-child(3){background:#7fc28b}
+  .chrome .url{
+    flex:1;
+    background:var(--c-paper);
+    border:1px solid var(--c-line);
+    border-radius:999px;
+    padding:5px 14px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--c-ink-soft);
+    display:flex; align-items:center; gap:8px;
+  }
+  .chrome .url .lock{
+    width:10px;height:10px;
+    color:var(--c-ink-soft);
+  }
+  .chrome .url b{color:var(--c-ink); font-weight:400}
+  .chrome .url .path{color:var(--c-ink-soft)}
+  .chrome .live{
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:10px; letter-spacing:0.16em; text-transform:uppercase;
+    color:var(--c-cyan); font-weight:500;
+  }
+  .chrome .live .d{
+    width:6px;height:6px; border-radius:50%;
+    background:var(--c-cyan);
+    animation: liveBlink 1.6s var(--spring) infinite;
+  }
+  @keyframes liveBlink{
+    0%,100%{opacity:1}
+    50%{opacity:.3}
+  }
+
+  /* tab bar */
+  .tab-bar{
+    position:relative;
+    display:flex;
+    border-bottom:1px solid var(--c-line);
+    padding:0 16px;
+    background:var(--c-paper);
+  }
+  .tab{
+    position:relative;
+    padding:14px 18px;
+    font-size:13px; font-weight:500;
+    color:var(--c-ink-soft);
+    cursor:pointer;
+    border:none; background:none;
+    font-family:inherit;
+    display:inline-flex; align-items:center; gap:8px;
+    transition:color .25s var(--spring);
+  }
+  .tab .ico{
+    width:14px;height:14px; opacity:.55;
+    transition:.25s var(--spring);
+  }
+  .tab.is-active{color:var(--c-ink)}
+  .tab.is-active .ico{opacity:1; color:var(--c-cyan)}
+  .tab .pill{
+    font-family:'IBM Plex Mono', monospace; font-size:9px;
+    background:var(--c-line); color:var(--c-ink-soft);
+    padding:2px 6px; border-radius:4px; margin-left:4px;
+    letter-spacing:0;
+  }
+  .tab.is-active .pill{background:var(--c-ink); color:var(--c-paper)}
+  /* sliding underline indicator */
+  .tab-indicator{
+    position:absolute; bottom:-1px; left:0;
+    height:2px; background:var(--c-ink);
+    width:50%; /* dynamic via JS */
+    transition: transform .45s var(--spring), width .45s var(--spring);
+    will-change: transform, width;
+  }
+  /* progress bar (cycle indicator) — matches tab-indicator thickness */
+  .cycle-progress{
+    position:absolute; bottom:-1px; left:0;
+    height:2px; background:var(--c-cyan);
+    width:0%;
+    z-index:2;
+    transform-origin:left center;
+  }
+
+  /* panel container · dynamically sized to the ACTIVE panel via JS
+     prevents both: (a) clipping when content is taller, (b) empty space when shorter */
+  .panels{
+    position: relative;
+    background: var(--c-paper);
+    overflow: hidden;
+    transition: height .45s var(--spring);
+  }
+  .panel{
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    padding: 24px 28px;
+    opacity: 0;
+    transform: translateX(20px);
+    pointer-events: none;
+    transition: opacity .4s var(--spring), transform .4s var(--spring);
+    min-width: 0;
+  }
+  .panel.is-active{
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+
+  /* Gate all in-panel animations until the demo enters the viewport.
+     Pre-armed: the user sees the panel laid out with messy data, frozen.
+     On intersection, JS adds `.is-armed` and the full sequence plays. */
+  .panel *,
+  .panel *::before,
+  .panel *::after{
+    animation-play-state: paused;
+  }
+  .panels.is-armed .panel *,
+  .panels.is-armed .panel *::before,
+  .panels.is-armed .panel *::after{
+    animation-play-state: running;
+  }
+
+  /* ============================================================ */
+  /* ============== UNDERWRITING PANEL =========================== */
+  /* ============================================================ */
+  .uw-header{
+    display:flex; justify-content:space-between; align-items:flex-start;
+    padding-bottom:16px;
+    border-bottom:1px dashed var(--c-line);
+    margin-bottom:14px;
+  }
+  .uw-header h3{
+    font-weight:500; font-size:14px; letter-spacing:-0.005em;
+    color:var(--c-ink);
+    margin-bottom:4px;
+  }
+  .uw-header .meta{
+    font-family:'IBM Plex Mono', monospace; font-size:11px;
+    color:var(--c-ink-soft);
+  }
+  .uw-header .badge{
+    font-size:10px; letter-spacing:0.16em; text-transform:uppercase;
+    padding:5px 10px; border-radius:999px;
+    border:1px solid var(--c-error);
+    color:var(--c-error);
+    background:rgba(192,56,43,0.05);
+    transition: all .5s var(--spring);
+  }
+  .panel.is-active .uw-header .badge{
+    animation: uwBadgeFlip 0s 4.6s forwards;
+  }
+  @keyframes uwBadgeFlip{
+    to{
+      border-color: var(--c-success);
+      color: var(--c-success);
+      background: rgba(26,127,79,0.06);
+    }
+  }
+  /* badge text content — handled via JS or pseudo data attributes */
+  .uw-header .badge::before{
+    content: attr(data-state);
+  }
+
+  /* CSV table */
+  .csv-table{
+    border:1px solid var(--c-line);
+    border-radius:var(--r-xs);
+    overflow:hidden;
+    background:var(--c-paper);
+    position:relative;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+  }
+  .csv-table .row{
+    display:grid;
+    grid-template-columns: 26px 0.9fr 0.95fr 0.85fr auto;
+    gap:0;
+    padding:9px 14px;
+    border-bottom:1px solid var(--c-line);
+    align-items:center;
+    transition: background .35s var(--spring);
+  }
+  .csv-table .row:last-child{border-bottom:none}
+  .csv-table .row.head{
+    background:var(--c-tint);
+    font-size:10px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--c-ink-soft); font-weight:500;
+    padding:8px 14px;
+  }
+  .csv-table .row .idx{
+    color:var(--c-ink-soft); font-size:10px;
+  }
+  .csv-table .row .cell{
+    padding:0 6px;
+    font-weight:400;
+  }
+  .csv-table .row .err{
+    color:var(--c-error);
+    font-style:italic;
+    font-weight:400;
+  }
+  .csv-table .row .check{
+    width:14px;height:14px;
+    border-radius:50%;
+    border:1px solid var(--c-line-strong);
+    display:grid; place-items:center;
+    transition: all .4s var(--spring);
+  }
+  .csv-table .row .check svg{
+    width:8px; height:8px;
+    color:var(--c-paper);
+    opacity:0;
+    transition: opacity .3s;
+  }
+
+  /* AI scan beam */
+  .scan-beam{
+    position:absolute; left:0; right:0;
+    height:24px;
+    top:32px;
+    background: linear-gradient(180deg,
+      transparent 0%,
+      rgba(66,181,207,0.35) 50%,
+      transparent 100%);
+    pointer-events:none;
+    opacity:0;
+    z-index:2;
+  }
+  .scan-beam::after{
+    content:"";
+    position:absolute; left:0; right:0; bottom:0;
+    height:1px; background:var(--c-cyan);
+  }
+
+  /* When panel becomes active, choreograph the scan */
+  .panel.is-active .scan-beam{
+    animation: uwScan 2.4s 1.6s var(--ease-out) forwards;
+  }
+  @keyframes uwScan{
+    0%   { opacity:0; transform:translateY(0); }
+    10%  { opacity:1; }
+    85%  { opacity:1; transform:translateY(280px); }
+    100% { opacity:0; transform:translateY(290px); }
+  }
+
+  /* row state transitions */
+  .panel.is-active .csv-table .row.r1{ animation: rowClean 0s 3.0s forwards; }
+  .panel.is-active .csv-table .row.r2{ animation: rowClean 0s 3.4s forwards; }
+  .panel.is-active .csv-table .row.r3{ animation: rowClean 0s 3.8s forwards; }
+  .panel.is-active .csv-table .row.r4{ animation: rowClean 0s 4.2s forwards; }
+  .panel.is-active .csv-table .row.r5{ animation: rowClean 0s 4.6s forwards; }
+
+  @keyframes rowClean{
+    to{ background: rgba(26,127,79,0.04); }
+  }
+  .panel.is-active .csv-table .row.r1 .err,
+  .panel.is-active .csv-table .row.r2 .err,
+  .panel.is-active .csv-table .row.r3 .err,
+  .panel.is-active .csv-table .row.r4 .err,
+  .panel.is-active .csv-table .row.r5 .err{
+    animation: errClean 0s forwards;
+  }
+  .panel.is-active .csv-table .row.r1 .err{ animation-delay: 3.0s; }
+  .panel.is-active .csv-table .row.r2 .err{ animation-delay: 3.4s; }
+  .panel.is-active .csv-table .row.r3 .err{ animation-delay: 3.8s; }
+  .panel.is-active .csv-table .row.r4 .err{ animation-delay: 4.2s; }
+  .panel.is-active .csv-table .row.r5 .err{ animation-delay: 4.6s; }
+  @keyframes errClean{
+    to{
+      color: var(--c-ink);
+      font-style: normal;
+    }
+  }
+
+  /* swap text content via data-attr trick */
+  .csv-table .err::before{ content: attr(data-messy); }
+  .panel.is-active .csv-table .row.r1 .err::before,
+  .panel.is-active .csv-table .row.r2 .err::before,
+  .panel.is-active .csv-table .row.r3 .err::before,
+  .panel.is-active .csv-table .row.r4 .err::before,
+  .panel.is-active .csv-table .row.r5 .err::before{
+    animation: textSwap 0s forwards;
+  }
+  .panel.is-active .csv-table .row.r1 .err::before{ animation-delay: 3.0s; }
+  .panel.is-active .csv-table .row.r2 .err::before{ animation-delay: 3.4s; }
+  .panel.is-active .csv-table .row.r3 .err::before{ animation-delay: 3.8s; }
+  .panel.is-active .csv-table .row.r4 .err::before{ animation-delay: 4.2s; }
+  .panel.is-active .csv-table .row.r5 .err::before{ animation-delay: 4.6s; }
+  @keyframes textSwap{
+    to{ content: attr(data-clean); }
+  }
+
+  /* checkmark fade-in */
+  .panel.is-active .csv-table .row.r1 .check,
+  .panel.is-active .csv-table .row.r2 .check,
+  .panel.is-active .csv-table .row.r3 .check,
+  .panel.is-active .csv-table .row.r4 .check,
+  .panel.is-active .csv-table .row.r5 .check{
+    animation: checkFill 0s forwards;
+  }
+  .panel.is-active .csv-table .row.r1 .check{ animation-delay: 3.0s; }
+  .panel.is-active .csv-table .row.r2 .check{ animation-delay: 3.4s; }
+  .panel.is-active .csv-table .row.r3 .check{ animation-delay: 3.8s; }
+  .panel.is-active .csv-table .row.r4 .check{ animation-delay: 4.2s; }
+  .panel.is-active .csv-table .row.r5 .check{ animation-delay: 4.6s; }
+  @keyframes checkFill{
+    to{ background: var(--c-success); border-color: var(--c-success); }
+  }
+  .panel.is-active .csv-table .row.r1 .check svg,
+  .panel.is-active .csv-table .row.r2 .check svg,
+  .panel.is-active .csv-table .row.r3 .check svg,
+  .panel.is-active .csv-table .row.r4 .check svg,
+  .panel.is-active .csv-table .row.r5 .check svg{
+    animation: checkShow 0s forwards;
+  }
+  .panel.is-active .csv-table .row.r1 .check svg{ animation-delay: 3.0s; }
+  .panel.is-active .csv-table .row.r2 .check svg{ animation-delay: 3.4s; }
+  .panel.is-active .csv-table .row.r3 .check svg{ animation-delay: 3.8s; }
+  .panel.is-active .csv-table .row.r4 .check svg{ animation-delay: 4.2s; }
+  .panel.is-active .csv-table .row.r5 .check svg{ animation-delay: 4.6s; }
+  @keyframes checkShow{
+    to{ opacity:1; }
+  }
+
+  .uw-header .badge::before{ content: attr(data-messy); }
+  .panel.is-active .uw-header .badge::before{
+    animation: textSwapBadge 0s 4.7s forwards;
+  }
+  @keyframes textSwapBadge{
+    to{ content: attr(data-clean); }
+  }
+
+  /* uw footer */
+  .uw-footer{
+    display:flex; justify-content:space-between; align-items:center;
+    margin-top:16px; padding:12px 14px;
+    border:1px solid var(--c-line); border-radius:var(--r-xs);
+    background:var(--c-tint);
+  }
+  .uw-footer .l{display:flex; gap:14px; align-items:center; font-size:11px}
+  .uw-footer em{font-style:normal; color:var(--c-ink-soft); letter-spacing:0.08em; text-transform:uppercase; font-size:10px}
+  .uw-footer b{font-family:'IBM Plex Mono', monospace; font-weight:500}
+  .uw-footer .pill{
+    font-size:11px; padding:5px 11px; border-radius:999px;
+    border:1px solid var(--c-line-strong); background:var(--c-paper);
+    color:var(--c-ink-soft);
+    transition: all .5s var(--spring);
+  }
+  .panel.is-active .uw-footer .pill{
+    animation: pillReady 0s 4.9s forwards;
+  }
+  @keyframes pillReady{
+    to{
+      color: var(--c-blue);
+      border-color: var(--c-blue);
+      background: rgba(0,110,217,0.06);
+    }
+  }
+  .uw-footer .pill::before{ content: attr(data-pre); }
+  .panel.is-active .uw-footer .pill::before{
+    animation: pillSwap 0s 4.9s forwards;
+  }
+  @keyframes pillSwap{
+    to{ content: attr(data-post); }
+  }
+
+  /* ============================================================ */
+  /* ============== ENROLLMENT PANEL ============================= */
+  /* ============================================================ */
+  .en-panel{ padding: 0; }
+  /* sequential stage — form first, then decision overlays it */
+  .en-stage{
+    display: grid;
+    grid-template-areas: "stack";
+    padding: 28px 26px;
+    min-height: 480px;
+    position: relative;
+  }
+  .en-form-state, .en-decision-state{
+    grid-area: stack;
+    display: flex; flex-direction: column;
+    width: 100%;
+  }
+  .en-form-state{
+    align-items: stretch;
+    max-width: 540px;
+    margin: 0 auto;
+  }
+  .en-form-state .en-greet{
+    text-align: center;
+    align-self: center;
+    max-width: 460px;
+    margin-bottom: 6px;
+  }
+  /* greet centered — override align */
+  .en-form-state .en-greet h3{
+    margin-left: auto; margin-right: auto;
+  }
+  .en-form-state .en-greet .lede{
+    margin-left: auto; margin-right: auto;
+  }
+
+  /* decision state — centered triumphant moment */
+  .en-decision-state{
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(14px);
+    pointer-events: none;
+  }
+  .en-decision-state > *{
+    width: 100%;
+    max-width: 460px;
+  }
+  .en-decision-state .approval-label{
+    font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--c-ink-soft); font-weight: 600;
+    margin-bottom: 14px;
+  }
+
+  /* form fades out as submit completes */
+  .panel.is-active .en-form-state{
+    animation: formHide .5s 5.0s var(--ease-out) forwards;
+  }
+  @keyframes formHide{
+    to{ opacity: 0; transform: translateY(-8px); pointer-events: none; }
+  }
+  /* decision fades in cross with form */
+  .panel.is-active .en-decision-state{
+    animation: decisionShow .65s 5.05s var(--ease-out) forwards;
+  }
+  @keyframes decisionShow{
+    to{ opacity: 1; transform: translateY(0); pointer-events: auto; }
+  }
+
+  .en-greet{
+    margin-bottom:6px;
+  }
+  .en-greet em{
+    font-style:normal; font-size:10px; letter-spacing:0.22em; text-transform:uppercase;
+    color:var(--c-ink-soft);
+  }
+  .en-greet h3{
+    font-weight:300; font-size:32px; letter-spacing:-0.03em;
+    line-height:1; margin-top:8px;
+    color:var(--c-ink);
+    opacity:0;
+    transform:translateY(8px);
+  }
+  .panel.is-active .en-greet h3{
+    animation: enRise .8s .2s var(--ease-out) forwards;
+  }
+  .en-greet h3 b{font-weight:500}
+  @keyframes enRise{
+    to{ opacity:1; transform:translateY(0); }
+  }
+
+  .en-field{
+    border:1px solid var(--c-line); border-radius:var(--r-xs);
+    padding:13px 16px;
+    background:var(--c-paper);
+    margin-top:14px;
+    opacity:0; transform:translateY(8px);
+  }
+  .en-field em{
+    font-style:normal; font-size:10px; letter-spacing:0.16em; text-transform:uppercase;
+    color:var(--c-ink-soft);
+  }
+  .en-field .v{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:18px; font-weight:300; letter-spacing:-0.01em;
+    margin-top:5px; color:var(--c-ink);
+  }
+  .en-field .adp-tag{
+    display:inline-flex; align-items:center; gap:5px;
+    font-size:9px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--c-cyan); margin-top:6px;
+  }
+  .en-field .adp-tag .d{width:5px;height:5px; border-radius:50%; background:var(--c-cyan)}
+
+  .panel.is-active .en-field.f1{ animation: enRise .8s 1.0s var(--ease-out) forwards; }
+  .panel.is-active .en-field.f2{ animation: enRise .8s 1.6s var(--ease-out) forwards; }
+
+  /* Tier card */
+  .tier-card{
+    margin-top:14px;
+    border:1px solid var(--c-line); border-radius:var(--r-sm);
+    padding:14px 16px;
+    background:var(--c-paper);
+    opacity:0; transform:translateY(8px);
+    transition: border-color .4s var(--spring), background .4s var(--spring);
+  }
+  .panel.is-active .tier-card{
+    animation: enRise .8s 2.2s var(--ease-out) forwards, tierSelect 0s 3.2s forwards;
+  }
+  @keyframes tierSelect{
+    to{
+      border-color: var(--c-ink);
+      background: linear-gradient(180deg, #fff, #fafbff);
+    }
+  }
+  .tier-card .head{
+    display:flex; justify-content:space-between; align-items:center;
+    margin-bottom:8px;
+  }
+  .tier-card .head em{
+    font-style:normal; font-size:10px; letter-spacing:0.18em; text-transform:uppercase;
+    color:var(--c-ink-soft);
+  }
+  .tier-card .head .pop{
+    font-size:9px; letter-spacing:0.14em; text-transform:uppercase;
+    background:var(--c-cyan); color:var(--c-ink);
+    padding:3px 7px; border-radius:999px;
+  }
+  .tier-card .row{
+    display:flex; justify-content:space-between; align-items:baseline;
+  }
+  .tier-card .face{
+    font-family:'IBM Plex Mono', monospace; font-weight:300;
+    font-size:24px; letter-spacing:-0.025em; color:var(--c-ink);
+  }
+  .tier-card .prem{
+    font-family:'IBM Plex Mono', monospace; font-weight:400;
+    font-size:14px; color:var(--c-ink-soft);
+  }
+  .tier-card .prem b{color:var(--c-ink); font-weight:500}
+
+  /* Submit button → spinner → check sequence */
+  .submit-zone{
+    margin-top:16px; opacity:0; transform:translateY(8px);
+    height:46px;
+  }
+  .panel.is-active .submit-zone{
+    animation: enRise .6s 3.6s var(--ease-out) forwards;
+  }
+  .submit-btn{
+    width:100%;
+    background:var(--c-blue); color:var(--c-paper);
+    border:none; padding:14px 18px; border-radius:999px;
+    font-family:inherit; font-size:13px; font-weight:500;
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    transition: opacity .35s var(--spring), transform .35s var(--spring);
+  }
+  .panel.is-active .submit-btn{
+    animation: btnHide 0s 4.6s forwards;
+  }
+  @keyframes btnHide{
+    to{ opacity:0; transform:scale(.96); pointer-events:none; }
+  }
+  .spinner{
+    position:absolute; left:50%; top:50%;
+    transform:translate(-50%,-50%);
+    width:22px; height:22px;
+    border-radius:50%;
+    border:2px solid var(--c-line);
+    border-top-color:var(--c-blue);
+    opacity:0;
+    animation: spin 1s linear infinite;
+  }
+  .panel.is-active .spinner{
+    animation: spinShow 0s 4.6s forwards, spin 1s 4.6s linear infinite;
+  }
+  @keyframes spin{ to{ transform:translate(-50%,-50%) rotate(360deg); } }
+  @keyframes spinShow{ to{ opacity:1; } }
+  .panel.is-active .spinner{
+    animation: spinShow 0s 4.6s forwards, spin 1s 4.6s linear infinite, spinHide 0s 5.4s forwards;
+  }
+  @keyframes spinHide{ to{ opacity:0; } }
+
+  /* Right side · approval */
+  .en-right .label{
+    font-size:10px; letter-spacing:0.22em; text-transform:uppercase;
+    color:var(--c-ink-soft);
+  }
+  .approval-card{
+    border:1px solid var(--c-line); border-radius:var(--r);
+    padding:22px;
+    background:var(--c-paper);
+    opacity:0; transform:translateY(20px) scale(.96);
+    display:flex; flex-direction:column;
+  }
+  .panel.is-active .approval-card{
+    animation: approveIn .8s 5.0s var(--ease-out) forwards;
+  }
+  @keyframes approveIn{
+    to{ opacity:1; transform:translateY(0) scale(1); }
+  }
+  .approval-card .check-ring{
+    width:52px; height:52px; border-radius:50%;
+    border:1px solid var(--c-cyan);
+    background:#eaf7fa;
+    display:grid; place-items:center;
+    margin: 0 auto 14px;
+    align-self: center;
+  }
+  .approval-card .check-ring svg{
+    width:24px; height:24px;
+    stroke:var(--c-blue);
+    stroke-width:2.6;
+    fill:none;
+    stroke-linecap:round; stroke-linejoin:round;
+  }
+  .approval-card .check-ring svg path{
+    stroke-dasharray:30;
+    stroke-dashoffset:30;
+  }
+  .panel.is-active .approval-card .check-ring svg path{
+    animation: drawCheck .9s 5.4s var(--ease-out) forwards;
+  }
+  @keyframes drawCheck{ to{ stroke-dashoffset:0; } }
+  .approval-card h4{
+    font-weight:300; font-size:30px; letter-spacing:-0.03em;
+    line-height:1; margin-bottom:6px;
+  }
+  .approval-card h4 b{font-weight:500}
+  .approval-card h4 em{
+    font-style:italic; font-weight:300; color:var(--c-blue);
+  }
+  .approval-card .meta{
+    font-size:13px; color:var(--c-ink-soft); margin-bottom:14px;
+    line-height:1.5;
+  }
+  .approval-card .policy-ref{
+    margin-top: 18px;
+    padding: 12px 14px;
+    background: var(--c-tint);
+    border: 1px solid var(--c-line);
+    border-radius: var(--r-xs);
+  }
+  .approval-card .policy-ref em{
+    font-style: normal;
+    display: block;
+    font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--c-ink-soft);
+  }
+  .approval-card .policy-ref b{
+    display: block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 400; font-size: 14px;
+    color: var(--c-ink); margin-top: 5px;
+    letter-spacing: 0;
+  }
+  .approval-card .stat-row{
+    margin-top:18px;
+    padding-top:14px;
+    border-top:1px dashed var(--c-line);
+    display:grid; grid-template-columns:1fr 1fr; gap:12px 18px;
+  }
+  .approval-card .stat-row .s em{
+    font-style: normal;
+    display: block;
+    font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--c-ink-soft);
+    margin-bottom: 4px;
+  }
+  .approval-card .stat-row .s b{
+    display:block; font-family:'IBM Plex Mono', monospace;
+    font-weight:400; font-size:16px; letter-spacing:-0.01em;
+    color:var(--c-ink);
+  }
+  .approval-card .stat-row .s b .u{
+    font-size: 11px; color: var(--c-ink-soft); font-weight: 400;
+    margin-left: 1px; letter-spacing: 0;
+  }
+  .sync-pill{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:9px 14px;
+    border:1px solid var(--c-blue);
+    border-radius:999px;
+    background:rgba(0,110,217,0.06);
+    color:var(--c-blue);
+    font-size:12px; font-weight:500;
+    width:fit-content;
+    opacity:0; transform:translateY(8px);
+  }
+  .panel.is-active .sync-pill{
+    animation: enRise .6s 6.0s var(--ease-out) forwards;
+  }
+  .sync-pill .d{
+    width:7px;height:7px; border-radius:50%; background:var(--c-blue);
+    animation: liveBlink 1.6s var(--spring) infinite;
+  }
+
+  /* ---------- status bar ---------- */
+  .status-bar{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:12px 18px;
+    border-top:1px solid var(--c-line);
+    background:var(--c-paper);
+    font-size:11px;
+    color:var(--c-ink-soft);
+  }
+  .status-bar .l{display:flex; align-items:center; gap:18px}
+  .status-bar .item{display:flex; align-items:center; gap:7px}
+  .status-bar em{font-style:normal; letter-spacing:0.14em; text-transform:uppercase; font-size:10px}
+  .status-bar b{font-family:'IBM Plex Mono', monospace; color:var(--c-ink); font-weight:400; font-size:12px}
+  .status-bar .live-d{
+    width:7px;height:7px; border-radius:50%; background:var(--c-cyan);
+    animation: liveBlink 1.6s var(--spring) infinite;
+  }
+
+  /* ---------- trust marquee ---------- */
+  .trust-strip{
+    margin-top:36px;
+    border-top:1px solid var(--c-line);
+    padding:28px 0 0;
+    overflow:hidden;
+  }
+  .trust-label{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:18px;
+    font-size:10px; letter-spacing:0.22em; text-transform:uppercase;
+    color:var(--c-ink-soft);
+  }
+  .trust-label::before, .trust-label::after{
+    content:""; flex:1; height:1px; background:var(--c-line);
+  }
+  .trust-label span{padding:0 18px}
+  .marquee-row{
+    display:flex; gap:64px;
+    animation: marq 36s linear infinite;
+    width:max-content;
+  }
+  @keyframes marq{
+    from{transform:translateX(0)}
+    to{transform:translateX(-50%)}
+  }
+  .marquee-row .logo-cell{
+    display:flex; align-items:center; justify-content:center;
+    height:48px; padding:0 8px; color:var(--c-mute);
+    transition:.25s var(--spring);
+    flex-shrink:0;
+  }
+  /* real logo imagery — desaturated to keep editorial cohesion */
+  .marquee-row .logo-cell img{
+    max-height:28px;
+    width:auto;
+    object-fit:contain;
+    filter: grayscale(1) contrast(0.85) opacity(0.55);
+    transition: filter .25s var(--spring);
+  }
+  .marquee-row .logo-cell:hover img{
+    filter: grayscale(1) contrast(1) opacity(0.95);
+  }
+  /* per-brand visual balance — counter pixel sizing differences across logos */
+  .lg-img-chubb{max-height:22px}
+  .lg-img-adp{max-height:18px}
+  .lg-img-workday{max-height:24px}
+  .lg-img-trans{max-height:24px}
+  .lg-img-symetra{max-height:30px}
+  .lg-img-trustmark{max-height:30px}
+  .lg-img-standard{max-height:32px}
+  /* fallback styled text — used for brands without an available logo asset */
+  .marquee-row .logo-cell:hover{color:var(--c-ink)}
+  .lg-ngl{font-family:'Poppins'; font-weight:700; font-size:22px; letter-spacing:0.12em; color:var(--c-mute)}
+  .lg-bswift{font-family:'Poppins'; font-weight:400; font-size:22px; letter-spacing:-0.02em; color:var(--c-mute)}
+
+  /* ---------- input strip · multi-format ingestion ---------- */
+  .input-strip{
+    display:flex; align-items:center; gap:10px;
+    flex-wrap:wrap;
+    padding:11px 14px;
+    border:1px solid var(--c-line);
+    border-radius:var(--r-xs);
+    background:var(--c-tint);
+    margin-bottom:14px;
+    font-size:11px;
+  }
+  .input-strip .label{
+    font-size:9px; letter-spacing:0.18em; text-transform:uppercase;
+    color:var(--c-ink-soft);
+  }
+  .file-chip{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:5px 10px;
+    background:var(--c-paper);
+    border:1px solid var(--c-line);
+    border-radius:999px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--c-ink);
+  }
+  .file-chip svg{width:11px; height:11px; color:var(--c-ink-soft); flex-shrink:0}
+  .file-chip .meta{color:var(--c-ink-soft); font-size:10px}
+  .file-chip.locked{ border-color:var(--c-cyan) }
+  .file-chip.locked svg{color:var(--c-cyan)}
+  .input-strip .ai-tag{
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:10px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--c-cyan); font-weight:500;
+    margin-left:auto;
+  }
+  .input-strip .ai-tag .d{
+    width:5px;height:5px;border-radius:50%; background:var(--c-cyan);
+  }
+
+  /* fix-tag (per-row AI capability label) */
+  .csv-table .row .check-cell{
+    display:inline-flex; align-items:center; gap:9px;
+    justify-content:flex-end;
+    white-space:nowrap;
+  }
+  .csv-table .row .fix-tag{
+    font-family:'Poppins'; font-size:9px; letter-spacing:0.10em; text-transform:uppercase;
+    color:var(--c-cyan);
+    font-weight:500;
+    opacity:0;
+  }
+  .panel.is-active .csv-table .row.r1 .fix-tag{ animation: fixTagShow .5s 3.0s var(--ease-out) forwards; }
+  .panel.is-active .csv-table .row.r2 .fix-tag{ animation: fixTagShow .5s 3.4s var(--ease-out) forwards; }
+  .panel.is-active .csv-table .row.r3 .fix-tag{ animation: fixTagShow .5s 3.8s var(--ease-out) forwards; }
+  .panel.is-active .csv-table .row.r4 .fix-tag{ animation: fixTagShow .5s 4.2s var(--ease-out) forwards; }
+  .panel.is-active .csv-table .row.r5 .fix-tag{ animation: fixTagShow .5s 4.6s var(--ease-out) forwards; }
+  @keyframes fixTagShow{ to{ opacity:1; } }
+
+  /* benefit row at the bottom of each panel */
+  .benefit-row{
+    display:flex; align-items:center; gap:8px;
+    margin-top:14px;
+    padding-top:14px;
+    border-top:1px dashed var(--c-line);
+    flex-wrap:wrap;
+    opacity:0;
+  }
+  .panel.is-active .benefit-row{
+    animation: benefitShow .6s 6.0s var(--ease-out) forwards;
+  }
+  @keyframes benefitShow{ to{ opacity:1; } }
+  .benefit-pill{
+    display:inline-flex; align-items:center; gap:7px;
+    padding:6px 12px;
+    border:1px solid var(--c-line);
+    border-radius:999px;
+    font-size:11px;
+    color:var(--c-ink);
+    background:var(--c-paper);
+  }
+  .benefit-pill .num{
+    color:var(--c-blue); font-weight:500; font-family:'IBM Plex Mono', monospace;
+  }
+  .benefit-pill em{font-style:normal; font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:var(--c-ink-soft)}
+  .benefit-pill .ico{width:11px; height:11px; color:var(--c-ink-soft)}
+
+  /* module rail · enrollment sub-products */
+  .module-rail{
+    display:flex; align-items:center; gap:10px; padding:12px 26px;
+    border-bottom:1px solid var(--c-line);
+    background:var(--c-tint);
+    font-size:11px;
+  }
+  .module-rail .label{
+    font-size:9px; letter-spacing:0.18em; text-transform:uppercase;
+    color:var(--c-ink-soft); margin-right:6px;
+  }
+  .module{
+    display:inline-flex; align-items:center; gap:7px;
+    padding:5px 11px;
+    background:var(--c-paper);
+    border:1px solid var(--c-line);
+    border-radius:999px;
+    font-size:11px; color:var(--c-ink-soft);
+    transition: all .35s var(--spring);
+  }
+  .module .d{
+    width:7px; height:7px; border-radius:50%;
+    background:var(--c-line-strong);
+    position:relative;
+    transition: background .35s var(--spring);
+  }
+  .module b{font-weight:500; color:inherit}
+  .panel.is-active .module.m1{ animation: moduleLight 0s 1.0s forwards; }
+  .panel.is-active .module.m2{ animation: moduleLight 0s 5.0s forwards; }
+  .panel.is-active .module.m3{ animation: moduleLight 0s 5.6s forwards; }
+  .panel.is-active .module.m4{ animation: moduleLight 0s 6.2s forwards; }
+  @keyframes moduleLight{
+    to{
+      color: var(--c-ink);
+      border-color: var(--c-cyan);
+      background: rgba(66,181,207,0.08);
+    }
+  }
+  .panel.is-active .module.m1 .d{ animation: dotOn 0s 1.0s forwards; }
+  .panel.is-active .module.m2 .d{ animation: dotOn 0s 5.0s forwards; }
+  .panel.is-active .module.m3 .d{ animation: dotOn 0s 5.6s forwards; }
+  .panel.is-active .module.m4 .d{ animation: dotOn 0s 6.2s forwards; }
+  @keyframes dotOn{ to{ background: var(--c-cyan); } }
+  .module .ico{width:11px;height:11px;opacity:.7}
+  .panel.is-active .module.m1.lit-after .ico,
+  .panel.is-active .module.m2.lit-after .ico,
+  .panel.is-active .module.m3.lit-after .ico,
+  .panel.is-active .module.m4.lit-after .ico{opacity:1}
+
+  /* compliance badge in chrome */
+  .compliance-badge{
+    display:inline-flex; align-items:center; gap:5px;
+    padding:4px 9px;
+    border:1px solid var(--c-line-strong);
+    border-radius:999px;
+    font-size:10px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--c-ink); background:var(--c-paper);
+    font-family:'Poppins'; font-weight:500;
+  }
+  .compliance-badge svg{width:10px; height:10px; color:var(--c-success)}
+
+  /* enrollment-panel-specific override for the benefit row */
+  .panel.is-active.en-panel .benefit-row{
+    margin-top: 0;
+    padding: 14px 26px 16px;
+    animation: benefitShow .6s 6.6s var(--ease-out) forwards;
+  }
+
+  /* ---------- modern underwriting panel · live AI workspace ---------- */
+
+  /* refined data sources card */
+  .data-sources{
+    margin-bottom: 22px;
+    border: 1px solid var(--c-line);
+    border-radius: var(--r-sm);
+    background: var(--c-paper);
+    overflow: hidden;
+  }
+  .ds-list{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .ds-item{
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 14px;
+    background: var(--c-paper);
+    border-right: 1px solid var(--c-line);
+    transition: background .25s var(--spring);
+  }
+  .ds-item:last-child{ border-right: none }
+  .ds-item:hover{ background: linear-gradient(180deg, var(--c-paper), #f7f9fd); }
+  .ds-icon{
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display: grid; place-items: center;
+    flex-shrink: 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9.5px; font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+  .ds-icon.xlsx{ background: #e3f1e8; color: #1a7f4f }
+  .ds-icon.pdf { background: #fce8e6; color: #c0382b }
+  .ds-icon.zip { background: #ede5fc; color: #5b3fa8 }
+  .ds-meta{ flex: 1; min-width: 0 }
+  .ds-meta b{
+    display: block;
+    font-size: 12px; font-weight: 500;
+    color: var(--c-ink);
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: -0.01em;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .ds-meta b .lock-state{ color: var(--c-cyan); font-size: 10px; margin-left: 2px }
+  .ds-meta span{
+    font-size: 10px; color: var(--c-ink-soft);
+    letter-spacing: 0.04em; margin-top: 3px; display: block;
+  }
+  .ds-status{
+    font-size: 9px; font-weight: 500;
+    letter-spacing: 0.16em; text-transform: lowercase;
+    color: var(--c-ink-soft);
+    padding: 4px 10px; border-radius: 999px;
+    background: var(--c-tint);
+    border: 1px solid var(--c-line);
+    flex-shrink: 0;
+    font-family: 'Poppins', sans-serif;
+    display: inline-flex; align-items: center; gap: 5px;
+  }
+  .ds-status::before{
+    content: ""; width: 5px; height: 5px; border-radius: 50%;
+    background: var(--c-success); flex-shrink: 0;
+  }
+  .ds-ai{
+    display: flex; align-items: center; gap: 9px;
+    padding: 11px 16px;
+    background: var(--c-tint);
+    border-top: 1px solid var(--c-line);
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--c-ink); font-weight: 500;
+  }
+  .ds-ai .ai-pulse{
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--c-cyan);
+    position: relative; flex-shrink: 0;
+  }
+  .ds-ai .ai-pulse::after{
+    content: ""; position: absolute; inset: -3px;
+    border-radius: 50%; border: 1px solid var(--c-cyan);
+    animation: pulseRing 2s var(--spring) infinite;
+  }
+  .ds-ai .sep{ width: 1px; height: 12px; background: var(--c-line); margin: 0 4px; }
+  .ds-ai .cap{ color: var(--c-ink-soft); }
+
+  /* editorial brief header — title + meta + live indicator */
+  .brief-header{
+    display: flex; justify-content: space-between; align-items: flex-end;
+    padding: 0 4px 16px;
+    margin-bottom: 14px;
+    border-bottom: 1px dashed var(--c-line);
+  }
+  .brief-header h3{
+    font-weight: 400; font-size: 22px;
+    letter-spacing: -0.025em; line-height: 1;
+    color: var(--c-ink); margin-bottom: 8px;
+  }
+  .brief-header .meta{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; color: var(--c-ink-soft); letter-spacing: 0;
+  }
+  .brief-status{
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 6px 12px; border-radius: 999px;
+    border: 1px solid var(--c-line);
+    background: var(--c-paper);
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--c-ink-soft); font-weight: 500;
+  }
+  .brief-status .live-dot{
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--c-cyan);
+    animation: liveBlink 1.6s var(--spring) infinite;
+  }
+  @keyframes countdownColor{ to{ color: var(--c-success); } }
+
+  /* diff-style audit table — wrapped in clean inner card with scan beam */
+  .audit-card{
+    background: var(--c-paper);
+    border: 1px solid var(--c-line);
+    border-radius: var(--r-sm);
+    padding: 6px;
+    margin-bottom: 18px;
+    position: relative;
+    overflow: hidden;
+  }
+  /* AI scan beam — sweeps top to bottom while rows are processed
+     Higher specificity scope to override any older .scan-beam rules */
+  .audit-card .scan-beam{
+    position: absolute;
+    left: 0; right: 0;
+    height: 44px;
+    top: 0;
+    transform: translateY(-44px);
+    background: linear-gradient(180deg,
+      transparent 0%,
+      rgba(66,181,207,0.05) 30%,
+      rgba(66,181,207,0.18) 50%,
+      rgba(66,181,207,0.05) 70%,
+      transparent 100%);
+    pointer-events: none;
+    opacity: 0;
+    z-index: 4;
+    will-change: transform, opacity;
+  }
+  .audit-card .scan-beam::after{
+    content: "";
+    position: absolute;
+    left: 4px; right: 4px;
+    top: 50%; bottom: auto; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--c-cyan) 20%, var(--c-cyan) 80%, transparent);
+    opacity: 0.7;
+  }
+  .panel.is-active .audit-card .scan-beam{
+    animation: scanDown 2.0s 3.5s linear forwards;
+  }
+  @keyframes scanDown{
+    0%   { opacity: 0; transform: translateY(-44px); }
+    8%   { opacity: 1; }
+    88%  { opacity: 1; transform: translateY(285px); }
+    100% { opacity: 0; transform: translateY(310px); }
+  }
+  .audit-table{
+    display: flex; flex-direction: column;
+    margin: 0; gap: 0;
+  }
+  .audit-row{
+    display: grid;
+    grid-template-columns: 30px minmax(190px, 1.2fr) minmax(170px, 1.1fr) minmax(170px, 1.1fr) auto;
+    align-items: center; gap: 14px;
+    padding: 12px 14px; border-radius: 6px;
+    position: relative;
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+    opacity: 0;
+  }
+  /* alternating subtle tint for visual rhythm */
+  .audit-row:nth-child(even){
+    background: rgba(22, 24, 33, 0.022);
+  }
+  .audit-row::before{
+    content: ""; position: absolute; inset: 0;
+    background: rgba(66, 181, 207, 0.16);
+    border-radius: 6px; opacity: 0;
+    pointer-events: none;
+  }
+  .audit-row > *{ position: relative; z-index: 1 }
+  /* ALL rows reveal upfront (with tight stagger) showing messy data
+     — viewer sees the problem first, then AI scanner activates */
+  .panel.is-active .audit-row.r1{ animation: auditRowIn .5s 0.20s var(--ease-out) forwards; }
+  .panel.is-active .audit-row.r2{ animation: auditRowIn .5s 0.28s var(--ease-out) forwards; }
+  .panel.is-active .audit-row.r3{ animation: auditRowIn .5s 0.36s var(--ease-out) forwards; }
+  .panel.is-active .audit-row.r4{ animation: auditRowIn .5s 0.44s var(--ease-out) forwards; }
+  .panel.is-active .audit-row.r5{ animation: auditRowIn .5s 0.52s var(--ease-out) forwards; }
+  @keyframes auditRowIn{
+    from{ opacity: 0; transform: translateY(4px); }
+    to  { opacity: 1; transform: translateY(0); }
+  }
+  /* cyan glow flash · synced to scan beam reaching each row (after 3.5s dwell) */
+  .panel.is-active .audit-row.r1::before{ animation: rowGlow 1.0s 4.10s var(--spring) forwards; }
+  .panel.is-active .audit-row.r2::before{ animation: rowGlow 1.0s 4.50s var(--spring) forwards; }
+  .panel.is-active .audit-row.r3::before{ animation: rowGlow 1.0s 4.90s var(--spring) forwards; }
+  .panel.is-active .audit-row.r4::before{ animation: rowGlow 1.0s 5.30s var(--spring) forwards; }
+  .panel.is-active .audit-row.r5::before{ animation: rowGlow 1.0s 5.70s var(--spring) forwards; }
+  @keyframes rowGlow{
+    0%   { opacity: 0; }
+    20%  { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  .audit-row .rn{
+    color: var(--c-ink-soft); font-size: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .audit-row .who{
+    font-weight: 500; color: var(--c-ink);
+    font-family: 'Poppins', sans-serif; font-size: 14px;
+    letter-spacing: -0.01em;
+    display: inline-flex; align-items: baseline; gap: 8px;
+    white-space: nowrap; min-width: 0;
+    overflow: hidden; text-overflow: ellipsis;
+  }
+  .audit-row .renamed{
+    font-style: normal; font-weight: 400; font-size: 10px;
+    color: var(--c-ink-soft);
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 0;
+  }
+
+  /* diff cell · in-place cross-fade transformation
+     no arrow, no strikethrough — same cell, value MORPHS from messy to clean */
+  .diff{
+    display: inline-flex; align-items: baseline;
+    gap: 8px; min-width: 0; flex-wrap: nowrap;
+  }
+  .diff-key{
+    font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--c-ink-soft);
+    font-family: 'Poppins', sans-serif; font-weight: 600;
+    flex-shrink: 0;
+  }
+  /* swap container — both states share a single grid cell
+     so the column auto-sizes to the larger value */
+  .diff-value{
+    display: inline-grid;
+    grid-template-areas: "swap";
+    align-items: baseline;
+    flex-shrink: 0;
+  }
+  .diff-from, .diff-to{
+    grid-area: swap;
+    white-space: nowrap;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .diff-from{
+    color: var(--c-error);
+    font-size: 11px;
+    font-weight: 400;
+    font-style: italic;
+    letter-spacing: 0;
+    opacity: 1;
+  }
+  .diff-to{
+    color: var(--c-ink);
+    font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  /* diff-noop · already-clean cells, no morph */
+  .diff.diff-noop .diff-from{ display: none; }
+  .diff.diff-noop .diff-to{ opacity: 1; transform: none; }
+
+  /* in-place transformation · triggered as scan beam passes each row (after 3.5s dwell) */
+  .panel.is-active .audit-row.r1 .diff:not(.diff-noop) .diff-from{ animation: messHide .35s 4.10s var(--ease-out) forwards; }
+  .panel.is-active .audit-row.r1 .diff:not(.diff-noop) .diff-to{   animation: cleanReveal .45s 4.25s var(--ease-out) forwards; }
+  .panel.is-active .audit-row.r2 .diff:not(.diff-noop) .diff-from{ animation: messHide .35s 4.50s var(--ease-out) forwards; }
+  .panel.is-active .audit-row.r2 .diff:not(.diff-noop) .diff-to{   animation: cleanReveal .45s 4.65s var(--ease-out) forwards; }
+  .panel.is-active .audit-row.r3 .diff:not(.diff-noop) .diff-from{ animation: messHide .35s 4.90s var(--ease-out) forwards; }
+  .panel.is-active .audit-row.r3 .diff:not(.diff-noop) .diff-to{   animation: cleanReveal .45s 5.05s var(--ease-out) forwards; }
+  .panel.is-active .audit-row.r4 .diff:not(.diff-noop) .diff-from{ animation: messHide .35s 5.30s var(--ease-out) forwards; }
+  .panel.is-active .audit-row.r4 .diff:not(.diff-noop) .diff-to{   animation: cleanReveal .45s 5.45s var(--ease-out) forwards; }
+  .panel.is-active .audit-row.r5 .diff:not(.diff-noop) .diff-from{ animation: messHide .35s 5.70s var(--ease-out) forwards; }
+  .panel.is-active .audit-row.r5 .diff:not(.diff-noop) .diff-to{   animation: cleanReveal .45s 5.85s var(--ease-out) forwards; }
+  @keyframes messHide{
+    0%   { opacity: 1; transform: translateY(0); filter: blur(0); }
+    100% { opacity: 0; transform: translateY(-4px); filter: blur(2px); }
+  }
+  @keyframes cleanReveal{
+    0%   { opacity: 0; transform: translateY(3px); filter: blur(2px); }
+    100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+  }
+
+  /* who · also uses cross-fade for renamed rows */
+  .audit-row .who.renamed{
+    display: inline-grid;
+    grid-template-areas: "swap";
+    align-items: baseline;
+  }
+  .who-from, .who-to{
+    grid-area: swap;
+    white-space: nowrap;
+  }
+  .who-from{
+    color: var(--c-error);
+    font-style: italic;
+    font-weight: 400;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0;
+    opacity: 1;
+    text-decoration: line-through;
+    text-decoration-color: rgba(190, 80, 80, 0.5);
+  }
+  .who-to{
+    color: var(--c-ink);
+    font-weight: 500;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    letter-spacing: -0.01em;
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  .panel.is-active .audit-row.r3 .who.renamed .who-from{ animation: messHide .35s 4.90s var(--ease-out) forwards; }
+  .panel.is-active .audit-row.r3 .who.renamed .who-to{   animation: cleanReveal .45s 5.05s var(--ease-out) forwards; }
+  .panel.is-active .audit-row.r4 .who.renamed .who-from{ animation: messHide .35s 5.30s var(--ease-out) forwards; }
+  .panel.is-active .audit-row.r4 .who.renamed .who-to{   animation: cleanReveal .45s 5.45s var(--ease-out) forwards; }
+  .panel.is-active .audit-row.r5 .who.renamed .who-from{ animation: messHide .35s 5.70s var(--ease-out) forwards; }
+  .panel.is-active .audit-row.r5 .who.renamed .who-to{   animation: cleanReveal .45s 5.85s var(--ease-out) forwards; }
+
+  /* AI capability tag · with animated tick */
+  .audit-row .ai-tag{
+    font-family: 'Poppins', sans-serif;
+    font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--c-cyan); font-weight: 500;
+    padding: 4px 10px 4px 6px;
+    border-radius: 999px;
+    background: rgba(66, 181, 207, 0.10);
+    border: 1px solid rgba(66, 181, 207, 0.30);
+    white-space: nowrap;
+    opacity: 0; transform: translateY(2px) scale(.94);
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .audit-row .tick-icon{
+    width: 13px; height: 13px;
+    border-radius: 50%;
+    background: var(--c-cyan);
+    display: grid; place-items: center;
+    flex-shrink: 0;
+  }
+  .audit-row .tick-icon svg{
+    width: 7.5px; height: 7.5px;
+    stroke: var(--c-paper);
+    stroke-width: 3.4;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .audit-row .tick-icon svg path{
+    stroke-dasharray: 18;
+    stroke-dashoffset: 18;
+  }
+  .panel.is-active .audit-row.r1 .tick-icon svg path{ animation: drawTick .35s 4.50s var(--ease-out) forwards; }
+  .panel.is-active .audit-row.r2 .tick-icon svg path{ animation: drawTick .35s 4.90s var(--ease-out) forwards; }
+  .panel.is-active .audit-row.r3 .tick-icon svg path{ animation: drawTick .35s 5.30s var(--ease-out) forwards; }
+  .panel.is-active .audit-row.r4 .tick-icon svg path{ animation: drawTick .35s 5.70s var(--ease-out) forwards; }
+  .panel.is-active .audit-row.r5 .tick-icon svg path{ animation: drawTick .35s 6.10s var(--ease-out) forwards; }
+  @keyframes drawTick{ to{ stroke-dashoffset: 0; } }
+  /* AI tag pops with a subtle scale-bounce — fires after diff transformation */
+  .panel.is-active .audit-row.r1 .ai-tag{ animation: aiTagPop .55s 4.30s var(--ease-out) forwards; }
+  .panel.is-active .audit-row.r2 .ai-tag{ animation: aiTagPop .55s 4.70s var(--ease-out) forwards; }
+  .panel.is-active .audit-row.r3 .ai-tag{ animation: aiTagPop .55s 5.10s var(--ease-out) forwards; }
+  .panel.is-active .audit-row.r4 .ai-tag{ animation: aiTagPop .55s 5.50s var(--ease-out) forwards; }
+  .panel.is-active .audit-row.r5 .ai-tag{ animation: aiTagPop .55s 5.90s var(--ease-out) forwards; }
+  @keyframes aiTagPop{
+    0%   { opacity: 0; transform: translateY(2px) scale(.92); }
+    55%  { opacity: 1; transform: translateY(0) scale(1.05); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* result bar — counter inline + gradient progress + morphing status */
+  .result-bar{
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 16px;
+    margin-top: 0;
+    border: 1px solid var(--c-line); border-radius: var(--r-sm);
+    background: linear-gradient(180deg, var(--c-paper), #fafbfd);
+  }
+  .rb-counter{
+    display: inline-flex; align-items: baseline; gap: 6px;
+    flex-shrink: 0;
+    padding-right: 14px;
+    border-right: 1px dashed var(--c-line);
+  }
+  .rb-counter-num{
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 400; font-size: 22px;
+    color: var(--c-error);
+    letter-spacing: -0.02em;
+    transition: color .8s var(--spring);
+    min-width: 28px; text-align: center;
+    font-feature-settings: "tnum" 1;
+    line-height: 1;
+  }
+  .panel.is-active .rb-counter-num{
+    animation: countdownColor 0s 5.2s forwards;
+  }
+  .rb-counter-arrow{
+    color: var(--c-ink-soft); font-size: 13px;
+    line-height: 1;
+  }
+  .rb-counter-target{
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 400; font-size: 18px;
+    color: var(--c-success);
+    line-height: 1;
+  }
+  .rb-counter em{
+    font-style: normal; font-size: 9px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--c-ink-soft);
+    margin-left: 6px; font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+  }
+  .result-bar .result-label{
+    font-size: 9px; letter-spacing: 0.20em; text-transform: uppercase;
+    color: var(--c-ink-soft); font-weight: 600;
+    flex-shrink: 0; font-family: 'Poppins', sans-serif;
+  }
+  .result-progress{
+    flex: 1; height: 5px;
+    background: var(--c-line); border-radius: 3px;
+    overflow: hidden; position: relative;
+  }
+  .result-progress::after{
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(90deg, var(--c-cyan), var(--c-blue));
+    transform: translateX(-100%);
+    will-change: transform;
+  }
+  .panel.is-active .result-progress::after{
+    /* synced with scan beam — same duration, same start (after dwell) */
+    animation: fillProgress 2.0s 3.5s linear forwards;
+  }
+  @keyframes fillProgress{ to{ transform: translateX(0); } }
+  .result-status{
+    font-size: 11.5px; color: var(--c-ink-soft); font-weight: 500;
+    font-family: 'IBM Plex Mono', monospace;
+    flex-shrink: 0; transition: color .6s var(--spring);
+    letter-spacing: -0.005em;
+  }
+  .panel.is-active .result-status{
+    animation: resultDoneColor 0s 5.5s forwards;
+  }
+  @keyframes resultDoneColor{
+    to{ color: var(--c-blue); font-weight: 600; }
+  }
+  .result-status::before{ content: attr(data-pre); }
+  .panel.is-active .result-status::before{
+    animation: resultText 0s 5.5s forwards;
+  }
+  @keyframes resultText{ to{ content: attr(data-post); } }
+
+  /* ---------- enrollment · redesigned form column ---------- */
+  .en-greet .lede{
+    font-size: 12px; font-weight: 300;
+    color: var(--c-ink-soft);
+    margin-top: 8px; line-height: 1.45;
+    max-width: 32ch;
+  }
+
+  /* the recommendation hero card */
+  .reco-card{
+    margin-top: 18px;
+    border: 1px solid var(--c-ink);
+    border-radius: var(--r);
+    padding: 18px;
+    background: linear-gradient(180deg, #fff 0%, #fafbff 100%);
+    position: relative;
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  .panel.is-active .reco-card{
+    animation: enRise .8s 1.0s var(--ease-out) forwards;
+  }
+  .reco-head{
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 14px;
+  }
+  .reco-tier{
+    font-weight: 500; font-size: 12px;
+    letter-spacing: 0.02em; color: var(--c-ink);
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'Poppins', sans-serif;
+  }
+  .reco-tier::before{
+    content: ""; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--c-ink);
+  }
+  .reco-pop{
+    font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase;
+    background: var(--c-cyan); color: var(--c-ink);
+    padding: 4px 9px; border-radius: 999px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+  }
+  .reco-face{
+    border-bottom: 1px dashed var(--c-line);
+    padding-bottom: 14px;
+    margin-bottom: 12px;
+  }
+  .reco-face b{
+    display: block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 300; font-size: 32px;
+    color: var(--c-ink);
+    letter-spacing: -0.025em; line-height: 1;
+  }
+  .reco-face span{
+    display: block;
+    font-size: 11px; color: var(--c-ink-soft);
+    margin-top: 5px; letter-spacing: 0.02em;
+  }
+
+  /* premium breakdown — the deal made transparent */
+  .reco-breakdown{
+    display: flex; flex-direction: column;
+    margin-bottom: 12px;
+  }
+  .bd-row{
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 4px 0;
+    font-size: 12px;
+  }
+  .bd-row em{
+    font-style: normal; color: var(--c-ink-soft); font-weight: 400;
+    font-family: 'Poppins', sans-serif;
+  }
+  .bd-row b{
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 400; color: var(--c-ink);
+    letter-spacing: -0.005em;
+  }
+  .bd-row b.sub{ color: var(--c-blue) }
+  .bd-row.total{
+    border-top: 1px solid var(--c-line);
+    margin-top: 4px;
+    padding-top: 9px;
+  }
+  .bd-row.total em{ color: var(--c-ink); font-weight: 500 }
+  .bd-row.total b{ font-weight: 600; font-size: 14px }
+  .bd-row.total b span{
+    font-size: 11px; color: var(--c-ink-soft);
+    font-weight: 400; margin-left: 1px;
+  }
+
+  /* reasons row */
+  .reco-reasons{
+    display: flex; flex-direction: column; gap: 7px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--c-line);
+  }
+  .reason{
+    font-size: 11px; color: var(--c-ink); font-weight: 400;
+    display: flex; align-items: center; gap: 9px;
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.4;
+  }
+  .reason .r-tick{
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--c-cyan);
+    display: grid; place-items: center;
+    flex-shrink: 0;
+  }
+  .reason .r-tick svg{
+    width: 7.5px; height: 7.5px;
+    stroke: white; stroke-width: 3.5;
+    fill: none; stroke-linecap: round; stroke-linejoin: round;
+  }
+
+  /* pre-filled summary — compact 3-col strip */
+  .pre-filled-summary{
+    margin-top: 16px;
+    padding: 14px 16px;
+    border: 1px solid var(--c-line);
+    border-radius: var(--r-sm);
+    background: var(--c-tint);
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  .panel.is-active .pre-filled-summary{
+    animation: enRise .8s 2.0s var(--ease-out) forwards;
+  }
+  .pf-label{
+    font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--c-cyan); font-weight: 600;
+    margin-bottom: 10px;
+    display: flex; align-items: center; gap: 7px;
+    font-family: 'Poppins', sans-serif;
+  }
+  .pf-label::before{
+    content: ""; width: 5px; height: 5px;
+    border-radius: 50%; background: var(--c-cyan);
+  }
+  .pf-grid{
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+  }
+  .pf-item em{
+    font-style: normal;
+    font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--c-ink-soft); font-weight: 500;
+    font-family: 'Poppins', sans-serif;
+  }
+  .pf-item b{
+    display: block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 400; font-size: 12px;
+    color: var(--c-ink);
+    letter-spacing: -0.005em;
+    margin-top: 4px;
+  }
+
+  /* page-load stagger */
+  .reveal{ opacity:0; transform:translateY(10px); animation: reveal .9s var(--ease-out) forwards; }
+  .reveal.d1{animation-delay:.05s}
+  .reveal.d2{animation-delay:.18s}
+  .reveal.d3{animation-delay:.32s}
+  .reveal.d4{animation-delay:.46s}
+  .reveal.d5{animation-delay:.6s}
+  .reveal.d6{animation-delay:.74s}
+  .reveal.d7{animation-delay:.86s}
+  @keyframes reveal{ to{ opacity:1; transform:none; } }
+
+  /* responsive */
+  @media (max-width: 1080px){
+    .topnav{margin-bottom:48px}
+    h1.display{font-size:56px}
+    .hero-grid{gap:40px}
+    .hero-text{padding-top:8px}
+    .navlinks{display:none}
+    .panels{min-height:580px}
+    .en-inner{grid-template-columns:1fr}
+    .en-left{border-right:none; border-bottom:1px solid var(--c-line)}
+    .input-strip{flex-direction:column; align-items:flex-start}
+    .input-strip .ai-tag{margin-left:0; margin-top:4px}
+  }
+  @media (max-width: 640px){
+    h1.display{font-size:42px}
+    .stat-strip{flex-wrap:wrap; justify-content:center; padding:16px}
+    .stat{padding-right:14px; padding-left:14px}
+    .stat:not(:first-child){padding-left:14px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ambient background layers · sit fixed behind the shell -->
+<div class="bg-layer bg-lines"></div>
+<div class="bg-layer bg-aurora"></div>
+<div class="bg-layer bg-grain"></div>
+
+<div class="shell">
+
+  <!-- top nav -->
+  <header class="topnav reveal d1">
+    <div class="brand">
+      <span class="mark" aria-hidden="true">
+        <svg width="60" height="70" viewBox="0 0 60 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M60 0H40V20H60V0ZM20 10H0V30V50V70H20H40H60V50V30H40V50H20V30V10Z" fill="url(#uniblox-mark-gradient)"/>
+          <defs>
+            <linearGradient id="uniblox-mark-gradient" x1="64" y1="82.8333" x2="-10.9579" y2="11.5175" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#41D6CD"/>
+              <stop offset="1" stop-color="#5D4FEA"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </span>
+      <b>Uniblox<span>.</span></b>
+    </div>
+    <nav class="navlinks">
+      <a href="#">Platforms <span class="chev">▾</span></a>
+      <a href="#">Blog</a>
+      <a href="#">Jobs</a>
+      <a href="#">Case Study</a>
+      <a href="#">Tools</a>
+      <a href="#">About Us</a>
+    </nav>
+    <div class="auth">
+      <a href="#" class="login">Login</a>
+      <button class="btn">
+        Book a demo
+        <span class="arrow">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </span>
+      </button>
+    </div>
+  </header>
+
+  <main class="hero">
+    <div class="hero-grid">
+
+      <!-- LEFT · locked copy -->
+      <section class="hero-text">
+        <span class="eyebrow reveal d2">
+          <span class="sparkle" aria-hidden="true">✨</span>
+          AI-first platform
+        </span>
+        <h1 class="display reveal d3">
+          Automate your insurance<br/>
+          from <em>Underwriting</em><br/>
+          to <em>Enrollment</em>
+        </h1>
+        <p class="lede reveal d4">
+          Uniblox takes the manual work out of your day. Turn messy RFPs into clean data and deliver a seamless e-commerce experience for your customers&mdash;all in one platform.
+        </p>
+        <div class="ctas reveal d5">
+          <button class="btn primary lg">
+            Book a demo
+            <span class="arrow">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </span>
+          </button>
+          <a href="#see-it" class="btn ghost lg btn-scroll">
+            See how it works
+            <span class="arrow">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </a>
+        </div>
+        <div class="stat-strip reveal d6">
+          <div class="stat"><span class="v num" id="appCount">137,412</span><em>Applications</em></div>
+          <div class="stat"><span class="v num">1,624</span><em>Groups</em></div>
+          <div class="stat"><span class="v num">24</span><em>Products</em></div>
+          <div class="stat"><span class="v num">100<sub>%</sub></span><em>Email delivery</em></div>
+        </div>
+        <div class="editorial-foot">
+          <span>Vol. 04 · Q2 2026</span>
+          <span class="vline"></span>
+          <span class="num">001 / HERO</span>
+          <span class="vline"></span>
+          <span>↓ scroll for platforms</span>
+        </div>
+      </section>
+
+      <!-- RIGHT · the platform window -->
+      <section id="see-it" class="window reveal d7">
+
+        <!-- chrome -->
+        <div class="chrome">
+          <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <div class="url">
+            <svg class="lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 1 1 8 0v3"/></svg>
+            <b>app.uniblox.io</b><span class="path" id="urlPath">/underwriting/brightline-logistics-2026</span>
+          </div>
+          <span class="compliance-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 4.5 3.2 8.5 8 9 4.8-.5 8-4.5 8-9V6l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg>
+            SOC-2
+          </span>
+          <span class="live"><span class="d"></span>Live</span>
+        </div>
+
+        <!-- tabs -->
+        <div class="tab-bar">
+          <button class="tab is-active" data-tab="0">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <path d="M3 9h18M3 15h18M9 3v18M15 3v18"/>
+            </svg>
+            Group Underwriting
+            <span class="pill">/01</span>
+          </button>
+          <button class="tab" data-tab="1">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M4 7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3Z"/>
+              <path d="M8 12l3 3 5-6"/>
+            </svg>
+            Enrollment
+            <span class="pill">/02</span>
+          </button>
+          <div class="tab-indicator" id="tabIndicator"></div>
+          <div class="cycle-progress" id="cycleProgress"></div>
+        </div>
+
+        <!-- panels -->
+        <div class="panels">
+
+          <!-- ============ UNDERWRITING PANEL · LIVE AI WORKSPACE ============ -->
+          <article class="panel is-active" data-panel="0">
+
+            <!-- refined data sources -->
+            <div class="data-sources">
+              <div class="ds-list">
+                <div class="ds-item">
+                  <span class="ds-icon xlsx">XLS</span>
+                  <div class="ds-meta">
+                    <b>Brightline_Census.xlsx</b>
+                    <span>240 employees</span>
+                  </div>
+                  <span class="ds-status">extracted</span>
+                </div>
+                <div class="ds-item">
+                  <span class="ds-icon pdf">PDF</span>
+                  <div class="ds-meta">
+                    <b>MetLife_VolLife.pdf</b>
+                    <span>rate tables · OCR'd</span>
+                  </div>
+                  <span class="ds-status">parsed</span>
+                </div>
+                <div class="ds-item">
+                  <span class="ds-icon zip">ZIP</span>
+                  <div class="ds-meta">
+                    <b>Symetra_Renewal.zip</b>
+                    <span>4 prior-year files</span>
+                  </div>
+                  <span class="ds-status">unzipped</span>
+                </div>
+              </div>
+              <div class="ds-ai">
+                <span class="ai-pulse"></span>
+                AI active
+                <span class="sep"></span>
+                <span class="cap">OCR · Imputation · Normalization</span>
+              </div>
+            </div>
+
+            <!-- editorial brief header — title + meta + live indicator -->
+            <div class="brief-header">
+              <div>
+                <h3>Census audit</h3>
+                <span class="meta">Brightline Logistics · for <b>MetLife</b> · plan year 2026 · 240 lives</span>
+              </div>
+              <div class="brief-status">
+                <span class="live-dot"></span>
+                live
+              </div>
+            </div>
+
+            <!-- diff-style audit rows · clean inner card kills the body grid -->
+            <div class="audit-card">
+              <div class="scan-beam"></div>
+              <div class="audit-table">
+                <div class="audit-row r1">
+                  <span class="rn">01</span>
+                  <span class="who">Anika Rao</span>
+                  <span class="diff">
+                    <span class="diff-key">Born</span>
+                    <span class="diff-value">
+                      <span class="diff-from">33799</span>
+                      <span class="diff-to">1992-06-14</span>
+                    </span>
+                  </span>
+                  <span class="diff">
+                    <span class="diff-key">Salary</span>
+                    <span class="diff-value">
+                      <span class="diff-from">148000</span>
+                      <span class="diff-to">$148,000</span>
+                    </span>
+                  </span>
+                  <span class="ai-tag"><span class="tick-icon"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17 19 7"/></svg></span>date · currency</span>
+                </div>
+
+                <div class="audit-row r2">
+                  <span class="rn">02</span>
+                  <span class="who">Dev Kapoor</span>
+                  <span class="diff">
+                    <span class="diff-key">Born</span>
+                    <span class="diff-value">
+                      <span class="diff-from">—</span>
+                      <span class="diff-to">1990-08-22</span>
+                    </span>
+                  </span>
+                  <span class="diff">
+                    <span class="diff-key">Salary</span>
+                    <span class="diff-value">
+                      <span class="diff-from">$142K</span>
+                      <span class="diff-to">$142,000</span>
+                    </span>
+                  </span>
+                  <span class="ai-tag"><span class="tick-icon"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17 19 7"/></svg></span>DOB imputed</span>
+                </div>
+
+                <div class="audit-row r3">
+                  <span class="rn">03</span>
+                  <span class="who renamed">
+                    <span class="who-from">Smith, Jacob</span>
+                    <span class="who-to">Jacob Smith</span>
+                  </span>
+                  <span class="diff">
+                    <span class="diff-key">Born</span>
+                    <span class="diff-value">
+                      <span class="diff-from">03-15-89</span>
+                      <span class="diff-to">1989-03-15</span>
+                    </span>
+                  </span>
+                  <span class="diff diff-noop">
+                    <span class="diff-key">Salary</span>
+                    <span class="diff-value">
+                      <span class="diff-to">$95,000</span>
+                    </span>
+                  </span>
+                  <span class="ai-tag"><span class="tick-icon"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17 19 7"/></svg></span>name · date</span>
+                </div>
+
+                <div class="audit-row r4">
+                  <span class="rn">04</span>
+                  <span class="who renamed">
+                    <span class="who-from">priya</span>
+                    <span class="who-to">Priya Singh</span>
+                  </span>
+                  <span class="diff">
+                    <span class="diff-key">Born</span>
+                    <span class="diff-value">
+                      <span class="diff-from">12-03-90</span>
+                      <span class="diff-to">1990-12-03</span>
+                    </span>
+                  </span>
+                  <span class="diff">
+                    <span class="diff-key">Salary</span>
+                    <span class="diff-value">
+                      <span class="diff-from">—</span>
+                      <span class="diff-to">$95,000</span>
+                    </span>
+                  </span>
+                  <span class="ai-tag"><span class="tick-icon"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17 19 7"/></svg></span>OCR · imputed</span>
+                </div>
+
+                <div class="audit-row r5">
+                  <span class="rn">05</span>
+                  <span class="who renamed">
+                    <span class="who-from">Marina V.</span>
+                    <span class="who-to">Marina Volkov</span>
+                  </span>
+                  <span class="diff">
+                    <span class="diff-key">Born</span>
+                    <span class="diff-value">
+                      <span class="diff-from">Nov 23, 1988</span>
+                      <span class="diff-to">1988-11-23</span>
+                    </span>
+                  </span>
+                  <span class="diff">
+                    <span class="diff-key">Salary</span>
+                    <span class="diff-value">
+                      <span class="diff-from">1,28,000</span>
+                      <span class="diff-to">$128,000</span>
+                    </span>
+                  </span>
+                  <span class="ai-tag"><span class="tick-icon"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17 19 7"/></svg></span>format unified</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- result bar — counter inline + gradient progress -->
+            <div class="result-bar">
+              <span class="rb-counter">
+                <span class="rb-counter-num" id="uwCounter">47</span>
+                <span class="rb-counter-arrow">→</span>
+                <span class="rb-counter-target">0</span>
+                <em>errors</em>
+              </span>
+              <div class="result-progress"></div>
+              <span class="result-status" data-pre="processing 240 lives" data-post="✓ quote-ready · sent to MetLife"></span>
+            </div>
+
+            <!-- benefit pills · quotable wins -->
+            <div class="benefit-row">
+              <span class="benefit-pill"><span class="num">−50%</span><em>prep time</em></span>
+              <span class="benefit-pill"><em>auto-scaling</em></span>
+              <span class="benefit-pill"><em>no-code rules</em></span>
+              <span class="benefit-pill"><span class="num">&lt;1 wk</span><em>deploy</em></span>
+            </div>
+          </article>
+
+          <!-- ============ ENROLLMENT PANEL ============ -->
+          <article class="panel en-panel" data-panel="1">
+
+            <!-- 4 sub-products of the enrollment platform · light up as flow progresses -->
+            <div class="module-rail">
+              <span class="label">Active modules</span>
+              <div class="module m1"><span class="d"></span><b>Enroll</b></div>
+              <div class="module m2"><span class="d"></span><b>Connect</b></div>
+              <div class="module m3"><span class="d"></span><b>Engage</b></div>
+              <div class="module m4"><span class="d"></span><b>Bill</b></div>
+            </div>
+
+            <div class="en-stage">
+
+              <!-- ========== FORM STATE ========== -->
+              <div class="en-form-state">
+                <div class="en-greet">
+                  <em>MetLife · voluntary benefits</em>
+                  <h3>Hi, <b>Anika</b><em>.</em></h3>
+                  <p class="lede">Your recommendation is ready. Review and submit for an instant decision.</p>
+                </div>
+
+                <!-- recommendation hero card · the deal, made transparent -->
+                <div class="reco-card">
+                  <div class="reco-head">
+                    <span class="reco-tier">MetLife Term Life · Gold · 20-year</span>
+                    <span class="reco-pop">most chosen</span>
+                  </div>
+                  <div class="reco-face">
+                    <b>$500,000</b>
+                    <span>face amount · effective May 1, 2026</span>
+                  </div>
+                  <div class="reco-breakdown">
+                    <div class="bd-row"><em>List price</em><b>$40.00</b></div>
+                    <div class="bd-row"><em>Employer subsidy</em><b class="sub">−$12.00</b></div>
+                    <div class="bd-row total"><em>Your premium</em><b>$28<span>/mo</span></b></div>
+                  </div>
+                  <div class="reco-reasons">
+                    <div class="reason">
+                      <span class="r-tick"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17 19 7"/></svg></span>
+                      Covers ~8× your annual salary
+                    </div>
+                    <div class="reason">
+                      <span class="r-tick"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17 19 7"/></svg></span>
+                      No medical exam required at this tier
+                    </div>
+                  </div>
+                </div>
+
+                <div class="pre-filled-summary">
+                  <div class="pf-label">Pre-filled from ADP</div>
+                  <div class="pf-grid">
+                    <div class="pf-item"><em>Income</em><b>$148,000</b></div>
+                    <div class="pf-item"><em>Born</em><b>1992-06-14</b></div>
+                    <div class="pf-item"><em>Beneficiary</em><b>Dev Kapoor</b></div>
+                  </div>
+                </div>
+
+                <div class="submit-zone" style="position:relative">
+                  <button class="submit-btn">
+                    Submit for instant decision
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                  </button>
+                  <div class="spinner"></div>
+                </div>
+              </div>
+
+              <!-- ========== DECISION STATE (replaces form after submit) ========== -->
+              <div class="en-decision-state">
+                <span class="approval-label">— underwriting decision</span>
+
+                <div class="approval-card">
+                  <div class="check-ring">
+                    <svg viewBox="0 0 24 24"><path d="M5 12.5 10 17 19 7"/></svg>
+                  </div>
+                  <h4>You're <em>covered.</em></h4>
+                  <p class="meta">MetLife Term Life · 20-year · effective May 1, 2026.<br/>No medical exam required.</p>
+
+                  <div class="policy-ref">
+                    <em>Policy reference</em>
+                    <b>CHB-TL-2026-8842RV</b>
+                  </div>
+
+                  <div class="stat-row">
+                    <div class="s"><em>Coverage</em><b>$500,000</b></div>
+                    <div class="s"><em>Premium</em><b>$28<span class="u">/mo</span></b></div>
+                    <div class="s"><em>Decision time</em><b>28<span class="u">s</span></b></div>
+                    <div class="s"><em>Effective</em><b>May 1, 2026</b></div>
+                  </div>
+                </div>
+
+                <div class="sync-pill" style="margin-top:14px">
+                  <span class="d"></span>
+                  Synced to ADP · 2 seconds ago
+                </div>
+              </div>
+
+            </div>
+
+            <!-- benefit pills · enrollment wins -->
+            <div class="benefit-row">
+              <span class="benefit-pill"><span class="num">2×</span><em>participation</em></span>
+              <span class="benefit-pill"><span class="num">100+</span><em>integrations</em></span>
+              <span class="benefit-pill"><span class="num">100%</span><em>delivery</em></span>
+              <span class="benefit-pill"><em>compliance built-in</em></span>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- status bar -->
+        <div class="status-bar">
+          <div class="l">
+            <div class="item"><span class="live-d"></span><em>live</em></div>
+            <div class="item"><em>today</em><b id="todayCount">8,431</b></div>
+            <div class="item"><em>avg decision</em><b>28s</b></div>
+            <div class="item"><em>placement rate</em><b>94<span style="color:var(--c-ink-soft)">%</span></b></div>
+          </div>
+          <div class="l">
+            <span class="num" style="color:var(--c-ink-soft)" id="tickerLabel">▸ Anika R · approved · 28s</span>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- trust marquee -->
+    <div class="trust-strip">
+      <div class="trust-label"><span>Trusted by the names that built the industry</span></div>
+      <div class="marquee-row">
+        <div class="logo-cell"><img class="lg-img-chubb" src="logos/chubb.svg" alt="Chubb"/></div>
+        <div class="logo-cell"><img class="lg-img-adp" src="logos/adp.svg" alt="ADP"/></div>
+        <div class="logo-cell"><img class="lg-img-workday" src="logos/workday.svg" alt="Workday"/></div>
+        <div class="logo-cell"><img class="lg-img-symetra" src="logos/symetra.png" alt="Symetra"/></div>
+        <div class="logo-cell"><img class="lg-img-trustmark" src="logos/trustmark.jpg" alt="Trustmark"/></div>
+        <div class="logo-cell"><span class="lg-ngl">NGL.</span></div>
+        <div class="logo-cell"><span class="lg-bswift">bswift</span></div>
+        <div class="logo-cell"><img class="lg-img-standard" src="logos/thestandard.png" alt="The Standard"/></div>
+        <div class="logo-cell"><img class="lg-img-chubb" src="logos/chubb.svg" alt="Chubb"/></div>
+        <div class="logo-cell"><img class="lg-img-adp" src="logos/adp.svg" alt="ADP"/></div>
+        <div class="logo-cell"><img class="lg-img-workday" src="logos/workday.svg" alt="Workday"/></div>
+        <div class="logo-cell"><img class="lg-img-symetra" src="logos/symetra.png" alt="Symetra"/></div>
+        <div class="logo-cell"><img class="lg-img-trustmark" src="logos/trustmark.jpg" alt="Trustmark"/></div>
+        <div class="logo-cell"><span class="lg-ngl">NGL.</span></div>
+        <div class="logo-cell"><span class="lg-bswift">bswift</span></div>
+        <div class="logo-cell"><img class="lg-img-standard" src="logos/thestandard.png" alt="The Standard"/></div>
+      </div>
+    </div>
+  </main>
+
+</div>
+
+<script>
+  // -------- platform tab cycling (Motion AnimatePresence-style) --------
+  const tabs    = document.querySelectorAll('.tab');
+  const panels  = document.querySelectorAll('.panel');
+  const indicator = document.getElementById('tabIndicator');
+  const progress  = document.getElementById('cycleProgress');
+  const urlPath   = document.getElementById('urlPath');
+  const tickerLabel = document.getElementById('tickerLabel');
+
+  const URLS = [
+    '/underwriting/brightline-logistics-2026',
+    '/enrollment/anika-rao'
+  ];
+  const TICKERS = [
+    '▸ Brightline Logistics · 240 lives · 47 errors → cleaned',
+    '▸ Anika R · Life $500K · approved · 28s · synced'
+  ];
+
+  const CYCLE_MS = 8000;
+  let current = 0;
+  let cycleTimer = null;
+
+  function positionIndicator(idx){
+    const tab = tabs[idx];
+    const x = tab.offsetLeft;
+    const w = tab.offsetWidth;
+    indicator.style.transform = `translateX(${x}px)`;
+    indicator.style.width = `${w}px`;
+  }
+
+  // ---- countdown counter for the underwriting panel (47 → 0) ----
+  let uwCounterTimer = null;
+  let uwCounterTimeout = null;
+  function runUwCounter(){
+    if(uwCounterTimeout){ clearTimeout(uwCounterTimeout); uwCounterTimeout = null; }
+    if(uwCounterTimer){ clearInterval(uwCounterTimer); uwCounterTimer = null; }
+    const el = document.getElementById('uwCounter');
+    if(!el) return;
+    el.textContent = '47';
+    // 3.5s dwell + sync with scan (starts at 3.7s, runs ~1.8s alongside the 2s scan)
+    uwCounterTimeout = setTimeout(() => {
+      const total = 47;
+      const steps = 30;
+      const stepMs = 60;
+      let s = 0;
+      uwCounterTimer = setInterval(() => {
+        s++;
+        const next = Math.max(0, Math.round(total - (total/steps) * s));
+        el.textContent = next;
+        if(s >= steps || next <= 0){
+          el.textContent = '0';
+          clearInterval(uwCounterTimer);
+          uwCounterTimer = null;
+        }
+      }, stepMs);
+    }, 3700);
+  }
+
+  // resize the panels container to the active panel's natural height
+  // so neither panel has empty bottom space or clipped content
+  function resizePanels(){
+    const active = document.querySelector('.panel.is-active');
+    const container = document.querySelector('.panels');
+    if(!active || !container) return;
+    container.style.height = active.scrollHeight + 'px';
+  }
+
+  function activate(idx){
+    current = idx;
+
+    // tabs
+    tabs.forEach((t,i) => t.classList.toggle('is-active', i === idx));
+    positionIndicator(idx);
+
+    // panels — force animation reset by removing/re-adding class with reflow
+    panels.forEach((p,i) => {
+      if(i === idx){
+        p.classList.remove('is-active');
+        void p.offsetWidth;            // force reflow → resets all CSS animations inside
+        p.classList.add('is-active');
+      } else {
+        p.classList.remove('is-active');
+      }
+    });
+
+    // chrome url
+    urlPath.textContent = URLS[idx];
+    tickerLabel.textContent = TICKERS[idx];
+
+    // cycle progress bar
+    progress.style.transition = 'none';
+    progress.style.width = '0%';
+    void progress.offsetWidth;
+    progress.style.transition = `width ${CYCLE_MS}ms linear`;
+    progress.style.width = '100%';
+
+    // kick off the underwriting counter when its panel is active
+    if(idx === 0) runUwCounter();
+
+    // resize container to fit active panel
+    requestAnimationFrame(() => resizePanels());
+  }
+
+  // also resize on viewport changes + initial load
+  window.addEventListener('resize', resizePanels);
+  window.addEventListener('load', resizePanels);
+
+  function startCycle(){
+    clearInterval(cycleTimer);
+    cycleTimer = setInterval(() => {
+      activate((current + 1) % panels.length);
+    }, CYCLE_MS);
+  }
+
+  // arm the demo: release the CSS animation pause + reset panel 0 from frame zero
+  const panelsEl = document.querySelector('.panels');
+  let armed = false;
+  function armDemo(){
+    if(armed) return;
+    armed = true;
+    panelsEl.classList.add('is-armed');
+    activate(0);          // forces reflow → all CSS animations restart cleanly from now
+    startCycle();         // begins the 11s tab cycle
+  }
+
+  tabs.forEach((tab, i) => tab.addEventListener('click', () => {
+    armDemo();             // clicking a tab also counts as intent → arm if not already
+    activate(i);
+    startCycle();
+  }));
+
+  // hero-showcase rhythm: the auto-cycle IS the demo, so it keeps running on hover.
+  // To inspect a panel manually, click its tab — that resets the timer and stays put.
+  const windowEl = document.querySelector('.window');
+
+  // initial paint — position the indicator only; the cycle waits for viewport intersection
+  requestAnimationFrame(() => {
+    positionIndicator(0);
+    requestAnimationFrame(() => resizePanels());
+  });
+
+  // IntersectionObserver: arm the demo when the platform window enters the viewport.
+  // threshold 0.35 → fires when ~35% of the demo is visible; one-shot, then disconnects.
+  if('IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if(entry.isIntersecting){
+          armDemo();
+          io.disconnect();
+        }
+      });
+    }, { threshold: 0.35 });
+    io.observe(windowEl);
+  } else {
+    armDemo();             // graceful fallback for ancient browsers
+  }
+
+  // -------- trust marquee · hide cells whose logo fails to load --------
+  // (defensive: prevents orphan gaps if a logo file is missing or cached as broken)
+  document.querySelectorAll('.marquee-row .logo-cell img').forEach((img) => {
+    const hideCell = () => { if(img.parentElement) img.parentElement.style.display = 'none'; };
+    img.addEventListener('error', hideCell);
+    // images already-failed by the time this runs (e.g. cached 404)
+    if(img.complete && img.naturalWidth === 0) hideCell();
+  });
+
+  // -------- live counters in stat strip --------
+  const appCount = document.getElementById('appCount');
+  const todayCount = document.getElementById('todayCount');
+  let appN = 137412, todayN = 8431;
+  setInterval(() => {
+    if(Math.random() > 0.4){
+      appN += 1; todayN += 1;
+      appCount.textContent = appN.toLocaleString();
+      todayCount.textContent = todayN.toLocaleString();
+    }
+  }, 1800);
+</script>
+</body>
+</html>

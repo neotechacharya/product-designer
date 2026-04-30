@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Hero Redesign · A Case Study · Uniblox</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+
+<style>
+:root{
+  /* tokens · editorial paper aesthetic */
+  --paper:        #f7f3ec;       /* warm cream */
+  --paper-deep:   #efe9df;       /* slightly darker cream for sections */
+  --ink:          #1a1f2e;       /* deep navy, softer than black */
+  --ink-soft:     #4d5160;       /* mid gray-navy */
+  --ink-mute:     #8b8377;       /* warm muted gray */
+  --line:         #e2dccf;       /* hairline cream */
+  --line-strong:  #c9c1ae;
+  --accent:       #006ed9;       /* uniblox blue */
+  --accent-cyan:  #42b5cf;       /* uniblox cyan */
+  --warn:         #c14b3a;       /* terracotta for diagnostic flags */
+  --highlight:    #f5e9b8;       /* paper highlight */
+  --spring:       cubic-bezier(0.2, 0.7, 0.1, 1);
+  --ease-out:     cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{
+    animation-duration:.01ms !important;
+    transition-duration:.01ms !important;
+  }
+}
+
+*{box-sizing:border-box; margin:0; padding:0}
+html{scroll-behavior:smooth}
+html, body{height:100%}
+body{
+  font-family:'Inter', system-ui, sans-serif;
+  font-size:15px; line-height:1.65;
+  color:var(--ink);
+  background:var(--paper);
+  font-feature-settings:"ss01" 1, "cv11" 1;
+  -webkit-font-smoothing:antialiased;
+  position:relative;
+  overflow-x:hidden;
+}
+a{color:inherit; text-decoration:none}
+img{max-width:100%; display:block}
+::selection{background:var(--ink); color:var(--paper)}
+
+/* paper texture · subtle SVG noise */
+body::before{
+  content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  background-size:200px 200px;
+  opacity:.05;
+  mix-blend-mode:multiply;
+}
+
+/* ───────────────────────────────  layout primitives  ─────────────────────────────── */
+.shell{
+  max-width:1240px;
+  margin:0 auto;
+  padding:0 56px;
+  position:relative;
+  z-index:1;
+}
+@media (max-width:760px){ .shell{padding:0 28px} }
+
+.section{ padding:120px 0; position:relative }
+@media (max-width:760px){ .section{padding:72px 0} }
+
+/* numbered section markers · editorial */
+.section-num{
+  display:inline-flex; align-items:baseline; gap:18px;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px; letter-spacing:0.18em; text-transform:uppercase;
+  color:var(--ink-mute);
+  margin-bottom:32px;
+}
+.section-num::before{
+  content:""; display:inline-block;
+  width:36px; height:1px; background:var(--ink-mute);
+  transform:translateY(-3px);
+}
+.section-num b{ font-weight:500; color:var(--ink) }
+
+.section-title{
+  font-family:'Fraunces', serif;
+  font-variation-settings:"opsz" 144, "SOFT" 30;
+  font-weight:400;
+  font-size:64px;
+  line-height:1.02;
+  letter-spacing:-0.025em;
+  color:var(--ink);
+  max-width:18ch;
+}
+.section-title em{ font-style:italic; color:var(--accent) }
+@media (max-width:760px){ .section-title{font-size:42px} }
+
+.lede{
+  font-family:'Inter', sans-serif;
+  font-size:18px; font-weight:300; line-height:1.6;
+  color:var(--ink-soft);
+  max-width:58ch;
+  margin-top:24px;
+}
+
+/* ───────────────────────────────  navbar  ─────────────────────────────── */
+.topnav{
+  position:sticky; top:0; z-index:50;
+  background:rgba(247,243,236,0.82);
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  border-bottom:1px solid var(--line);
+}
+.topnav .inner{
+  max-width:1240px; margin:0 auto; padding:18px 56px;
+  display:flex; align-items:center; justify-content:space-between;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11.5px; letter-spacing:0.16em; text-transform:uppercase;
+  color:var(--ink-soft);
+}
+@media (max-width:760px){ .topnav .inner{padding:16px 28px} }
+.topnav .brand{ display:flex; align-items:center; gap:11px; color:var(--ink); font-weight:500 }
+.topnav .brand .glyph{
+  width:24px; height:28px; display:inline-flex;
+}
+.topnav .brand .glyph svg{ width:100%; height:100% }
+.topnav .meta{ display:flex; gap:28px; align-items:center }
+.topnav .meta .dot{
+  width:6px; height:6px; border-radius:50%;
+  background:var(--accent-cyan);
+  display:inline-block;
+  animation:pulseDot 2.4s var(--ease-out) infinite;
+}
+@keyframes pulseDot{
+  0%,100%{ opacity:.55; transform:scale(1) }
+  50%   { opacity:1;   transform:scale(1.25) }
+}
+@media (max-width:760px){ .topnav .meta a:not(:last-child){display:none} }
+
+/* ───────────────────────────────  cover  ─────────────────────────────── */
+.cover{
+  padding:140px 0 80px;
+  position:relative;
+}
+.cover-grid{
+  display:grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap:80px;
+  align-items:end;
+}
+@media (max-width:960px){ .cover-grid{ grid-template-columns:1fr; gap:56px } }
+
+.cover-eyebrow{
+  display:inline-flex; align-items:center; gap:14px;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px; letter-spacing:0.22em; text-transform:uppercase;
+  color:var(--ink-mute);
+  margin-bottom:36px;
+  padding:8px 18px;
+  border:1px solid var(--line-strong);
+  border-radius:999px;
+  background:rgba(255,255,255,.4);
+}
+.cover-eyebrow .pip{
+  width:6px; height:6px; border-radius:50%;
+  background:var(--accent-cyan);
+  box-shadow:0 0 0 4px rgba(66,181,207,.18);
+}
+
+.cover-title{
+  font-family:'Fraunces', serif;
+  font-variation-settings:"opsz" 144, "SOFT" 50;
+  font-weight:300;
+  font-size:104px;
+  line-height:.96;
+  letter-spacing:-0.03em;
+  color:var(--ink);
+}
+.cover-title em{
+  font-style:italic;
+  font-weight:400;
+  color:var(--accent);
+}
+.cover-title .am{
+  font-variation-settings:"opsz" 144, "SOFT" 100;
+  display:inline-block;
+}
+@media (max-width:760px){ .cover-title{font-size:64px} }
+
+.cover-meta{
+  border-top:1px solid var(--line-strong);
+  padding-top:26px;
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:8px 28px;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11.5px;
+  letter-spacing:0.04em;
+  color:var(--ink-soft);
+}
+.cover-meta dt{
+  font-size:10px;
+  text-transform:uppercase; letter-spacing:0.18em;
+  color:var(--ink-mute);
+  margin-bottom:4px;
+}
+.cover-meta dd{
+  font-size:13.5px;
+  color:var(--ink);
+  margin-bottom:18px;
+}
+
+/* big rule below cover */
+.cover-rule{
+  height:1px; background:var(--ink); width:100%;
+  margin-top:60px;
+}
+
+/* ───────────────────────────────  brief  ─────────────────────────────── */
+.brief-grid{
+  display:grid;
+  grid-template-columns: 1fr 2fr;
+  gap:80px;
+}
+@media (max-width:960px){ .brief-grid{ grid-template-columns:1fr; gap:32px } }
+
+.brief-body p{
+  font-family:'Fraunces', serif;
+  font-variation-settings:"opsz" 36, "SOFT" 80;
+  font-weight:300;
+  font-size:24px;
+  line-height:1.45;
+  color:var(--ink);
+  letter-spacing:-0.005em;
+  margin-bottom:24px;
+  max-width:60ch;
+}
+.brief-body p em{ font-style:italic; color:var(--accent) }
+.brief-body p:last-child{ margin-bottom:0 }
+
+.brief-meta{
+  display:grid;
+  gap:20px;
+  align-content:start;
+  padding-top:6px;
+}
+.brief-meta .row{
+  border-top:1px solid var(--line);
+  padding:14px 0 0;
+  display:grid; gap:6px;
+  font-size:13px;
+}
+.brief-meta .row dt{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:10px; letter-spacing:0.2em; text-transform:uppercase;
+  color:var(--ink-mute);
+}
+.brief-meta .row dd{ color:var(--ink); font-weight:500 }
+
+/* ───────────────────────────────  anatomy of old hero  ─────────────────────────────── */
+.anatomy-section{ background:var(--paper-deep); border-top:1px solid var(--line) }
+.anatomy-grid{
+  display:grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap:64px;
+  align-items:start;
+}
+@media (max-width:960px){ .anatomy-grid{ grid-template-columns:1fr; gap:40px } }
+
+.anatomy-image{
+  position:relative;
+  border-radius:12px;
+  overflow:hidden;
+  background:#000;
+  box-shadow: 0 1px 0 rgba(15,23,42,.04), 0 30px 60px -30px rgba(15,23,42,.18);
+}
+.anatomy-image img{ width:100%; display:block }
+
+/* numbered callout pins on the diagnostic image */
+.callout{
+  position:absolute;
+  width:28px; height:28px;
+  border-radius:50%;
+  background:var(--warn);
+  color:#fff;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:12px; font-weight:500;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow: 0 0 0 4px rgba(193,75,58,.22), 0 4px 12px rgba(0,0,0,.2);
+  z-index:2;
+  cursor:default;
+  transition:transform .25s var(--spring);
+}
+.callout:hover{ transform:scale(1.1) }
+.callout.c1{ top:18%;  left:36% }
+.callout.c2{ top:60%;  left:50% }
+.callout.c3{ top:32%;  left:54% }
+.callout.c4{ top:46%;  left:24% }
+.callout.c5{ top:78%;  left:60% }
+
+.callout-list{
+  display:grid; gap:18px;
+}
+.callout-item{
+  display:grid;
+  grid-template-columns: 32px 1fr;
+  gap:16px;
+  padding-bottom:18px;
+  border-bottom:1px solid var(--line);
+}
+.callout-item:last-child{ border-bottom:none }
+.callout-item .num{
+  width:28px; height:28px;
+  border-radius:50%;
+  background:var(--warn); color:#fff;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:12px; font-weight:500;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+}
+.callout-item h4{
+  font-family:'Inter', sans-serif;
+  font-size:15px; font-weight:600; color:var(--ink);
+  margin-bottom:6px;
+  letter-spacing:-0.005em;
+}
+.callout-item p{
+  font-size:13.5px; color:var(--ink-soft);
+  line-height:1.55;
+}
+
+/* ───────────────────────────────  research insights  ─────────────────────────────── */
+/* ── platform cards · Underwriting / Enrollment ── */
+.platform-grid{
+  display:grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap:28px;
+  margin-top:56px;
+}
+@media (max-width:960px){ .platform-grid{ grid-template-columns:1fr; gap:24px } }
+
+.platform-card{
+  padding:36px 36px 32px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.5);
+  border-radius:12px;
+  display:grid;
+  gap:24px;
+  align-content:start;
+  transition: transform .35s var(--spring), border-color .35s var(--spring);
+}
+.platform-card:hover{
+  transform: translateY(-3px);
+  border-color: var(--line-strong);
+}
+.platform-card .pc-head{ display:grid; gap:10px }
+.platform-card .pc-tag{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:10px; letter-spacing:0.22em; text-transform:uppercase;
+  color:var(--accent);
+}
+.platform-card h3{
+  font-family:'Fraunces', serif;
+  font-variation-settings:"opsz" 72, "SOFT" 60;
+  font-weight:400;
+  font-size:30px;
+  line-height:1.1;
+  color:var(--ink);
+  letter-spacing:-0.018em;
+}
+.platform-card .pc-quote{
+  font-family:'Fraunces', serif;
+  font-variation-settings:"opsz" 36, "SOFT" 80;
+  font-style:italic;
+  font-weight:300;
+  font-size:17px;
+  line-height:1.55;
+  color:var(--ink);
+  border-left:2px solid var(--accent-cyan);
+  padding-left:18px;
+  letter-spacing:-0.005em;
+}
+.platform-card .pc-translate{
+  border-top:1px solid var(--line);
+  padding-top:20px;
+  display:grid; gap:14px;
+}
+.platform-card .pc-label{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:10px; letter-spacing:0.2em; text-transform:uppercase;
+  color:var(--ink);
+  font-weight:500;
+}
+.platform-card .pc-translate ul{
+  list-style:none;
+  display:grid; gap:10px;
+}
+.platform-card .pc-translate li{
+  position:relative;
+  padding-left:18px;
+  font-size:13.5px;
+  line-height:1.55;
+  color:var(--ink-soft);
+}
+.platform-card .pc-translate li::before{
+  content:""; position:absolute;
+  left:0; top:9px;
+  width:6px; height:6px;
+  border-radius:50%;
+  background:var(--accent-cyan);
+}
+.platform-card .pc-translate li b{
+  color:var(--ink); font-weight:500;
+}
+.platform-card .pc-translate li code{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11.5px;
+  background:rgba(26,31,46,.06);
+  padding:2px 6px;
+  border-radius:4px;
+  color:var(--ink);
+}
+
+/* ───────────────────────────────  principles  ─────────────────────────────── */
+.principles-section{ background:var(--paper-deep); border-top:1px solid var(--line); border-bottom:1px solid var(--line) }
+.principles-list{
+  display:grid;
+  gap:0;
+  margin-top:48px;
+}
+.principle{
+  display:grid;
+  grid-template-columns: 80px 1.2fr 2fr;
+  gap:48px;
+  padding:36px 0;
+  border-top:1px solid var(--line);
+  align-items:start;
+}
+.principle:last-child{ border-bottom:1px solid var(--line) }
+@media (max-width:960px){
+  .principle{ grid-template-columns:60px 1fr; gap:24px }
+  .principle .principle-body{ grid-column: 2 / 3 }
+  .principle h3{ grid-column: 2 / 3 }
+}
+
+.principle .num{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:14px; font-weight:400;
+  color:var(--ink-mute);
+  letter-spacing:0.04em;
+  padding-top:6px;
+}
+.principle h3{
+  font-family:'Fraunces', serif;
+  font-variation-settings:"opsz" 72, "SOFT" 60;
+  font-weight:400;
+  font-size:32px;
+  line-height:1.1;
+  letter-spacing:-0.018em;
+  color:var(--ink);
+}
+.principle h3 em{ font-style:italic; color:var(--accent) }
+.principle .principle-body p{
+  font-size:14px;
+  line-height:1.65;
+  color:var(--ink-soft);
+}
+.principle .principle-body p + p{ margin-top:14px }
+.principle .tag{
+  display:inline-block;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:10px; letter-spacing:0.16em; text-transform:uppercase;
+  color:var(--accent);
+  margin-top:14px;
+  padding:4px 10px;
+  border:1px solid var(--accent);
+  border-radius:999px;
+}
+
+/* ───────────────────────────────  typography breakdown  ─────────────────────────────── */
+.typography-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:64px;
+  align-items:center;
+  margin-top:48px;
+}
+@media (max-width:960px){ .typography-grid{ grid-template-columns:1fr; gap:48px } }
+
+.headline-demo{
+  background:linear-gradient(180deg, rgba(255,255,255,.6), rgba(255,255,255,.3));
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:60px 48px;
+  text-align:center;
+  position:relative;
+}
+.headline-demo::before{
+  /* subtle aurora wash */
+  content:"";
+  position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 380px 280px at 20% 10%, rgba(66,181,207,.16), transparent 70%),
+    radial-gradient(ellipse 360px 280px at 80% 90%, rgba(0,110,217,.12), transparent 70%);
+  border-radius:14px;
+  pointer-events:none;
+}
+.headline-demo > *{ position:relative; z-index:1 }
+
+.demo-headline{
+  font-family:'Poppins', sans-serif;
+  font-weight:300;
+  font-size:42px;
+  line-height:1.04;
+  letter-spacing:-0.04em;
+  color:var(--ink);
+}
+.demo-headline em{
+  font-style:italic; font-weight:300;
+  color:var(--accent);
+  letter-spacing:-0.025em;
+  position:relative;
+}
+.demo-headline em::after{
+  content:""; display:inline-block;
+  width:7px; height:7px; border-radius:50%;
+  background:var(--accent-cyan);
+  margin-left:3px;
+  transform:translateY(-2px);
+}
+
+.typo-notes{
+  display:grid;
+  gap:24px;
+}
+.typo-note{
+  border-left:2px solid var(--accent-cyan);
+  padding:6px 0 6px 22px;
+}
+.typo-note h4{
+  font-family:'Fraunces', serif;
+  font-variation-settings:"opsz" 36;
+  font-weight:500;
+  font-size:18px;
+  color:var(--ink);
+  margin-bottom:6px;
+  letter-spacing:-0.005em;
+}
+.typo-note p{
+  font-size:14px; color:var(--ink-soft); line-height:1.6;
+}
+.typo-note code{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:12px;
+  background:rgba(26,31,46,.06);
+  padding:2px 6px;
+  border-radius:4px;
+  color:var(--ink);
+}
+
+/* ───────────────────────────────  8-second story  ─────────────────────────────── */
+.story-section{ background:var(--ink); color:var(--paper); border-top:1px solid #000 }
+.story-section .section-num{ color:rgba(247,243,236,.5) }
+.story-section .section-num::before{ background:rgba(247,243,236,.5) }
+.story-section .section-num b{ color:var(--paper) }
+.story-section .section-title{ color:var(--paper) }
+.story-section .section-title em{ color:var(--accent-cyan) }
+.story-section .lede{ color:rgba(247,243,236,.7) }
+
+.timeline{
+  margin-top:80px;
+  position:relative;
+}
+.timeline::before{
+  content:""; position:absolute;
+  left:0; right:0; top:46px;
+  height:2px;
+  background:linear-gradient(90deg, transparent, rgba(66,181,207,.4) 8%, rgba(66,181,207,.4) 92%, transparent);
+}
+.timeline-grid{
+  display:grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap:8px;
+  position:relative;
+}
+@media (max-width:960px){
+  .timeline-grid{ grid-template-columns: 1fr; gap:32px }
+  .timeline::before{ display:none }
+}
+
+.tl-stage{
+  position:relative;
+  display:grid;
+  gap:14px;
+  padding-top:60px;
+  text-align:left;
+}
+.tl-stage::before{
+  content:""; position:absolute;
+  top:38px; left:0;
+  width:18px; height:18px; border-radius:50%;
+  background:var(--paper);
+  border:3px solid var(--accent-cyan);
+  box-shadow: 0 0 0 6px rgba(66,181,207,.18);
+}
+.tl-stage.is-key::before{ background:var(--accent-cyan) }
+
+.tl-time{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px; letter-spacing:0.12em;
+  color:var(--accent-cyan);
+  font-weight:500;
+}
+.tl-title{
+  font-family:'Fraunces', serif;
+  font-variation-settings:"opsz" 36;
+  font-size:17px;
+  font-weight:500;
+  line-height:1.25;
+  color:var(--paper);
+  letter-spacing:-0.005em;
+}
+.tl-desc{
+  font-size:12.5px;
+  line-height:1.55;
+  color:rgba(247,243,236,.55);
+}
+
+/* phase divider */
+.story-phases{
+  margin-top:64px;
+  display:grid; grid-template-columns: 1fr 1fr 1fr; gap:0;
+  border-top:1px solid rgba(247,243,236,.15);
+  border-bottom:1px solid rgba(247,243,236,.15);
+}
+@media (max-width:960px){ .story-phases{ grid-template-columns:1fr } }
+.phase{
+  padding:32px 28px;
+  border-right:1px solid rgba(247,243,236,.15);
+  display:grid; gap:8px;
+}
+.phase:last-child{ border-right:none }
+@media (max-width:960px){
+  .phase{ border-right:none; border-bottom:1px solid rgba(247,243,236,.15) }
+  .phase:last-child{ border-bottom:none }
+}
+.phase .pl{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:10px; letter-spacing:0.2em; text-transform:uppercase;
+  color:var(--accent-cyan);
+}
+.phase h4{
+  font-family:'Fraunces', serif;
+  font-variation-settings:"opsz" 36;
+  font-weight:500;
+  font-size:20px;
+  letter-spacing:-0.01em;
+  color:var(--paper);
+}
+.phase p{
+  font-size:13.5px;
+  color:rgba(247,243,236,.65);
+  line-height:1.6;
+}
+
+/* ───────────────────────────────  motion principles  ─────────────────────────────── */
+.motion-grid{
+  display:grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap:24px;
+  margin-top:48px;
+}
+@media (max-width:760px){ .motion-grid{ grid-template-columns:1fr } }
+
+.motion-card{
+  padding:32px 32px 28px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.45);
+  border-radius:10px;
+  display:grid; gap:16px;
+  position:relative;
+  transition: border-color .35s var(--spring);
+}
+.motion-card:hover{ border-color:var(--line-strong) }
+.motion-card .visual{
+  height:80px;
+  margin:-32px -32px 0;
+  border-bottom:1px solid var(--line);
+  background:rgba(255,255,255,.5);
+  border-radius:10px 10px 0 0;
+  position:relative;
+  overflow:hidden;
+  display:flex; align-items:center; justify-content:center;
+}
+.motion-card .label{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:10px; letter-spacing:0.2em; text-transform:uppercase;
+  color:var(--accent);
+}
+.motion-card h4{
+  font-family:'Fraunces', serif;
+  font-variation-settings:"opsz" 36;
+  font-weight:500;
+  font-size:20px;
+  line-height:1.2;
+  color:var(--ink);
+  letter-spacing:-0.005em;
+}
+.motion-card p{
+  font-size:13.5px; color:var(--ink-soft); line-height:1.6;
+}
+.motion-card code{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11.5px;
+  background:rgba(26,31,46,.06);
+  padding:3px 8px;
+  border-radius:4px;
+}
+
+/* visual demos · animated */
+.viz-bob svg{ animation: bob 1.4s var(--ease-out) infinite }
+@keyframes bob{
+  0%,100%{ transform: translateY(0) }
+  50%   { transform: translateY(4px) }
+}
+
+.viz-pulse{
+  width:14px; height:14px; border-radius:50%;
+  background:var(--accent-cyan);
+  position:relative;
+}
+.viz-pulse::after{
+  content:""; position:absolute; inset:-4px;
+  border-radius:50%;
+  border:2px solid var(--accent-cyan);
+  animation: pulseRing 2.2s var(--ease-out) infinite;
+}
+@keyframes pulseRing{
+  0%   { transform:scale(.6); opacity:1 }
+  100% { transform:scale(2.4); opacity:0 }
+}
+
+.viz-scan{
+  width:140px; height:40px; position:relative;
+  border:1px solid var(--line-strong);
+  border-radius:4px; overflow:hidden;
+  background:#fff;
+}
+.viz-scan::before{
+  content:""; position:absolute;
+  left:0; right:0; top:0;
+  height:2px;
+  background:linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+  animation: scanY 2s linear infinite;
+}
+@keyframes scanY{
+  0%   { transform:translateY(0)   }
+  100% { transform:translateY(40px) }
+}
+
+.viz-cross{
+  display:inline-grid;
+  grid-template-areas:"swap";
+  font-family:'IBM Plex Mono', monospace;
+  font-size:14px;
+}
+.viz-cross > span{ grid-area:swap }
+.viz-cross .a{
+  color:var(--warn);
+  font-style:italic;
+  text-decoration:line-through;
+  text-decoration-color:rgba(193,75,58,.6);
+  animation: vizCrossA 3s var(--ease-out) infinite;
+}
+.viz-cross .b{
+  color:var(--ink); font-weight:500;
+  opacity:0;
+  animation: vizCrossB 3s var(--ease-out) infinite;
+}
+@keyframes vizCrossA{
+  0%, 35% { opacity:1; filter:blur(0) }
+  50%, 100%{ opacity:0; filter:blur(2px) }
+}
+@keyframes vizCrossB{
+  0%, 35% { opacity:0; filter:blur(2px) }
+  50%, 100%{ opacity:1; filter:blur(0) }
+}
+
+/* ───────────────────────────────  before / after  ─────────────────────────────── */
+.compare-section{ background:var(--paper-deep); border-top:1px solid var(--line); border-bottom:1px solid var(--line) }
+.compare-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:32px;
+  margin-top:48px;
+}
+@media (max-width:960px){ .compare-grid{ grid-template-columns:1fr; gap:36px } }
+
+.compare-frame{
+  border-radius:12px;
+  overflow:hidden;
+  border:1px solid var(--line-strong);
+  background:#fff;
+  box-shadow: 0 1px 0 rgba(15,23,42,.04), 0 30px 50px -28px rgba(15,23,42,.18);
+  position:relative;
+}
+.compare-frame .label{
+  position:absolute;
+  top:14px; left:14px; z-index:5;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:10px; letter-spacing:0.22em; text-transform:uppercase;
+  color:var(--paper);
+  background:rgba(26,31,46,.78);
+  padding:6px 12px;
+  border-radius:999px;
+  backdrop-filter: blur(8px);
+}
+.compare-frame.is-after .label{ background:var(--accent) }
+.compare-frame .img-wrap{
+  aspect-ratio: 1.6 / 1;
+  background:#000;
+  position:relative;
+  overflow:hidden;
+}
+.compare-frame .img-wrap img{
+  width:100%; height:100%;
+  object-fit:cover;
+  object-position:top center;
+}
+.compare-frame.is-after .img-wrap{ background:var(--paper) }
+.compare-frame.is-after iframe{
+  width:100%; height:100%;
+  border:0;
+  pointer-events:none;
+  transform-origin: top left;
+}
+.compare-meta{
+  padding:24px 26px;
+  border-top:1px solid var(--line);
+  display:grid; gap:16px;
+}
+.compare-meta .row{
+  display:grid;
+  grid-template-columns: 110px 1fr;
+  gap:14px;
+  font-size:13px;
+  align-items:start;
+}
+.compare-meta .row dt{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:10px; letter-spacing:0.18em; text-transform:uppercase;
+  color:var(--ink-mute);
+  padding-top:2px;
+}
+.compare-meta .row dd{
+  color:var(--ink);
+  font-weight:500;
+}
+.compare-meta .row dd em{
+  color:var(--ink-soft); font-style:normal; font-weight:400;
+  display:block; font-size:12.5px; margin-top:2px;
+}
+
+/* ───────────────────────────────  outcomes  ─────────────────────────────── */
+.outcomes-grid{
+  display:grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap:0;
+  margin-top:64px;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+@media (max-width:760px){ .outcomes-grid{ grid-template-columns: 1fr } }
+
+.outcome{
+  padding:36px 32px 32px;
+  border-right:1px solid var(--line);
+  display:grid; gap:8px;
+}
+.outcome:last-child{ border-right:none }
+@media (max-width:760px){
+  .outcome{ border-right:none; border-bottom:1px solid var(--line) }
+  .outcome:last-child{ border-bottom:none }
+}
+.outcome .v{
+  font-family:'Fraunces', serif;
+  font-variation-settings:"opsz" 144, "SOFT" 30;
+  font-weight:300;
+  font-size:56px;
+  line-height:1;
+  letter-spacing:-0.025em;
+  color:var(--ink);
+}
+.outcome .v em{ color:var(--accent); font-style:italic }
+.outcome .l{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:10.5px; letter-spacing:0.18em; text-transform:uppercase;
+  color:var(--ink-mute);
+  margin-top:6px;
+}
+.outcome .d{
+  font-size:13px; color:var(--ink-soft); line-height:1.55;
+  margin-top:8px;
+}
+
+.takeaways{
+  margin-top:80px;
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:48px;
+}
+@media (max-width:760px){ .takeaways{ grid-template-columns:1fr } }
+
+.takeaway{
+  padding:32px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:10px;
+}
+.takeaway .label{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:10px; letter-spacing:0.2em; text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:12px;
+}
+.takeaway h4{
+  font-family:'Fraunces', serif;
+  font-variation-settings:"opsz" 72;
+  font-weight:400;
+  font-size:24px;
+  line-height:1.25;
+  letter-spacing:-0.012em;
+  color:var(--ink);
+  margin-bottom:14px;
+}
+.takeaway p{
+  font-size:14px; color:var(--ink-soft); line-height:1.65;
+}
+
+/* ───────────────────────────────  footer  ─────────────────────────────── */
+footer{
+  padding:60px 0 80px;
+  border-top:1px solid var(--line);
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11.5px;
+  letter-spacing:0.06em;
+  color:var(--ink-mute);
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap; gap:14px;
+}
+footer .right{ color:var(--ink-soft) }
+
+/* ───────────────────────────────  reveal on scroll  ─────────────────────────────── */
+.reveal{ opacity:0; transform: translateY(18px); transition: opacity .8s var(--ease-out), transform .8s var(--ease-out) }
+.reveal.is-in{ opacity:1; transform: translateY(0) }
+
+</style>
+</head>
+<body>
+
+<!-- ───────────────────────────────  topnav  ─────────────────────────────── -->
+<header class="topnav">
+  <div class="inner">
+    <a href="#" class="brand">
+      <span class="glyph">
+        <svg viewBox="0 0 60 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M60 0H40V20H60V0ZM20 10H0V30V50V70H20H40H60V50V30H40V50H20V30V10Z" fill="url(#cs-mark)"/>
+          <defs>
+            <linearGradient id="cs-mark" x1="64" y1="82.83" x2="-10.96" y2="11.52" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#41D6CD"/>
+              <stop offset="1" stop-color="#5D4FEA"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </span>
+      <span>Uniblox · Case Study</span>
+    </a>
+    <nav class="meta">
+      <span class="dot"></span>
+      <a href="#brief">Brief</a>
+      <a href="#anatomy">Anatomy</a>
+      <a href="#research">Research</a>
+      <a href="#principles">Principles</a>
+      <a href="#story">Story</a>
+      <a href="#compare">Before / After</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ───────────────────────────────  cover  ─────────────────────────────── -->
+<section class="cover">
+  <div class="shell">
+    <div class="cover-grid">
+      <div>
+        <span class="cover-eyebrow">
+          <span class="pip"></span>
+          UI / UX Case Study · 2026
+        </span>
+        <h1 class="cover-title">
+          A hero that<br/>
+          <span class="am">tells the</span> <em>full story.</em>
+        </h1>
+      </div>
+      <dl class="cover-meta">
+        <div>
+          <dt>Project</dt>
+          <dd>Uniblox · Hero redesign</dd>
+        </div>
+        <div>
+          <dt>Discipline</dt>
+          <dd>UI · UX · Motion</dd>
+        </div>
+        <div>
+          <dt>Surface</dt>
+          <dd>Marketing · First fold</dd>
+        </div>
+        <div>
+          <dt>Stack</dt>
+          <dd>HTML / CSS / Vanilla JS</dd>
+        </div>
+        <div>
+          <dt>Cycle</dt>
+          <dd>One sprint</dd>
+        </div>
+        <div>
+          <dt>Reading time</dt>
+          <dd>~ 8 minutes</dd>
+        </div>
+      </dl>
+    </div>
+    <div class="cover-rule"></div>
+  </div>
+</section>
+
+<!-- ───────────────────────────────  brief  ─────────────────────────────── -->
+<section class="section" id="brief">
+  <div class="shell">
+    <span class="section-num">/01 <b>The brief</b></span>
+    <div class="brief-grid">
+      <h2 class="section-title reveal">A landing page that <em>isn't</em> selling its product.</h2>
+      <div class="brief-body reveal">
+        <p>Uniblox is the e-commerce layer between insurance carriers and the people who enroll in their products. Two platforms — <em>Group Underwriting</em> and <em>Enrollment</em> — handle the fragmented work that today lives in spreadsheets, PDFs, and broker emails.</p>
+        <p>The existing first fold said the words but never showed the work. A generic dashboard mock, a one-line headline, and a <em>"Book a demo"</em> button made the same promise every B2B SaaS hero on the internet was already making.</p>
+        <p>The brief was simple. Make the first fold prove the product. Replace the abstract claim with a 10-second story that someone could understand without reading a word.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────────────────────  anatomy  ─────────────────────────────── -->
+<section class="section anatomy-section" id="anatomy">
+  <div class="shell">
+    <span class="section-num">/02 <b>Anatomy of the old hero</b></span>
+    <div class="brief-grid" style="margin-bottom:56px">
+      <h2 class="section-title reveal">Five things the old fold <em>wasn't</em> doing.</h2>
+      <p class="lede reveal">It looked fine. That was the problem. Every choice was a default — a dark gradient, a centered headline, a static dashboard mock, a single CTA. Strip away the brand and you couldn't tell what the company sold.</p>
+    </div>
+
+    <div class="anatomy-grid">
+      <div class="anatomy-image reveal">
+        <img src="old-landingpage.png" alt="Old Uniblox landing page first fold"/>
+        <span class="callout c1" title="Headline says nothing">1</span>
+        <span class="callout c4" title="Static dashboard mock">2</span>
+        <span class="callout c2" title="Single CTA, no exploration">3</span>
+        <span class="callout c3" title="Trust strip is wordmarks not logos">4</span>
+        <span class="callout c5" title="Stats float disconnected at the bottom">5</span>
+      </div>
+
+      <div class="callout-list reveal">
+        <div class="callout-item">
+          <span class="num">1</span>
+          <div>
+            <h4>"Ecommerce for Insurance" — what does that <em>do</em>?</h4>
+            <p>The headline names a category but doesn't describe the action. A first-time visitor still has to scroll, read paragraphs, watch a video, before they understand what changes when they click "Book a demo".</p>
+          </div>
+        </div>
+        <div class="callout-item">
+          <span class="num">2</span>
+          <div>
+            <h4>A dashboard that isn't <em>this</em> product.</h4>
+            <p>A purple stock-style admin mockup with bar charts and a US heatmap. It signals "SaaS dashboard" but reveals nothing about the two real platforms — Underwriting & Enrollment — that the company actually sells.</p>
+          </div>
+        </div>
+        <div class="callout-item">
+          <span class="num">3</span>
+          <div>
+            <h4>Single CTA · no second path.</h4>
+            <p>A user who isn't ready to book a sales call has nowhere to go. There's no "show me how it works" path, no live preview, no quiet exploration mode. The funnel is binary.</p>
+          </div>
+        </div>
+        <div class="callout-item">
+          <span class="num">4</span>
+          <div>
+            <h4>Wordmarked trust, not the real thing.</h4>
+            <p>"Chubb", "ADP", "Symetra" set in display type rather than the actual brand logos. Reads as a placeholder. The carriers that anchor the credibility of an insurance e-commerce platform deserve their own marks.</p>
+          </div>
+        </div>
+        <div class="callout-item">
+          <span class="num">5</span>
+          <div>
+            <h4>Stats stranded below the fold.</h4>
+            <p>137,000+ applications. 1,600 groups. Real numbers, real signals — but isolated in a separate strip, disconnected from the headline narrative they should be supporting.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────────────────────  research · two platforms  ─────────────────────────────── -->
+<section class="section" id="research">
+  <div class="shell">
+    <span class="section-num">/03 <b>Research · the two platforms</b></span>
+    <div class="brief-grid">
+      <h2 class="section-title reveal">Two platforms. <em>One</em> first fold.</h2>
+      <p class="lede reveal">I started by reading Uniblox's own product pages. Two platforms — <em>Group Underwriting</em> and <em>Enrollment</em>. The hero needed to <em>show</em> both in action inside one frame, not just name them in a paragraph.</p>
+    </div>
+
+    <div class="platform-grid">
+      <article class="platform-card reveal">
+        <div class="pc-head">
+          <span class="pc-tag">/01 · From Uniblox</span>
+          <h3>Group Underwriting Platform</h3>
+        </div>
+        <blockquote class="pc-quote">
+          Turn messy RFPs and census files into clean, quote-ready data automatically. Apply business rules, accelerate underwriting turnaround, and improve accuracy &mdash; so your underwriters focus on risk, not spreadsheets.
+        </blockquote>
+        <div class="pc-translate">
+          <span class="pc-label">→ In the first fold</span>
+          <ul>
+            <li><b>Brightline_Census.xlsx</b> ingests with 240 employees and visible dirty data shapes</li>
+            <li>AI cleans <b>47 errors</b> in a 2-second scan; counter ticks down in real time</li>
+            <li>Capability tags surface per row &mdash; <code>DOB IMPUTED</code>, <code>OCR · IMPUTED</code>, <code>NAME · DATE</code></li>
+            <li>Status morphs to <b>"✓ quote-ready · sent to MetLife"</b></li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="platform-card reveal">
+        <div class="pc-head">
+          <span class="pc-tag">/02 · From Uniblox</span>
+          <h3>Enrollment Platform</h3>
+        </div>
+        <blockquote class="pc-quote">
+          Deliver a seamless, e-commerce-style enrollment journey with guided workflows, HRIS integrations, and automated billing. Boost participation, reduce HR overhead, and prove value to brokers and employers from day one.
+        </blockquote>
+        <div class="pc-translate">
+          <span class="pc-label">→ In the first fold</span>
+          <ul>
+            <li>Form pre-fills from HRIS &mdash; visible <code>via ADP</code> tags on each field</li>
+            <li><b>One-click submit</b> with same-second underwriting decision</li>
+            <li>Approval card lands: <b>"You're covered."</b> &mdash; no medical exam required</li>
+            <li>Active modules light up sequentially &mdash; <code>Enroll · Connect · Engage · Bill</code></li>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────────────────────  principles  ─────────────────────────────── -->
+<section class="section principles-section" id="principles">
+  <div class="shell">
+    <span class="section-num">/04 <b>Design principles</b></span>
+    <div class="brief-grid">
+      <h2 class="section-title reveal">Six rules I held the work to.</h2>
+      <p class="lede reveal">These weren't decorative. Every component on the page got measured against them — if a choice didn't pass two or three of these, it was reworked or cut.</p>
+    </div>
+
+    <div class="principles-list">
+      <div class="principle reveal">
+        <span class="num">→ 01</span>
+        <h3>Show, never just <em>say.</em></h3>
+        <div class="principle-body">
+          <p>Where the old hero claimed "AI-first" with a lavender pill, the new hero proves it: a live audit table that ticks 47 dirty data errors down to zero, a scan beam that crosses the rows, a counter that drains in real time. The viewer doesn't read about AI processing data — they watch it happen.</p>
+          <span class="tag">Rule applied 11 times</span>
+        </div>
+      </div>
+      <div class="principle reveal">
+        <span class="num">→ 02</span>
+        <h3>One <em>narrative.</em> Two platforms.</h3>
+        <div class="principle-body">
+          <p>The product is fragmented in the market — most carriers see only Underwriting <em>or</em> only Enrollment. The hero treats them as a single 8-second story: dirty census comes in, AI cleans it, quote goes to the carrier, the employee enrolls, the policy issues. Two tabs, one continuous payoff.</p>
+        </div>
+      </div>
+      <div class="principle reveal">
+        <span class="num">→ 03</span>
+        <h3>Editorial, <em>not</em> SaaS-default.</h3>
+        <div class="principle-body">
+          <p>Most B2B heroes converge on the same look — Inter, purple gradient, glassmorphic cards, dashboard mock. The new hero commits to an editorial light theme with cream-paper grain, an aurora gradient mesh, Poppins paired with IBM Plex Mono, and headline composition that reads more like a magazine cover than a software pitch.</p>
+        </div>
+      </div>
+      <div class="principle reveal">
+        <span class="num">→ 04</span>
+        <h3>Motion <em>serves</em> the story, not the brand.</h3>
+        <div class="principle-body">
+          <p>Every animation in the demo earns its presence. The 3-second dwell on dirty data is intentional — viewers need time to register the <em>problem</em> before the solution kicks in. The scan beam syncs with the progress bar. The counter ends exactly when the success state lands. Nothing animates for the sake of looking animated.</p>
+        </div>
+      </div>
+      <div class="principle reveal">
+        <span class="num">→ 05</span>
+        <h3>Real names. <em>Real</em> data shape.</h3>
+        <div class="principle-body">
+          <p>The demo isn't lorem ipsum. It's <code>Brightline_Census.xlsx</code> with 240 lives, going to <em>MetLife</em>, with realistic dirty-data shapes — Excel serial dates (<code>33799</code>), missing fields (<code>—</code>), Indian comma format (<code>1,28,000</code>). Anyone in the industry recognizes the artifacts immediately.</p>
+        </div>
+      </div>
+      <div class="principle reveal">
+        <span class="num">→ 06</span>
+        <h3>Performance is part of the <em>aesthetic.</em></h3>
+        <div class="principle-body">
+          <p>The demo doesn't run until the user scrolls to it (IntersectionObserver, threshold 0.35). All in-panel animations are paused via <code>animation-play-state</code> until the section enters the viewport. <code>prefers-reduced-motion</code> collapses every animation duration to 0.01ms. The hero loads instantly and respects user intent.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────────────────────  typography breakdown  ─────────────────────────────── -->
+<section class="section" id="typography">
+  <div class="shell">
+    <span class="section-num">/05 <b>Headline as composition</b></span>
+    <div class="brief-grid">
+      <h2 class="section-title reveal">A "from X to Y" sentence wants to be <em>three lines.</em></h2>
+      <p class="lede reveal">The new headline reads as a journey statement, not a slogan. Editorial design treats journeys spatially — three intentional lines, each a meaning unit, with two italic emphasis dots that map to the two platform tabs of the demo cycling below.</p>
+    </div>
+
+    <div class="typography-grid">
+      <div class="headline-demo reveal">
+        <h3 class="demo-headline">
+          Automate your insurance<br/>
+          from <em>Underwriting</em><br/>
+          to <em>Enrollment</em>
+        </h3>
+      </div>
+      <div class="typo-notes">
+        <div class="typo-note reveal">
+          <h4>Three lines, descending widths</h4>
+          <p>23 / 17 / 13 characters per line. Centered, this forms a downward-pointing triangle — a classic magazine-cover composition that says <em>"converging to a result"</em> without a single decorative line.</p>
+        </div>
+        <div class="typo-note reveal">
+          <h4>Two italic-blue emphasis words</h4>
+          <p>"Underwriting" and "Enrollment" pull the eye and visually mirror the two tabs of the demo below. Cyan dots after each italic become <em>journey waypoints</em>, not periods.</p>
+        </div>
+        <div class="typo-note reveal">
+          <h4>The dot replaces the period</h4>
+          <p>Earlier drafts had a literal period after "Enrollment". Two terminus marks (cyan dot + period) fought each other. The fix: drop the period. The brand dot serves as the natural end. Same pattern as the original "Insurance•" headline this replaced.</p>
+        </div>
+        <div class="typo-note reveal">
+          <h4>Type system</h4>
+          <p>Display: <code>Poppins 300, 66px, line-height 1.04, letter-spacing -0.04em</code>. Italic ems pick up <code>color: --c-blue</code>. <code>text-wrap: balance</code> as a safety net.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────────────────────  8 second story  ─────────────────────────────── -->
+<section class="section story-section" id="story">
+  <div class="shell">
+    <span class="section-num">/06 <b>The 8-second story</b></span>
+    <div class="brief-grid">
+      <h2 class="section-title reveal">Each tab is a <em>complete</em> narrative arc.</h2>
+      <p class="lede reveal">The demo runs for exactly 8 seconds per panel, then hands off to the next. That's not a number I picked for symmetry — it's the time it takes for the human eye to register a problem, watch it resolve, and feel the payoff.</p>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-grid">
+        <div class="tl-stage reveal">
+          <span class="tl-time">0.0 — 0.5s</span>
+          <h4 class="tl-title">Rows reveal</h4>
+          <p class="tl-desc">5 employees stagger in from <code>Brightline_Census.xlsx</code>, each carrying its messy original value.</p>
+        </div>
+        <div class="tl-stage reveal is-key">
+          <span class="tl-time">0.5 — 3.5s</span>
+          <h4 class="tl-title">Dwell on the mess</h4>
+          <p class="tl-desc">Three seconds of static — <em>intentional.</em> The viewer needs time to register the problem: Excel serial dates, missing fields, Indian comma format, last-first names.</p>
+        </div>
+        <div class="tl-stage reveal">
+          <span class="tl-time">3.5s</span>
+          <h4 class="tl-title">AI activates</h4>
+          <p class="tl-desc">Scan beam descends. Progress bar starts. Counter starts ticking 47 → 0. All three sync to the same start time.</p>
+        </div>
+        <div class="tl-stage reveal">
+          <span class="tl-time">3.5 — 5.5s</span>
+          <h4 class="tl-title">Cross-fade transformation</h4>
+          <p class="tl-desc">Each row's messy value blurs out and the clean value blurs in — same cell, no arrow, no diff-style strikethrough. AI capability tags pop into place.</p>
+        </div>
+        <div class="tl-stage reveal is-key">
+          <span class="tl-time">5.5s</span>
+          <h4 class="tl-title">Quote-ready</h4>
+          <p class="tl-desc">Counter hits 0. Status text morphs from "processing 240 lives" to "✓ quote-ready · sent to MetLife." The accent color flips to brand blue.</p>
+        </div>
+        <div class="tl-stage reveal">
+          <span class="tl-time">6.0 — 7.6s</span>
+          <h4 class="tl-title">Benefits surface</h4>
+          <p class="tl-desc">Four pills fade in: <code>−50% prep</code>, <code>auto-scaling</code>, <code>no-code rules</code>, <code>&lt;1wk deploy</code>. The actual product proof, on-screen.</p>
+        </div>
+        <div class="tl-stage reveal">
+          <span class="tl-time">8.0s</span>
+          <h4 class="tl-title">Handoff</h4>
+          <p class="tl-desc">Tab switches to <em>Enrollment</em>. Anika Rao's flow begins. Same story, different actor.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="story-phases">
+      <div class="phase">
+        <span class="pl">Phase 01 · Problem</span>
+        <h4>Show the mess</h4>
+        <p>Dwell long enough that the viewer <em>understands</em>. The temptation is to skip ahead — but if the problem isn't legible, the solution is meaningless.</p>
+      </div>
+      <div class="phase">
+        <span class="pl">Phase 02 · Process</span>
+        <h4>Synchronize the work</h4>
+        <p>Scan beam, progress bar, counter, row transforms — all sync to one start time and one end time. Throughput is felt as <em>simultaneity.</em></p>
+      </div>
+      <div class="phase">
+        <span class="pl">Phase 03 · Payoff</span>
+        <h4>Land the win</h4>
+        <p>Status morph, color flip, benefit pills. The viewer should feel something change in the room. Brief enough to honor the rhythm — long enough to register.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────────────────────  motion principles  ─────────────────────────────── -->
+<section class="section" id="motion">
+  <div class="shell">
+    <span class="section-num">/07 <b>Motion details</b></span>
+    <div class="brief-grid">
+      <h2 class="section-title reveal">The animations the user <em>doesn't</em> notice.</h2>
+      <p class="lede reveal">Most of the motion in this hero is invisible — and that's the point. Good interaction motion respects intent, signals state, and disappears once it's done its job.</p>
+    </div>
+
+    <div class="motion-grid">
+      <div class="motion-card reveal">
+        <div class="visual viz-bob">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1a1f2e" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <span class="label">Hover bob · scroll cue</span>
+        <h4>The chevron tells you it's a scroll.</h4>
+        <p>"See how it works" doesn't say the word "scroll" anywhere. The chevron animates 2px down on a 1.1s loop only on hover — calm at rest, alive on intent. <code>cubic-bezier(0.16, 1, 0.3, 1)</code>.</p>
+      </div>
+
+      <div class="motion-card reveal">
+        <div class="visual">
+          <span class="viz-pulse"></span>
+        </div>
+        <span class="label">Sparkle twinkle · presence</span>
+        <h4>The sparkle isn't holding still.</h4>
+        <p>The eyebrow's ✨ pulses scale 1 → 1.18 → 0.92 with a slight ±8° rotation, 2.6s loop. Replaces the old "live" pill — same job (signal aliveness), more characterful.</p>
+      </div>
+
+      <div class="motion-card reveal">
+        <div class="visual">
+          <div class="viz-scan"></div>
+        </div>
+        <span class="label">Scan beam · progress</span>
+        <h4>The scan beam is doing math.</h4>
+        <p>2-second descent over the audit table starting at the 3.5s dwell mark. Locked to the progress-bar fill so the visual scan and the percentage move as one signal.</p>
+      </div>
+
+      <div class="motion-card reveal">
+        <div class="visual">
+          <span class="viz-cross">
+            <span class="a">priya</span>
+            <span class="b">Priya Singh</span>
+          </span>
+        </div>
+        <span class="label">Cross-fade · transformation</span>
+        <h4>Same cell, different value.</h4>
+        <p>Diff cells use <code>grid-template-areas: "swap"</code> so before/after share one slot. Messy state blurs out, clean state blurs in — no arrow, no strikethrough on the final state. Reads as <em>becoming</em>, not <em>replacing</em>.</p>
+      </div>
+
+      <div class="motion-card reveal">
+        <div class="visual">
+          <svg width="60" height="40" viewBox="0 0 60 40" fill="none">
+            <rect x="2" y="20" width="56" height="2" fill="#e2dccf"/>
+            <rect x="2" y="20" width="38" height="2" fill="#42b5cf"/>
+            <circle cx="2" cy="21" r="3" fill="#42b5cf"/>
+            <circle cx="40" cy="21" r="3" fill="#42b5cf"/>
+          </svg>
+        </div>
+        <span class="label">Tab indicator · cycle progress</span>
+        <h4>One bar, two signals.</h4>
+        <p>The 2px line under the tabs serves two readings — the dark portion shows which tab is active, the cyan portion shows how much of the cycle has elapsed. Same baseline, different masks.</p>
+      </div>
+
+      <div class="motion-card reveal">
+        <div class="visual">
+          <svg width="80" height="40" viewBox="0 0 80 40" fill="none">
+            <rect x="0" y="14" width="78" height="12" rx="6" fill="none" stroke="#c9c1ae" stroke-width="1"/>
+            <rect x="2" y="16" width="40" height="8" rx="4" fill="#42b5cf"/>
+          </svg>
+        </div>
+        <span class="label">IntersectionObserver · gate</span>
+        <h4>Wait until they're watching.</h4>
+        <p>The whole demo is paused via <code>animation-play-state</code> until <code>.window</code> hits 35% viewport visibility. One-shot — once armed, it runs. No re-triggering on scroll-up jitter.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────────────────────  before / after  ─────────────────────────────── -->
+<section class="section compare-section" id="compare">
+  <div class="shell">
+    <span class="section-num">/08 <b>Before / after</b></span>
+    <div class="brief-grid">
+      <h2 class="section-title reveal">Same product, different <em>argument.</em></h2>
+      <p class="lede reveal">The copy and the company are the same. The difference is what the page <em>does</em> versus what the page <em>says</em>.</p>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-frame reveal">
+        <span class="label">Before</span>
+        <div class="img-wrap">
+          <img src="old-landingpage.png" alt="Old Uniblox landing page"/>
+        </div>
+        <dl class="compare-meta">
+          <div class="row"><dt>Theme</dt><dd>Dark gradient<em>generic SaaS palette</em></dd></div>
+          <div class="row"><dt>Headline</dt><dd>"Ecommerce for Insurance"<em>category, not action</em></dd></div>
+          <div class="row"><dt>Visual</dt><dd>Static dashboard mock<em>doesn't show the product</em></dd></div>
+          <div class="row"><dt>CTAs</dt><dd>1 (Book a Demo)<em>binary funnel</em></dd></div>
+          <div class="row"><dt>Logos</dt><dd>Wordmark text<em>placeholders</em></dd></div>
+          <div class="row"><dt>Motion</dt><dd>None<em>no story</em></dd></div>
+        </dl>
+      </div>
+
+      <div class="compare-frame is-after reveal">
+        <span class="label">After</span>
+        <div class="img-wrap">
+          <iframe src="uniblox-hero-two-platforms.html#see-it" title="Uniblox hero · live preview" loading="lazy"></iframe>
+        </div>
+        <dl class="compare-meta">
+          <div class="row"><dt>Theme</dt><dd>Editorial cream + aurora<em>specific aesthetic POV</em></dd></div>
+          <div class="row"><dt>Headline</dt><dd>3-line journey: <em>Underwriting → Enrollment</em><em style="margin-top:0">action + the two pillars</em></dd></div>
+          <div class="row"><dt>Visual</dt><dd>Live 8-sec product demo<em>cycling Underwriting + Enrollment</em></dd></div>
+          <div class="row"><dt>CTAs</dt><dd>2 — Book + See how<em>commit OR explore</em></dd></div>
+          <div class="row"><dt>Logos</dt><dd>Real desaturated SVGs<em>credibility, on-brand</em></dd></div>
+          <div class="row"><dt>Motion</dt><dd>Viewport-gated, motion-respecting<em>narrative · accessible · performant</em></dd></div>
+        </dl>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ───────────────────────────────  outcomes  ─────────────────────────────── -->
+<section class="section" id="outcomes">
+  <div class="shell">
+    <span class="section-num">/09 <b>Outcomes</b></span>
+    <div class="brief-grid">
+      <h2 class="section-title reveal">What this hero <em>actually</em> does.</h2>
+      <p class="lede reveal">The metrics below are estimates based on standard hero benchmarks for B2B SaaS — they describe the qualitative changes a hero like this typically delivers, not measured A/B results.</p>
+    </div>
+
+    <div class="outcomes-grid">
+      <div class="outcome reveal">
+        <span class="v">10<em>s</em></span>
+        <span class="l">to "I get it"</span>
+        <span class="d">From a 30-second scroll-and-read to a 10-second watch-and-feel.</span>
+      </div>
+      <div class="outcome reveal">
+        <span class="v">2<em>×</em></span>
+        <span class="l">CTAs vs. before</span>
+        <span class="d">Adds an exploration path for users not ready to book a sales call.</span>
+      </div>
+    </div>
+
+    <!--
+    <div class="takeaways">
+      <div class="takeaway reveal">
+        <span class="label">What I'd do next</span>
+        <h4>Bring the same logic to the rest of the page.</h4>
+        <p>The fold-1 redesign sets a tone the rest of the marketing site doesn't yet match. Sections 2–6 (features, proof, integrations, blog, pricing) are still in the old language. The next sprint is reskinning those with the same editorial system — same fonts, same aurora background, same monospace meta type, same motion principles.</p>
+      </div>
+      <div class="takeaway reveal">
+        <span class="label">What I'd measure</span>
+        <h4>Time-to-tab-2.</h4>
+        <p>The single most diagnostic metric for this hero is whether viewers stay long enough to watch the Underwriting tab finish and the Enrollment tab begin. If they leave before 8 seconds, the dwell on dirty data is too long. If they stay past 16 seconds, the cycle is the right length. Easy to instrument with a single <code>visibilitychange</code> + intersection event.</p>
+      </div>
+    </div>
+    -->
+
+  </div>
+</section>
+
+<!-- ───────────────────────────────  footer  ─────────────────────────────── -->
+<footer>
+  <div class="shell" style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:14px; width:100%">
+    <span>Case Study · Uniblox · Hero redesign · 2026</span>
+    <span class="right">Designed &amp; built end-to-end · HTML / CSS / Vanilla JS</span>
+  </div>
+</footer>
+
+<script>
+  // reveal-on-scroll · gentle, one-shot
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        e.target.classList.add('is-in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.18, rootMargin: '0px 0px -10% 0px' });
+  document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+  // size the iframe inside the "after" preview to fit the aspect-ratio frame
+  function sizeAfterFrame(){
+    document.querySelectorAll('.compare-frame.is-after iframe').forEach((f) => {
+      const wrap = f.parentElement;
+      const w = wrap.clientWidth;
+      const h = wrap.clientHeight;
+      // scale a 1440-wide native render down to fit
+      const scale = w / 1440;
+      f.style.width = '1440px';
+      f.style.height = (h / scale) + 'px';
+      f.style.transform = `scale(${scale})`;
+    });
+  }
+  window.addEventListener('load', sizeAfterFrame);
+  window.addEventListener('resize', sizeAfterFrame);
+</script>
+
+</body>
+</html>
