@@ -1,0 +1,2577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Axis Max Life — Fold 1 (Hero) + Fold 2 (Smart Coverage Calculator)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:        #0B2D5E;
+  --navy-dark:   #071D3C;
+  --navy-tint:   #EBF2FF;
+  /* Brand magenta from axismaxlife logo (#97144d) — the actual brand accent.
+     Variable name stays "--red" to avoid a sweeping rename, but the value is the brand magenta. */
+  --red:         #97144D;
+  --red-hover:   #7A0F3E;
+  --red-tint:    #FCE4EE;
+  --green:       #15803D;
+  --green-tint:  #DCFCE7;
+  --green-border:#A7F3C0;
+  --amber-tint:  #FEF3C7;
+  --gray-50:     #F8FAFC;
+  --gray-100:    #F1F5F9;
+  --gray-200:    #E2E8F0;
+  --gray-300:    #CBD5E1;
+  --gray-400:    #94A3B8;
+  --gray-500:    #64748B;
+  --gray-600:    #475569;
+  --text:        #0F172A;
+  --paper:       #FAFAF7;
+  --display:     'DM Sans', system-ui, sans-serif;
+}
+
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: #fff;
+  min-height: 100vh;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================================
+   OFFER BAND
+   ============================================================ */
+.offer-band {
+  background: var(--navy-dark);
+  color: #fff;
+  text-align: center;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 10px 20px;
+  letter-spacing: .2px;
+  display: flex; align-items: center; justify-content: center;
+  gap: 12px; flex-wrap: wrap;
+}
+.offer-band .tag {
+  background: var(--red); color: #fff;
+  font-size: 10.5px; font-weight: 700; letter-spacing: .8px;
+  padding: 3px 9px; border-radius: 100px; text-transform: uppercase;
+}
+.offer-band b { color: #fff; font-weight: 700; }
+.offer-band .tick {
+  background: rgba(255,255,255,.12);
+  font-family: var(--display); font-variant-numeric: tabular-nums;
+  font-weight: 700; padding: 3px 9px; border-radius: 6px; letter-spacing: .4px;
+}
+
+/* ============================================================
+   FOLD 1 — HERO (richer aurora mesh + grain so light glass header pops)
+   ============================================================ */
+.hero {
+  position: relative;
+  isolation: isolate;
+  /* Pull the hero up so its gradient sits BEHIND the sticky pill —
+     header takes 12px (margin-top) + 64px (pill height) = 76px of doc flow. */
+  margin-top: -76px;
+  background:
+    /* Top-left navy halo */
+    radial-gradient(820px 520px at 12% -40px, rgba(11,45,94,0.22), transparent 62%),
+    /* Top-right magenta halo */
+    radial-gradient(720px 520px at 92% -60px, rgba(151,20,77,0.20), transparent 65%),
+    /* Center amber warmth */
+    radial-gradient(560px 360px at 50% 40px, rgba(251,191,36,0.16), transparent 70%),
+    /* Bottom-right magenta blush */
+    radial-gradient(900px 520px at 100% 90%, rgba(151,20,77,0.07), transparent 70%),
+    /* Bottom-left green blush */
+    radial-gradient(720px 460px at 0% 100%, rgba(21,128,61,0.06), transparent 70%),
+    /* Base wash */
+    linear-gradient(180deg, #EEF2FA 0%, #F5F7FB 38%, #FFFFFF 78%, #FAFBFD 100%);
+  /* Padding-top compensates for the negative margin so the content sits below the pill. */
+  padding: 132px 24px 64px;
+  overflow: hidden;
+}
+/* Subtle SVG grain overlay (turbulence) — adds depth, prevents flat banding */
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-size: 220px 220px;
+  opacity: 0.06;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  z-index: 0;
+}
+/* Soft horizontal grid lines for editorial structure (very subtle) */
+.hero::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(11,45,94,0.05) 1px, transparent 1px);
+  background-size: 80px 100%;
+  mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.2) 60%, transparent 90%);
+  -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.2) 60%, transparent 90%);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.55;
+}
+.hero-inner { position: relative; max-width: 920px; margin: 0 auto; text-align: center; z-index: 2; }
+
+.ring {
+  position: absolute;
+  border-radius: 999px; pointer-events: none; z-index: 1;
+}
+.ring-1 {
+  width: 620px; height: 620px; left: -220px; top: 80px;
+  border: 1.5px dashed rgba(11,45,94,.18);
+}
+.ring-2 {
+  width: 760px; height: 760px; right: -280px; top: 60px;
+  border: 1.5px dashed rgba(151,20,77,.20);
+}
+.ring-3 {
+  width: 380px; height: 380px; right: -100px; top: 380px;
+  border: 1.5px solid rgba(151,20,77,.14);
+}
+@media (max-width: 980px) { .ring { display: none; } }
+
+
+.trust-pills { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+.tp { display: inline-flex; align-items: center; gap: 7px; background: #fff; border: 1px solid var(--gray-200); padding: 6px 12px; border-radius: 100px; font-size: 12px; color: var(--gray-600); font-weight: 500; }
+.tp b { color: var(--navy); font-weight: 700; }
+.tp .star { fill: #F59E0B; }
+.tp .dot { width: 7px; height: 7px; background: var(--green); border-radius: 50%; box-shadow: 0 0 0 3px rgba(21,128,61,.15); }
+
+.eyebrow-line { display: inline-flex; align-items: center; gap: 10px; margin: 6px 0 14px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.6px; color: var(--gray-500); }
+.eyebrow-line::before, .eyebrow-line::after { content: ''; width: 22px; height: 1px; background: var(--gray-300); }
+
+.h1 { font-family: var(--display); font-weight: 800; font-size: clamp(38px, 6.6vw, 76px); letter-spacing: -.035em; line-height: 1.04; color: var(--text); font-variation-settings: "opsz" 40; margin: 0 auto; max-width: 880px; }
+.h1 .accent { color: var(--red); position: relative; white-space: nowrap; isolation: isolate; }
+
+/* Soft red glow halo behind the accent — adds vibrancy without competing with the type */
+.h1 .accent::before {
+  content: '';
+  position: absolute;
+  inset: -.18em -.25em -.10em -.25em;
+  background: radial-gradient(ellipse at center, rgba(151,20,77,0.22) 0%, rgba(151,20,77,0.06) 55%, transparent 80%);
+  filter: blur(14px);
+  z-index: -1;
+  opacity: 0;
+  /* Glow blooms in sync with ₹595's spring entry (2700ms) — see timeline below. */
+  animation: glowIn 900ms cubic-bezier(.2,.9,.3,1) 2700ms forwards;
+}
+@keyframes glowIn { to { opacity: 1; } }
+
+/* ============================================================
+   PRICE REVEAL — ₹700 strikethrough → ₹595 (sequenced, no overlap)
+   Strict orchestration per Motion library principles: each phase
+   completes before the next begins, so only one price is on screen
+   at any time.
+
+   Timeline (after the H1's rise span finishes at ~1100ms):
+     0–1100ms     : ₹700 visible, no strike yet
+     1300ms       : strike begins drawing across ₹700  (550ms, easeInOut)
+     1850ms       : strike fully across
+     1850–2250ms  : HOLD — let user register the struck-through ₹700
+     2250–2580ms  : ₹700 + strike exit FAST (330ms, easeIn — opacity 1→0)
+     2580ms       : ₹700 fully invisible
+     2680ms       : 100ms clean gap (no price visible)
+     2700–3200ms  : ₹595 enters with spring overshoot (500ms)
+     2700ms       : glow halo blooms behind ₹595
+     3200ms       : settled
+   ============================================================ */
+.price-reveal {
+  /* Grid lets ₹700 and ₹595 share the same cell so layout never shifts. */
+  display: inline-grid;
+  grid-template-columns: max-content;
+  vertical-align: baseline;
+  position: relative;
+  /* Hardware acceleration hint */
+  will-change: transform;
+}
+.price-reveal .price-was,
+.price-reveal .price-now {
+  grid-column: 1;
+  grid-row: 1;
+  display: inline-block;
+  white-space: nowrap;
+  text-align: left;
+  transform-origin: left center;
+  backface-visibility: hidden;
+}
+
+/* ---------- ₹700 (price-was) ---------- */
+.price-reveal .price-was {
+  color: var(--gray-400);
+  font-weight: 800;
+  position: relative;
+  /* Exit: 330ms, easeIn (cubic-bezier(0.55, 0.085, 0.68, 0.53)) — accelerates as it leaves.
+     Starts at 2250ms (400ms hold after strike completes at 1850ms). */
+  animation: priceWasOut 330ms 2250ms cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards;
+}
+/* Strike rendered as an absolute element ON TOP of the digits (z-index: 5).
+   It's a child of .price-was, so when ₹700 fades + lifts, the strike fades + lifts WITH it.
+   It NEVER appears on ₹595 because ₹595 only enters AFTER ₹700 is fully gone. */
+.price-reveal .price-was::after {
+  content: '';
+  position: absolute;
+  left: -2%;
+  top: 50%;
+  width: 0;
+  height: 0.10em;
+  background: var(--red);
+  border-radius: 100px;
+  transform: translateY(-50%) skewY(-3deg);
+  z-index: 5;
+  pointer-events: none;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+  /* Strike-in: 550ms easeInOut, starting at 1300ms (200ms after rise completes). */
+  animation: strikeIn 550ms 1300ms cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+/* ---------- ₹595 (price-now) ---------- */
+.price-reveal .price-now {
+  opacity: 0;
+  transform: translateY(40%) scale(0.94);
+  /* Entry: 500ms with spring overshoot (cubic-bezier(0.34, 1.56, 0.64, 1)).
+     Starts at 2700ms — a clean 120ms gap after ₹700's exit completes (2580ms). */
+  animation: priceNowIn 500ms 2700ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes strikeIn {
+  0%   { width: 0; }
+  100% { width: 104%; }
+}
+@keyframes priceWasOut {
+  /* Lift only ~30% (was -65%) so it doesn't bleed into the line above.
+     The aggressive opacity ramp + small scale-down do the heavy lifting. */
+  0%   { opacity: 1; transform: translateY(0)    scale(1); }
+  100% { opacity: 0; transform: translateY(-30%) scale(0.94); }
+}
+@keyframes priceNowIn {
+  /* Spring-style: rise from below, slight overshoot at 60%, settle. */
+  0%   { opacity: 0; transform: translateY(40%) scale(0.94); }
+  60%  { opacity: 1; transform: translateY(-2%) scale(1.015); }
+  100% { opacity: 1; transform: translateY(0)   scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .price-reveal .price-was { display: none; }
+  .price-reveal .price-now { opacity: 1; transform: none; animation: none; }
+  .h1 .accent::before { animation-delay: 600ms; }
+}
+
+.mask { display: inline-block; overflow: hidden; vertical-align: bottom; padding: .04em 0 .14em; }
+.rise { display: inline-block; transform: translateY(110%); opacity: 0; animation: rise 720ms cubic-bezier(.2,.9,.3,1) both; }
+@keyframes rise { to { transform: translateY(0); opacity: 1; } }
+.fade-up { opacity: 0; transform: translateY(14px); animation: fadeUp 680ms cubic-bezier(.2,.9,.3,1) both; }
+@keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+.pop-in { opacity: 0; transform: scale(.94); animation: popIn 600ms cubic-bezier(.34,1.56,.64,1) both; }
+@keyframes popIn { to { opacity: 1; transform: scale(1); } }
+.swap-in { animation: swapIn 460ms cubic-bezier(.2,.9,.3,1) both; }
+@keyframes swapIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+.h-sub { margin: 18px auto 0; max-width: 600px; font-size: 16px; color: var(--gray-600); line-height: 1.6; }
+.h-sub b { color: var(--navy); font-weight: 700; }
+
+.bp-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 7px; margin-top: 18px; }
+.bp { display: inline-flex; align-items: center; gap: 6px; background: var(--green-tint); color: var(--green); border: 1px solid var(--green-border); font-size: 12px; font-weight: 700; padding: 5px 11px; border-radius: 100px; }
+.bp svg { stroke: var(--green); }
+
+.pick-prompt { margin-top: 32px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.6px; color: var(--gray-500); display: inline-flex; align-items: center; gap: 10px; }
+.pick-prompt::before, .pick-prompt::after { content: ''; width: 18px; height: 1px; background: var(--gray-300); }
+
+.chip-grid {
+  margin: 18px auto 0; max-width: 1080px;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+}
+@media (max-width: 760px) { .chip-grid { grid-template-columns: 1fr 1fr; gap: 12px; } }
+@media (max-width: 480px) { .chip-grid { grid-template-columns: 1fr; } }
+
+.chip {
+  position: relative;
+  display: block;
+  text-align: left;
+  border: none; border-radius: 22px;
+  padding: 0;
+  aspect-ratio: 0.86 / 1;
+  overflow: hidden;
+  cursor: pointer;
+  font-family: inherit;
+  color: #fff;
+  isolation: isolate;
+  background: var(--gray-200);
+  transition: transform .35s cubic-bezier(.2,.9,.3,1), box-shadow .35s, outline .2s;
+  box-shadow: 0 8px 22px rgba(11,45,94,.10);
+}
+.chip:hover { transform: translateY(-5px); box-shadow: 0 18px 44px rgba(11,45,94,.22); }
+.chip:hover .chip-img { transform: scale(1.05); }
+.chip:hover .ico { background: var(--navy); color: #fff; }
+.chip:focus-visible { outline: 3px solid #FBBF24; outline-offset: 3px; }
+
+.chip .chip-img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  z-index: 1;
+  transition: transform .55s cubic-bezier(.2,.9,.3,1);
+}
+.chip::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.05) 40%, rgba(0,0,0,.55) 72%, rgba(0,0,0,.85) 100%);
+  z-index: 2; pointer-events: none;
+}
+
+.chip .ico {
+  position: absolute; top: 14px; left: 14px;
+  width: 40px; height: 40px;
+  background: #fff;
+  border: none;
+  border-radius: 11px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--navy);
+  z-index: 3;
+  box-shadow: 0 4px 12px rgba(0,0,0,.12);
+  transition: background .2s, color .2s;
+}
+.chip .ico svg { width: 20px; height: 20px; }
+
+.chip .chip-tag {
+  position: absolute; top: 16px; right: 14px;
+  z-index: 3;
+  background: rgba(255,255,255,.94);
+  color: var(--navy);
+  font-size: 9.5px; font-weight: 800;
+  letter-spacing: .9px;
+  padding: 5px 10px;
+  border-radius: 100px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.chip .chip-tag.tag-red   { background: var(--red);   color: #fff; }
+.chip .chip-tag.tag-green { background: var(--green); color: #fff; }
+.chip .chip-tag.tag-amber { background: #FBBF24;      color: var(--navy); }
+
+.chip-content {
+  position: absolute; left: 18px; right: 18px; bottom: 16px;
+  z-index: 3;
+  display: block;
+}
+.chip .c-eye {
+  display: block;
+  font-size: 10px; font-weight: 800; letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.88);
+  margin-bottom: 5px;
+}
+.chip .c-title {
+  display: block;
+  font-family: var(--display);
+  font-size: 19px; font-weight: 800;
+  letter-spacing: -.025em; line-height: 1.12;
+  color: #fff;
+  margin-bottom: 4px;
+  font-variation-settings: "opsz" 40;
+}
+.chip .c-desc {
+  display: block;
+  font-size: 12px; color: rgba(255,255,255,.86);
+  line-height: 1.4;
+}
+
+.chip.active {
+  outline: 3px solid #FBBF24;
+  outline-offset: 3px;
+  transform: translateY(-5px);
+  box-shadow: 0 22px 50px rgba(11,45,94,.26);
+}
+.chip.active .ico { background: #FBBF24; color: var(--navy); }
+@keyframes blink { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:.45; transform:scale(.7); } }
+
+.indicative { margin: 24px auto 0; display: inline-flex; align-items: center; gap: 10px; background: transparent; padding: 6px 0; font-size: 13px; color: var(--gray-600); }
+.indicative .pill-tag { background: var(--navy); color: #fff; font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 100px; letter-spacing: .8px; text-transform: uppercase; }
+.indicative b { color: var(--navy); font-weight: 800; font-family: var(--display); font-variant-numeric: tabular-nums; }
+
+.cta-row { margin: 18px auto 0; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 10px; }
+.btn-primary { background: var(--red); color: #fff; height: 54px; padding: 0 28px; border-radius: 12px; font-size: 15.5px; font-weight: 700; border: none; font-family: inherit; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; letter-spacing: .2px; transition: background .18s, transform .12s, box-shadow .18s; box-shadow: 0 6px 20px rgba(151,20,77,.30); }
+.btn-primary:hover { background: var(--red-hover); box-shadow: 0 10px 26px rgba(151,20,77,.40); }
+.btn-primary:active { transform: translateY(1px); }
+.btn-primary .arr { transition: transform .2s; display: inline-block; }
+.btn-primary:hover .arr { transform: translateX(4px); }
+
+.btn-ghost { background: transparent; color: var(--navy); height: 54px; padding: 0 22px; border-radius: 12px; font-size: 14px; font-weight: 600; border: 1.5px solid var(--gray-300); font-family: inherit; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; transition: border-color .18s, color .18s, background .18s; }
+.btn-ghost:hover { border-color: var(--navy); background: var(--navy-tint); }
+
+.assurance { margin-top: 14px; display: flex; justify-content: center; flex-wrap: wrap; gap: 14px; font-size: 11.5px; color: var(--gray-500); }
+.assurance span { display: inline-flex; align-items: center; gap: 5px; }
+.assurance .gd { width: 6px; height: 6px; background: var(--green); border-radius: 50%; }
+
+.trust-strip { margin: 28px auto 0; max-width: 1080px; display: flex; justify-content: flex-start; align-items: center; flex-wrap: wrap; gap: 20px 32px; padding: 0 16px; }
+.ts-item { display: flex; align-items: center; gap: 10px; text-align: left; }
+.ts-item .ts-ico { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.ts-amber .ts-ico { background: var(--amber-tint); color: var(--navy); }
+.ts-green .ts-ico { background: var(--green-tint); color: var(--green); }
+.ts-navy  .ts-ico { background: var(--navy-tint);  color: var(--navy); }
+.ts-red   .ts-ico { background: var(--red-tint);   color: var(--red); }
+.ts-item .l1 { font-size: 13px; font-weight: 800; color: var(--navy); line-height: 1.2; }
+.ts-item .l2 { font-size: 11.5px; color: var(--gray-500); margin-top: 1px; }
+.ts-divider { width: 1px; height: 28px; background: var(--gray-200); }
+@media (max-width: 720px) { .ts-divider { display: none; } }
+
+
+
+/* ============================================================
+   FOLD 2 — USER'S ORIGINAL DESIGN, FULL-WIDTH (no box wrap)
+   Sections become full-width bands with their own bg color;
+   inner content centered at max-width 1080px.
+   ============================================================ */
+
+/* NAV — full-width navy band */
+.nav {
+  background: var(--navy-dark);
+}
+.nav-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 32px 44px 0;
+}
+.nav-title {
+  text-align: center;
+  color: #fff;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -.4px;
+  margin-bottom: 10px;
+}
+.nav-pills {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+.npill {
+  background: rgba(255,255,255,.09);
+  color: #A4C7EB;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 5px 14px;
+  border-radius: 100px;
+  border: 1px solid rgba(255,255,255,.1);
+}
+
+.tabs { display: flex; gap: 3px; }
+.tab {
+  flex: 1;
+  padding: 13px 14px;
+  border-radius: 10px 10px 0 0;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  color: #7AAAD4;
+  background: rgba(255,255,255,.06);
+  border: none;
+  font-family: inherit;
+  transition: all .18s;
+  white-space: nowrap;
+}
+.tab:hover:not(.act) { background: rgba(255,255,255,.11); color: #C5E0F5; }
+.tab.act { background: var(--gray-50); color: var(--navy); font-weight: 700; }
+
+.tbadge { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 100px; }
+.tbadge-r { background: var(--red-tint); color: var(--red); }
+.tbadge-g { background: #D1FAE5; color: #059669; }
+
+/* BODY — full-width gray band */
+.body {
+  background: var(--gray-50);
+}
+.body-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 36px 44px 32px;
+  display: grid;
+  grid-template-columns: 1.18fr 1fr;
+  gap: 34px;
+  align-items: start;
+}
+
+/* LEFT — calculator */
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--gray-400);
+  margin-bottom: 8px;
+}
+.calc-h {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--navy);
+  line-height: 1.28;
+  letter-spacing: -.3px;
+  margin-bottom: 5px;
+}
+.calc-sub {
+  font-size: 13px;
+  color: var(--gray-500);
+  margin-bottom: 26px;
+}
+
+.iblock { margin-bottom: 22px; }
+.ilabel {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 10px;
+}
+.ilabel-text {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  color: var(--gray-500);
+}
+.ilabel-val {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--navy);
+  transition: all .25s;
+}
+
+.range-input {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 5px;
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+  transition: background .1s;
+}
+.range-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--navy);
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 2px var(--navy);
+  cursor: pointer;
+  transition: transform .15s, box-shadow .15s;
+}
+.range-input::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 0 3px var(--navy-tint), 0 0 0 5px var(--navy);
+}
+.range-ends { display: flex; justify-content: space-between; margin-top: 6px; }
+.range-ends span { font-size: 10px; color: var(--gray-400); }
+
+.year-row { display: flex; gap: 6px; }
+.ybtn {
+  flex: 1;
+  padding: 9px 4px;
+  border-radius: 8px;
+  border: 1.5px solid var(--gray-200);
+  background: #fff;
+  color: var(--gray-600);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all .15s;
+  text-align: center;
+}
+.ybtn:hover:not(.yact) { border-color: var(--navy); color: var(--navy); }
+.ybtn.yact { background: var(--navy); border-color: var(--navy); color: #fff; }
+
+.result-box {
+  background: var(--navy);
+  border-radius: 14px;
+  padding: 22px 24px;
+  margin-bottom: 14px;
+  position: relative;
+  overflow: hidden;
+}
+.result-box::after {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 130px; height: 130px;
+  background: rgba(255,255,255,.04);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.result-grid { display: grid; grid-template-columns: 1fr 1px 1fr; gap: 0; align-items: center; }
+.rdivider { height: 54px; background: rgba(255,255,255,.13); margin: 0 20px; }
+.rlabel { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: #6B9CC8; margin-bottom: 5px; }
+.rbig { font-size: 26px; font-weight: 800; color: #fff; line-height: 1; }
+.rsmall { font-size: 11px; color: #6B9CC8; margin-top: 4px; }
+.prem-side { text-align: right; }
+.prem-num-row { display: flex; align-items: baseline; gap: 3px; justify-content: flex-end; }
+.prs { font-size: 19px; font-weight: 700; color: #fff; }
+.prn { font-size: 34px; font-weight: 800; color: #fff; line-height: 1; }
+.prm { font-size: 14px; color: #6B9CC8; font-weight: 400; }
+.pday { font-size: 12px; color: #5EEFA0; font-weight: 600; margin-top: 5px; }
+.result-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 14px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,.1); }
+.rtag { display: flex; align-items: center; gap: 5px; background: rgba(255,255,255,.08); color: #A4C7EB; font-size: 11px; padding: 4px 10px; border-radius: 6px; }
+.rcheck { color: #4ADE80; }
+
+.cond-box {
+  background: #fff;
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  padding: 16px 20px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .45s ease, transform .45s ease;
+  pointer-events: none;
+}
+.cond-box.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.cond-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: var(--gray-400); margin-bottom: 10px; }
+.cond-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+.cpill { background: var(--navy-tint); color: var(--navy); font-size: 12px; font-weight: 500; padding: 5px 12px; border-radius: 100px; border: 1px solid #C5D8F5; }
+.cpill-more { background: var(--navy); color: #fff; border-color: var(--navy); cursor: pointer; transition: background .15s; }
+.cpill-more:hover { background: #1A4A8A; }
+
+/* RIGHT — form */
+.ticker {
+  background: var(--green-tint);
+  border: 1px solid var(--green-border);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+}
+.tdot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  flex-shrink: 0;
+  animation: pdot 2s ease-in-out infinite;
+}
+.ttext {
+  font-size: 13px;
+  color: var(--green);
+  font-weight: 500;
+  transition: opacity .35s ease, transform .35s ease;
+}
+
+.fcard {
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid var(--gray-200);
+  padding: 24px;
+  box-shadow: 0 2px 16px rgba(11,45,94,.07);
+}
+.fhead { font-size: 17px; font-weight: 800; color: var(--navy); margin-bottom: 3px; }
+.fsub { font-size: 12.5px; color: var(--gray-400); margin-bottom: 20px; }
+.fsub strong { color: var(--navy); font-weight: 700; }
+
+.fields { display: flex; flex-direction: column; gap: 13px; margin-bottom: 18px; }
+.fwrap { display: flex; flex-direction: column; gap: 5px; }
+.flabel { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--gray-500); }
+.finput {
+  height: 46px;
+  border: 1.5px solid var(--gray-200);
+  border-radius: 10px;
+  padding: 0 14px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--text);
+  background: var(--gray-50);
+  outline: none;
+  width: 100%;
+  transition: border-color .2s, background .2s, box-shadow .2s;
+}
+.finput:focus { border-color: var(--navy); background: #fff; box-shadow: 0 0 0 3px rgba(11,45,94,.08); }
+
+.phone-row { display: flex; }
+.phone-pre {
+  height: 46px;
+  background: var(--gray-100);
+  border: 1.5px solid var(--gray-200);
+  border-right: none;
+  border-radius: 10px 0 0 10px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray-600);
+  white-space: nowrap;
+  flex-shrink: 0;
+  user-select: none;
+}
+.phone-input {
+  flex: 1;
+  height: 46px;
+  border: 1.5px solid var(--gray-200);
+  border-left: none;
+  border-radius: 0 10px 10px 0;
+  padding: 0 14px;
+  font-size: 14px;
+  font-family: inherit;
+  background: var(--gray-50);
+  color: var(--text);
+  outline: none;
+  min-width: 0;
+  transition: border-color .2s, background .2s;
+}
+.phone-input:focus { border-color: var(--navy); background: #fff; }
+
+.smart-hint {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 11px;
+  border-radius: 8px;
+  margin-top: 5px;
+  display: none;
+  align-items: center;
+  gap: 6px;
+}
+.hint-ok  { background: var(--green-tint); color: var(--green); display: flex; }
+.hint-warn{ background: #FEF3C7; color: #B45309; display: flex; }
+
+.cta-btn {
+  width: 100%;
+  height: 52px;
+  background: var(--red);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  letter-spacing: .2px;
+  transition: background .18s, transform .12s;
+  margin-bottom: 10px;
+}
+.cta-btn:hover { background: var(--red-hover); }
+.cta-btn:active { transform: scale(.99); }
+.cta-arrow { font-size: 18px; transition: transform .2s; display: inline-block; }
+.cta-btn:hover .cta-arrow { transform: translateX(5px); }
+
+.sec-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 11.5px;
+  color: var(--gray-400);
+  margin-bottom: 12px;
+}
+.cta-sec {
+  width: 100%;
+  height: 42px;
+  background: transparent;
+  border: 1.5px solid var(--gray-200);
+  border-radius: 10px;
+  color: var(--gray-500);
+  font-size: 13px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: border-color .2s, color .2s, background .2s;
+}
+.cta-sec:hover { border-color: var(--navy); color: var(--navy); background: var(--navy-tint); }
+
+.trust-div { border: none; border-top: 1px solid var(--gray-100); margin-bottom: 16px; }
+.trust-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.titem { text-align: center; background: var(--gray-50); border-radius: 10px; padding: 12px 6px; }
+.tnum { font-size: 14px; font-weight: 800; color: var(--navy); }
+.ttxt { font-size: 10px; color: var(--gray-400); margin-top: 3px; line-height: 1.4; }
+
+/* TC — inline inside the form, directly below the submit CTA */
+.tc-inline {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 12px 0 14px;
+  padding: 10px 12px;
+  background: var(--gray-50);
+  border: 1px solid var(--gray-100);
+  border-radius: 8px;
+  font-size: 10.5px;
+  color: var(--gray-400);
+  line-height: 1.55;
+}
+.tc-inline input[type="checkbox"] {
+  flex-shrink: 0;
+  accent-color: var(--navy);
+  width: 14px; height: 14px;
+  margin-top: 1px;
+  cursor: pointer;
+}
+.tc-inline label { flex: 1; cursor: pointer; }
+.tc-inline a { color: var(--navy); font-weight: 600; }
+
+/* legacy .tc (full-width) — kept harmless for any external link, no longer rendered */
+.tc {
+  background: var(--gray-100);
+  border-top: 1px solid var(--gray-200);
+}
+.tc-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 14px 44px;
+  font-size: 10.5px;
+  color: var(--gray-400);
+  line-height: 1.6;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.tc-inner label { flex: 1; cursor: pointer; }
+.tc-inner a { color: var(--navy); }
+/* ==========================================================
+   NRI TOGGLE — pill at top-right of form card + reveal logic
+   ========================================================== */
+.fhead-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.fhead-row .fhead-text { flex: 1; min-width: 0; }
+.fhead-row .fhead { margin-bottom: 3px; }
+.fhead-row .fsub { margin-bottom: 0; }
+
+.nri-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 6px 8px 6px 12px;
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: 100px;
+  cursor: pointer;
+  user-select: none;
+  flex-shrink: 0;
+  transition: background .18s, border-color .18s;
+}
+.nri-pill:hover { background: var(--gray-100); }
+.nri-pill .nri-pill-cb {
+  position: absolute; opacity: 0;
+  width: 0; height: 0; pointer-events: none;
+}
+.nri-pill .nri-pill-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--gray-600);
+  letter-spacing: .3px;
+  white-space: nowrap;
+  transition: color .18s;
+}
+.nri-pill .nri-pill-track {
+  position: relative;
+  width: 32px; height: 18px;
+  background: var(--gray-300);
+  border-radius: 100px;
+  flex-shrink: 0;
+  transition: background .25s;
+}
+.nri-pill .nri-pill-thumb {
+  position: absolute;
+  top: 1.5px; left: 1.5px;
+  width: 15px; height: 15px;
+  background: #fff;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,.18);
+  color: transparent;
+  transition: left .28s cubic-bezier(0.34, 1.56, 0.64, 1), color .2s;
+}
+.nri-pill .nri-pill-tick { display: block; }
+/* Active state — driven by the hidden checkbox via :has() and a JS-toggled class on the card */
+.fcard.nri-on .nri-pill {
+  background: rgba(11,45,94,0.06);
+  border-color: rgba(11,45,94,0.24);
+}
+.fcard.nri-on .nri-pill .nri-pill-label { color: var(--navy); }
+.fcard.nri-on .nri-pill .nri-pill-track { background: var(--navy); }
+.fcard.nri-on .nri-pill .nri-pill-thumb { left: 15.5px; color: var(--navy); }
+
+/* NRI-only fields are hidden by default and revealed with a stagger when toggled on */
+.nri-only { display: none; }
+.fcard.nri-on .nri-only {
+  display: flex;
+  animation: nriFieldIn 360ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.fcard.nri-on .nri-only[data-nri-order="1"] { animation-delay: 40ms; }
+.fcard.nri-on .nri-only[data-nri-order="2"] { animation-delay: 110ms; }
+.fcard.nri-on .nri-only[data-nri-order="3"] { animation-delay: 180ms; }
+@keyframes nriFieldIn {
+  from { opacity: 0; transform: translateY(-8px) scale(0.985); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
+}
+
+/* Custom select styling — appears as a finput with a chevron on the right */
+.finput-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+  background-color: var(--gray-50);
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--gray-500) 50%),
+    linear-gradient(135deg, var(--gray-500) 50%, transparent 50%);
+  background-position: calc(100% - 18px) calc(50% - 1px), calc(100% - 13px) calc(50% - 1px);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+  padding-right: 36px;
+}
+.finput-select:focus {
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--navy) 50%),
+    linear-gradient(135deg, var(--navy) 50%, transparent 50%);
+}
+
+@keyframes flash { from { opacity: .3; transform: scale(.94); } to { opacity: 1; transform: scale(1); } }
+.flashing { animation: flash .28s ease forwards; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+
+@media (max-width: 760px) {
+  .body-inner { grid-template-columns: 1fr; padding: 28px 22px; gap: 24px; }
+  .nav-inner { padding: 28px 22px 0; }
+  .tc-inner { padding: 14px 22px; flex-direction: column; align-items: flex-start; }
+
+  /* Hero — tighter top padding so content shows above the fold on phones */
+  .hero { padding: 96px 18px 48px; }
+  .h1 { font-size: clamp(30px, 8.6vw, 44px); }
+
+  /* Calculator title sizing */
+  .calc-h { font-size: 19px; line-height: 1.3; }
+  .calc-sub { font-size: 12.5px; margin-bottom: 22px; }
+  .ilabel-val { font-size: 17px; }
+
+  /* Year buttons — slightly smaller on mobile */
+  .ybtn { font-size: 12px; padding: 9px 2px; }
+
+  /* Result box — stack the cover + premium vertically with a horizontal rule */
+  .result-box { padding: 18px 18px; }
+  .result-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .rdivider {
+    height: 1px;
+    width: 100%;
+    margin: 0;
+    background: rgba(255,255,255,.13);
+  }
+  .prem-side { text-align: left; }
+  .rlabel[style*="text-align:right"] { text-align: left !important; }
+  .prem-num-row { justify-content: flex-start; }
+  .rbig { font-size: 24px; }
+  .prn { font-size: 30px; }
+  .prs { font-size: 17px; }
+
+  /* Tabs band — keep horizontally scrollable instead of squashing */
+  .tabs {
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { flex: 0 0 auto; min-width: 140px; font-size: 12.5px; padding: 12px 14px; }
+  .nav-title { font-size: 22px; }
+
+  /* Form card — tighter padding, smaller heading */
+  .fcard { padding: 18px 16px; border-radius: 14px; }
+  .fhead { font-size: 16px; }
+  .fsub { font-size: 12px; }
+  .nri-pill { padding: 5px 6px 5px 10px; }
+  .nri-pill .nri-pill-label { font-size: 10.5px; }
+
+  /* Trust row inside form — keep 3 columns but smaller text */
+  .trust-row { gap: 6px; }
+  .titem { padding: 10px 4px; }
+  .tnum { font-size: 13px; }
+  .ttxt { font-size: 9.5px; }
+
+  /* Conditions pills — more breathable */
+  .cond-box { padding: 14px 16px; }
+  .cpill { font-size: 11.5px; padding: 4px 10px; }
+
+  /* T&C inline — smaller text on mobile */
+  .tc-inline { font-size: 10px; padding: 9px 10px; }
+}
+
+@media (max-width: 480px) {
+  .hero { padding: 84px 14px 40px; }
+  .h1 { font-size: clamp(26px, 9vw, 36px); }
+
+  /* Hero CTAs — full-width stacked on phone */
+  .cta-row { flex-direction: column; align-items: stretch; gap: 8px; }
+  .btn-primary, .btn-ghost { width: 100%; height: 50px; padding: 0 18px; font-size: 14.5px; }
+
+  /* Trust pills (above headline) */
+  .trust-pills { gap: 6px; }
+  .tp { font-size: 11px; padding: 5px 10px; }
+
+  /* Trust strip in hero — single column for clarity */
+  .trust-strip { gap: 14px; padding: 0 8px; flex-direction: column; align-items: stretch; }
+  .ts-item { justify-content: flex-start; }
+
+  /* Indicative line */
+  .indicative { font-size: 12px; gap: 6px; }
+
+  .body-inner { padding: 24px 14px; }
+  .nav-inner { padding: 24px 14px 0; }
+
+  .calc-h { font-size: 18px; }
+  .ilabel-text { font-size: 11px; }
+  .ilabel-val { font-size: 16px; }
+
+  /* Year buttons stay readable — drop to 5 columns is too tight, allow wrap */
+  .year-row { flex-wrap: wrap; gap: 5px; }
+  .ybtn { flex: 0 0 calc(33.33% - 4px); padding: 10px 2px; }
+
+  .result-box { padding: 16px 14px; border-radius: 12px; }
+  .rbig { font-size: 22px; }
+  .prn { font-size: 28px; }
+  .pday { font-size: 11px; }
+  .rtag { font-size: 10.5px; padding: 3px 8px; }
+
+  .fcard { padding: 16px 14px; }
+  .fhead-row { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .nri-pill { align-self: flex-start; }
+
+  .finput { height: 42px; font-size: 13.5px; }
+  .phone-pre, .phone-input { height: 42px; }
+  .cta-btn { height: 48px; font-size: 14.5px; }
+
+  .titem { padding: 9px 3px; }
+  .tnum { font-size: 12px; }
+  .ttxt { font-size: 9px; line-height: 1.3; }
+
+  .cpill { font-size: 11px; padding: 4px 9px; }
+
+  /* Popular policies — section padding */
+  .popular { padding: 48px 0 64px; }
+  .popular-inner { padding: 0 14px; }
+  .popular-head { gap: 16px; margin-bottom: 24px; }
+  .popular-h { font-size: clamp(24px, 7vw, 32px); }
+}
+
+/* ============================================================
+   POPULAR POLICIES — Photo carousel (6 plans)
+   ============================================================ */
+.popular {
+  background: #fff;
+  padding: 80px 0 96px;
+  border-top: 1px solid var(--gray-100);
+}
+.popular-inner { max-width: 1280px; margin: 0 auto; padding: 0 28px; }
+
+.popular-head {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  gap: 28px; margin-bottom: 36px; flex-wrap: wrap;
+}
+.popular-head-left { flex: 1; min-width: 280px; }
+
+.popular-eye {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 11px; font-weight: 700; letter-spacing: 1.6px;
+  text-transform: uppercase; color: var(--gray-500);
+  margin-bottom: 12px;
+}
+.popular-eye::before { content: ''; width: 22px; height: 1px; background: var(--gray-300); }
+
+.popular-h {
+  font-family: var(--display);
+  font-size: clamp(30px, 4.4vw, 48px);
+  font-weight: 800; letter-spacing: -.035em;
+  color: var(--text); line-height: 1.05;
+}
+
+.policy-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+@media (max-width: 1100px) { .policy-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px)  { .policy-grid { grid-template-columns: 1fr; } }
+
+.policy-card {
+  position: relative;
+  aspect-ratio: 1 / 1.18;
+  border-radius: 22px;
+  overflow: hidden;
+  text-decoration: none;
+  color: #fff;
+  isolation: isolate;
+  cursor: pointer;
+  transition: transform .35s cubic-bezier(.2,.9,.3,1), box-shadow .35s;
+  box-shadow: 0 8px 22px rgba(0,0,0,.10);
+}
+.policy-card:hover { transform: translateY(-6px); box-shadow: 0 24px 56px rgba(0,0,0,.22); }
+.policy-card:hover .pc-img { transform: scale(1.05); }
+.policy-card:hover .pc-icon { background: var(--navy); color: #fff; }
+.policy-card:hover .pc-cta .arr { background: rgba(255,255,255,.36); transform: translateX(4px); }
+
+.pc-img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  transition: transform .55s cubic-bezier(.2,.9,.3,1);
+  z-index: 1;
+}
+.pc-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.05) 35%, rgba(0,0,0,.55) 70%, rgba(0,0,0,.85) 100%);
+  z-index: 2; pointer-events: none;
+}
+
+.pc-icon {
+  position: absolute; top: 16px; left: 16px;
+  width: 44px; height: 44px;
+  background: #fff;
+  border: none; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--navy);
+  z-index: 3;
+  box-shadow: 0 4px 12px rgba(0,0,0,.10);
+  transition: background .2s, color .2s, transform .25s;
+}
+.pc-icon svg { width: 22px; height: 22px; }
+
+.pc-tag {
+  position: absolute; top: 18px; right: 16px;
+  z-index: 3;
+  background: rgba(255,255,255,.92);
+  color: var(--navy);
+  font-size: 10.5px; font-weight: 800;
+  letter-spacing: .8px;
+  padding: 5px 10px;
+  border-radius: 100px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  text-transform: uppercase;
+}
+.pc-tag.tag-red { background: var(--red); color: #fff; }
+.pc-tag.tag-green { background: var(--green); color: #fff; }
+
+.pc-content {
+  position: absolute; bottom: 22px; left: 22px; right: 22px;
+  z-index: 3;
+}
+.pc-eye {
+  font-size: 10.5px; font-weight: 800; letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.88);
+  margin-bottom: 8px;
+}
+.pc-title {
+  font-family: var(--display);
+  font-size: 22px; font-weight: 800;
+  letter-spacing: -.025em; line-height: 1.1;
+  color: #fff;
+  margin-bottom: 6px;
+  font-variation-settings: "opsz" 40;
+}
+.pc-sub {
+  font-size: 13px; color: rgba(255,255,255,.85);
+  line-height: 1.4;
+}
+.pc-cta {
+  display: inline-flex; align-items: center; gap: 10px;
+  margin-top: 14px;
+  font-size: 11.5px; font-weight: 800; letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: #fff;
+}
+.pc-cta .arr {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.22);
+  border: 1px solid rgba(255,255,255,.20);
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: background .2s, transform .25s;
+}
+
+/* Fold-1 carousel wrapper (breaks out of hero-inner) */
+.hero-carousel-wrap {
+  position: relative;
+  max-width: 1280px;
+  margin: 32px auto 28px;
+  padding: 0 28px;
+  z-index: 2;
+  text-align: left;
+}
+.hero-pick-row {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+.hero-pick-row .pick-prompt { margin: 0; }
+.hero-pick-row .pick-prompt::before,
+.hero-pick-row .pick-prompt::after { display: none; }
+
+/* Policy card as a <button> reset */
+button.policy-card {
+  font-family: inherit; border: none; padding: 0;
+  background: var(--gray-200); cursor: pointer;
+}
+
+/* Hover state for fold-1 product card — amber outline + icon highlight */
+.hero-carousel-wrap .policy-card:hover,
+.hero-carousel-wrap .policy-card.active {
+  outline: 3px solid #FBBF24;
+  outline-offset: 3px;
+}
+.hero-carousel-wrap .policy-card:hover .pc-icon,
+.hero-carousel-wrap .policy-card.active .pc-icon {
+  background: #FBBF24; color: var(--navy);
+}
+
+/* ============================================================
+   STICKY GLASS HEADER (CallHippo-style pill, AxisMax content)
+   ============================================================ */
+.site-header {
+  position: sticky;
+  top: 12px;
+  z-index: 100;
+  width: 100%;
+  padding: 0 20px;
+  margin-top: 12px;
+  pointer-events: none;
+}
+.site-header-inner {
+  width: fit-content;
+  max-width: calc(100% - 0px);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  height: 64px;
+  padding: 0 8px 0 14px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.70) 100%);
+  backdrop-filter: blur(28px) saturate(190%);
+  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 999px;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.85) inset,
+    0 0 0 1px rgba(11, 45, 94, 0.04),
+    0 14px 44px -8px rgba(11, 45, 94, 0.18),
+    0 4px 12px -2px rgba(11, 45, 94, 0.08);
+  pointer-events: auto;
+}
+
+.site-logo {
+  display: inline-flex; align-items: center;
+  flex-shrink: 0;
+  text-decoration: none;
+  padding: 4px 6px;
+  border-radius: 12px;
+  transition: background .18s;
+}
+.site-logo:hover { background: rgba(11,45,94,0.04); }
+.site-logo img {
+  height: 38px;
+  width: auto;
+  display: block;
+}
+
+.site-nav {
+  display: flex; align-items: center; gap: 2px;
+}
+.site-nav .navlink {
+  position: relative;
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 8px 13px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  background: none; border: none;
+  cursor: pointer;
+  border-radius: 100px;
+  transition: background .18s, color .18s;
+  font-family: inherit;
+  white-space: nowrap;
+}
+.site-nav .navlink:hover {
+  background: rgba(11, 45, 94, 0.06);
+  color: var(--navy);
+}
+.site-nav .caret {
+  width: 11px; height: 11px;
+  opacity: 0.55;
+  transition: transform .25s, opacity .2s;
+  flex-shrink: 0;
+}
+.site-nav .navlink:hover .caret {
+  opacity: 1;
+  transform: rotate(180deg);
+}
+
+.new-badge {
+  position: absolute;
+  top: -7px; left: 50%;
+  transform: translateX(-50%) rotate(-2deg);
+  background: var(--red);
+  color: #fff;
+  font-size: 8.5px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  padding: 2px 7px;
+  border-radius: 100px;
+  box-shadow: 0 2px 6px rgba(151, 20, 77, .25);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.site-cta-row {
+  display: flex; align-items: center; gap: 6px;
+  flex-shrink: 0;
+}
+
+.site-iconbtn {
+  width: 38px; height: 38px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid var(--gray-200);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: background .18s, border-color .18s;
+  color: var(--navy);
+  flex-shrink: 0;
+}
+.site-iconbtn:hover {
+  background: #fff; border-color: var(--navy);
+}
+
+.site-btn-outline {
+  height: 38px;
+  padding: 0 18px;
+  border-radius: 100px;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--red);
+  border: 1px solid var(--gray-200);
+  cursor: pointer;
+  transition: background .18s, border-color .18s;
+  white-space: nowrap;
+}
+.site-btn-outline:hover {
+  background: #fff; border-color: var(--red);
+}
+
+.site-btn-primary {
+  height: 38px;
+  padding: 0 18px;
+  border-radius: 100px;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 700;
+  background: var(--red);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  display: inline-flex; align-items: center; gap: 6px;
+  transition: background .18s, box-shadow .18s, transform .12s;
+  white-space: nowrap;
+  box-shadow: 0 6px 18px rgba(151, 20, 77, 0.32);
+}
+.site-btn-primary:hover {
+  background: var(--red-hover);
+  box-shadow: 0 8px 22px rgba(151, 20, 77, 0.40);
+}
+.site-btn-primary:active { transform: translateY(1px); }
+.site-btn-primary .caret { width: 11px; height: 11px; opacity: 0.85; }
+
+.menu-burger {
+  width: 38px; height: 38px;
+  background: transparent;
+  border: none;
+  display: none;
+  align-items: center; justify-content: center;
+  cursor: pointer;
+  border-radius: 50%;
+  color: var(--navy);
+  flex-shrink: 0;
+}
+.menu-burger:hover { background: var(--gray-100); }
+
+@media (max-width: 1100px) {
+  .site-nav .navlink { padding: 8px 10px; font-size: 13px; }
+  .site-header-inner { gap: 8px; }
+}
+@media (max-width: 980px) {
+  .site-nav { display: none; }
+  .menu-burger { display: flex; }
+  .site-btn-outline { display: none; }
+  .site-iconbtn { display: none; }
+  /* Pill should expand to (almost) full width on mobile, not collapse to fit-content */
+  .site-header-inner {
+    width: 100%;
+    max-width: 100%;
+    justify-content: space-between;
+    padding: 0 8px 0 14px;
+    gap: 10px;
+  }
+  /* Push primary nav children to the right side */
+  .site-cta-row { margin-left: auto; gap: 8px; }
+}
+@media (max-width: 480px) {
+  .site-header { padding: 0 12px; top: 8px; margin-top: 8px; }
+  .site-header-inner { padding: 0 6px 0 10px; gap: 8px; height: 54px; }
+  .site-logo img { height: 28px; }
+  .site-btn-primary { padding: 0 12px; font-size: 12.5px; height: 36px; }
+  .site-btn-primary .caret { width: 10px; height: 10px; }
+  .menu-burger { width: 36px; height: 36px; }
+}
+
+/* Burger icon swap (open ↔ X) */
+.menu-burger .close-icon { display: none; }
+.menu-burger.is-open .burger-icon { display: none; }
+.menu-burger.is-open .close-icon { display: block; }
+
+/* ============================================================
+   MOBILE DRAWER — slide-in from right
+   ============================================================ */
+.mobile-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(0, 30, 61, 0.42);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 280ms ease, visibility 280ms ease;
+  z-index: 998;
+}
+.mobile-backdrop.is-open { opacity: 1; visibility: visible; }
+
+.mobile-drawer {
+  position: fixed;
+  top: 0; right: 0;
+  height: 100dvh;
+  width: min(86vw, 360px);
+  background: #fff;
+  box-shadow: -24px 0 60px -12px rgba(0, 30, 61, 0.32);
+  transform: translateX(100%);
+  transition: transform 320ms cubic-bezier(0.32, 0.72, 0.18, 1);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  padding: 18px 20px 24px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.mobile-drawer.is-open { transform: translateX(0); }
+
+.md-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 4px 18px;
+  border-bottom: 1px solid var(--gray-100);
+  margin-bottom: 14px;
+}
+.md-head-eye {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--gray-400);
+}
+.md-close {
+  width: 36px; height: 36px;
+  background: var(--gray-50);
+  border: 1px solid var(--gray-100);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--navy);
+  cursor: pointer;
+  transition: background 160ms, transform 160ms;
+}
+.md-close:hover { background: var(--gray-100); }
+.md-close:active { transform: scale(0.94); }
+
+.md-nav { display: flex; flex-direction: column; gap: 2px; }
+.md-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 12px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--navy);
+  text-decoration: none;
+  transition: background 160ms;
+}
+.md-link svg {
+  width: 16px; height: 16px;
+  margin-left: auto;
+  color: var(--gray-300);
+  transition: transform 200ms, color 200ms;
+}
+.md-link:hover,
+.md-link:active {
+  background: var(--navy-tint);
+}
+.md-link:hover svg,
+.md-link:active svg { color: var(--red); transform: translateX(3px); }
+.md-badge {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  background: var(--red);
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-right: 4px;
+}
+
+.md-cta-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--gray-100);
+}
+.md-btn {
+  width: 100%;
+  height: 46px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: transform 120ms, box-shadow 200ms, background 160ms;
+}
+.md-btn:active { transform: translateY(1px); }
+.md-btn-primary {
+  background: var(--red);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(151, 20, 77, 0.28);
+}
+.md-btn-primary:hover { background: var(--red-hover); }
+.md-btn-outline {
+  background: #fff;
+  color: var(--navy);
+  border: 1.5px solid var(--gray-200);
+}
+.md-btn-outline:hover { border-color: var(--navy); background: var(--navy-tint); }
+
+.md-trust {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid var(--gray-100);
+}
+.md-trust-pill {
+  font-size: 12px;
+  color: var(--gray-500);
+  background: var(--gray-50);
+  padding: 9px 12px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+body.drawer-open { overflow: hidden; }
+
+@media (min-width: 981px) {
+  .mobile-drawer, .mobile-backdrop { display: none; }
+}
+
+/* ============================================================
+   COMING-SOON TOAST — fixed centered card, spring entry
+   ============================================================ */
+.cs-toast {
+  position: fixed;
+  top: 96px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-16px) scale(0.96);
+  z-index: 200;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity .25s ease,
+    transform .35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    visibility 0s linear .35s;
+  pointer-events: none;
+  width: min(440px, calc(100vw - 32px));
+}
+.cs-toast.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0) scale(1);
+  transition:
+    opacity .22s ease,
+    transform .42s cubic-bezier(0.34, 1.56, 0.64, 1),
+    visibility 0s linear 0s;
+  pointer-events: auto;
+}
+.cs-toast-inner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 16px 16px 22px;
+  background: #fff;
+  border: 1px solid var(--gray-200);
+  border-radius: 18px;
+  box-shadow:
+    0 24px 64px rgba(11, 45, 94, 0.18),
+    0 6px 14px rgba(11, 45, 94, 0.06),
+    0 1px 0 rgba(255,255,255,0.85) inset;
+  position: relative;
+  overflow: hidden;
+}
+/* Magenta brand accent stripe along the left edge */
+.cs-toast-inner::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, var(--red) 0%, #B11149 100%);
+}
+.cs-toast .cs-emoji {
+  font-size: 28px;
+  line-height: 1;
+  flex-shrink: 0;
+  /* Subtle wobble so it feels alive */
+  animation: csWobble 2.2s ease-in-out infinite;
+}
+@keyframes csWobble {
+  0%, 100% { transform: rotate(-6deg); }
+  50%      { transform: rotate(6deg); }
+}
+.cs-toast .cs-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  text-align: left;
+  min-width: 0;
+}
+.cs-toast .cs-title {
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--navy);
+  letter-spacing: -.01em;
+}
+.cs-toast .cs-msg {
+  font-size: 12.5px;
+  color: var(--gray-600);
+  line-height: 1.4;
+}
+.cs-toast .cs-close {
+  width: 30px; height: 30px;
+  background: var(--gray-100);
+  border: none;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: var(--gray-500);
+  flex-shrink: 0;
+  transition: background .15s, color .15s, transform .15s;
+}
+.cs-toast .cs-close:hover { background: var(--gray-200); color: var(--navy); transform: scale(1.06); }
+/* Auto-dismiss progress bar at the bottom edge */
+.cs-toast .cs-progress {
+  position: absolute;
+  left: 4px; right: 0; bottom: 0;
+  height: 2px;
+  background: transparent;
+}
+.cs-toast .cs-progress-bar {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--red), #B11149);
+  border-radius: 0 2px 2px 0;
+}
+.cs-toast.show .cs-progress-bar {
+  animation: csProgress 4000ms linear forwards;
+}
+@keyframes csProgress {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
+@media (max-width: 600px) {
+  .cs-toast { top: 84px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cs-toast .cs-emoji { animation: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============== STICKY GLASS HEADER ============== -->
+<header class="site-header">
+  <div class="site-header-inner">
+    <a class="site-logo" href="#" aria-label="Axis Max Life Insurance">
+      <img src="ins-images/axis-max-life-insurance-logo.svg" alt="Axis Max Life Insurance" />
+    </a>
+
+    <nav class="site-nav" aria-label="Primary">
+      <a class="navlink" href="#">Term Insurance
+        <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </a>
+      <a class="navlink" href="#">Investment Plans
+        <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </a>
+      <a class="navlink" href="#">Healthcare Plans
+        <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </a>
+      <a class="navlink" href="#">NRI Plans
+        <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </a>
+      <a class="navlink" href="#">
+        <span class="new-badge">NEW</span>
+        Calculators
+        <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </a>
+      <a class="navlink" href="#">Track Application</a>
+    </nav>
+
+    <div class="site-cta-row">
+      <button class="site-btn-outline" type="button">Join as Advisor</button>
+      <button class="site-btn-primary" type="button">
+        Login
+        <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <button class="menu-burger" id="menuBurger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileDrawer" type="button" onclick="window.toggleMobileDrawer && window.toggleMobileDrawer()">
+        <svg class="burger-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+        <svg class="close-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="6" y1="18" x2="18" y2="6"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ============== MOBILE DRAWER ============== -->
+<div class="mobile-backdrop" id="mobileBackdrop" aria-hidden="true"></div>
+<aside class="mobile-drawer" id="mobileDrawer" aria-hidden="true" aria-label="Mobile menu">
+  <div class="md-head">
+    <span class="md-head-eye">Menu</span>
+    <button class="md-close" id="mdClose" aria-label="Close menu" type="button">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="6" y1="18" x2="18" y2="6"/></svg>
+    </button>
+  </div>
+
+  <nav class="md-nav" aria-label="Mobile primary">
+    <a class="md-link" href="#">Term Insurance<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></a>
+    <a class="md-link" href="#">Investment Plans<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></a>
+    <a class="md-link" href="#">Healthcare Plans<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></a>
+    <a class="md-link" href="#">NRI Plans<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></a>
+    <a class="md-link" href="#"><span class="md-badge">NEW</span>Calculators<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></a>
+    <a class="md-link" href="#">Track Application<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></a>
+  </nav>
+
+  <div class="md-cta-stack">
+    <button class="md-btn md-btn-primary" type="button">Login →</button>
+    <button class="md-btn md-btn-outline" type="button">Join as Advisor</button>
+  </div>
+
+  <div class="md-trust">
+    <div class="md-trust-pill">📞 1860 120 5577</div>
+    <div class="md-trust-pill">99.70% claims paid · FY24</div>
+  </div>
+</aside>
+
+<!-- ============== FOLD 1 — HERO ============== -->
+<section class="hero" id="heroSection">
+  <div class="ring ring-1"></div>
+  <div class="ring ring-2"></div>
+  <div class="ring ring-3"></div>
+
+
+  <div class="hero-inner">
+    <div class="eyebrow-line fade-up" style="animation-delay: 160ms">India's most-trusted life insurance company</div>
+
+    <h1 class="h1">
+      <span class="mask"><span class="rise" style="animation-delay: 220ms">Get&nbsp;₹1 Cr</span></span>
+      <span class="mask"><span class="rise" style="animation-delay: 320ms">Term Plan</span></span>
+      <br/>
+      <span class="mask">
+        <span class="rise accent" style="animation-delay: 440ms">@&nbsp;<span class="price-reveal"><span class="price-was" aria-hidden="true">₹700</span><span class="price-now">₹595</span></span>/Month*</span>
+      </span>
+    </h1>
+
+    <p class="h-sub fade-up" style="animation-delay: 560ms">
+      Up to <b>15% Salaried Discount</b> + Free Health Benefits worth <b>₹50,000</b>.<br>
+      See your exact premium in 30 seconds.
+    </p>
+
+    <div class="bp-row fade-up" style="animation-delay: 620ms">
+      <span class="bp"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>99.70% Claim Paid Ratio</span>
+      <span class="bp"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>0% GST on Premiums</span>
+      <span class="bp"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Save ₹46,800/yr in tax</span>
+      <span class="bp"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Free 15-day cancellation</span>
+    </div>
+
+    <div class="cta-row fade-up" style="animation-delay: 700ms">
+      <button class="btn-primary" id="heroCta1Cr" type="button">
+        <span>Calculate My Premium</span>
+        <span class="arr">→</span>
+      </button>
+      <a class="btn-ghost" href="tel:18601205577">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.86 19.86 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.91.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.33 1.85.57 2.81.7a2 2 0 0 1 1.72 2.03z"/></svg>
+        Talk to advisor
+      </a>
+    </div>
+
+    <div class="assurance fade-up" style="animation-delay: 760ms">
+      <span><span class="gd"></span> No spam</span>
+      <span><span class="gd"></span> No call until you ask</span>
+      <span><span class="gd"></span> 100% online · paperless</span>
+    </div>
+
+  </div>
+
+  <!-- ============== 4-CARD GRID ============== -->
+  <div class="hero-carousel-wrap">
+    <div class="hero-pick-row fade-up" style="animation-delay: 680ms">
+      <div class="pick-prompt">Tell us what you need</div>
+    </div>
+
+    <div class="policy-grid">
+
+      <!-- 1. ₹2 Crore Term -->
+      <button type="button" class="policy-card" data-target-tab="protect" data-card="0" data-href="https://www.axismaxlife.com/term-insurance-plans/premium-calculator?utm_theme=2Crore">
+        <img class="pc-img" loading="lazy" alt="Indian family at home" src="ins-images/family-insurence.jpg">
+        <div class="pc-overlay"></div>
+        <span class="pc-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+        <span class="pc-tag tag-red">⚡ Trending</span>
+        <div class="pc-content">
+          <div class="pc-eye">Sum Assured · 0% GST</div>
+          <h3 class="pc-title">₹2 Crore Term</h3>
+          <p class="pc-sub">Protect your family's future</p>
+          <span class="pc-cta">Check Premium <span class="arr">→</span></span>
+        </div>
+      </button>
+
+      <!-- 2. 21.37% CAGR Equity Fund -->
+      <button type="button" class="policy-card" data-target-tab="wealth" data-card="1" data-href="https://www.axismaxlife.com/investment-plans/investment-calculator?utm_theme=SIP">
+        <img class="pc-img" loading="lazy" alt="Investment growth" src="ins-images/wealth-plan.jpg">
+        <div class="pc-overlay"></div>
+        <span class="pc-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="14 7 21 7 21 14"/></svg></span>
+        <span class="pc-tag tag-green">★ High Return</span>
+        <div class="pc-content">
+          <div class="pc-eye">Past Returns</div>
+          <h3 class="pc-title">21.37%* CAGR</h3>
+          <p class="pc-sub">Diversified Equity Fund II</p>
+          <span class="pc-cta">View Plans <span class="arr">→</span></span>
+        </div>
+      </button>
+
+      <!-- 3. ₹3 Crore NRI Term -->
+      <button type="button" class="policy-card" data-target-tab="protect" data-card="2" data-href="https://www.axismaxlife.com/term-insurance-plans/premium-calculator?utm_theme=NRI">
+        <img class="pc-img" loading="lazy" alt="NRI life insurance" src="ins-images/NRI.jpg">
+        <div class="pc-overlay"></div>
+        <span class="pc-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg></span>
+        <span class="pc-tag">15% Online Discount</span>
+        <div class="pc-content">
+          <div class="pc-eye">Sum Assured</div>
+          <h3 class="pc-title">₹3 Crore NRI Term</h3>
+          <p class="pc-sub">For non-resident Indians</p>
+          <span class="pc-cta">Check Premium <span class="arr">→</span></span>
+        </div>
+      </button>
+
+      <!-- 4. ₹1 Crore Women's Term -->
+      <button type="button" class="policy-card" data-target-tab="protect" data-card="3" data-href="https://www.axismaxlife.com/term-insurance-plans/premium-calculator?utm_theme=Women">
+        <img class="pc-img" loading="lazy" alt="Women-centric coverage" src="ins-images/woman-centril.jpg">
+        <div class="pc-overlay"></div>
+        <span class="pc-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
+        <span class="pc-tag tag-red">15%+15% Discount</span>
+        <div class="pc-content">
+          <div class="pc-eye">Sum Assured</div>
+          <h3 class="pc-title">₹1 Crore Term</h3>
+          <p class="pc-sub">Women-centric coverage</p>
+          <span class="pc-cta">Check Premium <span class="arr">→</span></span>
+        </div>
+      </button>
+
+    </div>
+  </div>
+
+  <div class="hero-inner">
+
+    <div class="trust-strip fade-up" style="animation-delay: 1080ms">
+      <div class="ts-item ts-amber"><div class="ts-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M9 13l-2 8 5-3 5 3-2-8"/></svg></div><div><div class="l1">Best Term Insurer</div><div class="l2">FE BFSI 2024</div></div></div>
+      <div class="ts-divider"></div>
+      <div class="ts-item ts-green"><div class="ts-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div><div><div class="l1">99.70% Claims paid</div><div class="l2">FY24</div></div></div>
+      <div class="ts-divider"></div>
+      <div class="ts-item ts-navy"><div class="ts-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div><div class="l1">5 Cr+ Families</div><div class="l2">protected since 2000</div></div></div>
+      <div class="ts-divider"></div>
+      <div class="ts-item ts-amber"><div class="ts-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="14 7 21 7 21 14"/></svg></div><div><div class="l1">ICRA AAA</div><div class="l2">highest rated</div></div></div>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- ============================================================
+     FOLD 2 — Original design, full-width (no box wrap)
+     ============================================================ -->
+
+<!-- NAV (full-width navy band) -->
+<div class="nav" id="formWrap">
+  <div class="nav-inner">
+    <div class="nav-title">Insurance Policy for Every Need</div>
+    <div class="nav-pills">
+      <span class="npill">🔒 No spam calls, ever</span>
+      <span class="npill">⚡ 2-min process</span>
+      <span class="npill">✅ Instant quote</span>
+      <span class="npill">🏆 IRDAI Regulated</span>
+    </div>
+    <div class="tabs">
+      <button class="tab act" data-tab="protect" onclick="switchTab(this)">
+        🛡 Protect My Family
+        <span class="tbadge tbadge-r">15% OFF</span>
+      </button>
+      <button class="tab" data-tab="wealth" onclick="switchTab(this)">
+        📈 Grow My Wealth
+        <span class="tbadge tbadge-g">High Return</span>
+      </button>
+      <button class="tab" data-tab="child" onclick="switchTab(this)">👶 Plan for My Child</button>
+      <button class="tab" data-tab="retire" onclick="switchTab(this)">🌅 My Retirement</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============== COMING-SOON TOAST ============== -->
+<div id="comingSoonToast" class="cs-toast" role="status" aria-live="polite">
+  <div class="cs-toast-inner">
+    <div class="cs-emoji" aria-hidden="true" id="csEmoji">🚧</div>
+    <div class="cs-content">
+      <div class="cs-title" id="csTitle">Coming Soon</div>
+      <div class="cs-msg" id="csMsg">We're crafting this experience. Stay tuned!</div>
+    </div>
+    <button class="cs-close" type="button" aria-label="Dismiss" onclick="hideComingSoon()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+    <div class="cs-progress"><span class="cs-progress-bar" id="csBar"></span></div>
+  </div>
+</div>
+
+<!-- BODY (full-width gray band) -->
+<div class="body">
+  <div class="body-inner">
+
+    <!-- LEFT: CALCULATOR -->
+    <div>
+      <div class="eyebrow">Cover Calculator</div>
+      <h2 class="calc-h">How much life cover<br>do you actually need?</h2>
+      <p class="calc-sub">Tell us 2 things and we'll recommend the right cover amount for your family.</p>
+
+      <!-- Q1 -->
+      <div class="iblock">
+        <div class="ilabel">
+          <span class="ilabel-text">Monthly household expenses</span>
+          <span class="ilabel-val" id="expDisplay">₹50,000</span>
+        </div>
+        <input type="range" class="range-input" id="expSlider" min="1" max="20" value="9" step="1" oninput="calc()">
+        <div class="range-ends"><span>₹10,000</span><span>₹2,00,000</span></div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="iblock">
+        <div class="ilabel">
+          <span class="ilabel-text">Protection needed for</span>
+        </div>
+        <div class="year-row">
+          <button class="ybtn" onclick="setY(10,this)">10 yrs</button>
+          <button class="ybtn" onclick="setY(15,this)">15 yrs</button>
+          <button class="ybtn yact" onclick="setY(20,this)">20 yrs</button>
+          <button class="ybtn" onclick="setY(25,this)">25 yrs</button>
+          <button class="ybtn" onclick="setY(30,this)">30 yrs</button>
+        </div>
+      </div>
+
+      <!-- Result -->
+      <div class="result-box">
+        <div class="result-grid">
+          <div>
+            <div class="rlabel">Recommended cover</div>
+            <div class="rbig" id="coverDisplay">₹1.20 Crore</div>
+            <div class="rsmall">Based on income replacement method</div>
+          </div>
+          <div class="rdivider"></div>
+          <div class="prem-side">
+            <div class="rlabel" style="text-align:right">Your est. premium</div>
+            <div class="prem-num-row">
+              <span class="prs">₹</span>
+              <span class="prn" id="premNum">542</span>
+              <span class="prm">/mo</span>
+            </div>
+            <div class="pday" id="perDay">= ₹18/day · less than a chai ☕</div>
+          </div>
+        </div>
+        <div class="result-tags">
+          <div class="rtag"><span class="rcheck">✓</span> 15% discount applied</div>
+          <div class="rtag"><span class="rcheck">✓</span> 99.70% claims settled</div>
+          <div class="rtag"><span class="rcheck">✓</span> Tax saving up to ₹46,800/yr</div>
+        </div>
+      </div>
+
+      <!-- Progressive Disclosure -->
+      <div class="cond-box" id="condBox">
+        <div class="cond-label">At this cover, you're protected against</div>
+        <div class="cond-pills">
+          <span class="cpill">Cancer (all stages)</span>
+          <span class="cpill">Heart Attack</span>
+          <span class="cpill">Stroke</span>
+          <span class="cpill">Kidney Failure</span>
+          <span class="cpill">Major Organ Transplant</span>
+          <span class="cpill cpill-more" id="moreBtn" onclick="expandMore()">+ 59 more conditions</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: FORM -->
+    <div>
+
+      <!-- Form -->
+      <div class="fcard" id="formCard">
+        <div class="fhead-row">
+          <div class="fhead-text">
+            <div class="fhead">Your plan is ready ✓</div>
+            <div class="fsub">Based on <strong id="formRef">₹1.20 Crore</strong> cover · Just <span id="neededCount">3</span> details needed</div>
+          </div>
+          <label class="nri-pill" for="nriCb" title="Toggle NRI mode">
+            <span class="nri-pill-label">Are you an NRI?</span>
+            <input type="checkbox" id="nriCb" onchange="toggleNRI()" class="nri-pill-cb">
+            <span class="nri-pill-track" aria-hidden="true">
+              <span class="nri-pill-thumb">
+                <svg class="nri-pill-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" width="10" height="10"><path d="M20 6L9 17l-5-5"/></svg>
+              </span>
+            </span>
+          </label>
+        </div>
+
+        <div class="fields">
+          <div class="fwrap">
+            <label class="flabel">Full Name</label>
+            <input class="finput" type="text" placeholder="e.g. Rahul Sharma" autocomplete="name">
+          </div>
+
+          <div class="fwrap nri-only" data-nri-order="1">
+            <label class="flabel">Country</label>
+            <select class="finput finput-select" id="countrySel" onchange="updatePhoneCode()">
+              <option data-code="+1"   data-flag="🇺🇸">🇺🇸 United States</option>
+              <option data-code="+971" data-flag="🇦🇪">🇦🇪 United Arab Emirates</option>
+              <option data-code="+65"  data-flag="🇸🇬">🇸🇬 Singapore</option>
+              <option data-code="+44"  data-flag="🇬🇧">🇬🇧 United Kingdom</option>
+              <option data-code="+1"   data-flag="🇨🇦">🇨🇦 Canada</option>
+              <option data-code="+61"  data-flag="🇦🇺">🇦🇺 Australia</option>
+              <option data-code="+974" data-flag="🇶🇦">🇶🇦 Qatar</option>
+              <option data-code="+966" data-flag="🇸🇦">🇸🇦 Saudi Arabia</option>
+              <option data-code="+60"  data-flag="🇲🇾">🇲🇾 Malaysia</option>
+              <option data-code="+49"  data-flag="🇩🇪">🇩🇪 Germany</option>
+            </select>
+          </div>
+
+          <div class="fwrap">
+            <label class="flabel">Mobile Number</label>
+            <div class="phone-row">
+              <div class="phone-pre" id="phonePre">🇮🇳 +91</div>
+              <input class="phone-input" type="tel" id="phoneInput" placeholder="10-digit mobile number" maxlength="10" inputmode="numeric">
+            </div>
+          </div>
+
+          <div class="fwrap nri-only" data-nri-order="2">
+            <label class="flabel">Email</label>
+            <input class="finput" type="email" placeholder="your.email@example.com" autocomplete="email">
+          </div>
+
+          <div class="fwrap">
+            <label class="flabel">Date of Birth</label>
+            <input class="finput" type="date" id="dobInput" onchange="checkAge(this.value)">
+            <div class="smart-hint" id="ageHint"></div>
+          </div>
+
+          <div class="fwrap nri-only" data-nri-order="3">
+            <label class="flabel">Annual Income (Lakhs)</label>
+            <select class="finput finput-select">
+              <option>Below 5</option>
+              <option>5 - 10</option>
+              <option selected>10 - 20</option>
+              <option>20 - 50</option>
+              <option>50 - 100</option>
+              <option>Above 100</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="cta-btn">
+          Get My Personalized Plan &nbsp;<span class="cta-arrow">→</span>
+        </button>
+
+        <div class="sec-line">
+          🔒 &nbsp;Encrypted · Your data is never sold · No spam calls guaranteed
+        </div>
+
+        <button class="cta-sec">Not ready? Save my details — call me later</button>
+
+        <hr class="trust-div">
+
+        <div class="trust-row">
+          <div class="titem">
+            <div class="tnum">99.70%</div>
+            <div class="ttxt">Claims Settled</div>
+          </div>
+          <div class="titem">
+            <div class="tnum">₹5,000Cr+</div>
+            <div class="ttxt">Paid Out</div>
+          </div>
+          <div class="titem">
+            <div class="tnum">5 Cr+</div>
+            <div class="ttxt">Families Trust Us</div>
+          </div>
+        </div>
+
+        <div class="tc-inline">
+          <input type="checkbox" id="tcCb" checked>
+          <label for="tcCb">
+            I've read and accepted the <a href="#">Terms &amp; Conditions</a>. I authorise Axis Max Life Insurance to contact me via SMS / Email / WhatsApp. Premiums shown are indicative and subject to underwriting.
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TC band removed — checkbox now lives inside the form, right under the CTA -->
+
+<script>
+/* =========================================================
+   MOBILE DRAWER — open / close / focus management
+   Exposed on window so the inline onclick fallback works even
+   if any later script throws before reaching addEventListener.
+   ========================================================= */
+window.openMobileDrawer = function() {
+  const drawer   = document.getElementById('mobileDrawer');
+  const backdrop = document.getElementById('mobileBackdrop');
+  const burger   = document.getElementById('menuBurger');
+  if (!drawer || !backdrop || !burger) return;
+  drawer.classList.add('is-open');
+  backdrop.classList.add('is-open');
+  burger.classList.add('is-open');
+  burger.setAttribute('aria-expanded', 'true');
+  drawer.setAttribute('aria-hidden', 'false');
+  backdrop.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('drawer-open');
+};
+window.closeMobileDrawer = function() {
+  const drawer   = document.getElementById('mobileDrawer');
+  const backdrop = document.getElementById('mobileBackdrop');
+  const burger   = document.getElementById('menuBurger');
+  if (!drawer || !backdrop || !burger) return;
+  drawer.classList.remove('is-open');
+  backdrop.classList.remove('is-open');
+  burger.classList.remove('is-open');
+  burger.setAttribute('aria-expanded', 'false');
+  drawer.setAttribute('aria-hidden', 'true');
+  backdrop.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('drawer-open');
+};
+window.toggleMobileDrawer = function() {
+  const drawer = document.getElementById('mobileDrawer');
+  if (!drawer) return;
+  drawer.classList.contains('is-open') ? window.closeMobileDrawer() : window.openMobileDrawer();
+};
+
+(function() {
+  const drawer   = document.getElementById('mobileDrawer');
+  const backdrop = document.getElementById('mobileBackdrop');
+  const closeBtn = document.getElementById('mdClose');
+  if (!drawer || !backdrop) return;
+
+  closeBtn && closeBtn.addEventListener('click', window.closeMobileDrawer);
+  backdrop.addEventListener('click', window.closeMobileDrawer);
+
+  // Close when any drawer link is tapped (so anchor jumps don't leave the menu open)
+  drawer.querySelectorAll('.md-link, .md-btn').forEach(el => {
+    el.addEventListener('click', window.closeMobileDrawer);
+  });
+
+  // ESC closes
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && drawer.classList.contains('is-open')) window.closeMobileDrawer();
+  });
+
+  // If viewport grows past mobile breakpoint, force-close
+  const mq = window.matchMedia('(min-width: 981px)');
+  if (mq.addEventListener) {
+    mq.addEventListener('change', (e) => { if (e.matches) window.closeMobileDrawer(); });
+  } else if (mq.addListener) {
+    mq.addListener((e) => { if (e.matches) window.closeMobileDrawer(); });
+  }
+})();
+
+/* =========================================================
+   FOLD 1 — Product card → Fold-2 tab handoff
+   ========================================================= */
+function activateCard(card, scrollToFold2 = false) {
+  if (!card) return;
+
+  // Highlight active card
+  document.querySelectorAll('.hero-carousel-wrap .policy-card').forEach(c => c.classList.remove('active'));
+  card.classList.add('active');
+
+  // Activate matching fold-2 tab (if mapping exists)
+  const targetTab = card.dataset.targetTab;
+  if (targetTab) {
+    const tab = document.querySelector('.tab[data-tab="' + targetTab + '"]');
+    if (tab) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('act'));
+      tab.classList.add('act');
+    }
+  }
+
+  if (scrollToFold2) {
+    const target = document.querySelector('.tabs-band, .nav, #formWrap');
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+document.querySelectorAll('.hero-carousel-wrap .policy-card').forEach(card => {
+  card.addEventListener('click', (e) => {
+    e.preventDefault();
+    /* If the card declares a data-href, route the user there directly
+       instead of scrolling to the fold-2 calculator. */
+    const href = card.dataset.href;
+    if (href) {
+      window.location.href = href;
+      return;
+    }
+    activateCard(card, true);
+  });
+});
+
+/* Hero CTA — preset calculator to ₹1 Cr cover, then scroll to fold-2 */
+const _heroCta1Cr = document.getElementById('heroCta1Cr');
+if (_heroCta1Cr) {
+  _heroCta1Cr.addEventListener('click', () => {
+    const slider = document.getElementById('expSlider');
+    if (slider) {
+      // Slider value 7 = ₹40K/mo expenses → with 20yr × rounding = ₹1 Crore cover.
+      slider.value = 7;
+    }
+    // Force 20-year duration (matches the H1's quoted plan term).
+    years = 20;
+    document.querySelectorAll('.ybtn').forEach(b => {
+      b.classList.toggle('yact', b.textContent.trim().startsWith('20'));
+    });
+    // Activate the "protect" tab (term insurance lives there).
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('act'));
+    const protectTab = document.querySelector('.tab[data-tab="protect"]');
+    if (protectTab) protectTab.classList.add('act');
+
+    if (typeof calc === 'function') calc();
+
+    const target = document.querySelector('.tabs-band, .nav, #formWrap');
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+}
+
+/* Countdown ticker */
+(function() {
+  const el = document.getElementById('countdown'); if (!el) return;
+  let total = (2*86400) + (14*3600) + (23*60) + 12;
+  const fmt = (n) => String(n).padStart(2,'0');
+  function tick() {
+    if (total <= 0) { el.textContent = '00d : 00h : 00m'; return; }
+    const d = Math.floor(total/86400);
+    const h = Math.floor((total%86400)/3600);
+    const m = Math.floor((total%3600)/60);
+    el.textContent = `${fmt(d)}d : ${fmt(h)}h : ${fmt(m)}m`;
+    total -= 60;
+  }
+  tick(); setInterval(tick, 60000);
+})();
+
+
+/* =========================================================
+   FOLD 2 — User's original calculator/form JS (verbatim)
+   ========================================================= */
+const EXP_STEPS = [
+  10000, 15000, 20000, 25000, 30000, 35000, 40000, 50000,
+  60000, 75000, 80000, 90000, 100000, 120000, 140000, 150000,
+  160000, 175000, 190000, 200000
+];
+
+let years = 20;
+let condShown = false;
+
+function getPremium(lakhs) {
+  if (lakhs < 30)  return 199;
+  if (lakhs < 60)  return 299;
+  if (lakhs < 90)  return 399;
+  if (lakhs < 140) return 595;   /* ₹1 Cr lands here — matches the hero headline */
+  if (lakhs < 200) return 720;
+  if (lakhs < 300) return 890;
+  if (lakhs < 400) return 1190;
+  return 1680;
+}
+
+function fmtCover(lakhs) {
+  if (lakhs >= 100) {
+    const cr = lakhs / 100;
+    return '₹' + (Number.isInteger(cr) ? cr : cr.toFixed(2)) + ' Crore';
+  }
+  return '₹' + lakhs + ' Lakh';
+}
+
+function fmtINR(n) { return n.toLocaleString('en-IN'); }
+
+function calc() {
+  const slider = document.getElementById('expSlider');
+  const idx = parseInt(slider.value) - 1;
+  const expense = EXP_STEPS[Math.min(idx, EXP_STEPS.length - 1)];
+
+  document.getElementById('expDisplay').textContent = '₹' + fmtINR(expense);
+
+  const pct = ((slider.value - 1) / 19) * 100;
+  slider.style.background =
+    `linear-gradient(to right,var(--navy) ${pct}%,var(--gray-200) ${pct}%)`;
+
+  const rawL = Math.round(expense * 12 * years / 100000);
+  /* Round to the nearest 10L so the recommended cover lands on clean numbers
+     (e.g. expense=40K, years=20 → 96L → 100L = ₹1 Crore). */
+  const roundedL = Math.round(rawL / 10) * 10;
+  const coverL = Math.max(25, Math.min(500, roundedL));
+  const coverStr = fmtCover(coverL);
+
+  document.getElementById('coverDisplay').textContent = coverStr;
+  document.getElementById('formRef').textContent = coverStr;
+
+  const prem = getPremium(coverL);
+  const perDay = Math.round(prem * 12 / 365);
+
+  animateNum('premNum', prem);
+  document.getElementById('perDay').textContent =
+    '= ₹' + perDay + '/day · less than a chai ☕';
+
+  if (!condShown) {
+    setTimeout(() => {
+      document.getElementById('condBox').classList.add('show');
+      condShown = true;
+    }, 700);
+  }
+}
+
+function animateNum(id, target) {
+  const el = document.getElementById(id);
+  const start = parseInt(el.textContent.replace(/,/g, '')) || 0;
+  const diff = target - start;
+  const dur = 380;
+  const startTime = performance.now();
+  function step(now) {
+    const t = Math.min((now - startTime) / dur, 1);
+    const ease = 1 - Math.pow(1 - t, 3);
+    const val = Math.round(start + diff * ease);
+    el.textContent = fmtINR(val);
+    if (t < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+function setY(y, btn) {
+  years = y;
+  document.querySelectorAll('.ybtn').forEach(b => b.classList.remove('yact'));
+  btn.classList.add('yact');
+  calc();
+}
+
+/* Tabs other than "protect" aren't built yet — show a coming-soon toast and
+   leave the active tab unchanged. */
+const COMING_SOON_COPY = {
+  wealth: {
+    emoji: '📈',
+    title: 'Wealth plans — coming soon',
+    msg: 'SIP, ULIP & guaranteed-return calculators are launching soon. We\'ll notify you the moment they\'re live.'
+  },
+  child: {
+    emoji: '👶',
+    title: 'Child plans — coming soon',
+    msg: 'Education + cover plans for your child\'s future are in the works. Stay tuned.'
+  },
+  retire: {
+    emoji: '🌅',
+    title: 'Retirement plans — coming soon',
+    msg: 'Pension & lifelong-income calculators are on the way. We\'re building this carefully.'
+  }
+};
+
+let _csTimer = null;
+function showComingSoon(tabKey) {
+  const toast = document.getElementById('comingSoonToast');
+  if (!toast) return;
+  const cfg = COMING_SOON_COPY[tabKey] || {
+    emoji: '🚧',
+    title: 'Coming Soon',
+    msg: 'This feature is on its way. Stay tuned!'
+  };
+  document.getElementById('csEmoji').textContent = cfg.emoji;
+  document.getElementById('csTitle').textContent = cfg.title;
+  document.getElementById('csMsg').textContent   = cfg.msg;
+
+  /* Restart the entry + progress-bar animation cleanly even on rapid re-clicks */
+  toast.classList.remove('show');
+  void toast.offsetWidth;  /* force reflow so the animation re-runs */
+  toast.classList.add('show');
+
+  clearTimeout(_csTimer);
+  _csTimer = setTimeout(hideComingSoon, 4000);
+}
+function hideComingSoon() {
+  const toast = document.getElementById('comingSoonToast');
+  if (toast) toast.classList.remove('show');
+  clearTimeout(_csTimer);
+}
+
+function switchTab(btn) {
+  const key = btn.dataset.tab;
+
+  /* Only "protect" is implemented today — divert other clicks to the toast. */
+  if (key !== 'protect') {
+    showComingSoon(key);
+    return;
+  }
+
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('act'));
+  btn.classList.add('act');
+
+  document.querySelectorAll('.chip').forEach(c => {
+    const active = c.dataset.targetTab === key;
+    c.classList.toggle('active', active);
+    c.setAttribute('aria-checked', active ? 'true' : 'false');
+  });
+  const data = PERSONAS[key];
+  if (data) {
+    const indP = document.getElementById('indPremium'); if (indP) indP.textContent = data.premium;
+    const indC = document.getElementById('indCover');   if (indC) indC.textContent = data.cover;
+    const ctaL = document.getElementById('ctaLabel');   if (ctaL) ctaL.textContent = data.cta;
+  }
+}
+
+function checkAge(val) {
+  if (!val) return;
+  const dob = new Date(val);
+  const today = new Date();
+  const age = Math.floor((today - dob) / (365.25 * 24 * 3600 * 1000));
+  const hint = document.getElementById('ageHint');
+  hint.className = 'smart-hint';
+  if (age < 18 || age > 65) {
+    hint.className = 'smart-hint hint-warn';
+    hint.textContent = '⚠ Eligible age is 18 – 65 years';
+  } else if (age <= 45) {
+    hint.className = 'smart-hint hint-ok';
+    hint.textContent = '✓ Great news — you qualify for no medical test!';
+  } else {
+    hint.className = 'smart-hint hint-warn';
+    hint.textContent = '⚠ A brief medical test may be required for your age';
+  }
+}
+
+function expandMore() {
+  const btn = document.getElementById('moreBtn');
+  const pills = btn.closest('.cond-pills');
+  btn.remove();
+  const extra = ['Paralysis', 'Blindness', 'Third Degree Burns', 'Coma',
+    'Bone Marrow Transplant', 'Aorta Graft Surgery', '+ 53 more...'];
+  extra.forEach(c => {
+    const el = document.createElement('span');
+    el.className = 'cpill';
+    el.textContent = c;
+    el.style.opacity = '0';
+    el.style.transition = 'opacity .3s ease';
+    pills.appendChild(el);
+    setTimeout(() => el.style.opacity = '1', 50);
+  });
+}
+
+function toggleNRI() {
+  const cb    = document.getElementById('nriCb');
+  const card  = document.getElementById('formCard');
+  const count = document.getElementById('neededCount');
+  if (!cb || !card) return;
+  card.classList.toggle('nri-on', cb.checked);
+  if (count) count.textContent = cb.checked ? '6' : '3';
+  updatePhoneCode();
+  /* Reset the phone field when switching modes (prefix conventions differ). */
+  const phone = document.getElementById('phoneInput');
+  if (phone) {
+    phone.value = '';
+    phone.maxLength = cb.checked ? 14 : 10;
+    phone.placeholder = cb.checked ? 'Mobile number' : '10-digit mobile number';
+  }
+}
+
+/* When NRI mode is on, the phone-code chip mirrors the selected country.
+   When off, it falls back to India (+91). */
+function updatePhoneCode() {
+  const cb  = document.getElementById('nriCb');
+  const sel = document.getElementById('countrySel');
+  const pre = document.getElementById('phonePre');
+  if (!pre) return;
+  if (cb && cb.checked && sel) {
+    const opt = sel.options[sel.selectedIndex];
+    const flag = opt.dataset.flag || '';
+    const code = opt.dataset.code || '';
+    pre.textContent = (flag + ' ' + code).trim();
+  } else {
+    pre.textContent = '🇮🇳 +91';
+  }
+}
+
+(function init() {
+  const slider = document.getElementById('expSlider');
+  const pct = ((slider.value - 1) / 19) * 100;
+  slider.style.background =
+    `linear-gradient(to right,var(--navy) ${pct}%,var(--gray-200) ${pct}%)`;
+  calc();
+})();
+</script>
+</body>
+</html>

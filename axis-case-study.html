@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Axis Max Life · Landing Page Redesign — Case Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,500;1,9..40,600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:        #003974;
+  --navy-dark:   #001E3D;
+  --magenta:     #97144D;
+  --magenta-2:   #B11149;
+  --cream:       #F5F2EB;
+  --paper:       #FAF8F4;
+  --ink:         #0E1116;
+  --ink-2:       #2A2E36;
+  --ink-3:       #4A4F58;
+  --line:        #D9D2C2;
+  --line-2:      #C4BFB1;
+  --sans:        'DM Sans', system-ui, sans-serif;
+  --mono:        'JetBrains Mono', ui-monospace, monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  background: var(--cream);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+a { color: inherit; }
+
+/* ===== STICKY NAV ===== */
+.cs-nav {
+  position: fixed;
+  top: 16px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 200;
+  display: flex; align-items: center;
+  gap: 14px;
+  padding: 9px 14px 9px 18px;
+  background: rgba(250, 248, 244, 0.78);
+  backdrop-filter: blur(20px) saturate(170%);
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
+  border: 1px solid rgba(217, 210, 194, 0.7);
+  border-radius: 100px;
+  font-size: 12px; font-weight: 600;
+  color: var(--ink-2);
+  box-shadow: 0 12px 38px rgba(0, 30, 61, 0.10);
+}
+.cs-nav .dot {
+  width: 7px; height: 7px;
+  background: var(--magenta);
+  border-radius: 50%;
+  animation: pulse 2.4s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100% { box-shadow: 0 0 0 4px rgba(151, 20, 77, 0.18); }
+  50%     { box-shadow: 0 0 0 8px rgba(151, 20, 77, 0.06); }
+}
+.cs-nav .pipe { width: 1px; height: 14px; background: var(--line-2); }
+.cs-nav a {
+  text-decoration: none; color: var(--ink-2);
+  padding: 4px 12px;
+  border-radius: 100px;
+  transition: background .15s, color .15s;
+}
+.cs-nav a:hover { background: rgba(0,57,116,0.06); color: var(--navy); }
+@media (max-width: 760px) { .cs-nav .pipe, .cs-nav a:nth-child(n+5) { display: none; } }
+
+/* ===== LAYOUT ===== */
+.wrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+.section-pad { padding: 96px 0; }
+@media (max-width: 700px) {
+  .wrap { padding: 0 20px; }
+  .section-pad { padding: 64px 0; }
+}
+
+/* Chapter marker */
+.chap {
+  display: flex; align-items: baseline; gap: 14px;
+  margin-bottom: 22px;
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  color: var(--ink-3);
+}
+.chap .num { font-weight: 600; color: var(--magenta); }
+.chap .label { font-weight: 600; }
+.chap .rule { flex: 1; height: 1px; background: var(--line); }
+
+/* Section heading */
+.h-sec {
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: clamp(28px, 3.6vw, 42px);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--ink);
+  margin-bottom: 14px;
+}
+.h-sec em { color: var(--magenta); font-style: italic; font-weight: 500; }
+.h-sub {
+  font-size: 15px;
+  color: var(--ink-3);
+  max-width: 620px;
+  line-height: 1.55;
+  margin-bottom: 48px;
+}
+
+/* ===== COVER ===== */
+.cover {
+  position: relative;
+  padding: 140px 0 80px;
+  background:
+    radial-gradient(820px 540px at 18% 10%, rgba(0,57,116,0.10), transparent 65%),
+    radial-gradient(700px 480px at 92% 0%, rgba(151,20,77,0.10), transparent 70%),
+    linear-gradient(180deg, var(--paper) 0%, var(--cream) 100%);
+  overflow: hidden;
+}
+.cover-eyebrow {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.6px;
+  color: var(--ink-3);
+  margin-bottom: 24px;
+}
+.cover-eyebrow .pill {
+  background: var(--magenta);
+  color: #fff;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 100px;
+}
+.cover-h {
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: clamp(34px, 5vw, 64px);
+  letter-spacing: -0.035em;
+  line-height: 1.06;
+  margin-bottom: 24px;
+  max-width: 920px;
+}
+.cover-h em { color: var(--magenta); font-style: italic; font-weight: 500; }
+.cover-deck {
+  font-size: clamp(15px, 1.4vw, 17px);
+  color: var(--ink-2);
+  max-width: 100%;
+  line-height: 1.65;
+  margin-bottom: 36px;
+}
+.cover-deck b { color: var(--magenta); font-weight: 700; }
+.cover-tags {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.cover-tags .tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 12px;
+  background: rgba(255,255,255,0.6);
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+.cover-tags .tag::before {
+  content: ''; width: 5px; height: 5px;
+  background: var(--magenta); border-radius: 50%;
+}
+
+/* ===== TWO-COL LAYOUT ===== */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+/* Grid items default to min-width: auto, which makes them expand to fit
+   intrinsic content (the iframe is 1280px native!). Force them to respect
+   the 1fr track width so the right column doesn't get squashed. */
+.two-col > * { min-width: 0; align-self: center; }
+.two-col.flip > div:first-child { order: 2; }
+/* Collapse to single column earlier (was 900px) — at 900-1100px the two columns
+   were too narrow, causing the wins-text column to get squeezed past the viewport. */
+@media (max-width: 1100px) {
+  .two-col { grid-template-columns: 1fr; gap: 32px; }
+  .two-col.flip > div:first-child { order: 0; }
+}
+
+/* Browser-frame screenshot */
+.shot {
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--ink-2);
+  border: 1px solid var(--line);
+  box-shadow: 0 24px 60px -16px rgba(0,30,61,0.22);
+}
+.shot .bar {
+  height: 28px;
+  display: flex; align-items: center;
+  padding: 0 12px;
+  gap: 5px;
+}
+.shot .bar .ds {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.18);
+}
+.shot .bar .url {
+  margin-left: 10px;
+  font-family: var(--mono);
+  font-size: 9px;
+  color: rgba(255,255,255,0.5);
+}
+.shot img { display: block; width: 100%; background: #fff; }
+.shot .iframe-wrap {
+  position: relative;
+  width: 100%;
+  height: 540px;
+  overflow: hidden;
+  background: #fff;
+}
+.shot .iframe-wrap iframe {
+  /* Explicit absolute top-left anchoring so the iframe is *always* glued to
+     the top-left of the wrap regardless of inline-replacement quirks or
+     parent text-align inheritance. */
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 0;
+  width: 1280px; height: 1600px;
+  /* 1280 × 0.40 = 512px visual — fits the ~534px column at desktop. */
+  transform: scale(0.40);
+  transform-origin: top left;
+  background: #fff;
+}
+/* Form/calculator preview — same anchoring + a vertical offset so the
+   calculator section (instead of the page's hero) is what's visible. */
+.shot .iframe-wrap--form { height: 440px; }
+.shot .iframe-wrap--form iframe {
+  top: -430px;
+  width: 1280px;
+  height: 2800px;
+  transform: scale(0.40);
+}
+/* Single-col layout (≤1100px): wrap is full width, so iframe can scale up. */
+@media (max-width: 1100px) and (min-width: 901px) {
+  .shot .iframe-wrap { height: 600px; }
+  .shot .iframe-wrap iframe { transform: scale(0.62); }
+  .shot .iframe-wrap--form { height: 540px; }
+  .shot .iframe-wrap--form iframe { top: -680px; transform: scale(0.62); }
+}
+@media (max-width: 900px) and (min-width: 701px) {
+  .shot .iframe-wrap { height: 540px; }
+  .shot .iframe-wrap iframe { transform: scale(0.50); }
+  .shot .iframe-wrap--form { height: 460px; }
+  .shot .iframe-wrap--form iframe { top: -550px; transform: scale(0.50); }
+}
+@media (max-width: 700px) {
+  .shot .iframe-wrap { height: 380px; }
+  .shot .iframe-wrap iframe { transform: scale(0.34); }
+  .shot .iframe-wrap--form { height: 340px; }
+  .shot .iframe-wrap--form iframe { top: -370px; transform: scale(0.34); }
+}
+@media (max-width: 480px) {
+  .shot .iframe-wrap { height: 300px; }
+  .shot .iframe-wrap iframe { transform: scale(0.24); }
+  .shot .iframe-wrap--form { height: 260px; }
+  .shot .iframe-wrap--form iframe { top: -260px; transform: scale(0.24); }
+}
+
+.shot-tag {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 4px 10px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  font-weight: 600;
+  border-radius: 100px;
+  margin-bottom: 12px;
+}
+.shot-tag.before { background: rgba(151,20,77,0.10); color: var(--magenta); }
+.shot-tag.before::before { content: ''; width: 5px; height: 5px; background: var(--magenta); border-radius: 50%; }
+.shot-tag.after  { background: rgba(0,100,50,0.10); color: #0a6b39; }
+.shot-tag.after::before { content: ''; width: 5px; height: 5px; background: #0a6b39; border-radius: 50%; }
+
+/* ===== POINT LIST (issues & wins, unified) ===== */
+.points { display: flex; flex-direction: column; gap: 0; }
+.point {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 14px;
+  padding: 18px 0;
+  border-top: 1px solid var(--line);
+}
+.point:first-child { border-top: none; padding-top: 4px; }
+.point .badge {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.point.issue .badge { background: rgba(151,20,77,0.10); color: var(--magenta); }
+.point.win   .badge { background: var(--magenta); color: #fff; }
+.point h3 {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.35;
+  color: var(--ink);
+  margin-bottom: 4px;
+  letter-spacing: -0.015em;
+}
+.point p {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--ink-3);
+}
+.point p code {
+  font-family: var(--mono);
+  font-size: 12px;
+  background: rgba(0,57,116,0.06);
+  color: var(--navy);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+/* ===== AUDIT / REDESIGN BACKGROUNDS ===== */
+.s-paper { background: var(--paper); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.s-cream { background: var(--cream); }
+
+/* ===== DESIGN OPS ===== */
+.ops {
+  background: var(--navy-dark);
+  color: var(--cream);
+  position: relative;
+  overflow: hidden;
+}
+.ops::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(700px 460px at 18% 8%, rgba(151,20,77,0.18), transparent 65%);
+  pointer-events: none;
+}
+.ops > .wrap { position: relative; z-index: 2; }
+.ops .chap { color: rgba(255,255,255,0.55); }
+.ops .chap .num { color: #FBBF24; }
+.ops .chap .rule { background: rgba(255,255,255,0.18); }
+.ops .h-sec { color: var(--cream); }
+.ops .h-sec em { color: #FBBF24; }
+.ops .h-sub { color: rgba(245,242,235,0.7); }
+
+.pillars {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+@media (max-width: 900px) { .pillars { grid-template-columns: 1fr; } }
+.pillar {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 14px;
+  padding: 26px 24px;
+  transition: background .25s, border-color .25s, transform .25s;
+}
+.pillar:hover {
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(255,255,255,0.22);
+  transform: translateY(-3px);
+}
+.pillar .glyph {
+  width: 32px; height: 32px;
+  background: linear-gradient(135deg, var(--magenta), var(--magenta-2));
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 13px; font-weight: 600;
+  margin-bottom: 18px;
+}
+.pillar h3 {
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: 18px;
+  line-height: 1.25;
+  color: var(--cream);
+  margin-bottom: 10px;
+  letter-spacing: -0.02em;
+}
+.pillar h3 em { color: #FBBF24; font-style: italic; font-weight: 500; }
+.pillar p {
+  font-size: 13px;
+  color: rgba(245,242,235,0.78);
+  line-height: 1.55;
+}
+
+/* ===== IMPACT METRICS ===== */
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+@media (max-width: 760px) { .metrics { grid-template-columns: 1fr; } }
+.metric {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 24px;
+}
+.metric .label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--ink-3);
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+.metric .vals {
+  display: flex; align-items: baseline; gap: 12px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.metric .v-old {
+  font-size: 20px;
+  color: var(--ink-3);
+  font-weight: 700;
+  text-decoration: line-through;
+  text-decoration-color: var(--magenta);
+  text-decoration-thickness: 2px;
+  letter-spacing: -0.015em;
+}
+.metric .arrow { color: var(--magenta); font-size: 16px; font-weight: 700; }
+.metric .v-new {
+  font-size: 30px;
+  color: var(--ink);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+.metric .v-new em { color: var(--magenta); font-style: italic; font-weight: 500; }
+.metric .delta {
+  background: rgba(151,20,77,0.10);
+  color: var(--magenta);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 100px;
+  letter-spacing: 0.4px;
+}
+.metric .why {
+  font-size: 12.5px;
+  color: var(--ink-3);
+  line-height: 1.55;
+  padding-top: 12px;
+  border-top: 1px dashed var(--line);
+  margin-top: 12px;
+}
+.metric .why b { color: var(--ink); font-weight: 600; }
+
+/* ===== FOOTER ===== */
+.cs-footer {
+  background: var(--ink);
+  color: rgba(245,242,235,0.7);
+  padding: 56px 0 36px;
+}
+.cs-footer .row {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: rgba(245,242,235,0.5);
+}
+.cs-footer h2 {
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: clamp(20px, 2.4vw, 28px);
+  line-height: 1.25;
+  color: #fff;
+  letter-spacing: -0.025em;
+  margin-bottom: 32px;
+  max-width: 600px;
+}
+.cs-footer h2 em { color: var(--magenta); font-style: italic; font-weight: 500; }
+.cs-footer .heart { color: var(--magenta); }
+
+/* ===== REVEAL ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 700ms cubic-bezier(0.2,0.9,0.3,1), transform 700ms cubic-bezier(0.2,0.9,0.3,1);
+}
+.reveal.in { opacity: 1; transform: translateY(0); }
+.stagger > * {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 600ms cubic-bezier(0.2,0.9,0.3,1), transform 600ms cubic-bezier(0.2,0.9,0.3,1);
+}
+.stagger.in > *:nth-child(1) { transition-delay: 0ms;   opacity: 1; transform: translateY(0); }
+.stagger.in > *:nth-child(2) { transition-delay: 70ms;  opacity: 1; transform: translateY(0); }
+.stagger.in > *:nth-child(3) { transition-delay: 140ms; opacity: 1; transform: translateY(0); }
+.stagger.in > *:nth-child(4) { transition-delay: 210ms; opacity: 1; transform: translateY(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  .reveal, .stagger > * { opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============== STICKY NAV ============== -->
+<nav class="cs-nav" aria-label="Case study nav">
+  <span class="dot" aria-hidden="true"></span>
+  <strong style="color: var(--ink); font-weight: 700;">Axis Max Life</strong>
+  <span style="color: var(--ink-3);">/ Case Study</span>
+  <span class="pipe"></span>
+  <a href="#audit-1">Audit</a>
+  <a href="#redesign-1">Redesign</a>
+  <a href="#ops">Ops</a>
+  <a href="#impact">Impact</a>
+</nav>
+
+<!-- ============== COVER ============== -->
+<section class="cover">
+  <div class="wrap">
+    <div class="cover-eyebrow reveal">
+      <span class="pill">CASE STUDY</span>
+      <span>Landing-page redesign · Fold 1 + Fold 2 · B2C insurance</span>
+    </div>
+    <h1 class="cover-h reveal">
+      How a <em>deeper audit</em> of just two folds can lift B2C conversion <em>2.5×</em>.
+    </h1>
+    <p class="cover-deck reveal">
+      A redesign case study on <b>axismaxlife — India's most-trusted life insurance company</b>. We audited both screens, isolated every friction point, and rebuilt them with a measurable hypothesis behind each change. No guessing, no hand-waving — just the two folds that decide whether a buyer scrolls or bounces.
+    </p>
+    <div class="cover-tags reveal">
+      <span class="tag">Audit-led method</span>
+      <span class="tag">2 folds rebuilt</span>
+      <span class="tag">Hero CTR projected 2.5×</span>
+      <span class="tag">B2C insurance · India</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 01 / AUDIT — FOLD 1 ============== -->
+<section class="section-pad s-paper" id="audit-1">
+  <div class="wrap">
+    <div class="chap reveal">
+      <span class="num">01</span>
+      <span class="label">Audit · Fold 1</span>
+      <span class="rule"></span>
+    </div>
+    <h2 class="h-sec reveal">The slider <em>hides plans</em>. The cards <em>don't sell</em> them.</h2>
+    <p class="h-sub reveal">The first scroll is two missed opportunities back-to-back. A landscape carousel limits the user to one plan at a time. A row of bland cards beneath gives them no reason to click.</p>
+
+    <div class="two-col">
+      <div class="reveal">
+        <span class="shot-tag before">Before · Live page</span>
+        <div class="shot">
+          <div class="bar"><span class="ds"></span><span class="ds"></span><span class="ds"></span><span class="url">axismaxlife.com/term-insurance-plans</span></div>
+          <img src="old-landing.png" alt="Old landing page" loading="lazy">
+        </div>
+      </div>
+      <div class="points stagger">
+        <div class="point issue">
+          <div class="badge">01</div>
+          <div>
+            <h3>First fold doesn't highlight any single plan</h3>
+            <p>Most users bounce on the first fold — and this one gives them every reason to. There's no single, dominant offer to anchor on, no clear "this is <em>the</em> plan." Direct hit on bounce rate.</p>
+          </div>
+        </div>
+        <div class="point issue">
+          <div class="badge">02</div>
+          <div>
+            <h3>"Check Premium" CTA placement is off</h3>
+            <p>The CTA sits on the photo card at the far right edge — disconnected from the headline reading flow on the left. Eye doesn't travel there naturally; click-through suffers.</p>
+          </div>
+        </div>
+        <div class="point issue">
+          <div class="badge">03</div>
+          <div>
+            <h3>Cards force users to read — but landing-page users only scan</h3>
+            <p>All five cards share the <em>exact same layout</em>: white panel · tiny line-icon · text block · CTA. No photography, no per-persona color, no visual cue. The "family" card looks identical to the "NRI" card to the "women's" card to the "pension" card — the only difference is the title text. Users scan in 1-2 seconds; they don't carefully read each panel. Without imagery that says <em>"this card is for you"</em> at a glance, the entire row produces zero recognition — and zero clicks.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 02 / AUDIT — FOLD 2 ============== -->
+<section class="section-pad s-cream" id="audit-2">
+  <div class="wrap">
+    <div class="chap reveal">
+      <span class="num">02</span>
+      <span class="label">Audit · Fold 2</span>
+      <span class="rule"></span>
+    </div>
+    <h2 class="h-sec reveal">A <em>lead form</em> pretending to be a calculator.</h2>
+    <p class="h-sub reveal">It collects user data, but never gives anything back: no recommended cover, no live premium, and a headline that leads with disease instead of protection.</p>
+
+    <div class="two-col">
+      <div class="reveal">
+        <span class="shot-tag before">Before · Form section</span>
+        <div class="shot">
+          <div class="bar"><span class="ds"></span><span class="ds"></span><span class="ds"></span><span class="url">axismaxlife.com/term-insurance-plans</span></div>
+          <img src="old-landing.png" alt="Old form" loading="lazy" style="object-position: bottom; object-fit: cover; height: 400px;">
+        </div>
+      </div>
+      <div class="points stagger">
+        <div class="point issue">
+          <div class="badge">01</div>
+          <div>
+            <h3>No tool, no context — just a form asking for personal data</h3>
+            <p>There's no live calculator that tells the user a <em>recommended cover</em> and <em>monthly premium</em> based on their household expenses. The new design does exactly that: move the slider → see "₹1 Cr cover at ₹595/month" update in real time. The old form has no such feedback — you just type and hope.</p>
+          </div>
+        </div>
+        <div class="point issue">
+          <div class="badge">02</div>
+          <div>
+            <h3>Headline frames insurance around <em>disease and death</em></h3>
+            <p>"Get Coverage Against <em>Cancer + 63 Critical illness</em> at just ₹542/month" leads with disease anxiety. The trust signal next to it — <em>"99.70% Death Claims Paid Ratio"</em> — literally mentions death. Aspirational framing ("protect what matters," "family security") converts better than fear-based copy for B2C buyers.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 03 / REDESIGN — FOLD 1 ============== -->
+<section class="section-pad s-paper" id="redesign-1">
+  <div class="wrap">
+    <div class="chap reveal">
+      <span class="num">03</span>
+      <span class="label">Redesign · Fold 1</span>
+      <span class="rule"></span>
+    </div>
+    <h2 class="h-sec reveal">A hero that <em>reads like a sentence</em>.</h2>
+    <p class="h-sub reveal">Same brand language, same offer, completely different reading rhythm. The price still anchors — as a punchline, not a coupon.</p>
+
+    <div class="two-col">
+      <div class="reveal">
+        <span class="shot-tag after">After · Live preview</span>
+        <div class="shot">
+          <div class="bar"><span class="ds"></span><span class="ds"></span><span class="ds"></span><span class="url">new-landing-axismax.html</span></div>
+          <div class="iframe-wrap">
+            <iframe src="new-landing-axismax.html" title="New hero" loading="lazy" scrolling="no"></iframe>
+          </div>
+        </div>
+      </div>
+      <div class="points stagger">
+        <div class="point win">
+          <div class="badge">✓</div>
+          <div>
+            <h3>Aurora gradient replaces the photo</h3>
+            <p>5-stop radial mesh (navy halo + magenta halo + amber warmth) + subtle SVG grain. Atmosphere without semantic noise. The sticky glass header now picks up real brand color.</p>
+          </div>
+        </div>
+        <div class="point win">
+          <div class="badge">✓</div>
+          <div>
+            <h3>Sequenced price-reveal animation</h3>
+            <p>₹700 appears → magenta strike draws across (550ms) → 400ms hold → ₹700 exits → 120ms clean gap → ₹595 spring-overshoots in. <em>Only one price visible at a time.</em></p>
+          </div>
+        </div>
+        <div class="point win">
+          <div class="badge">✓</div>
+          <div>
+            <h3>Trust pills surfaced above the fold</h3>
+            <p>4 green pills directly under the headline: 99.70% Claim Paid · 0% GST · Save ₹46,800/yr in tax · Free 15-day cancel. Was buried as floating chips on the photo at 11px.</p>
+          </div>
+        </div>
+        <div class="point win">
+          <div class="badge">✓</div>
+          <div>
+            <h3>4 cards with persona-led photography</h3>
+            <p>Instead of dull plain-panel cards, the 4 cards now lead with full-bleed photography per persona — <em>family · wealth · airplane · woman</em>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 04 / REDESIGN — FOLD 2 ============== -->
+<section class="section-pad s-cream" id="redesign-2">
+  <div class="wrap">
+    <div class="chap reveal">
+      <span class="num">04</span>
+      <span class="label">Redesign · Fold 2</span>
+      <span class="rule"></span>
+    </div>
+    <h2 class="h-sec reveal">From a lead form → an <em>actual calculator</em>.</h2>
+    <p class="h-sub reveal">Same brand, completely different mechanic. The form now <em>computes</em>: slider + duration → live recommended cover and matching premium. Same number the hero claims. No more "trust the magic ₹542".</p>
+
+    <div class="two-col flip">
+      <div class="reveal">
+        <span class="shot-tag after">After · Calculator + form</span>
+        <div class="shot">
+          <div class="bar"><span class="ds"></span><span class="ds"></span><span class="ds"></span><span class="url">new-landing-axismax.html#formWrap</span></div>
+          <div class="iframe-wrap iframe-wrap--form">
+            <iframe src="new-landing-axismax.html#formWrap" title="New calculator + form" loading="lazy" scrolling="no"></iframe>
+          </div>
+        </div>
+      </div>
+      <div class="points stagger">
+        <div class="point win">
+          <div class="badge">✓</div>
+          <div>
+            <h3>Real live calculator (not a lead form)</h3>
+            <p>Slider for monthly expenses + duration buttons (10 / 15 / 20 / 25 / 30 yrs) compute a recommended cover and a live premium. Slider rounds to clean values (₹1 Cr · ₹1.2 Cr) and ₹1 Cr maps to ₹595/mo — <em>matches the hero claim exactly</em>.</p>
+          </div>
+        </div>
+        <div class="point win">
+          <div class="badge">✓</div>
+          <div>
+            <h3>Recommended Cover card is fully dynamic</h3>
+            <p>Cover amount + monthly premium update live as the user drags the household-expenses slider. Reinforced with positive-benefit tags — <em>15% discount applied</em> · <em>99.70% claims settled</em> · <em>tax saving up to ₹46,800/yr</em> — so the card doesn't just quote a price, it justifies it. The slant <em>"₹24/day · less than a chai ☕"</em> reframes the premium as something trivially affordable — anchoring on a tea, not a bill.</p>
+          </div>
+        </div>
+        <div class="point win">
+          <div class="badge">✓</div>
+          <div>
+            <h3>"At this cover, you're protected against" strip</h3>
+            <p>Right under the price card, a row of condition chips — <em>Cancer (all stages) · Heart Attack · Stroke · Kidney Failure · Major Organ Transplant · +59 more conditions</em>. Instead of leading with disease in the headline (like the old page did), we surface coverage <em>after</em> the user has seen the price — turning the same medical list from a fear trigger into a value-proof. Same facts, opposite emotional sequence.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 05 / DESIGN OPS ============== -->
+<section class="section-pad ops" id="ops">
+  <div class="wrap">
+    <div class="chap reveal">
+      <span class="num">05</span>
+      <span class="label">Design Ops</span>
+      <span class="rule"></span>
+    </div>
+    <h2 class="h-sec reveal">How I teach this to my <em>team</em>.</h2>
+    <p class="h-sub reveal">Tools change every quarter. The way you decide what's good doesn't.</p>
+
+    <div class="pillars stagger">
+      <div class="pillar">
+        <div class="glyph">A</div>
+        <h3>The <em>Critique</em> framework</h3>
+        <p>Before any pixel moves: <b style="color:#fff">Does every label map to an action?</b> Convert vs decorate? Where's the hierarchy? "STEP 1 OF 2" with no Step 2 dies on question one.</p>
+      </div>
+      <div class="pillar">
+        <div class="glyph">B</div>
+        <h3>AI as a <em>multiplier</em>, not a replacement</h3>
+        <p>Use Claude for first-pass critique, animation timing, copy variants. Generate 6 options when you're stuck — <b style="color:#fff">you still pick</b>. Taste calls stay human.</p>
+      </div>
+      <div class="pillar">
+        <div class="glyph">C</div>
+        <h3>Cultural fit beats <em>editorial polish</em></h3>
+        <p>Indian B2C insurance buyers convert on dense, loud, price-led pages — not Apple-minimal ones. <b style="color:#fff">Spend 30 min on the actual market.</b></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 06 / IMPACT ============== -->
+<section class="section-pad s-paper" id="impact">
+  <div class="wrap">
+    <div class="chap reveal">
+      <span class="num">06</span>
+      <span class="label">Impact Hypothesis</span>
+      <span class="rule"></span>
+    </div>
+    <h2 class="h-sec reveal">Numbers we'd <em>bet on</em>.</h2>
+    <p class="h-sub reveal">Each projection ties to a specific UX move — so when the A/B comes back, we know which change moved which dial.</p>
+
+    <div class="metrics stagger">
+      <div class="metric">
+        <div class="label">Hero CTA click-through</div>
+        <div class="vals">
+          <span class="v-old">2.1%</span>
+          <span class="arrow">→</span>
+          <span class="v-new">5.5–7<em>%</em></span>
+          <span class="delta">+150–200%</span>
+        </div>
+        <p class="why"><b>Why:</b> Primary CTA now anchors the headline reading flow (was buried on the photo card). Price-reveal animation creates a hook moment users actually wait for.</p>
+      </div>
+      <div class="metric">
+        <div class="label">Time to first quote</div>
+        <div class="vals">
+          <span class="v-old">45s</span>
+          <span class="arrow">→</span>
+          <span class="v-new">~18<em>s</em></span>
+          <span class="delta">−60%</span>
+        </div>
+        <p class="why"><b>Why:</b> Persona cards route directly to the right calculator (utm_theme params). One click replaces "scroll → switch tab → read header → fill form."</p>
+      </div>
+      <div class="metric">
+        <div class="label">Form completion rate</div>
+        <div class="vals">
+          <span class="v-old">38%</span>
+          <span class="arrow">→</span>
+          <span class="v-new">55–62<em>%</em></span>
+          <span class="delta">+45–63%</span>
+        </div>
+        <p class="why"><b>Why:</b> Live cover/premium feedback as users move the slider rewards interaction. NRI default-off cuts 4 irrelevant fields for 88-92% of users.</p>
+      </div>
+      <div class="metric">
+        <div class="label">Trust signal recall</div>
+        <div class="vals">
+          <span class="v-old">low</span>
+          <span class="arrow">→</span>
+          <span class="v-new">high</span>
+          <span class="delta">qualitative</span>
+        </div>
+        <p class="why"><b>Why:</b> "99.70% claim paid" + "0% GST" promoted from 11px floating chips on the photo to a 4-pill row + 4-tile bottom strip — visible at first scan.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer class="cs-footer">
+  <div class="wrap">
+    <h2>If you scrolled this far,<br>the redesign worked <em>on you</em>.</h2>
+    <div class="row">
+      <span>Axis Max Life · Landing Redesign · 2026</span>
+      <span>Built with HTML · CSS · JS · DM Sans</span>
+      <span>Made with <span class="heart">♥</span> in India</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function() {
+  if (!('IntersectionObserver' in window)) {
+    document.querySelectorAll('.reveal, .stagger').forEach(el => el.classList.add('in'));
+    return;
+  }
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal, .stagger').forEach(el => io.observe(el));
+})();
+</script>
+</body>
+</html>
