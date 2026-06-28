@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LendSmart Autopay Redesign — UX Case Study</title>
+<meta name="description" content="Case study: Redesigning LendSmart's Autopay payment experience to eliminate user confusion and double-payment anxiety." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1B1D3D;
+    --navy-light: #2A2D52;
+    --teal: #3CDCD6;
+    --page-bg: #F7F8FB;
+    --surface: #FFFFFF;
+    --border: #E5E7EB;
+    --text: #1B1D3D;
+    --text-2: #6B7280;
+    --text-3: #9CA3AF;
+    --red: #EF4444;
+    --red-bg: #FEF2F2;
+    --amber: #F59E0B;
+    --amber-bg: #FFFBEB;
+    --green: #10B981;
+    --green-bg: #ECFDF5;
+    --blue: #3B82F6;
+    --blue-bg: #EFF6FF;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', system-ui, sans-serif; background: var(--page-bg); color: var(--text); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+  /* NAV */
+  .nav { position: sticky; top: 0; z-index: 100; background: rgba(27,29,61,0.97); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(60,220,214,0.15); }
+  .nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+  .nav-brand { color: #fff; font-weight: 700; font-size: 15px; display: flex; align-items: center; gap: 8px; text-decoration: none; }
+  .nav-brand span { background: linear-gradient(135deg, var(--teal), #1B71F0); width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; }
+  .nav-links { display: flex; gap: 4px; list-style: none; }
+  .nav-links a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 13px; font-weight: 500; padding: 6px 14px; border-radius: 99px; transition: all 0.2s; }
+  .nav-links a:hover { color: #fff; background: rgba(60,220,214,0.12); }
+  .nav-cta { background: linear-gradient(135deg, var(--teal), #1B71F0) !important; color: var(--navy) !important; font-weight: 600 !important; }
+  @media(max-width:768px){ .nav-links { display: none; } }
+
+  /* LAYOUT */
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+  .section { padding: 72px 0; }
+  .section-alt { background: var(--surface); }
+  .section-dark { background: var(--navy); color: #fff; }
+  hr.divider { border: none; height: 1px; background: var(--border); margin: 0; }
+
+  /* HERO */
+  .hero { background: linear-gradient(135deg, #1B1D3D, #2A2D52 60%, #1B1D3D); padding: 120px 0 80px; position: relative; overflow: hidden; }
+  .hero::after { content:''; position: absolute; top: -200px; right: -150px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(60,220,214,0.07), transparent 70%); pointer-events: none; }
+  .hero-eyebrow { display: inline-flex; align-items: center; gap: 6px; background: rgba(60,220,214,0.1); border: 1px solid rgba(60,220,214,0.2); color: var(--teal); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; padding: 6px 16px; border-radius: 99px; margin-bottom: 24px; }
+  .hero h1 { color: #fff; font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 800; line-height: 1.2; letter-spacing: -1px; max-width: 650px; }
+  .hero h1 em { font-style: normal; background: linear-gradient(135deg, var(--teal), #1B71F0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .hero p { color: rgba(255,255,255,0.55); font-size: 16px; max-width: 560px; margin-top: 16px; }
+  .hero-meta { display: flex; flex-wrap: wrap; gap: 32px; margin-top: 36px; }
+  .hero-meta dt { color: rgba(255,255,255,0.3); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+  .hero-meta dd { color: #fff; font-size: 14px; font-weight: 600; margin: 2px 0 0; }
+
+  /* STATS */
+  .stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); border-radius: 14px; overflow: hidden; box-shadow: 0 8px 30px rgba(27,29,61,0.12); margin-top: -44px; position: relative; z-index: 10; }
+  .stat { background: #fff; padding: 28px; text-align: center; }
+  .stat b { display: block; font-size: 32px; font-weight: 800; letter-spacing: -1px; }
+  .stat span { font-size: 13px; color: var(--text-2); }
+  @media(max-width:600px){ .stats { grid-template-columns: repeat(2,1fr); } }
+
+  /* EYEBROW */
+  .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; }
+  .eyebrow::before { content:''; width: 20px; height: 2px; border-radius: 1px; }
+  .ey-red { color: var(--red); } .ey-red::before { background: var(--red); }
+  .ey-green { color: var(--green); } .ey-green::before { background: var(--green); }
+  .ey-blue { color: var(--blue); } .ey-blue::before { background: var(--blue); }
+  .ey-teal { color: #0d9488; } .ey-teal::before { background: var(--teal); }
+  .ey-amber { color: var(--amber); } .ey-amber::before { background: var(--amber); }
+
+  h2.sec-title { font-size: clamp(1.6rem, 3vw, 2.1rem); font-weight: 800; letter-spacing: -0.6px; line-height: 1.25; margin-bottom: 12px; }
+  .sec-desc { font-size: 15px; color: var(--text-2); max-width: 600px; line-height: 1.7; margin-bottom: 40px; }
+
+  /* QUOTE */
+  .quote { border-left: 4px solid var(--teal); padding: 16px 24px; background: rgba(60,220,214,0.04); border-radius: 0 10px 10px 0; font-size: 15px; color: var(--navy); font-weight: 500; margin: 24px 0 32px; max-width: 760px; }
+
+  /* ===== BEFORE / AFTER BLOCKS ===== */
+  .ba-section { margin-bottom: 64px; }
+  .ba-label { display: inline-flex; overflow: hidden; border-radius: 99px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .ba-label .before { padding: 5px 14px; background: var(--red-bg); color: var(--red); }
+  .ba-label .after { padding: 5px 14px; background: var(--green-bg); color: var(--green); }
+  .ba-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+  @media(max-width:800px){ .ba-grid { grid-template-columns: 1fr; } }
+
+  .ba-card { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--surface); }
+  .ba-card-head { padding: 14px 20px; font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--border); }
+  .ba-card-head.old { background: var(--red-bg); color: var(--red); }
+  .ba-card-head.new { background: var(--green-bg); color: var(--green); }
+  .ba-card-body { padding: 0; }
+  
+  .old-screenshot { width: 100%; border-bottom: 1px solid var(--border); display: block; }
+
+  /* Mini UI mockups */
+  .mock { font-family: 'Inter', sans-serif; font-size: 12px; color: var(--text); background: #F9FAFB; }
+  .mock-nav { background: var(--navy); height: 36px; display: flex; align-items: center; padding: 0 14px; }
+  .mock-nav span { color: #fff; font-size: 11px; font-weight: 600; }
+  .mock-body { padding: 16px; }
+
+  /* Callouts on mockups */
+  .callout { margin-top: 14px; padding: 10px 14px; border-radius: 8px; font-size: 12px; line-height: 1.55; }
+  .callout-red { background: var(--red-bg); color: #B91C1C; border-left: 3px solid var(--red); }
+  .callout-green { background: var(--green-bg); color: #065F46; border-left: 3px solid var(--green); }
+  .callout b { font-weight: 700; }
+
+  /* Loan card mockup */
+  .m-loan-card { border: 1px solid #E5E7EB; border-radius: 10px; background: #fff; padding: 14px; }
+  .m-loan-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid #F0F1F4; }
+  .m-loan-id { font-weight: 700; font-size: 13px; }
+  .m-badge { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 99px; }
+  .m-badge-blue { background: var(--blue-bg); color: var(--blue); }
+  .m-row { display: flex; gap: 16px; margin-bottom: 10px; }
+  .m-stat { flex: 1; }
+  .m-stat-label { font-size: 10px; color: var(--text-3); font-weight: 500; text-transform: uppercase; }
+  .m-stat-val { font-size: 13px; font-weight: 700; margin-top: 2px; }
+  .m-btn { display: inline-block; background: var(--navy); color: #fff; font-size: 11px; font-weight: 600; padding: 7px 16px; border-radius: 6px; }
+  .m-autopay-new { margin-top: 10px; padding: 10px 12px; border-radius: 8px; background: var(--green-bg); display: flex; align-items: center; gap: 8px; font-size: 11px; }
+  .m-autopay-new b { color: var(--green); }
+
+  /* Intent card mockup */
+  .m-intent { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border: 1px solid #E5E7EB; border-radius: 10px; margin-bottom: 8px; }
+  .m-intent.selected { border-color: var(--navy); background: #FAFBFF; }
+  .m-intent-icon { width: 32px; height: 32px; border-radius: 8px; background: rgba(27,29,61,0.05); display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+  .m-intent-text b { display: block; font-size: 12px; font-weight: 700; }
+  .m-intent-text span { font-size: 10px; color: var(--text-2); line-height: 1.4; }
+
+  /* Impact box mock */
+  .m-impact { padding: 10px 12px; border-left: 3px solid var(--green); background: var(--green-bg); border-radius: 0 8px 8px 0; margin-top: 10px; font-size: 10px; color: #065F46; }
+  .m-impact b { font-weight: 700; display: block; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
+  .m-impact-blue { border-left-color: var(--blue); background: var(--blue-bg); color: #1E40AF; }
+
+  /* Confirmation mockup */
+  .m-confirm-row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 12px; border-bottom: 1px solid #F0F1F4; }
+  .m-confirm-row:last-child { border-bottom: none; }
+  .m-confirm-row .label { color: var(--text-2); }
+  .m-confirm-row .val { font-weight: 600; }
+
+  /* Success mockup */
+  .m-success { text-align: center; padding: 20px; }
+  .m-success-check { width: 40px; height: 40px; border-radius: 50%; background: var(--blue-bg); display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-size: 18px; }
+  .m-success h4 { font-size: 13px; font-weight: 700; }
+  .m-success .amount { font-size: 22px; font-weight: 800; color: var(--blue); margin: 6px 0; }
+  .m-success .meta { font-size: 10px; color: var(--text-2); }
+  .m-pill { display: inline-block; font-size: 10px; font-weight: 600; padding: 3px 10px; border-radius: 99px; margin-top: 8px; }
+  .m-pill-green { background: var(--green-bg); color: var(--green); }
+  .m-pill-blue { background: var(--blue-bg); color: var(--blue); }
+
+  /* Decision cards */
+  .dec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media(max-width:768px){ .dec-grid { grid-template-columns: 1fr; } }
+  .dec-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.2s; }
+  .dec-card:hover { box-shadow: 0 4px 16px rgba(27,29,61,0.08); border-color: var(--teal); }
+  .dec-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .dec-card p { font-size: 13px; color: var(--text-2); line-height: 1.65; }
+  .dec-tradeoff { margin-top: 12px; padding-top: 12px; border-top: 1px solid #F0F1F4; font-size: 12px; font-style: italic; color: var(--text-2); }
+  .dec-tradeoff strong { font-style: normal; color: var(--text-3); font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 3px; }
+
+  /* Principles */
+  .prin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 32px; }
+  .prin-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 24px; }
+  .prin-card:hover { border-color: rgba(60,220,214,0.3); }
+  .prin-card .num { font-size: 28px; font-weight: 800; background: linear-gradient(135deg, var(--teal), #1B71F0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; margin-bottom: 10px; }
+  .prin-card h4 { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+  .prin-card p { font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+  /* Footer */
+  .footer { background: var(--navy); padding: 36px 0 28px; border-top: 1px solid rgba(60,220,214,0.15); }
+  .footer-inner { display: flex; align-items: center; justify-content: space-between; }
+  .footer-text { color: rgba(255,255,255,0.35); font-size: 12px; }
+  .footer-brand { color: var(--teal); font-weight: 700; font-size: 14px; }
+
+  /* Animations */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  .ba-arrow { display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--text-3); padding: 10px 0; }
+  @media(min-width:801px){ .ba-arrow { display: none; } }
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-brand">
+      <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 18V14M9 18V10M14 18V6M19 18V12" stroke="#1B1D3D" stroke-width="2.6" stroke-linecap="round"/></svg></span>
+      LendSmart — Case Study
+    </a>
+    <ul class="nav-links">
+      <li><a href="#dashboard-fix">Dashboard</a></li>
+      <li><a href="#intent-fix">Intent</a></li>
+      <li><a href="#confirm-fix">Confirmation</a></li>
+      <li><a href="LendSmart_Autopay_Redesign_Prototype.html" class="nav-cta" target="_blank">View Prototype →</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-eyebrow">⚡ UX Case Study</div>
+    <h1>Redesigning the <em>Autopay</em> Payment Experience</h1>
+    <p>How we eliminated a surprise decision modal, surfaced Autopay context from the very first screen, and gave users confidence and control over their payments.</p>
+    <dl class="hero-meta">
+      <div><dt>Product</dt><dd>LendSmart Self-Service Portal</dd></div>
+      <div><dt>Feature</dt><dd>Autopay + Manual Payment</dd></div>
+      <div><dt>Role</dt><dd>Principal UX Designer</dd></div>
+    </dl>
+  </div>
+</header>
+
+
+
+
+<!-- 1. FIX #1 — DASHBOARD                        -->
+<!-- ════════════════════════════════════════════ -->
+<section class="section section-alt" id="dashboard-fix">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="eyebrow ey-green">Fix #1 — Dashboard</span>
+      <h2 class="sec-title">Make Autopay Visible Before Users Enter the Flow</h2>
+      <p class="sec-desc">The original dashboard buried Autopay as tiny secondary text. Users clicked "Make Payments" without knowing a payment was already scheduled. The redesign surfaces everything upfront.</p>
+    </div>
+
+    <div class="ba-label"><span class="before">Before</span><span class="after">After</span></div>
+
+    <div class="ba-grid reveal">
+      <!-- OLD Dashboard -->
+      <div class="ba-card">
+        <div class="ba-card-head old">✕ Original Dashboard</div>
+        <img src="./Image%20assets-20260627T063043Z-3-001/Image%20assets/Active%20Loan%20Account.png" class="old-screenshot" alt="Old Dashboard" />
+        <div class="ba-card-body">
+          <div class="mock">
+            <div class="mock-body" style="padding-top:0;">
+              <div class="callout callout-red">
+                <b>Problems:</b><br>
+                • Generic "Make Payments" CTA gives no hint about scheduled payments.<br>
+                • "Autopay: On" is tiny, missable text.<br>
+                • Missing context: next scheduled amount or date is invisible.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ba-arrow">↓</div>
+
+      <!-- NEW Dashboard -->
+      <div class="ba-card">
+        <div class="ba-card-head new">✓ Redesigned Dashboard</div>
+        <div class="ba-card-body">
+          <div class="mock">
+            <div class="mock-nav"><span>LOGO</span></div>
+            <div class="mock-body">
+              <div class="m-loan-card">
+                <div class="m-loan-header" style="border-bottom:none; padding-bottom:0;">
+                  <div style="display:flex; align-items:center; gap:8px;">
+                    <span class="m-loan-id" style="font-size:14px;">#LN232456</span>
+                    <span class="m-badge m-badge-blue" style="background:#EEF2FF; color:#1B71F0;">Active</span>
+                  </div>
+                  <span style="color:#1B71F0; font-size:11px; font-weight:600;">Loan Documents</span>
+                </div>
+                
+                <div class="m-row" style="margin-top:16px; padding-top:16px; border-top:1px solid #F0F1F4;">
+                  <div class="m-stat"><div class="m-stat-label" style="text-transform:none;">Loan Amount</div><div class="m-stat-val" style="font-size:14px;">$5,000.00</div></div>
+                  <div class="m-stat" style="border-left:1px solid #F0F1F4; padding-left:14px;"><div class="m-stat-label" style="text-transform:none;">Outstanding Balance</div><div class="m-stat-val" style="font-size:14px;">$1,286.00</div></div>
+                  <div class="m-stat" style="border-left:1px solid #F0F1F4; padding-left:14px;"><div class="m-stat-label" style="text-transform:none;">Balance Term</div><div class="m-stat-val" style="font-size:14px;">5 Months</div><div style="font-size:9px; color:var(--text-3); margin-top:2px;">of 11 Months</div></div>
+                </div>
+                
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-top:20px;">
+                  <div style="display:flex; align-items:center; gap:10px;">
+                    <div style="width:32px; height:32px; border-radius:50%; background:var(--green-bg); color:var(--green); display:flex; align-items:center; justify-content:center; font-size:14px;">⚡</div>
+                    <div>
+                      <div style="font-size:11px; color:var(--navy);">Autopay: <span style="color:var(--green); font-weight:700;">ON</span></div>
+                      <div style="font-size:10px; color:var(--text-2); margin-top:2px;">Next EMI Due <b>$300</b> as on <b>Apr 10, 2025</b></div>
+                    </div>
+                  </div>
+                  <span style="color:#1B71F0; font-size:10px; font-weight:600; display:flex; align-items:center; gap:4px;">⚙️ Manage Autopay</span>
+                </div>
+                
+                <div style="margin-top: 14px;">
+                  <span class="m-btn">Manage This Payment</span>
+                </div>
+              </div>
+              <div class="callout callout-green">
+                <b>What changed:</b><br>
+                • Prominent Autopay status with green ⚡ block.<br>
+                • Next payment amount + date shown inline.<br>
+                • CTA changed from generic "Make Payments" to "Manage This Payment".
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+
+<!-- ════════════════════════════════════════════ -->
+<!-- 2. FIX #2 — INTENT FIRST (Step 1)             -->
+<!-- ════════════════════════════════════════════ -->
+<section class="section" id="intent-fix">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="eyebrow ey-green">Fix #2 — Payment Step 1</span>
+      <h2 class="sec-title">Ask "What Do You Want to Do?" First</h2>
+      <p class="sec-desc">The original flow asked for amount first, intent last. The redesign flips this: users choose their intent upfront.</p>
+    </div>
+
+    <div class="ba-label"><span class="before">Before</span><span class="after">After</span></div>
+
+    <div class="ba-grid reveal">
+      <!-- OLD Step 1 -->
+      <div class="ba-card">
+        <div class="ba-card-head old">✕ Original Step 1</div>
+        <img src="./Image%20assets-20260627T063043Z-3-001/Image%20assets/Select%20Payment%20Options.png" class="old-screenshot" alt="Old Step 1" />
+        <div class="ba-card-body">
+          <div class="mock">
+            <div class="mock-body" style="padding-top:0;">
+              <div class="callout callout-red">
+                <b>Problems:</b><br>
+                • Zero mention of Autopay anywhere on the screen.<br>
+                • User picks an amount without knowing if it duplicates Autopay.<br>
+                • Leads directly to double-payment anxiety.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ba-arrow">↓</div>
+
+      <!-- NEW Step 1 -->
+      <div class="ba-card">
+        <div class="ba-card-head new">✓ Redesigned Step 1</div>
+        <div class="ba-card-body">
+          <div class="mock">
+            <div class="mock-body">
+              <div style="font-size:10px; color:var(--text-3); font-weight:600; margin-bottom:4px;">Step 1 of 3</div>
+              <div style="font-size:15px; font-weight:700; color:var(--navy);">Payment Details</div>
+              <div style="font-size:11px; color:var(--text-2); margin-top:2px;">Your autopay of $300 is scheduled for Apr 10, 2025. Choose how you'd like to handle this payment.</div>
+              
+              <div style="display:flex; gap:4px; margin-top:10px; margin-bottom:16px;">
+                <div style="height:4px; background:var(--green); border-radius:2px; flex:1;"></div>
+                <div style="height:4px; background:#F0F1F4; border-radius:2px; flex:1;"></div>
+                <div style="height:4px; background:#F0F1F4; border-radius:2px; flex:1;"></div>
+              </div>
+
+              <div style="border:1px solid var(--navy); border-radius:10px; background:#fff; margin-bottom:12px; padding:16px;">
+                <div style="display:flex; gap:12px; align-items:flex-start; margin-bottom:20px;">
+                  <div class="m-intent-icon" style="background:#F9FAFB; border:1px solid #E5E7EB; border-radius:50%; width:32px; height:32px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg></div>
+                  <div class="m-intent-text"><b style="font-size:13px; margin-bottom:2px; color:var(--navy);">Extra Payment</b><span style="font-size:11px; color:var(--text-2);">Add an extra amount on top of your scheduled autopay.</span></div>
+                </div>
+
+                <div style="display:flex; gap:16px; flex-wrap:wrap;">
+                  <div style="flex:1; min-width:200px;">
+                    <div style="font-size:11px; font-weight:700; margin-bottom:6px; color:var(--navy);">Extra Amount</div>
+                    <div style="border:1px solid var(--blue); border-radius:6px; padding:8px 12px; font-size:14px; color:var(--text); display:flex; justify-content:space-between; align-items:center;">
+                      <span>$ 500</span>
+                      <div style="display:flex; flex-direction:column; gap:2px; color:var(--text-3);">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg>
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                      </div>
+                    </div>
+                    <div style="font-size:10px; color:var(--text-3); margin-top:6px; line-height:1.4;">Must be dated on or before your next autopay. Accrued interest is paid first, remainder goes to principal.</div>
+                  </div>
+                  
+                  <div style="flex:1; min-width:200px;">
+                    <div style="font-size:11px; font-weight:700; margin-bottom:6px; color:var(--navy);">When should we process this?</div>
+                    <div style="border:1px solid #E5E7EB; border-radius:8px; padding:12px; text-align:center;">
+                      <div style="font-size:12px; font-weight:700; margin-bottom:8px;">April 2025</div>
+                      <div style="display:grid; grid-template-columns:repeat(7,1fr); gap:4px; font-size:10px; color:var(--text-3); margin-bottom:6px;">
+                        <div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div><div>Su</div>
+                      </div>
+                      <div style="display:grid; grid-template-columns:repeat(7,1fr); gap:4px; font-size:11px;">
+                        <div style="color:var(--text);">7</div><div style="color:var(--text);">8</div><div style="color:var(--text);">9</div><div style="background:var(--blue); color:#fff; border-radius:4px; padding:4px 0;">10</div><div style="color:var(--text-3);">11</div><div style="color:var(--text-3);">12</div><div style="color:var(--text-3);">13</div>
+                      </div>
+                      <div style="border-top:1px solid #E5E7EB; margin-top:12px; padding-top:10px; text-align:left; font-size:10px;">
+                        <div style="color:var(--blue); font-weight:600; margin-bottom:4px;">● Payment Date: Apr 10, 2025</div>
+                        <div style="color:var(--text); font-weight:500;">○ Due Date: Apr 10, 2025</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="m-impact" style="margin-top:20px; border-radius:6px; border-left-width:2px; padding:12px 14px;">
+                  <b style="font-size:10px; margin-bottom:6px;">WHAT HAPPENS TO YOUR AUTOPAY</b>
+                  <span style="font-size:11px;">• Unchanged — your $300 autopay still processes on Apr 10, 2025.</span>
+                  
+                  <div style="border:1px solid #A7F3D0; border-radius:6px; margin-top:10px; background:#fff; font-size:11px; color:var(--text-2);">
+                    <div style="display:flex; justify-content:space-between; padding:8px 12px; border-bottom:1px solid #E5E7EB;">
+                      <div>Extra Payment<br><span style="font-size:10px;">($500.00)</span></div>
+                      <div style="text-align:right;"><b style="color:var(--text);">$3.86</b> to Interest | <b style="color:var(--text);">$496.14</b> to Principal</div>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; padding:8px 12px;">
+                      <div>Remaining Outstanding Balance</div>
+                      <div><b style="color:var(--text);">$789.86</b></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="m-intent" style="opacity: 0.6;">
+                <div class="m-intent-icon" style="background:#F9FAFB; border:1px solid #E5E7EB; border-radius:50%; width:28px; height:28px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 2.1l4 4-4 4"/><path d="M3 12.2v-2a4 4 0 0 1 4-4h13M7 21.9l-4-4 4-4"/><path d="M21 11.8v2a4 4 0 0 1-4 4H4"/></svg></div>
+                <div class="m-intent-text"><b>Override Next Autopay</b><span>Replace your $300 autopay for this cycle only — one-time.</span></div>
+              </div>
+              <div class="m-intent" style="opacity: 0.6;">
+                <div class="m-intent-icon" style="background:#F9FAFB; border:1px solid #E5E7EB; border-radius:50%; width:28px; height:28px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div>
+                <div class="m-intent-text"><b>Independent One-Time Payment</b><span>Make a separate payment, any time, any amount.</span></div>
+              </div>
+              <div class="m-intent" style="opacity: 0.6;">
+                <div class="m-intent-icon" style="background:#F9FAFB; border:1px solid #E5E7EB; border-radius:50%; width:28px; height:28px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+                <div class="m-intent-text"><b>$1,286</b><span>Pay the full outstanding balance.</span></div>
+              </div>
+              </div>
+
+              <div class="callout callout-green" style="margin-top: 32px;">
+                <b style="font-size:13px; display:block; margin-bottom:6px;">How this resolves a complex UX problem:</b>
+                Handling manual payments alongside an active autopay schedule is notoriously complex for users. This redesign solves this friction by:<br><br>
+                • <b>Mental Model Alignment:</b> Forcing intent selection first perfectly aligns the system with the user's natural thought process, preventing errors before they occur.<br>
+                • <b>Progressive Disclosure:</b> Intricate system rules (like locked calendar dates or interest vs. principal splits) are only exposed when contextually relevant, drastically reducing cognitive load.<br>
+                • <b>Radical Transparency:</b> The dynamic "What Happens to Your Autopay" block translates complex backend logic into plain English, instantly eliminating the anxiety of double-charging.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+
+<!-- ════════════════════════════════════════════ -->
+<!-- 3. FIX #3 — THE MODAL IS GONE                -->
+<!-- ════════════════════════════════════════════ -->
+<section class="section section-alt" id="modal-fix">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="eyebrow ey-green">Fix #3 — The Modal Problem</span>
+      <h2 class="sec-title">The Late-Stage Modal Is Completely Eliminated</h2>
+      <p class="sec-desc">The old modal forced a binary "Override or Extra?" choice after 3 full steps — with no explanation. In the redesign, this decision is integrated into Step 1 where it belongs.</p>
+    </div>
+
+    <div class="ba-label"><span class="before">Before</span><span class="after">After</span></div>
+
+    <div class="ba-grid reveal">
+      <!-- OLD Modal -->
+      <div class="ba-card">
+        <div class="ba-card-head old">✕ Original: Surprise Modal After Step 3</div>
+        <img src="./Image%20assets-20260627T063043Z-3-001/Image%20assets/Autopay%20Settings.png" class="old-screenshot" alt="Old Modal" />
+        <div class="ba-card-body">
+          <div class="mock">
+            <div class="mock-body" style="padding-top:0;">
+              <div class="callout callout-red">
+                <b>Problems:</b><br>
+                • Appears AFTER user completed 3 full steps — surprise ambush.<br>
+                • "Override" — cancel permanently? Just once? No explanation.<br>
+                • "Extra payment" — extra on top of what? When? No specifics.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ba-arrow">↓</div>
+
+      <!-- NEW: No Modal -->
+      <div class="ba-card">
+        <div class="ba-card-head new">✓ Redesigned: Decision Integrated Into Step 1</div>
+        <div class="ba-card-body">
+          <div class="mock">
+            <div class="mock-body">
+              <div style="text-align: center; padding: 24px 16px;">
+                <div style="font-size: 40px; margin-bottom: 10px;">🎉</div>
+                <div style="font-size: 14px; font-weight: 700; margin-bottom: 6px;">No More Surprise Modals</div>
+                <p style="font-size: 12px; color: var(--text-2); line-height: 1.6; max-width: 280px; margin: 0 auto;">
+                  The intent decision (Extra / Override / Independent) is now the <b>first thing</b> users see in Step 1 — not a popup after Step 3.
+                </p>
+                <div style="margin-top: 16px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+                  <span class="m-pill m-pill-green">✓ Extra Payment</span>
+                  <span class="m-pill m-pill-blue">✓ Override</span>
+                  <span class="m-pill m-pill-green">✓ Independent</span>
+                  <span class="m-pill m-pill-green">✓ Full Payoff</span>
+                </div>
+              </div>
+              <div class="callout callout-green">
+                <b>What changed:</b><br>
+                • Intent is a first-class selection at the START of the flow.<br>
+                • Each option has a plain-language description of consequences.<br>
+                • Zero modals in the entire flow.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+
+<!-- ════════════════════════════════════════════ -->
+<!-- 4. FIX #4 — CONFIRMATION & SUCCESS            -->
+<!-- ════════════════════════════════════════════ -->
+<section class="section" id="confirm-fix">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="eyebrow ey-green">Fix #4 — Confirmation & Success</span>
+      <h2 class="sec-title">Show the Full Picture Before and After Payment</h2>
+      <p class="sec-desc">The original confirmation page asked for authorization without disclosing the Autopay impact, and the success screen offered no reassurance. Both screens are now fully transparent, eliminating pre-payment hesitation and post-payment anxiety.</p>
+    </div>
+
+    <!-- Confirmation -->
+    <h3 style="font-size: 18px; font-weight: 800; color: var(--navy); margin-bottom: 24px;">1. Payment Confirmation</h3>
+    <div class="ba-label"><span class="before">Before</span><span class="after">After</span></div>
+    <div class="ba-grid reveal" style="margin-bottom: 64px;">
+      <div class="ba-card">
+        <div class="ba-card-head old">✕ Original Confirmation</div>
+        <img src="./Image%20assets-20260627T063043Z-3-001/Image%20assets/Payment%20Confirmation.png" class="old-screenshot" alt="Old Confirm" />
+        <div class="ba-card-body">
+          <div class="mock">
+            <div class="mock-body" style="padding-top:0;">
+              <div class="callout callout-red">
+                <b>Problems:</b><br>
+                • No Autopay impact shown before the final authorization.<br>
+                • No Payment Type label (Extra? Override?).<br>
+                • Fails to set clear expectations before the point of no return.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ba-arrow">↓</div>
+
+      <div class="ba-card">
+        <div class="ba-card-head new">✓ Redesigned Confirmation</div>
+        <div class="ba-card-body">
+          <div class="mock">
+            <div class="mock-body">
+              <div style="font-size:10px; color:var(--text-3); font-weight:600; margin-bottom:4px;">Step 3 of 3</div>
+              <div style="font-size:15px; font-weight:700; color:var(--navy);">Payment Confirmation</div>
+              <div style="font-size:11px; color:var(--text-2); margin-top:2px; margin-bottom:12px;">Review the details below before confirming your payment.</div>
+              
+              <div style="display:flex; gap:4px; margin-bottom:16px;">
+                <div style="height:4px; background:var(--green); border-radius:2px; flex:1;"></div>
+                <div style="height:4px; background:var(--green); border-radius:2px; flex:1;"></div>
+                <div style="height:4px; background:var(--green); border-radius:2px; flex:1;"></div>
+              </div>
+              
+              <div style="border: 1px solid #E5E7EB; border-radius: 8px; padding: 16px; margin-bottom: 16px; background:#fff;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-size:11px;"><span style="color:var(--text-2);">Payment Amount</span><b style="color:var(--navy);">$500.00</b></div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-size:11px;"><span style="color:var(--text-2);">Payment Date</span><b style="color:var(--navy);">Apr 10, 2025</b></div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-size:11px;"><span style="color:var(--text-2);">Payment Type</span><b style="color:var(--navy);">Extra Payment ✏️</b></div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:16px; font-size:11px;"><span style="color:var(--text-2);">Payment Method</span><b style="color:var(--navy);">Bank account (ACH)</b></div>
+                
+                <hr style="border:none; border-top:1px solid #F0F1F4; margin:0 0 16px 0;">
+                
+                <div style="font-size:9px; font-weight:700; color:var(--text-3); margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;">Impact on Autopay</div>
+                <div style="font-size:11px; color:var(--text); margin-bottom:16px;">
+                  <span style="color:var(--blue);">•</span> Unchanged — your $300 autopay still processes on Apr 10, 2025.
+                </div>
+                
+                <div style="font-size:9px; font-weight:700; color:var(--text-3); margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;">Loan Impact</div>
+                <div style="font-size:11px; color:var(--text);">
+                  <span style="color:var(--blue);">•</span> Your loan now finishes 2 months early — around Jun 10, 2025 instead of Aug 10, 2025.
+                </div>
+              </div>
+
+              <div style="display:flex; gap:8px; align-items:flex-start; margin-bottom:16px;">
+                <div style="background:var(--blue); color:#fff; width:14px; height:14px; border-radius:3px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px;">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+                </div>
+                <div style="font-size:11px; color:var(--navy);">I authorize this transaction from my selected account.</div>
+              </div>
+              
+              <div style="border:1px solid #E5E7EB; border-radius:6px; padding:12px; margin-bottom:4px; font-family:serif; font-style:italic; font-size:16px; color:var(--navy); background:#fff;">sd.dgdf</div>
+              <div style="text-align:center; font-size:9px; color:var(--text-3); margin-bottom:16px;">Type your full name above</div>
+              
+              <div style="display:flex; justify-content:space-between;">
+                <div style="border:1px solid #E5E7EB; padding:8px 16px; border-radius:6px; font-size:11px; font-weight:600; color:var(--navy); background:#fff;">Back</div>
+                <div style="background:var(--navy); padding:8px 24px; border-radius:6px; font-size:11px; font-weight:600; color:#fff;">Pay</div>
+              </div>
+              
+              <div class="callout callout-green" style="margin-top: 24px;">
+                <b>UX Case Study Insights:</b><br>
+                By bringing the "Impact on Autopay" and "Loan Impact" directly into the final authorization screen, we eliminate last-minute hesitation. The user knows exactly what they are committing to before they type their signature.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Success Popup -->
+    <h3 style="font-size: 18px; font-weight: 800; color: var(--navy); margin-bottom: 24px;">2. Success Popup</h3>
+    <div class="ba-label"><span class="before">Before</span><span class="after">After</span></div>
+    <div class="ba-grid reveal">
+      <div class="ba-card">
+        <div class="ba-card-head old">✕ Original Success Popup</div>
+        <img src="./Image%20assets-20260627T063043Z-3-001/Image%20assets/Success%20popup.png" class="old-screenshot" alt="Old Success" />
+        <div class="ba-card-body">
+          <div class="mock">
+            <div class="mock-body" style="padding-top:0;">
+              <div class="callout callout-red">
+                <b>Problems:</b><br>
+                • Gives no post-payment reassurance about Autopay.<br>
+                • Fails to celebrate the user's progress or show how the extra payment helped.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ba-arrow">↓</div>
+
+      <div class="ba-card">
+        <div class="ba-card-head new">✓ Redesigned Success Popup</div>
+        <div class="ba-card-body">
+          <div class="mock">
+            <div class="mock-body">
+              
+              <!-- Success Popup Mockup -->
+              <div style="background:#fff; border-radius:12px; padding:32px 24px; text-align:center; max-width:320px; margin:0 auto; box-shadow:0 8px 30px rgba(0,0,0,0.08); border:1px solid #E5E7EB;">
+                <div style="background:#EFF6FF; width:56px; height:56px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 16px; color:var(--blue);">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                </div>
+                <div style="font-size:14px; font-weight:700; color:var(--navy); margin-bottom:8px;">Payment Successful</div>
+                <div style="font-size:28px; font-weight:800; color:var(--blue); margin-bottom:8px;">$500.00</div>
+                <div style="font-size:11px; color:var(--text-3); margin-bottom:16px;">On Apr 10, 2025 at 10:15 AM</div>
+                
+                <hr style="border:none; border-top:1px solid #F0F1F4; margin:16px 0;">
+                
+                <div style="font-size:11px; color:var(--text-2); line-height:1.5; margin-bottom:12px;">
+                  Payment Method: Bank account (ACH)<br>
+                  Your loan now finishes 2 months early — around Jun 10, 2025 instead of Aug 10, 2025.
+                </div>
+                
+                <div style="display:inline-block; background:#D1FAE5; color:#065F46; font-size:11px; font-weight:600; padding:6px 14px; border-radius:16px; margin-bottom:24px;">
+                  Autopay unchanged
+                </div>
+                
+                <div style="background:var(--navy); color:#fff; font-size:13px; font-weight:600; padding:12px; border-radius:8px; cursor:pointer;">
+                  Back to Home
+                </div>
+              </div>
+
+              <div class="callout callout-green" style="margin-top: 24px;">
+                <b>UX Case Study Insights:</b><br>
+                • <b>Autopay Reassurance:</b> A clear "Autopay unchanged" pill instantly resolves the most common post-payment anxiety.<br>
+                • <b>Impact Celebration:</b> We show exactly how the extra payment shortened the loan term, reinforcing positive financial behavior through instant gratification.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ════════════════════════════════════════════ -->
+<!-- 5. FIX #5 — LOAN TRANSPARENCY                -->
+<!-- ════════════════════════════════════════════ -->
+<section class="section section-alt" id="loan-summary">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="eyebrow ey-blue">Fix #5 — Comprehensive Loan Transparency</span>
+      <h2 class="sec-title">Give Users Clarity About Current Loan Status and Details</h2>
+      <p class="sec-desc">To build trust and provide full context, a dedicated Loan Summary section is introduced directly on the dashboard, making it easy to see critical metrics without digging through PDF documents.</p>
+    </div>
+
+    <div class="ba-grid reveal">
+      <div class="ba-card" style="grid-column: 1 / -1;">
+        <div class="ba-card-head new">✓ Redesigned Solution (Dashboard Loan Summary)</div>
+        <div class="ba-card-body">
+          <div class="mock">
+            <div class="mock-body" style="padding: 24px;">
+              <div style="border: 1px solid #E5E7EB; border-radius: 8px; overflow:hidden; background:#fff;">
+                <div style="background: #F9FAFB; padding: 16px 24px; border-bottom: 1px solid #E5E7EB; font-weight: 700; font-size: 14px; color: var(--navy);">
+                  Loan Summary <span style="font-size:10px; color:var(--text-3); font-weight:500;">(AS OF 31-MAR-2026)</span>
+                </div>
+                <div style="padding: 32px 24px;">
+                  <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px 24px; margin-bottom: 32px;">
+                    <div>
+                      <div class="m-stat-label">Principal Amount Recovered ($)</div>
+                      <div style="font-weight:700; font-size:14px; margin-top:6px; color:var(--navy);">$3,714.00</div>
+                    </div>
+                    <div>
+                      <div class="m-stat-label">First Disbursement Date</div>
+                      <div style="font-weight:700; font-size:14px; margin-top:6px; color:var(--navy);">25-OCT-2024</div>
+                    </div>
+                    <div>
+                      <div class="m-stat-label">Interest Rate Type</div>
+                      <div style="font-weight:700; font-size:14px; margin-top:6px; color:var(--navy);">FIXED</div>
+                    </div>
+                    <div>
+                      <div class="m-stat-label">Interest Rate (P.A.)</div>
+                      <div style="font-weight:700; font-size:14px; margin-top:6px; color:var(--navy);">9.10 %</div>
+                    </div>
+                    <div>
+                      <div class="m-stat-label">Installment Start Date</div>
+                      <div style="font-weight:700; font-size:14px; margin-top:6px; color:var(--navy);">01-NOV-2024</div>
+                    </div>
+                    <div>
+                      <div class="m-stat-label">Installment End Date</div>
+                      <div style="font-weight:700; font-size:14px; margin-top:6px; color:var(--navy);">30-JUN-2026</div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="m-stat-label">Current Monthly Payment ($)</div>
+                    <div style="font-weight:700; font-size:14px; margin-top:6px; color:var(--navy);">$300.00</div>
+                  </div>
+                </div>
+              </div>
+              <div class="callout callout-green" style="margin-top: 24px;">
+                <b>Consolidated Details:</b> Key loan metrics like Principal Amount Recovered, Interest Rate, and Installment Dates are organized in a clean, scannable grid.<br>
+                <b>Empowered Users:</b> Users can understand the exact terms of their loan (e.g., 9.10% Fixed Interest) without reading dense legal docs.<br>
+                <b>Foundation for Trust:</b> By making fixed terms transparent upfront, users feel more confident when deciding how their manual payments will impact the overall timeline.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-inner">
+      <span class="footer-text">LendSmart Autopay Redesign — EvinceDev.com — Private & Confidential</span>
+      <span class="footer-brand">LendSmart</span>
+    </div>
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script>
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

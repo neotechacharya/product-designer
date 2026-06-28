@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LendSmart — Autopay Payment Redesign Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+        colors: {
+          navy: { DEFAULT: '#1B1D3D', light: '#2A2D52', soft: '#383A55' },
+          teal: { DEFAULT: '#3CDCD6', bright: '#46ECE7' },
+          pagebg: '#F2F3F6',
+          activeStep: '#ECFDFD',
+          status: {
+            greenBg: '#E6F8ED', greenText: '#00B23F',
+            blueBg: '#E6F3FF', blueText: '#007DFF',
+            amberBg: '#FFF3E5', amberText: '#FF7E00',
+            redBg: '#FFE5E5', redText: '#FE0000',
+          }
+        },
+        borderRadius: { xl2: '14px' }
+      }
+    }
+  }
+</script>
+<style>
+  body { font-family: 'Inter', system-ui, sans-serif; }
+  .hidden-screen { display: none !important; }
+  .radio-dot { width: 18px; height: 18px; border-radius: 50%; border: 2px solid #9CA3AF; display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; transition: all .15s; }
+  .radio-dot.checked { border-color: #1B1D3D; }
+  .radio-dot.checked::after { content:''; width:9px; height:9px; border-radius:50%; background:#1B1D3D; }
+  .intent-card { transition: all .15s; cursor: pointer; }
+  .intent-card:hover { border-color: #383A55; }
+  .intent-card.selected { border-color: #1B1D3D; background: #FAFBFF; }
+  .cal-day { width: 36px; height: 36px; display:flex; align-items:center; justify-content:center; border-radius:8px; font-size:13px; cursor:pointer; }
+  .cal-day:hover:not(.cal-disabled):not(.cal-selected) { background:#E6F3FF; }
+  .cal-selected { background:#1B71F0; color:white; font-weight:600; }
+  .cal-due { border:1.5px solid #1B1D3D; font-weight:600; }
+  .cal-disabled { color:#D1D5DB; cursor:not-allowed; }
+  .fade-in { animation: fadeIn .2s ease; }
+  @keyframes fadeIn { from { opacity:0; transform: translateY(4px);} to {opacity:1; transform:translateY(0);} }
+  ::-webkit-scrollbar { width:8px; height:8px; }
+  ::-webkit-scrollbar-thumb { background:#D1D5DB; border-radius:4px; }
+
+  /* Toggle switch */
+  .toggle-track { width:44px; height:24px; border-radius:12px; background:#D1D5DB; position:relative; cursor:pointer; transition: background .2s; flex-shrink:0; }
+  .toggle-track.on { background:#00B23F; }
+  .toggle-thumb { width:20px; height:20px; border-radius:50%; background:white; position:absolute; top:2px; left:2px; transition: left .2s; box-shadow:0 1px 3px rgba(0,0,0,.15); }
+  .toggle-track.on .toggle-thumb { left:22px; }
+
+  /* Slide-down panel */
+  .panel-enter { animation: slideDown .25s ease; }
+  @keyframes slideDown { from { opacity:0; max-height:0; } to { opacity:1; max-height:600px; } }
+
+  /* Circular progress ring */
+  .progress-ring { transform: rotate(-90deg); }
+  .progress-ring__bg { fill: none; stroke: #E5E7EB; stroke-width: 7; }
+  .progress-ring__fill { fill: none; stroke-width: 7; stroke-linecap: round; transition: stroke-dashoffset 1s ease-in-out, stroke 0.3s; }
+  .progress-ring__fill--amount { stroke: #3CDCD6; }
+  .progress-ring__fill--tenure { stroke: #1B71F0; }
+  .progress-center-text { font-family: 'Inter', sans-serif; }
+
+  /* Tenure bar */
+  .tenure-bar-bg { height: 6px; border-radius: 3px; background: #E5E7EB; overflow: hidden; }
+  .tenure-bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #1B71F0, #3CDCD6); transition: width 1s ease-in-out; }
+
+  /* Stat card hover */
+  .stat-card { transition: box-shadow 0.2s, transform 0.2s; }
+  .stat-card:hover { box-shadow: 0 2px 8px rgba(27,29,61,0.08); transform: translateY(-1px); }
+</style>
+</head>
+<body class="bg-pagebg text-navy min-h-screen">
+
+<!-- ============ TOP NAV (shared) ============ -->
+<nav class="bg-navy h-16 flex items-center justify-between px-6 md:px-10 sticky top-0 z-40">
+  <div class="flex items-center gap-2.5">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 18L4 14M9 18L9 10M14 18L14 6M19 18L19 12" stroke="#46ECE7" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span class="text-white font-semibold tracking-wide text-lg">LOGO</span>
+  </div>
+  <div class="flex items-center gap-5">
+    <svg class="w-5 h-5 text-white/90 cursor-pointer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <div class="relative cursor-pointer">
+      <svg class="w-5 h-5 text-white/90" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      <span class="absolute -top-0.5 -right-0.5 w-2 h-2 bg-teal-bright rounded-full"></span>
+    </div>
+    <div class="flex items-center gap-1.5 text-teal-bright text-sm font-medium cursor-pointer">
+      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Log out
+    </div>
+  </div>
+</nav>
+
+<!-- ============ SCREEN: DASHBOARD ============ -->
+<section id="screen-dashboard" class="max-w-6xl mx-auto px-6 md:px-10 py-8">
+  <h1 class="text-2xl font-bold flex items-center gap-3">Hello John, <span class="inline-block w-[3px] h-6 bg-teal-bright rounded"></span></h1>
+  <p class="text-gray-500 text-sm mt-1">Your loan is on track, keep up the great progress.</p>
+
+  <!-- DASHBOARD GRID: Left (Loan Info + Autopay) | Right (Call Back + Donut) -->
+  <div class="grid md:grid-cols-12 gap-5 mt-6">
+
+    <!-- LEFT COLUMN: Card 1 (Loan Info + Autopay) -->
+    <div class="col-span-12 lg:col-span-8">
+      <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+        
+        <!-- Header -->
+        <div class="flex items-center justify-between pb-4 border-b border-gray-100 mb-5">
+          <div class="flex items-center gap-3">
+            <span class="font-bold text-gray-800 text-lg">#LN232456</span>
+            <span class="px-3 py-1 rounded-md text-xs font-semibold bg-blue-50 text-blue-500">Active</span>
+          </div>
+          <a class="text-blue-500 text-sm font-semibold hover:underline cursor-pointer">Loan Documents</a>
+        </div>
+        
+        <!-- Stats Row -->
+        <div class="flex items-center justify-between px-2">
+          <div class="flex-1">
+            <p class="text-[13px] text-gray-500 font-medium mb-1">Loan Amount</p>
+            <p class="font-bold text-xl text-gray-900" id="dash-original-loan">$5,000.00</p>
+          </div>
+          <div class="w-px h-12 bg-gray-200 mx-4"></div>
+          <div class="flex-1">
+            <p class="text-[13px] text-gray-500 font-medium mb-1">Outstanding Balance</p>
+            <p class="font-bold text-xl text-gray-900" id="dash-outstanding">$3,500.00</p>
+          </div>
+          <div class="w-px h-12 bg-gray-200 mx-4"></div>
+          <div class="flex-1">
+            <p class="text-[13px] text-gray-500 font-medium mb-1">Balance Term</p>
+            <p class="font-bold text-xl text-gray-900 leading-tight" id="dash-balance-term-main">12 Months</p>
+            <p class="text-[11px] text-gray-400 font-medium mt-0.5" id="dash-balance-term-sub">of 18 Months</p>
+          </div>
+        </div>
+
+        <!-- Autopay-aware block: dynamic ON/OFF -->
+        <div id="autopay-block" class="mt-6 pt-5 border-t border-gray-100"></div>
+
+        <!-- Autopay Settings Panel (inline expandable) -->
+        <div id="autopay-settings-panel" class="hidden-screen"></div>
+
+        <!-- Toggle confirmation panel -->
+        <div id="autopay-toggle-confirm" class="hidden-screen"></div>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: Card 2 (Call Back) + Card 3 (Donut) -->
+    <div class="col-span-12 lg:col-span-4 space-y-5">
+      
+      <!-- Request a Call Back Card -->
+      <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 flex items-start justify-between gap-5">
+        <div class="flex-1">
+          <p class="font-bold text-navy text-lg mb-2">Request a Call Back</p>
+          <p class="text-[12px] text-gray-500 leading-relaxed mb-5 pr-2">Get personalized guidance on your loan, repayment options, or questions about your loan or payments? Request a call, and we'll be happy to assist.</p>
+          <button class="bg-navy text-white text-[13px] font-semibold px-5 py-2.5 rounded-lg hover:opacity-90 transition">Request Now</button>
+        </div>
+        <div class="w-16 h-16 rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center flex-shrink-0 mt-1">
+          <svg class="w-7 h-7 text-status-blueText" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+        </div>
+      </div>
+
+
+
+    </div>
+  </div>
+
+  <!-- Loan Summary Detailed Card -->
+  <div class="mt-8 border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm">
+    <!-- Header -->
+    <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
+      <h2 class="text-[17px] font-bold text-navy flex items-center gap-2">
+        Loan Summary <span class="text-[11px] font-medium text-gray-500 uppercase tracking-wide mt-1">(AS OF 31-MAR-2026)</span>
+      </h2>
+    </div>
+    
+    <!-- Content Grid -->
+    <div class="p-6 md:p-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-y-8 gap-x-12">
+        
+        <!-- Row 1 -->
+        <div>
+          <p class="text-[11px] text-gray-500 font-medium uppercase tracking-wide mb-1.5">Principal Amount Recovered ($)</p>
+          <p class="font-bold text-[15px] text-navy" id="summary-principal-recovered">$1,500.00</p>
+        </div>
+        <div>
+          <p class="text-[11px] text-gray-500 font-medium uppercase tracking-wide mb-1.5">First Disbursement Date</p>
+          <p class="font-bold text-[15px] text-navy">25-OCT-2024</p>
+        </div>
+        <div>
+          <p class="text-[11px] text-gray-500 font-medium uppercase tracking-wide mb-1.5">Interest Rate Type</p>
+          <p class="font-bold text-[15px] text-navy">FIXED</p>
+        </div>
+
+        <!-- Row 2 -->
+        <div>
+          <p class="text-[11px] text-gray-500 font-medium uppercase tracking-wide mb-1.5">Interest Rate (P.a.)</p>
+          <p class="font-bold text-[15px] text-navy">9.10 %</p>
+        </div>
+        <div>
+          <p class="text-[11px] text-gray-500 font-medium uppercase tracking-wide mb-1.5">Installment Start Date</p>
+          <p class="font-bold text-[15px] text-navy">01-NOV-2024</p>
+        </div>
+        <div>
+          <p class="text-[11px] text-gray-500 font-medium uppercase tracking-wide mb-1.5">Installment End Date</p>
+          <p class="font-bold text-[15px] text-navy">30-JUN-2026</p>
+        </div>
+
+        <!-- Row 3 -->
+        <div>
+          <p class="text-[11px] text-gray-500 font-medium uppercase tracking-wide mb-1.5">Current Monthly Payment ($)</p>
+          <p class="font-bold text-[15px] text-navy" id="summary-emi-amount">$300.00</p>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+  
+
+
+  <!-- Payment Activity table -->
+  <div class="mt-8">
+    <div class="flex items-center gap-3 mb-3">
+      <h2 class="text-lg font-bold">Payment Activity <span class="inline-block w-[3px] h-5 bg-teal-bright rounded ml-1"></span></h2>
+    </div>
+    <div class="bg-white rounded-xl2 border border-gray-200 shadow-sm overflow-hidden">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="bg-navy text-white text-left">
+            <th class="px-5 py-3 font-medium">Due Date</th>
+            <th class="px-5 py-3 font-medium">Amount Due</th>
+            <th class="px-5 py-3 font-medium">Amount Paid</th>
+            <th class="px-5 py-3 font-medium">Status</th>
+          </tr>
+        </thead>
+        <tbody id="activity-rows" class="divide-y divide-gray-100">
+          <tr>
+            <td class="px-5 py-3">Fri, 11/25/2024</td>
+            <td class="px-5 py-3">$300.00</td>
+            <td class="px-5 py-3">$300.00</td>
+            <td class="px-5 py-3"><span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-status-greenBg text-status-greenText">Paid</span></td>
+          </tr>
+          <tr>
+            <td class="px-5 py-3">Wed, 12/25/2024</td>
+            <td class="px-5 py-3">$300.00</td>
+            <td class="px-5 py-3">$300.00</td>
+            <td class="px-5 py-3"><span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-status-greenBg text-status-greenText">Paid</span></td>
+          </tr>
+          <tr>
+            <td class="px-5 py-3">Sat, 01/25/2025</td>
+            <td class="px-5 py-3">$300.00</td>
+            <td class="px-5 py-3">$300.00</td>
+            <td class="px-5 py-3"><span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-status-greenBg text-status-greenText">Paid</span></td>
+          </tr>
+          <tr>
+            <td class="px-5 py-3">Tue, 02/25/2025</td>
+            <td class="px-5 py-3">$300.00</td>
+            <td class="px-5 py-3">$300.00</td>
+            <td class="px-5 py-3"><span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-status-greenBg text-status-greenText">Paid</span></td>
+          </tr>
+          <tr>
+            <td class="px-5 py-3">Tue, 03/25/2025</td>
+            <td class="px-5 py-3">$300.00</td>
+            <td class="px-5 py-3">$300.00</td>
+            <td class="px-5 py-3"><span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-status-greenBg text-status-greenText">Paid</span></td>
+          </tr>
+          <tr>
+            <td class="px-5 py-3">Thu, 04/25/2025</td>
+            <td class="px-5 py-3">$300.00</td>
+            <td class="px-5 py-3">$300.00</td>
+            <td class="px-5 py-3"><span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-status-greenBg text-status-greenText">Paid</span></td>
+          </tr>
+          <tr>
+            <td class="px-5 py-3">Sun, 05/25/2025</td>
+            <td class="px-5 py-3">$300.00</td>
+            <td class="px-5 py-3">—</td>
+            <td class="px-5 py-3"><span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-status-blueBg text-status-blueText">Scheduled</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SCREEN: PAYMENT FLOW SHELL (Steps 1-4) ============ -->
+<section id="screen-flow" class="hidden-screen max-w-6xl mx-auto px-6 md:px-10 py-8">
+  <div class="flex items-start justify-between flex-wrap gap-3">
+    <div>
+      <h1 class="text-2xl font-bold flex items-center gap-3">Make a Payment <span class="inline-block w-[3px] h-6 bg-teal-bright rounded"></span></h1>
+      <p class="text-gray-500 text-sm mt-1">Make your payment easily and securely to stay on track with your loan installments.</p>
+    </div>
+    <button onclick="cancelFlow()" class="bg-navy text-white text-sm font-medium px-5 py-2.5 rounded-lg">Cancel Payment</button>
+  </div>
+  <hr class="border-gray-200 my-5">
+
+  <div class="grid md:grid-cols-[260px_1fr] gap-5">
+    <!-- Stepper -->
+    <div id="stepper" class="bg-white rounded-xl2 border border-gray-200 shadow-sm overflow-hidden h-fit"></div>
+    <!-- Dynamic content -->
+    <div id="flow-content" class="bg-white rounded-xl2 border border-gray-200 shadow-sm p-7 fade-in"></div>
+  </div>
+</section>
+
+<!-- ============ MODAL: Add Bank Account ============ -->
+<div id="modal-bank" class="hidden-screen fixed inset-0 bg-black/40 z-50 flex items-center justify-center px-4">
+  <div class="bg-white rounded-xl2 shadow-xl w-full max-w-sm p-6">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="font-bold text-lg">Add Bank Account</h3>
+      <button onclick="closeModal('modal-bank')" class="text-gray-400 hover:text-gray-600">✕</button>
+    </div>
+    <label class="text-xs font-semibold text-gray-700">Bank Account Number</label>
+    <input class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm mt-1.5 mb-4" placeholder="Enter your Bank Account Number">
+    <label class="text-xs font-semibold text-gray-700">Routing Number</label>
+    <input class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm mt-1.5 mb-5" placeholder="Enter Routing Number">
+    <button onclick="closeModal('modal-bank')" class="w-full bg-navy text-white font-medium py-2.5 rounded-lg">Add Payment Source</button>
+  </div>
+</div>
+
+<!-- ============ MODAL: Add Card ============ -->
+<div id="modal-card" class="hidden-screen fixed inset-0 bg-black/40 z-50 flex items-center justify-center px-4">
+  <div class="bg-white rounded-xl2 shadow-xl w-full max-w-sm p-6">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="font-bold text-lg">Add Card Details</h3>
+      <button onclick="closeModal('modal-card')" class="text-gray-400 hover:text-gray-600">✕</button>
+    </div>
+    <label class="text-xs font-semibold text-gray-700">Full name (as displayed on card)</label>
+    <input class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm mt-1.5 mb-3" placeholder="Enter your First Name">
+    <label class="text-xs font-semibold text-gray-700">Card number</label>
+    <input class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm mt-1.5 mb-3" placeholder="XXXX-XXXX-XXXX-XXXX">
+    <div class="grid grid-cols-2 gap-3 mb-5">
+      <div>
+        <label class="text-xs font-semibold text-gray-700">CVC</label>
+        <input class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm mt-1.5" placeholder="XXXX">
+      </div>
+      <div>
+        <label class="text-xs font-semibold text-gray-700">Expiry date</label>
+        <input class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm mt-1.5" placeholder="06/25">
+      </div>
+    </div>
+    <button onclick="closeModal('modal-card')" class="w-full bg-navy text-white font-medium py-2.5 rounded-lg">Add Payment Source</button>
+  </div>
+</div>
+
+<!-- ============ SCREEN: SUCCESS ============ -->
+<div id="screen-success" class="hidden-screen fixed inset-0 bg-black/40 z-50 flex items-center justify-center px-4">
+  <div class="bg-white rounded-xl2 shadow-xl w-full max-w-xs p-7 text-center fade-in">
+    <div class="flex justify-center mb-3">
+      <div class="w-14 h-14 rounded-full bg-status-blueBg flex items-center justify-center">
+        <svg class="w-7 h-7 text-status-blueText" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      </div>
+    </div>
+    <p class="font-bold text-base">Payment Successful</p>
+    <p id="success-amount" class="text-status-blueText font-extrabold text-3xl mt-2">$0.00</p>
+    <p id="success-meta" class="text-gray-500 text-xs mt-2">On Apr 25, 2025 at 10:15 AM</p>
+    <hr class="my-3 border-gray-100">
+    <p id="success-method" class="text-gray-600 text-xs">Payment Method: Visa **** 5698</p>
+    <p id="success-loan-impact" class="text-gray-600 text-xs mt-1 hidden-screen"></p>
+    <div class="mt-3 flex justify-center">
+      <span id="success-impact-pill" class="px-3 py-1 rounded-full text-xs font-medium bg-status-blueBg text-status-blueText">Autopay unchanged</span>
+    </div>
+    <!-- Autopay nudge for OFF-state -->
+    <div id="success-autopay-nudge" class="hidden-screen mt-4 p-3 border border-teal/30 bg-activeStep rounded-lg text-left">
+      <p class="text-xs font-semibold text-navy flex items-center gap-1.5">
+        <svg class="w-4 h-4 text-teal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Never miss a payment
+      </p>
+      <p class="text-xs text-gray-500 mt-1">Set up Autopay and your payments will be made automatically every cycle.</p>
+      <button onclick="backToHomeFromSuccess();enableAutopayFromNudge()" class="mt-2 bg-navy text-white text-xs font-medium px-3 py-1.5 rounded-lg">Enable Autopay</button>
+    </div>
+    <button onclick="backToHomeFromSuccess()" class="w-full bg-navy text-white font-medium py-2.5 rounded-lg mt-5">Back to Home</button>
+  </div>
+</div>
+
+<script>
+/* ===================== LOAN MODEL ===================== */
+const DUE_DATE = { y: 2025, m: 3, d: 10 }; // April = month index 3
+const MIN_DUE = 300;
+const ORIGINAL_LOAN_AMOUNT = 5000;             // Original disbursed loan amount
+const COMPLETED_INSTALLMENTS = 6;               // Installments already paid
+const TOTAL_BALANCE = 1286;                     // Outstanding balance
+const REMAINING_INSTALLMENTS = Math.ceil(TOTAL_BALANCE / MIN_DUE); // 5
+const TOTAL_INSTALLMENTS = COMPLETED_INSTALLMENTS + REMAINING_INSTALLMENTS; // 11
+const AMOUNT_PAID = ORIGINAL_LOAN_AMOUNT - TOTAL_BALANCE;
+const REPAYMENT_PERCENT = Math.round((AMOUNT_PAID / ORIGINAL_LOAN_AMOUNT) * 100); // 30%
+const TENURE_PERCENT = Math.round((COMPLETED_INSTALLMENTS / TOTAL_INSTALLMENTS) * 100); // 33%
+const FUTURE_BALANCE = TOTAL_BALANCE - MIN_DUE;     // $3,200 — owed after this cycle's installment
+const FUTURE_INSTALLMENTS = Math.ceil(FUTURE_BALANCE / MIN_DUE); // 11 remaining at standard EMI
+const ANNUAL_RATE = 0.091; // 9.10% p.a. personal loan rate
+const DAILY_RATE = ANNUAL_RATE / 365;
+const CYCLE_START = addMonths(DUE_DATE, -1); // start of current billing cycle (true calendar month)
+
+/* ===================== GLOBAL STATE ===================== */
+let autopayEnabled = true;   // <-- NEW: Autopay ON/OFF state
+let settingsPanelOpen = false; // <-- NEW: track settings panel visibility
+
+let state = {
+  intent: null,        // 'extra' | 'override' | 'independent' | null (null when autopay off)
+  amount: null,
+  paymentDate: { y:2025, m:3, d:10 },
+  method: null,
+  loanChoice: null,     // 'emi' | 'tenure' | 'payoff' | null
+  interestMode: null,   // 'separate' | 'included' | null (Extra Payment only)
+  cal: { y:2025, m:3 },
+  // Autopay-OFF flow fields
+  paymentOption: null,  // 'minimum' | 'full' | 'custom' — used when autopay is OFF
+  overrideChangeDate: false, // whether override includes date change
+};
+let currentStep = 1;
+
+// Step labels vary based on autopay state
+function getStepLabels() {
+  if (autopayEnabled) {
+    return ['Payment Details','Select Payment Methods','Payment Confirmation'];
+  } else {
+    return ['Select Payment Amount','Select Payment Date','Select Payment Methods','Payment Confirmation'];
+  }
+}
+
+/* ===================== ICONS ===================== */
+const ic = {
+  plus: `<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>`,
+  refresh: `<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>`,
+  wallet: `<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-1"/><path d="M21 12a2 2 0 0 0-2-2h-2a2 2 0 0 0 0 4h2a2 2 0 0 0 2-2z"/></svg>`,
+  pencil: `<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>`,
+  check: `<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>`,
+  chevL: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>`,
+  chevR: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>`,
+  bolt: `<svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+  gear: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`,
+  calendar: `<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`,
+};
+
+/* ===================== NAVIGATION ===================== */
+function showOnly(id){
+  ['screen-dashboard','screen-flow','screen-success'].forEach(s=>{
+    document.getElementById(s).classList.toggle('hidden-screen', s!==id);
+  });
+}
+function startFlow(){
+  currentStep=1;
+  state={intent:null, amount:null, paymentDate:{...DUE_DATE}, method:null, loanChoice:null, interestMode:null, cal:{y:2025,m:3}, paymentOption:null, overrideChangeDate:false};
+  showOnly('screen-flow'); renderStepper(); renderFlowContent(); window.scrollTo(0,0);
+}
+function cancelFlow(){ showOnly('screen-dashboard'); }
+function goToStep(n){
+  if(n>currentStep) { if(!validateStep(currentStep)) return; }
+  currentStep=n; renderStepper(); renderFlowContent(); document.getElementById('flow-content').scrollIntoView({behavior:'smooth', block:'start'});
+}
+function validateStep(n){
+  if(autopayEnabled){
+    // Autopay ON flow
+    if(n===1){
+      if(!state.intent){ alert('Please select a payment intent to continue.'); return false; }
+      if(!state.amount || state.amount<=0){ alert('Please enter a payment amount.'); return false; }
+      if(state.intent === 'override' && state.amount < MIN_DUE){ alert(`Please enter an amount of at least $${MIN_DUE} to meet your minimum due.`); return false; }
+    }
+    if(n===2){
+      if(!state.method){ alert('Please select a payment method.'); return false; }
+    }
+  } else {
+    // Autopay OFF flow
+    if(n===1){
+      if(!state.paymentOption){ alert('Please select a payment amount option.'); return false; }
+      if(state.paymentOption==='custom' && (!state.amount || state.amount<=0)){ alert('Please enter a payment amount.'); return false; }
+    }
+    if(n===2){
+      // date is always valid (defaults to due date)
+    }
+    if(n===3){
+      if(!state.method){ alert('Please select a payment method.'); return false; }
+    }
+  }
+  return true;
+}
+function openModal(id){ document.getElementById(id).classList.remove('hidden-screen'); }
+function closeModal(id){ document.getElementById(id).classList.add('hidden-screen'); }
+
+/* ===================== DASHBOARD: AUTOPAY BLOCK (dual state) ===================== */
+function renderAutopayBlock(){
+  const el = document.getElementById('autopay-block');
+  const lastActionEl = `<p id="dash-last-action" class="text-xs text-status-blueText font-medium mt-1 hidden-screen"></p>`;
+
+  if(autopayEnabled){
+    el.innerHTML = `
+      <div class="flex items-start justify-between gap-3">
+        <div class="flex items-start gap-3">
+          <div class="w-9 h-9 rounded-full bg-status-greenBg flex items-center justify-center flex-shrink-0 mt-0.5">
+            <span class="text-status-greenText">${ic.bolt}</span>
+          </div>
+          <div>
+            <p class="text-sm font-semibold flex items-center gap-2">Autopay: <span class="text-status-greenText">ON</span></p>
+            <p class="text-[13px] text-gray-600 mt-0.5">Next EMI Due <span class="font-semibold text-navy" id="dash-next-amt">$${MIN_DUE}</span> as on <span class="font-semibold text-navy" id="dash-next-date">${fmtDate(DUE_DATE)}</span></p>
+            ${lastActionEl}
+          </div>
+        </div>
+        <button onclick="toggleSettingsPanel()" class="flex items-center gap-1.5 text-status-blueText text-xs font-medium hover:underline cursor-pointer whitespace-nowrap mt-1">
+          ${ic.gear} Manage Autopay
+        </button>
+      </div>
+      <div class="flex items-center gap-3 mt-4">
+        <button onclick="startFlow()" class="bg-navy text-white text-sm font-medium px-5 py-2.5 rounded-lg hover:bg-navy-light transition">Manage This Payment</button>
+      </div>`;
+  } else {
+    el.innerHTML = `
+      <div class="flex items-start justify-between gap-3">
+        <div class="flex items-start gap-3">
+          <div class="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+            <span class="text-gray-400">${ic.bolt}</span>
+          </div>
+          <div>
+            <p class="text-sm font-semibold flex items-center gap-2">Autopay: <span class="text-gray-400">OFF</span></p>
+            <p class="text-sm text-gray-600 mt-0.5">No automatic payments scheduled.</p>
+            <p class="text-sm text-gray-600">Your next payment of <span class="font-semibold text-navy">$${MIN_DUE}</span> is due <span class="font-semibold text-navy">${fmtDate(DUE_DATE)}</span>.</p>
+            ${lastActionEl}
+          </div>
+        </div>
+        <button onclick="showEnableAutopayConfirm()" class="flex items-center gap-1.5 text-status-greenText text-xs font-medium hover:underline cursor-pointer whitespace-nowrap mt-1">
+          ${ic.bolt} Enable Autopay
+        </button>
+      </div>
+      <div class="flex items-center gap-3 mt-4">
+        <button onclick="startFlow()" class="bg-navy text-white text-sm font-medium px-5 py-2.5 rounded-lg hover:bg-navy-light transition">Make a Payment</button>
+      </div>`;
+  }
+}
+
+/* ===================== AUTOPAY SETTINGS PANEL ===================== */
+function toggleSettingsPanel(){
+  settingsPanelOpen = !settingsPanelOpen;
+  renderSettingsPanel();
+}
+function renderSettingsPanel(){
+  const el = document.getElementById('autopay-settings-panel');
+  if(!settingsPanelOpen){
+    el.classList.add('hidden-screen');
+    return;
+  }
+  el.classList.remove('hidden-screen');
+  el.innerHTML = `
+  <div class="mt-4 border border-gray-200 rounded-xl2 p-5 bg-gray-50/50 panel-enter">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="font-bold text-sm">Autopay Settings</h3>
+      <button onclick="toggleSettingsPanel()" class="text-gray-400 hover:text-gray-600 text-sm">✕</button>
+    </div>
+
+    <div class="space-y-3.5">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-xs font-semibold text-gray-700">Autopay Status</p>
+          <p class="text-xs text-gray-500 mt-0.5">${autopayEnabled ? 'Payments are processed automatically every billing cycle.' : 'Autopay is currently disabled.'}</p>
+        </div>
+        <div class="toggle-track ${autopayEnabled?'on':''}" onclick="initiateAutopayToggle()">
+          <div class="toggle-thumb"></div>
+        </div>
+      </div>
+
+      <hr class="border-gray-200">
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <p class="text-xs text-gray-500">Scheduled Amount</p>
+          <p class="text-sm font-semibold">$${MIN_DUE} <span class="text-xs font-normal text-gray-400">(Minimum Due)</span></p>
+        </div>
+        <div>
+          <p class="text-xs text-gray-500">Payment Source</p>
+          <p class="text-sm font-semibold">Visa **** 7658</p>
+        </div>
+        <div>
+          <p class="text-xs text-gray-500">Next Payment Date</p>
+          <p class="text-sm font-semibold">${fmtDate(DUE_DATE)}</p>
+        </div>
+        <div>
+          <p class="text-xs text-gray-500">Frequency</p>
+          <p class="text-sm font-semibold">Every billing cycle</p>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ===================== AUTOPAY TOGGLE CONFIRMATIONS ===================== */
+function initiateAutopayToggle(){
+  if(autopayEnabled){
+    showDisableAutopayConfirm();
+  } else {
+    showEnableAutopayConfirm();
+  }
+}
+
+function showDisableAutopayConfirm(){
+  const el = document.getElementById('autopay-toggle-confirm');
+  el.classList.remove('hidden-screen');
+  el.innerHTML = `
+  <div class="mt-4 border-l-4 border-status-amberText/40 bg-status-amberBg rounded-lg p-4 panel-enter">
+    <p class="text-sm font-bold text-navy flex items-center gap-2">
+      <svg class="w-4 h-4 text-status-amberText" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Are you sure you want to turn off Autopay?
+    </p>
+    <div class="mt-3 space-y-2 text-sm text-navy">
+      <p class="flex gap-2"><span class="text-status-amberText mt-0.5">•</span>Your scheduled payment of <strong>$${MIN_DUE}</strong> on <strong>${fmtDate(DUE_DATE)}</strong> will be <strong>cancelled</strong>.</p>
+      <p class="flex gap-2"><span class="text-status-amberText mt-0.5">•</span>You'll need to make a <strong>manual payment</strong> before ${fmtDate(DUE_DATE)} to avoid late fees.</p>
+      <p class="flex gap-2"><span class="text-status-amberText mt-0.5">•</span>You can re-enable Autopay at any time.</p>
+    </div>
+    <div class="flex items-center gap-3 mt-4">
+      <button onclick="confirmDisableAutopay()" class="bg-status-amberText text-white text-xs font-medium px-4 py-2 rounded-lg">Yes, Turn Off Autopay</button>
+      <button onclick="cancelToggleConfirm()" class="bg-white border border-gray-300 text-navy text-xs font-medium px-4 py-2 rounded-lg">Keep Autopay On</button>
+    </div>
+  </div>`;
+}
+
+function showEnableAutopayConfirm(){
+  const el = document.getElementById('autopay-toggle-confirm');
+  el.classList.remove('hidden-screen');
+  el.innerHTML = `
+  <div class="mt-4 border-l-4 border-status-greenText/40 bg-status-greenBg rounded-lg p-4 panel-enter">
+    <p class="text-sm font-bold text-navy flex items-center gap-2">
+      <span class="text-status-greenText">${ic.bolt}</span>
+      Enable Autopay
+    </p>
+    <div class="mt-3 space-y-2 text-sm text-navy">
+      <p class="flex gap-2"><span class="text-status-greenText mt-0.5">✓</span>Autopay will process <strong>$${MIN_DUE}</strong> every billing cycle starting <strong>${fmtDate(DUE_DATE)}</strong>.</p>
+      <p class="flex gap-2"><span class="text-status-greenText mt-0.5">✓</span>If you already made a manual payment for this cycle, autopay will start <strong>next cycle</strong> instead (to prevent double payment).</p>
+      <p class="flex gap-2"><span class="text-status-greenText mt-0.5">✓</span>Payment source: <strong>Visa **** 7658</strong></p>
+    </div>
+    <div class="flex items-center gap-3 mt-4">
+      <button onclick="confirmEnableAutopay()" class="bg-status-greenText text-white text-xs font-medium px-4 py-2 rounded-lg">Enable Autopay</button>
+      <button onclick="cancelToggleConfirm()" class="bg-white border border-gray-300 text-navy text-xs font-medium px-4 py-2 rounded-lg">Cancel</button>
+    </div>
+  </div>`;
+}
+
+function confirmDisableAutopay(){
+  autopayEnabled = false;
+  cancelToggleConfirm();
+  settingsPanelOpen = false;
+  renderSettingsPanel();
+  renderAutopayBlock();
+}
+function confirmEnableAutopay(){
+  autopayEnabled = true;
+  cancelToggleConfirm();
+  settingsPanelOpen = false;
+  renderSettingsPanel();
+  renderAutopayBlock();
+}
+function enableAutopayFromNudge(){
+  autopayEnabled = true;
+  renderAutopayBlock();
+}
+function cancelToggleConfirm(){
+  const el = document.getElementById('autopay-toggle-confirm');
+  el.classList.add('hidden-screen');
+  el.innerHTML = '';
+}
+
+/* ===================== STEPPER ===================== */
+function renderStepper(){
+  const labels = getStepLabels();
+  const html = labels.map((label,i)=>{
+    const n=i+1;
+    let cls, content;
+    if(n<currentStep){
+      cls = 'bg-navy text-white cursor-pointer';
+      content = `<span class="w-5 h-5 rounded-full bg-teal-bright/20 flex items-center justify-center text-teal-bright">${ic.check}</span><span class="font-medium text-sm">${label}</span>`;
+    } else if(n===currentStep){
+      cls = 'bg-activeStep border-l-4 border-teal text-navy';
+      content = `<span class="font-bold text-sm w-5">${String(n).padStart(2,'0')}</span><span class="font-semibold text-sm">${label}</span>`;
+    } else {
+      cls = 'text-gray-400';
+      content = `<span class="font-medium text-sm w-5">${String(n).padStart(2,'0')}</span><span class="text-sm">${label}</span>`;
+    }
+    return `<div onclick="${n<currentStep?`goToStep(${n})`:''}" class="flex items-center gap-3 px-4 py-3.5 ${cls} ${n<4?'border-b border-gray-100/10':''}">${content}</div>`;
+  }).join('');
+  document.getElementById('stepper').innerHTML = html;
+}
+
+/* ===================== PROGRESS BAR / HEAD ===================== */
+function progressBar(){
+  const total = getStepLabels().length;
+  const arr = Array.from({length: total}, (_, i) => i + 1);
+  return `<div class="flex gap-1.5 mt-3 mb-6">${arr.map(n=>`<div class="h-1.5 flex-1 rounded-full ${n<=currentStep?'bg-status-greenText':'bg-gray-100'}"></div>`).join('')}</div>`;
+}
+function stepHead(title, sub){
+  const total = getStepLabels().length;
+  return `<p class="text-xs text-gray-400 font-medium">Step ${currentStep} of ${total}</p>
+  <h2 class="text-xl font-bold mt-1">${title}</h2>
+  <p class="text-sm text-gray-500 mt-1">${sub}</p>
+  ${progressBar()}`;
+}
+
+/* ===================== DATE HELPERS ===================== */
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+function fmtDate(d){ return `${MONTHS[d.m].slice(0,3)} ${d.d}, ${d.y}`; }
+function sameDate(a,b){ return a.y===b.y && a.m===b.m && a.d===b.d; }
+function addDays(d, days){ const dt = new Date(d.y, d.m, d.d); dt.setDate(dt.getDate()+days); return {y:dt.getFullYear(), m:dt.getMonth(), d:dt.getDate()}; }
+function addMonths(d, months){ const dt = new Date(d.y, d.m, d.d); dt.setMonth(dt.getMonth()+months); return {y:dt.getFullYear(), m:dt.getMonth(), d:dt.getDate()}; }
+function daysBetween(a,b){ return Math.round((new Date(b.y,b.m,b.d) - new Date(a.y,a.m,a.d))/86400000); }
+function accruedInterest(principalAmt, paymentDate){
+  const days = Math.max(0, daysBetween(CYCLE_START, paymentDate));
+  return Math.round(principalAmt*DAILY_RATE*days*100)/100;
+}
+
+/* ===================== STEP 1 (AUTOPAY ON): INTENT + DETAILS ===================== */
+function renderIntentStep(){
+  const cards = [
+    {key:'extra', icon:ic.plus, title:'Extra Payment', desc:'Add an extra amount on top of your scheduled autopay.'},
+    {key:'override', icon:ic.refresh, title:'Override Next Autopay', desc:`Replace your $${MIN_DUE} autopay for this cycle only — one-time.`},
+    {key:'independent', icon:ic.wallet, title:'Independent One-Time Payment', desc:'Make a separate payment, any time, any amount.'},
+    {key:'full', icon:`<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`, title:`$${TOTAL_BALANCE.toLocaleString()}`, desc:'Pay the full outstanding balance.'}
+  ];
+  return `
+  ${stepHead('Payment Details', `Your autopay of $${MIN_DUE} is scheduled for ${fmtDate(DUE_DATE)}. Choose how you'd like to handle this payment.`)}
+  <div class="space-y-3">
+    ${cards.map(c=>`
+      <div onclick="if(state.intent==='${c.key}') return; selectIntent('${c.key}')" class="intent-card border border-gray-200 rounded-xl2 p-5 ${state.intent===c.key?'selected cursor-default':''}">
+        <div class="flex items-center gap-4">
+          <div class="w-10 h-10 rounded-lg bg-navy/5 text-navy flex items-center justify-center flex-shrink-0">${c.icon}</div>
+          <div>
+            <p class="font-bold text-sm">${c.title}</p>
+            <p class="text-xs text-gray-500 mt-0.5 leading-relaxed">${c.desc}</p>
+          </div>
+        </div>
+        ${state.intent === c.key ? `<div id="intent-detail" onclick="event.stopPropagation()">${intentDetailPanel(state.intent)}</div>` : ''}
+      </div>`).join('')}
+  </div>
+  <div class="flex justify-end mt-7">
+    <button id="btn-continue-step1" onclick="goToStep(2)" ${!state.intent || (state.intent==='override' && state.amount < MIN_DUE) ? 'disabled' : ''} class="bg-navy text-white text-sm font-medium px-6 py-2.5 rounded-lg ${!state.intent || (state.intent==='override' && state.amount < MIN_DUE) ?'opacity-40 cursor-not-allowed':''}">Continue</button>
+  </div>`;
+}
+function intentDetailPanel(key){
+  const cfg = {
+    extra:    {label:'Extra Amount', helper:'Must be dated on or before your next autopay. Accrued interest is paid first, remainder goes to principal.', editableDate:true},
+    independent: {label:'Payment Amount', helper:'Standard allocation applies: accrued interest first, then the remainder toward principal.', editableDate:true},
+    override: {label:'New Payment Amount', helper:`Minimum due is $${MIN_DUE}. Paying less will leave a remaining balance for this cycle. Paying more applies the rest to principal.`, editableDate:false},
+    full:     {label:'Payoff Amount', helper:'This payment pays the full outstanding balance to close your loan.', editableDate:true},
+  }[key];
+
+  const dateBlock = (key === 'override')
+    ? `<div class="border border-gray-200 rounded-xl2 p-4 w-full bg-gray-50">
+        <p class="text-xs text-gray-500 mb-1">Payment Date</p>
+        <p class="font-bold text-sm">${fmtDate(DUE_DATE)} <span class="text-xs font-normal text-gray-400">(locked to current cycle)</span></p>
+      </div>`
+    : cfg.editableDate ? renderCalendar() : '';
+
+
+  return `
+  <div class="mt-6 border-t border-gray-100 pt-6 fade-in">
+    <div class="grid ${key === 'full' ? 'md:grid-cols-1' : 'md:grid-cols-2'} gap-8">
+      <div>
+        <label class="text-xs font-bold text-gray-700">${cfg.label}</label>
+        <div class="relative mt-1.5">
+          <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">$</span>
+          <input id="amount-input" type="number" min="0" step="1" value="${state.amount ?? ''}" oninput="onAmountInput(this.value)"
+            class="w-full border ${key==='override' && state.amount < MIN_DUE ? 'border-status-amberText bg-status-amberBg/10 focus:ring-status-amberText/30' : 'border-gray-300 focus:ring-navy/30'} ${key==='full'?'bg-gray-50 text-gray-500 cursor-not-allowed':''} rounded-lg pl-7 pr-3 py-2.5 text-sm focus:outline-none focus:ring-2" placeholder="0.00" ${key==='full'?'disabled':''}>
+        </div>
+        <div id="amount-validation">
+        ${key === 'override' && state.amount < MIN_DUE ? `
+          <p class="text-xs text-status-amberText font-medium mt-1.5 flex gap-1 items-start">
+            <span>⚠️</span> Please enter an amount of at least $${MIN_DUE} to meet your minimum due. To pay a separate smaller amount, please select the Extra Payment option.
+          </p>
+        ` : `<p class="text-xs text-gray-400 mt-1.5">${cfg.helper}</p>`}
+        </div>
+        ${key !== 'override' ? `<div id="impact-box">${impactBox()}</div>` : ''}
+      </div>
+      ${key !== 'full' ? `
+      <div>
+        <label class="text-xs font-bold text-gray-700 block mb-1.5">${key === 'override' ? 'Payment Date' : 'When should we process this?'}</label>
+        ${dateBlock}
+      </div>` : ''}
+    </div>
+    ${key === 'override' ? `<div id="impact-box">${impactBox()}</div>` : ''}
+  </div>`;
+}
+function selectIntent(key){
+  state.intent = key;
+  if(key === 'override') state.amount = MIN_DUE;
+  else if(key === 'full') state.amount = TOTAL_BALANCE;
+  else state.amount = null;
+  state.paymentDate = {...DUE_DATE};
+  renderFlowContent();
+}
+
+/* ===================== STEP 1 (AUTOPAY OFF): SELECT AMOUNT ===================== */
+function renderOffAmountStep(){
+  return `
+  ${stepHead('Select Payment Amount', `Choose how you'd like to make your payment for this cycle. Your next payment of $${MIN_DUE} is due ${fmtDate(DUE_DATE)}.`)}
+
+  <div class="space-y-3">
+    <div onclick="selectPaymentOption('minimum')" class="intent-card border border-gray-200 rounded-xl2 p-5 ${state.paymentOption==='minimum'?'selected':''}">
+      <div class="flex items-center gap-3">
+        <span class="radio-dot ${state.paymentOption==='minimum'?'checked':''}"></span>
+        <div>
+          <p class="font-bold text-sm">$${MIN_DUE}.00</p>
+          <p class="text-xs text-gray-500 mt-0.5">Pay the minimum required monthly payment for this installment.</p>
+        </div>
+      </div>
+    </div>
+
+    <div onclick="selectPaymentOption('full')" class="intent-card border border-gray-200 rounded-xl2 p-5 ${state.paymentOption==='full'?'selected':''}">
+      <div class="flex items-center gap-3">
+        <span class="radio-dot ${state.paymentOption==='full'?'checked':''}"></span>
+        <div>
+          <p class="font-bold text-sm">$${TOTAL_BALANCE.toLocaleString()}</p>
+          <p class="text-xs text-gray-500 mt-0.5">Pay the full outstanding balance.</p>
+        </div>
+      </div>
+    </div>
+
+    <div onclick="selectPaymentOption('custom')" class="intent-card border border-gray-200 rounded-xl2 p-5 ${state.paymentOption==='custom'?'selected':''}">
+      <div class="flex items-center gap-3">
+        <span class="radio-dot ${state.paymentOption==='custom'?'checked':''}"></span>
+        <div class="flex-1">
+          <p class="font-bold text-sm">Custom Amount</p>
+          <p class="text-xs text-gray-500 mt-0.5">Enter a specific amount you'd like to pay toward your loan balance.</p>
+          ${state.paymentOption==='custom' ? `
+          <div class="mt-3">
+            <label class="text-xs font-bold text-gray-700">Enter Custom Amount</label>
+            <div class="relative mt-1">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">$</span>
+              <input id="off-amount-input" type="number" min="0" step="1" value="${state.amount ?? ''}" oninput="onOffAmountInput(this.value)"
+                class="w-full max-w-xs border border-gray-300 rounded-lg pl-7 pr-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-navy/30" placeholder="0.00">
+            </div>
+            <p class="text-xs text-gray-400 mt-1">*Payments are first applied to interest, fees, and outstanding balance. Any remaining amount will be applied to the loan principal.</p>
+          </div>` : ''}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Autopay nudge -->
+  <div class="mt-5 p-4 border border-teal/30 bg-activeStep rounded-xl2">
+    <div class="flex items-start gap-3">
+      <span class="text-teal mt-0.5">${ic.bolt}</span>
+      <div>
+        <p class="text-sm font-semibold text-navy">Want automatic payments?</p>
+        <p class="text-xs text-gray-500 mt-0.5">Set up Autopay and never miss a payment. Your payments will be processed automatically every billing cycle.</p>
+        <button onclick="cancelFlow();showEnableAutopayConfirm()" class="mt-2 text-status-blueText text-xs font-medium hover:underline">Set up Autopay →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex justify-end mt-7">
+    <button onclick="goToStep(2)" class="bg-navy text-white text-sm font-medium px-6 py-2.5 rounded-lg ${!state.paymentOption?'opacity-40 cursor-not-allowed':''}">Continue</button>
+  </div>`;
+}
+function selectPaymentOption(option){
+  if(state.paymentOption === option) return;
+  state.paymentOption = option;
+  if(option==='minimum') state.amount = MIN_DUE;
+  else if(option==='full') state.amount = TOTAL_BALANCE;
+  else state.amount = null;
+  renderFlowContent();
+}
+function onOffAmountInput(v){
+  state.amount = parseFloat(v) || 0;
+}
+
+/* ===================== STEP 2 (AUTOPAY OFF): DATE PICKER ===================== */
+function renderOffDateStep(){
+  return `
+  ${stepHead('Select Payment Date', 'Choose when you\'d like this payment to be processed.')}
+  <div class="grid md:grid-cols-2 gap-8">
+    <div>
+      ${renderCalendar()}
+      <p class="text-xs text-gray-400 mt-2">Select the date you'd like your payment to be processed.</p>
+    </div>
+    <div>
+      <div class="border border-gray-200 rounded-xl2 p-5 bg-gray-50/50">
+        <p class="text-xs font-bold uppercase tracking-wide text-gray-400 mb-3">Payment Summary</p>
+        <div class="space-y-2">
+          <div class="flex justify-between text-sm"><span class="text-gray-500">Amount</span><span class="font-bold">$${(state.amount||0).toFixed(2)}</span></div>
+          <div class="flex justify-between text-sm"><span class="text-gray-500">Payment Date</span><span class="font-bold">${fmtDate(state.paymentDate)}</span></div>
+          <div class="flex justify-between text-sm"><span class="text-gray-500">Due Date</span><span class="font-bold">${fmtDate(DUE_DATE)}</span></div>
+        </div>
+        ${!sameDate(state.paymentDate, DUE_DATE) ? `
+        <div class="mt-3 pt-3 border-t border-gray-200">
+          <p class="text-xs text-gray-500">
+            ${new Date(state.paymentDate.y, state.paymentDate.m, state.paymentDate.d) < new Date(DUE_DATE.y, DUE_DATE.m, DUE_DATE.d)
+              ? '✓ Payment will be processed before the due date.'
+              : '⚠️ Payment will be processed after the due date. Late fees may apply.'}
+          </p>
+        </div>` : ''}
+      </div>
+    </div>
+  </div>
+
+  <!-- Autopay nudge -->
+  <div class="mt-5 p-4 border border-teal/30 bg-activeStep rounded-xl2">
+    <div class="flex items-start gap-3">
+      <span class="text-teal mt-0.5">${ic.bolt}</span>
+      <div>
+        <p class="text-sm font-semibold text-navy">Want automatic payments?</p>
+        <p class="text-xs text-gray-500 mt-0.5">Set up Autopay and never miss a payment. Your payments will be processed automatically every billing cycle.</p>
+        <button onclick="cancelFlow();showEnableAutopayConfirm()" class="mt-2 text-status-blueText text-xs font-medium hover:underline">Set up Autopay →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex justify-between mt-7">
+    <button onclick="goToStep(1)" class="bg-white border border-navy text-navy text-sm font-medium px-6 py-2.5 rounded-lg">Back</button>
+    <button onclick="goToStep(3)" class="bg-navy text-white text-sm font-medium px-6 py-2.5 rounded-lg">Continue</button>
+  </div>`;
+}
+
+/* ===================== LOAN IMPACT MODEL ===================== */
+function extraPrincipalFor(intent, amount){
+  const amt = amount||0;
+  if(intent==='override') return Math.max(0, amt-MIN_DUE);
+  
+  // Unified for Extra and Independent: Accrued interest is paid first, remainder goes to principal
+  const accrued = accruedInterest(amt, state.paymentDate);
+  return amt > accrued ? Math.round((amt - accrued)*100)/100 : 0;
+}
+function computeLoanImpact(extra){
+  if(!extra || extra<=0) return null;
+  const newFutureBalance = Math.max(0, FUTURE_BALANCE - extra);
+  const payoff = newFutureBalance===0;
+  const newMonthlyPayment = payoff ? 0 : Math.max(0, Math.ceil(newFutureBalance/FUTURE_INSTALLMENTS));
+  const newCount = payoff ? 0 : Math.ceil(newFutureBalance/MIN_DUE);
+  const cyclesSaved = FUTURE_INSTALLMENTS - newCount;
+  const oldPayoffDate = addMonths(DUE_DATE, FUTURE_INSTALLMENTS);
+  const newPayoffDate = addMonths(DUE_DATE, newCount);
+  return {newFutureBalance, payoff, newMonthlyPayment, newCount, cyclesSaved, oldPayoffDate, newPayoffDate};
+}
+
+function loanImpactSummaryLine(){
+  if(!autopayEnabled) return null;
+  const extra = extraPrincipalFor(state.intent, state.amount);
+  if(extra<=0) return null;
+  const impact = computeLoanImpact(extra);
+  if(impact.payoff) return `This payment pays off your loan completely — no installments remain after this.`;
+  return impact.cyclesSaved>0
+    ? `Your loan now finishes ${impact.cyclesSaved} month${impact.cyclesSaved>1?'s':''} early — around ${fmtDate(impact.newPayoffDate)} instead of ${fmtDate(impact.oldPayoffDate)}.`
+    : `No change to your payoff date.`;
+}
+
+/* ===================== AUTOPAY-LEVEL IMPACT TEXT ===================== */
+function impactText(){
+  const amt = parseFloat(state.amount)||0;
+  
+  if (state.intent === 'full') {
+    return {tone:'green', lines:[
+      'This payment pays off your loan completely.',
+      'No future autopay installments will be scheduled.',
+      'Your loan account will be closed after this payment processes.'
+    ], breakdown: null};
+  }
+
+  if(state.intent==='extra'){
+    const lines = [
+      `Unchanged — your $${MIN_DUE} autopay still processes on ${fmtDate(DUE_DATE)}.`
+    ];
+    let breakdown = null;
+    if(amt>0){
+      const accrued = accruedInterest(amt, state.paymentDate);
+      const principal = extraPrincipalFor('extra', amt);
+      const remainingBalance = Math.max(0, TOTAL_BALANCE - principal);
+      
+      breakdown = `<div class="mt-4 text-xs border border-status-greenText/30 bg-white/60 p-3 rounded-lg w-full shadow-sm">
+        <div class="flex justify-between items-start gap-3">
+          <div class="text-gray-500 leading-snug">Extra Payment<br>($${amt.toFixed(2)})</div>
+          <div class="font-medium text-right leading-snug">$${accrued.toFixed(2)} to Interest | $${principal.toFixed(2)} to<br>Principal</div>
+        </div>
+        <div class="border-t border-status-greenText/20 mt-2 pt-2 flex justify-between">
+          <span class="text-gray-500">Remaining Outstanding Balance</span>
+          <span class="font-semibold text-navy">$${remainingBalance.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})}</span>
+        </div>
+      </div>`;
+    }
+    return {tone:'green', lines, breakdown};
+  }
+  if(state.intent==='independent'){
+    const lines = [
+      `Unchanged — your $${MIN_DUE} autopay still processes on ${fmtDate(DUE_DATE)}.`,
+      `This payment is completely separate from your autopay schedule.`
+    ];
+    let breakdown = null;
+    if(amt>0){
+      const accrued = accruedInterest(amt, state.paymentDate);
+      const principal = extraPrincipalFor('independent', amt);
+      const remainingBalance = Math.max(0, TOTAL_BALANCE - principal);
+      
+      const impact = computeLoanImpact(principal);
+      if (impact) {
+        if (impact.payoff) {
+          lines.push(`This payment pays off your loan completely — no installments remain after this.`);
+        } else if (impact.cyclesSaved > 0) {
+          lines.push(`Reduces balance term from ${FUTURE_INSTALLMENTS} months to ${impact.newCount} months (approx. ${fmtDate(impact.newPayoffDate)}).`);
+        } else {
+          lines.push(`Balance term remains at ${FUTURE_INSTALLMENTS} months (does not save a full month).`);
+        }
+      }
+      
+      breakdown = `<div class="mt-4 text-xs border border-status-greenText/30 bg-white/60 p-3 rounded-lg w-full shadow-sm">
+        <div class="flex justify-between items-start gap-3">
+          <div class="text-gray-500 leading-snug">Payment<br>($${amt.toFixed(2)})</div>
+          <div class="font-medium text-right leading-snug">$${accrued.toFixed(2)} to Interest | $${principal.toFixed(2)} to<br>Principal</div>
+        </div>
+        <div class="border-t border-status-greenText/20 mt-2 pt-2 flex justify-between">
+          <span class="text-gray-500">Remaining Outstanding Balance</span>
+          <span class="font-semibold text-navy">$${remainingBalance.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})}</span>
+        </div>
+      </div>`;
+    }
+    return {tone:'green', lines, breakdown};
+  }
+  // override
+  if(amt>=MIN_DUE){
+    const baseInterest = accruedInterest(TOTAL_BALANCE, DUE_DATE);
+    const basePrincipal = Math.max(0, MIN_DUE - baseInterest);
+    const extraAmt = amt - MIN_DUE;
+    const totalPrincipal = basePrincipal + extraAmt;
+    
+    const lines = [
+      `Replaced — this payment replaces your ${fmtDate(DUE_DATE)} autopay.`
+    ];
+    
+    if (extraAmt > 0) {
+      const impact = computeLoanImpact(extraAmt);
+      if (impact) {
+        if (impact.payoff) {
+          lines.push(`This payment pays off your loan completely — no installments remain after this.`);
+        } else if (impact.cyclesSaved > 0) {
+          lines.push(`Reduces balance term from ${FUTURE_INSTALLMENTS} months to ${impact.newCount} months (approx. ${fmtDate(impact.newPayoffDate)}).`);
+        } else {
+          lines.push(`Balance term remains at ${FUTURE_INSTALLMENTS} months (does not save a full month).`);
+        }
+      }
+    }
+    
+    lines.push(`Your regular schedule resumes the cycle after.`);
+    
+    let breakdown = null;
+    if (extraAmt > 0) {
+      const remainingBalance = Math.max(0, TOTAL_BALANCE - totalPrincipal);
+      breakdown = `<div class="mt-4 text-xs border border-status-blueText/20 bg-white/50 p-3 rounded-lg w-full shadow-sm">
+        <div class="flex justify-between items-start gap-3">
+          <div class="text-gray-500 leading-snug">Payment<br>($${amt.toFixed(2)})</div>
+          <div class="font-medium text-right leading-snug">$${baseInterest.toFixed(2)} to Interest | $${totalPrincipal.toFixed(2)} to<br>Principal</div>
+        </div>
+        <div class="border-t border-status-blueText/20 mt-2 pt-2 flex justify-between">
+          <span class="text-gray-500">Remaining Outstanding Balance</span>
+          <span class="font-semibold text-navy">$${remainingBalance.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})}</span>
+        </div>
+      </div>`;
+    }
+    return {tone:'blue', lines, breakdown};
+  } else if(amt>0){
+    const remaining=(MIN_DUE-amt).toFixed(2);
+    return {tone:'amber', lines:[
+      `Partial — this is less than your $${MIN_DUE} minimum due.`,
+      `$${remaining} will remain due for this cycle.`,
+      `Autopay communications continue as usual — no change to your schedule.`
+    ]};
+  }
+  return {tone:'gray', lines:[
+    `Current balance term: ${FUTURE_INSTALLMENTS} months left.`,
+    `Enter an amount to see how it reduces your term.`
+  ]};
+}
+function impactBox(){
+  const {tone, lines, breakdown} = impactText();
+  const toneMap = { green:'border-status-greenText/40 bg-status-greenBg', blue:'border-status-blueText/40 bg-status-blueBg', amber:'border-status-amberText/40 bg-status-amberBg', gray:'border-gray-200 bg-gray-50' };
+  const textMap = { green:'text-status-greenText', blue:'text-status-blueText', amber:'text-status-amberText', gray:'text-gray-500' };
+  return `
+  <div class="border-l-4 ${toneMap[tone]} rounded-lg p-4 mt-5">
+    <p class="text-xs font-bold uppercase tracking-wide ${textMap[tone]} mb-2">What happens to your autopay</p>
+    <ul class="space-y-1.5">
+      ${lines.map(l=>`<li class="text-sm text-navy flex gap-2"><span class="${textMap[tone]} mt-0.5">${tone==='gray'?'':'•'}</span><span class="flex-1">${l}</span></li>`).join('')}
+    </ul>
+    ${breakdown ? breakdown : ''}
+  </div>`;
+}
+
+/* ===================== CALENDAR ===================== */
+function renderCalendar(){
+  const {y,m} = state.cal;
+  const first = new Date(y,m,1);
+  const startDow = (first.getDay()+6)%7; // Mon=0
+  const daysInMonth = new Date(y,m+1,0).getDate();
+  let cells=[];
+  for(let i=0;i<startDow;i++) cells.push(null);
+  for(let d=1; d<=daysInMonth; d++) cells.push(d);
+  const today = {y:2025,m:3,d:5}; // 5 days before due date, so Extra's allowed window is visible
+  const rows = [];
+  for(let i=0;i<cells.length;i+=7){ rows.push(cells.slice(i,i+7)); }
+  while(rows[rows.length-1].length<7) rows[rows.length-1].push(null);
+
+  const dayCell = (d)=>{
+    if(d===null) return `<div class="cal-day"></div>`;
+    const dateObj = {y,m,d};
+    const isSel = sameDate(dateObj, state.paymentDate);
+    const isDue = sameDate(dateObj, DUE_DATE);
+    const isPast = new Date(y,m,d) < new Date(today.y,today.m,today.d) && !(y===today.y&&m===today.m&&d===today.d);
+    const isBeyondForExtra = state.intent==='extra' && new Date(y,m,d) > new Date(DUE_DATE.y,DUE_DATE.m,DUE_DATE.d);
+    const isDisabled = isPast || isBeyondForExtra;
+    let cls='cal-day';
+    if(isDisabled) cls+=' cal-disabled';
+    else if(isSel) cls+=' cal-selected';
+    else if(isDue) cls+=' cal-due';
+    return `<div class="${cls}" ${isDisabled?'':`onclick="pickDate(${y},${m},${d})"`}>${d}</div>`;
+  };
+
+  return `
+  <div class="bg-white border border-gray-200 rounded-xl2 p-4 w-full max-w-[340px]">
+    <div class="flex items-center justify-between mb-3">
+      <button onclick="shiftMonth(-1)" class="text-gray-400 hover:text-navy p-1">${ic.chevL}</button>
+      <p class="font-bold text-sm">${MONTHS[m]} ${y}</p>
+      <button onclick="shiftMonth(1)" class="text-gray-400 hover:text-navy p-1">${ic.chevR}</button>
+    </div>
+    <div class="grid grid-cols-7 text-center text-xs text-gray-400 font-medium mb-1">
+      ${['Mo','Tu','We','Th','Fr','Sa','Su'].map(d=>`<div class="py-1">${d}</div>`).join('')}
+    </div>
+    ${rows.map(r=>`<div class="grid grid-cols-7">${r.map(dayCell).join('')}</div>`).join('')}
+    <div class="flex flex-col gap-1.5 mt-3 pt-3 border-t border-gray-100 text-xs">
+      <div class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-[#1B71F0]"></span>Payment Date: ${fmtDate(state.paymentDate)}</div>
+      <div class="flex items-center gap-2"><span class="w-3 h-3 rounded border-2 border-navy"></span>Due Date: ${fmtDate(DUE_DATE)}</div>
+    </div>
+  </div>`;
+}
+function shiftMonth(delta){
+  let m=state.cal.m+delta, y=state.cal.y;
+  if(m<0){m=11;y--;} if(m>11){m=0;y++;}
+  state.cal={y,m};
+  renderFlowContent();
+}
+function pickDate(y,m,d){ state.paymentDate={y,m,d}; renderFlowContent(); }
+
+
+
+
+function onAmountInput(v){
+  state.amount = parseFloat(v) || 0;
+  document.getElementById('impact-box').innerHTML = impactBox();
+  
+  const btn = document.getElementById('btn-continue-step1');
+  if(btn) {
+    const invalid = state.intent === 'override' && state.amount < MIN_DUE;
+    btn.disabled = invalid;
+    if(invalid) btn.className = "bg-navy text-white text-sm font-medium px-6 py-2.5 rounded-lg opacity-40 cursor-not-allowed";
+    else btn.className = "bg-navy text-white text-sm font-medium px-6 py-2.5 rounded-lg";
+  }
+
+  const input = document.getElementById('amount-input');
+  const valDiv = document.getElementById('amount-validation');
+  if(state.intent === 'override') {
+    if(state.amount < MIN_DUE) {
+      if(input) input.className = "w-full border border-status-amberText bg-status-amberBg/10 focus:ring-status-amberText/30 rounded-lg pl-7 pr-3 py-2.5 text-sm focus:outline-none focus:ring-2";
+      if(valDiv) valDiv.innerHTML = `<p class="text-xs text-status-amberText font-medium mt-1.5 flex gap-1 items-start"><span>⚠️</span> Please enter an amount of at least $${MIN_DUE} to meet your minimum due. To pay a separate smaller amount, please select the Extra Payment option.</p>`;
+    } else {
+      if(input) input.className = "w-full border border-gray-300 focus:ring-navy/30 rounded-lg pl-7 pr-3 py-2.5 text-sm focus:outline-none focus:ring-2";
+      if(valDiv) valDiv.innerHTML = `<p class="text-xs text-gray-400 mt-1.5">Minimum due is $${MIN_DUE}. Paying less will leave a remaining balance for this cycle. Paying more applies the rest to principal.</p>`;
+    }
+  }
+}
+
+/* ===================== STEP 3: PAYMENT METHODS ===================== */
+function renderMethodStep(){
+  const cardMethods = [
+    {id:'Visa **** 7658', brand:'VISA', brandColor:'text-blue-700', expiry:'Expiry 10/2024', badge:'Connected', badgeCls:'bg-status-greenBg text-status-greenText', tag:'Default Payment Method'},
+    {id:'Mastercard **** 8429', brand:'MC', brandColor:'text-orange-600', expiry:'Expiry 04/2026', badge:'Reconnect', badgeCls:'bg-status-amberBg text-status-amberText', tag:'Make Default'},
+    {id:'Paypal account', brand:'PP', brandColor:'text-blue-900', expiry:'Expiry 10/2024', badge:'Connected', badgeCls:'bg-status-greenBg text-status-greenText', tag:'Make Default'},
+  ];
+  const prevStep = autopayEnabled ? 1 : 2;
+  const nextStep = autopayEnabled ? 3 : 4;
+  const nextBtnCls = state.method ? "bg-navy text-white text-sm font-medium px-6 py-2.5 rounded-lg" : "bg-navy text-white text-sm font-medium px-6 py-2.5 rounded-lg opacity-40 cursor-not-allowed";
+  return `
+  ${stepHead('Select Payment Methods', 'Choose your preferred payment method.')}
+  <div class="space-y-4">
+    <div onclick="selectMethod('Bank account (ACH)')" class="intent-card border border-gray-200 rounded-xl2 p-5 ${state.method==='Bank account (ACH)'?'selected':''}">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <span class="radio-dot ${state.method==='Bank account (ACH)'?'checked':''}"></span>
+          <div>
+            <p class="font-bold text-sm">Bank account (ACH)</p>
+            <p class="text-xs text-gray-500 mt-0.5">Pay the minimum required EMI for this billing cycle.</p>
+          </div>
+        </div>
+        <a onclick="event.stopPropagation();openModal('modal-bank')" class="text-status-blueText text-xs font-medium hover:underline cursor-pointer whitespace-nowrap">+ Add Bank Account</a>
+      </div>
+    </div>
+
+    <div class="border border-gray-200 rounded-xl2 p-5">
+      <div class="flex items-center justify-between mb-3">
+        <p class="font-bold text-sm">Debit Cards</p>
+        <a onclick="openModal('modal-card')" class="text-status-blueText text-xs font-medium hover:underline cursor-pointer">+ Add Cards</a>
+      </div>
+      <div class="space-y-2">
+        ${cardMethods.map(c=>`
+          <div onclick="selectMethod('${c.id}')" class="flex items-center justify-between border border-gray-200 rounded-lg p-3.5 cursor-pointer ${state.method===c.id?'border-navy bg-gray-50':''}">
+            <div class="flex items-center gap-3">
+              <span class="radio-dot ${state.method===c.id?'checked':''}"></span>
+              <span class="font-bold text-xs ${c.brandColor} w-9">${c.brand}</span>
+              <div>
+                <p class="text-sm font-medium">${c.id}</p>
+                <p class="text-xs text-gray-400">${c.expiry}</p>
+              </div>
+            </div>
+            <div class="text-right">
+              <p class="text-xs text-status-blueText font-medium">${c.tag}</p>
+              <p class="text-xs mt-0.5"><span class="px-2 py-0.5 rounded-full ${c.badgeCls} text-[11px] font-medium">${c.badge}</span></p>
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>
+  </div>
+  <div class="flex justify-between mt-7">
+    <button onclick="goToStep(${prevStep})" class="bg-white border border-navy text-navy text-sm font-medium px-6 py-2.5 rounded-lg">Back</button>
+    <button onclick="goToStep(${nextStep})" class="${nextBtnCls}">Continue</button>
+  </div>`;
+}
+function selectMethod(label){ state.method = label; renderFlowContent(); }
+
+/* ===================== STEP 4: CONFIRMATION ===================== */
+function intentLabel(){
+  if(!autopayEnabled) return 'Manual Payment';
+  return {extra:'Extra Payment', override:'Override Next Autopay', independent:'Independent One-Time Payment', full:'Full Payoff'}[state.intent];
+}
+function renderConfirmStep(){
+  if(autopayEnabled){
+    return renderConfirmStepOn();
+  } else {
+    return renderConfirmStepOff();
+  }
+}
+
+// Confirmation — Autopay ON
+function renderConfirmStepOn(){
+  const {lines} = impactText();
+  const loanLine = loanImpactSummaryLine();
+  return `
+  ${stepHead('Payment Confirmation', 'Review the details below before confirming your payment.')}
+  <div class="border border-gray-200 rounded-xl2 p-5 space-y-3">
+    <div class="flex justify-between text-sm"><span class="text-gray-500">Payment Amount</span><span class="font-bold">$${(state.amount||0).toFixed(2)}</span></div>
+    <div class="flex justify-between text-sm"><span class="text-gray-500">Payment Date</span><span class="font-bold">${fmtDate(state.paymentDate)}</span></div>
+    <div class="flex justify-between text-sm items-center">
+      <span class="text-gray-500">Payment Type</span>
+      <span class="font-bold flex items-center gap-2">${intentLabel()} <button onclick="goToStep(1)" class="text-status-blueText">${ic.pencil}</button></span>
+    </div>
+    <div class="flex justify-between text-sm"><span class="text-gray-500">Payment Method</span><span class="font-bold">${state.method||'—'}</span></div>
+    <hr class="border-gray-100">
+    <div>
+      <p class="text-xs font-bold uppercase tracking-wide text-gray-400 mb-2">Impact on Autopay</p>
+      <ul class="space-y-1">${lines.map(l=>`<li class="text-sm flex gap-2"><span class="text-status-blueText mt-0.5">•</span>${l}</li>`).join('')}</ul>
+    </div>
+    ${loanLine ? `<div class="pt-3 border-t border-gray-100">
+      <p class="text-xs font-bold uppercase tracking-wide text-gray-400 mb-2">Loan Impact</p>
+      <p class="text-sm flex gap-2"><span class="text-status-blueText mt-0.5">•</span>${loanLine}</p>
+    </div>` : ''}
+  </div>
+
+  <label class="flex items-center gap-2 mt-5 text-sm">
+    <input id="authorize-check" type="checkbox" onchange="validateConfirmStep()" class="w-4 h-4 rounded border-gray-300">
+    I authorize this transaction from my selected account.
+  </label>
+
+  <div class="border border-gray-200 rounded-lg mt-3 p-2">
+    <input id="signature-input" type="text" oninput="validateConfirmStep()" class="w-full bg-transparent p-2 pl-3 font-serif italic text-gray-700 text-xl border-l-2 border-status-blueText focus:outline-none" placeholder="Signature">
+  </div>
+  <p class="text-center text-xs text-gray-400 mt-1">Type your full name above</p>
+
+  <div class="flex justify-between mt-7">
+    <button onclick="goToStep(2)" class="bg-white border border-gray-300 text-navy text-sm font-medium px-6 py-2.5 rounded-lg">Back</button>
+    <button id="btn-pay" disabled onclick="submitPayment()" class="bg-navy text-white text-sm font-medium px-6 py-2.5 rounded-lg opacity-40 cursor-not-allowed">Pay</button>
+  </div>`;
+}
+
+// Confirmation — Autopay OFF
+function renderConfirmStepOff(){
+  return `
+  ${stepHead('Payment Confirmation', 'Review the details below before confirming your payment.')}
+  <div class="border border-gray-200 rounded-xl2 p-5 space-y-3">
+    <div class="flex justify-between text-sm"><span class="text-gray-500">Payment Option</span><span class="font-bold">${state.paymentOption==='minimum'?'Minimum Due':state.paymentOption==='full'?'Full Balance':'Custom Amount'} — $${(state.amount||0).toFixed(2)}</span></div>
+    <div class="flex justify-between text-sm"><span class="text-gray-500">Payment Date</span><span class="font-bold">${fmtDate(state.paymentDate)}</span></div>
+    <div class="flex justify-between text-sm"><span class="text-gray-500">Payment Method</span><span class="font-bold">${state.method||'—'}</span></div>
+    <hr class="border-gray-100">
+    <div>
+      <p class="text-xs font-bold uppercase tracking-wide text-gray-400 mb-2">Autopay Status</p>
+      <p class="text-sm text-gray-600 flex gap-2"><span class="text-gray-400 mt-0.5">•</span>Autopay is currently <strong>OFF</strong>. This is a manual payment.</p>
+      <p class="text-sm text-gray-600 flex gap-2"><span class="text-gray-400 mt-0.5">•</span>No automatic payments are scheduled after this.</p>
+    </div>
+  </div>
+
+  <!-- Autopay nudge in confirmation -->
+  <div class="mt-4 p-4 border border-teal/30 bg-activeStep rounded-xl2">
+    <div class="flex items-start gap-3">
+      <span class="text-teal mt-0.5">${ic.bolt}</span>
+      <div>
+        <p class="text-sm font-semibold text-navy">Tired of manual payments?</p>
+        <p class="text-xs text-gray-500 mt-0.5">Enable Autopay after this payment to never miss a due date again.</p>
+      </div>
+    </div>
+  </div>
+
+  <label class="flex items-center gap-2 mt-5 text-sm">
+    <input id="authorize-check" type="checkbox" onchange="validateConfirmStep()" class="w-4 h-4 rounded border-gray-300">
+    I authorize this transaction from my selected account.
+  </label>
+
+  <div class="border border-gray-200 rounded-lg mt-3 p-2">
+    <input id="signature-input" type="text" oninput="validateConfirmStep()" class="w-full bg-transparent p-2 pl-3 font-serif italic text-gray-700 text-xl border-l-2 border-status-blueText focus:outline-none" placeholder="Signature">
+  </div>
+  <p class="text-center text-xs text-gray-400 mt-1">Type your full name above</p>
+
+  <div class="flex justify-between mt-7">
+    <button onclick="goToStep(3)" class="bg-white border border-gray-300 text-navy text-sm font-medium px-6 py-2.5 rounded-lg">Back</button>
+    <button id="btn-pay" disabled onclick="submitPayment()" class="bg-navy text-white text-sm font-medium px-6 py-2.5 rounded-lg opacity-40 cursor-not-allowed">Pay</button>
+  </div>`;
+}
+
+function validateConfirmStep() {
+  const chk = document.getElementById('authorize-check');
+  const sig = document.getElementById('signature-input');
+  const btn = document.getElementById('btn-pay');
+  if(!btn) return;
+  
+  if (chk && chk.checked && sig && sig.value.trim().length > 0) {
+    btn.disabled = false;
+    btn.className = "bg-navy text-white text-sm font-medium px-6 py-2.5 rounded-lg";
+  } else {
+    btn.disabled = true;
+    btn.className = "bg-navy text-white text-sm font-medium px-6 py-2.5 rounded-lg opacity-40 cursor-not-allowed";
+  }
+}
+
+function submitPayment(){
+  if(!document.getElementById('authorize-check').checked){ alert('Please authorize the transaction to continue.'); return; }
+  const sig = document.getElementById('signature-input');
+  if(sig && !sig.value.trim()){ alert('Please type your signature to continue.'); return; }
+  showSuccess();
+}
+
+/* ===================== FLOW CONTENT ROUTER ===================== */
+function renderFlowContent(){
+  let renderer;
+  if(autopayEnabled){
+    renderer = {1:renderIntentStep, 2:renderMethodStep, 3:renderConfirmStep}[currentStep];
+  } else {
+    renderer = {1:renderOffAmountStep, 2:renderOffDateStep, 3:renderMethodStep, 4:renderConfirmStep}[currentStep];
+  }
+  document.getElementById('flow-content').innerHTML = renderer();
+  document.getElementById('flow-content').classList.remove('fade-in');
+  void document.getElementById('flow-content').offsetWidth;
+  document.getElementById('flow-content').classList.add('fade-in');
+}
+
+/* ===================== SUCCESS ===================== */
+function showSuccess(){
+  const loanLine = loanImpactSummaryLine();
+  document.getElementById('success-amount').textContent = `$${(state.amount||0).toFixed(2)}`;
+  document.getElementById('success-method').textContent = `Payment Method: ${state.method||''}`;
+  const loanEl = document.getElementById('success-loan-impact');
+  if(loanLine){ loanEl.textContent = loanLine; loanEl.classList.remove('hidden-screen'); }
+  else { loanEl.classList.add('hidden-screen'); }
+
+  // Autopay nudge on success (only when autopay is OFF)
+  const nudgeEl = document.getElementById('success-autopay-nudge');
+  if(!autopayEnabled){
+    nudgeEl.classList.remove('hidden-screen');
+  } else {
+    nudgeEl.classList.add('hidden-screen');
+  }
+
+  if(autopayEnabled){
+    const impactMap = {
+      extra: {label:'Autopay unchanged', cls:'bg-status-greenBg text-status-greenText'},
+      independent: {label:'Autopay unchanged', cls:'bg-status-greenBg text-status-greenText'},
+      override: (state.amount>=MIN_DUE) ? {label:'Autopay overridden this cycle', cls:'bg-status-blueBg text-status-blueText'} : {label:'Partial — balance remains due', cls:'bg-status-amberBg text-status-amberText'},
+      full: {label:'Loan Paid in Full', cls:'bg-status-greenBg text-status-greenText'}
+    };
+    const imp = impactMap[state.intent];
+    const pill = document.getElementById('success-impact-pill');
+    pill.textContent = imp.label;
+    pill.className = `px-3 py-1 rounded-full text-xs font-medium ${imp.cls}`;
+  } else {
+    const pill = document.getElementById('success-impact-pill');
+    pill.textContent = 'Manual payment — Autopay OFF';
+    pill.className = `px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600`;
+  }
+
+  showOnly('screen-success');
+  window.scrollTo(0,0);
+  window._lastAction = {intent: autopayEnabled ? state.intent : 'manual', amount: state.amount, date: state.paymentDate, loanLine};
+}
+function backToHomeFromSuccess(){
+  document.getElementById('screen-success').classList.add('hidden-screen');
+  applyDashboardUpdate();
+  showOnly('screen-dashboard');
+}
+function applyDashboardUpdate(){
+  if(!window._lastAction) return;
+  const a = window._lastAction;
+
+  const tbody = document.getElementById('activity-rows');
+  const statusPill = a.intent==='override'
+    ? `<span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-status-blueBg text-status-blueText">Custom Scheduled</span>`
+    : `<span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-status-greenBg text-status-greenText">Paid</span>`;
+  const row = document.createElement('tr');
+  row.innerHTML = `<td class="px-5 py-3">${fmtDate(a.date)}</td><td class="px-5 py-3">${a.intent==='override'?'$'+MIN_DUE.toFixed(2):'-'}</td><td class="px-5 py-3">$${a.amount.toFixed(2)}</td><td class="px-5 py-3">${statusPill}</td>`;
+  tbody.prepend(row);
+}
+
+/* ===================== DASHBOARD METRICS ===================== */
+function updateDashboardMetrics(){
+  // Update dashboard metric values from constants
+  const origEl = document.getElementById('dash-original-loan');
+  if(origEl) origEl.textContent = '$' + ORIGINAL_LOAN_AMOUNT.toLocaleString('en-US', {minimumFractionDigits:2});
+  const outEl = document.getElementById('dash-outstanding');
+  if(outEl) outEl.textContent = '$' + TOTAL_BALANCE.toLocaleString('en-US', {minimumFractionDigits:2});
+  const balanceMainEl = document.getElementById('dash-balance-term-main');
+  if(balanceMainEl) balanceMainEl.textContent = REMAINING_INSTALLMENTS + ' Months';
+  const balanceSubEl = document.getElementById('dash-balance-term-sub');
+  if(balanceSubEl) balanceSubEl.textContent = 'of ' + TOTAL_INSTALLMENTS + ' Months';
+  
+  // Populate new Loan Summary Detailed Card
+  const sumEmiEl = document.getElementById('summary-emi-amount');
+  if(sumEmiEl) sumEmiEl.textContent = '$' + MIN_DUE.toLocaleString('en-US', {minimumFractionDigits:2});
+  
+  const sumTotalTenureEl = document.getElementById('summary-total-tenure');
+  if(sumTotalTenureEl) sumTotalTenureEl.textContent = TOTAL_INSTALLMENTS;
+  
+  const sumBalTenureEl = document.getElementById('summary-balance-tenure');
+  if(sumBalTenureEl) sumBalTenureEl.textContent = REMAINING_INSTALLMENTS;
+  
+  const sumRecoveredEl = document.getElementById('summary-principal-recovered');
+  const principalRecovered = ORIGINAL_LOAN_AMOUNT - TOTAL_BALANCE;
+  
+  if(sumRecoveredEl) {
+    sumRecoveredEl.textContent = '$' + principalRecovered.toLocaleString('en-US', {minimumFractionDigits:2});
+  }
+}
+
+/* ===================== INIT ===================== */
+renderAutopayBlock();
+updateDashboardMetrics();
+showOnly('screen-dashboard');
+</script>
+</body>
+</html>
